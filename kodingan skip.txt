@@ -1,0 +1,56 @@
+Tposh::where('id', '=', $tposh->id)->update([
+            'no' => request('no'),
+            'tdt' => request('dt'),
+            'code_mcust' => request('code_cust'),
+            'disc' => request('disc'),
+            'tax' => request('tax'),
+            'grdtotal' => request('grandtot'),
+            'note' => request('note')
+        ]);
+        $idh_loop = Tposhd::select('id','idh')->whereNull('deleted_at')->where('no_tposh','=',request('no_d'))->get();
+        for($j=0; $j<sizeof($idh_loop); $j++){
+            $id = $idh_loop[$j]->id;
+            $idh = $idh_loop[$j]->idh;
+        }
+        $countrows = sizeof(request('no_d'));
+        // dd($idh_loop);
+        $count_existingdt = sizeof($idh_loop);
+        $count=0;
+        $idh_loop = Tposhd::select('id','idh')->whereNull('deleted_at')->where('no_tposh','=',request('no_d'))->get();
+        for ($i=0;$i<sizeof(request('no_d'));$i++){
+            dd(request('id_d')[$i]);
+            if($idh_loop[$i]->id == request('id_d')){
+                dd("true");
+            }else{
+                dd("false");
+            }
+            // dd((int)request('subtot_d')[$i]);
+            // $tposdcheck = Tposhd::where('id','=',$id)->where('idh','=',$idh)->get();
+            // dd($tposdcheck);
+            if($count_existingdt == 0){
+                // dd("MASUK ke input");
+                Tposhd::create([
+                    'idh' => $idh,
+                    'no_tposh' => request('no_d')[$i],
+                    'code_mitem' => request('kode_d')[$i],
+                    'qty' => (int)request('quantity')[$i],
+                    'code_muom' => request('satuan_d')[$i],
+                    'price' => (int)request('harga_d')[$i],
+                    'subtotal' => (int)request('subtot_d')[$i],
+                    'note' => request('note_d')[$i],
+                ]);
+                $count++;
+            }else{
+                Tposhd::where('id','=',$id)->where('idh','=', $idh)->where('no_tposh','=',request('no_d')[$i])->where('code_mitem','=',request('kode_d')[$i])->update([
+                    'no_tposh' => request('no_d')[$i],
+                    'code_mitem' => request('kode_d')[$i],
+                    'qty' => (int)request('quantity')[$i],
+                    'code_muom' => request('satuan_d')[$i],
+                    'price' => (int)request('harga_d')[$i],
+                    'subtotal' => (int)request('subtot_d')[$i],
+                    'note' => request('note_d')[$i],
+                ]);
+                $count++;
+                $count_existingdt--;
+            }            
+        }
