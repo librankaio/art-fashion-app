@@ -33,12 +33,17 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    {{-- <label>Email</label> --}}
-                                    <input type="email" class="form-control" name="email" hidden>
+                                    <label>Counter</label>
+                                    <select class="form-control" name="counter" id="counter">
+                                        <option disabled selected>--Select Counter--</option>
+                                        @foreach($counters as $counter)
+                                        <option>{{ $counter->name }}</option>                                            
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Password</label>
@@ -50,13 +55,13 @@
                                     <label>Branch</label>
                                     <select class="form-control" name="branch" id="branch">
                                         <option disabled selected>--Select Branch--</option>
-                                        {{-- @foreach($branhcs as $data => $branch)
+                                        @foreach($branhcs as $data => $branch)
                                         <option>{{ $branch->name }}</option>                                            
-                                        @endforeach --}}
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -248,11 +253,7 @@
                         </div>
                     </div>
                     <div class="card-footer text-right">
-                        @if($muser_save == 'Y' || $role == 'ADM')
-                                <button class="btn btn-primary mr-1" type="submit" formaction="" id="confirm">Save</button>
-                        @elseif($muser_save == 'N' || $muser_save == null)
-                                <button class="btn btn-primary mr-1" type="submit" formaction="" disabled>Save</button>
-                        @endif
+                        <button class="btn btn-primary mr-1" type="submit" formaction="" id="confirm">Save</button>
                         <button class="btn btn-secondary" type="reset">Cancel</button>
                     </div>
                     </form>

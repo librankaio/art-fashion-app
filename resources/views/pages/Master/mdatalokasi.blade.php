@@ -32,34 +32,77 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Kode Counter</label>
-                                        <input type="text" class="form-control" name="kode" id="kode">
+                                        <input type="text" class="form-control" name="code" id="code">
                                     </div>
                                     <div class="form-group">
                                         <label>Alamat</label>
-                                        <textarea class="form-control" style="height:90px" name="alamat"></textarea>
+                                        <textarea class="form-control" style="height:90px" name="alamat" id="alamat"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Nama</label>
-                                        <input type="text" class="form-control" name="nama" id="nama">
+                                        <input type="text" class="form-control" name="name" id="name">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-footer text-right">                            
-                            @if($mbank_save == 'Y')
-                                <button class="btn btn-primary mr-1" type="submit"
-                                formaction="" id="confirm">Save</button>
-                            @elseif($mbank_save == 'N' || $mbank_save == null)
-                                <button class="btn btn-primary mr-1" type="submit"
-                                formaction="" id="confirm" disabled>Save</button>
-                            @endif
+                        <div class="card-footer text-right">    
+                            <button class="btn btn-primary mr-1" type="submit"
+                                formaction="{{ route('mlokasipost') }}" id="confirm">Save</button>
                             <button class="btn btn-secondary" type="reset">Cancel</button>
                         </div>
                     </form>
                 </div>
             </div>            
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="datatable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="border border-5" style="text-align: center;">No</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Kode Counter</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Nama</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Alamat</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php $counter = 0 @endphp
+                                    @foreach($datas as $data => $item)
+                                    @php $counter++ @endphp
+                                    <tr>
+                                        <th scope="row" class="border border-5" style="text-align: center;">{{ $counter }}</th>
+                                        <td class="border border-5" style="text-align: center;">{{ $item->code }}</td>
+                                        <td class="border border-5" style="text-align: center;">{{ $item->name }}</td>
+                                        <td class="border border-5" style="text-align: center;">{{ $item->alamat }}</td>
+                                        <td style="text-align: center;" class="d-flex justify-content-center">
+                                            <a href="/mlokasi/{{ $item->id }}/edit"
+                                                class="btn btn-icon icon-left btn-primary"><i class="far fa-edit">
+                                                    Edit</i></a>
+                                            <form action="/mlokasi/delete/{{ $item->id }}" id="del-{{ $item->id }}"
+                                                method="POST" class="px-2">
+                                                @csrf
+                                                <button class="btn btn-icon icon-left btn-danger"
+                                                    id="del-/{{ $item->id }}" type="submit"
+                                                    data-confirm="WARNING!|Do you want to delete {{ $item->name }} data?"
+                                                    data-confirm-yes="submitDel({{ $item->id }})"><i
+                                                        class="fa fa-trash">
+                                                        Delete</i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -80,15 +123,21 @@
     }
     $(document).on("click","#confirm",function(e){
         // Validate ifnull
-        kode = $("#kode").val();
-        nama = $("#nama").val();
+        kode = $("#code").val();
+        name = $("#name").val();
+        alamat = $("#alamat").val();
+
         if (kode == ""){
             swal('WARNING', 'Kode Tidak boleh kosong!', 'warning');
             return false;
-        }else if (nama == 0){
+        }else if (name == ""){
             swal('WARNING', 'Nama Tidak boleh kosong!', 'warning');
             return false;
+        }else if (alamat == ""){
+            swal('WARNING', 'Alamat Tidak boleh kosong!', 'warning');
+            return false;
         }
+
     });
 </script>
 @endsection

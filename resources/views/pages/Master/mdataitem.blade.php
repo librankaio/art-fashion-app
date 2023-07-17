@@ -40,7 +40,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Price (Rp)</label>
-                                        <input type="text" class="form-control" name="price" id="price">
+                                        <input type="text" class="form-control" name="price" id="price" value="0">
                                     </div>
                                     <div class="form-group">
                                         <label>Satuan</label>
@@ -48,11 +48,11 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Harga Gross</label>
-                                        <input type="text" class="form-control" name="price_gross" id="price_gross">
+                                        <input type="text" class="form-control" name="price_gross" id="price_gross" value="0">
                                     </div>
                                     <div class="form-group">
                                         <label>Special Price</label>
-                                        <input type="text" class="form-control" name="price_special" id="price_special">
+                                        <input type="text" class="form-control" name="price_special" id="price_special" value="0">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -60,7 +60,7 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <label>Kode / Artikel</label>
-                                                <input type="text" class="form-control" name="artikel" id="artikel">
+                                                <input type="text" class="form-control" name="kode" id="kode">
                                             </div>
                                             <div class="col-md-6 align-self-end">
                                                 <button class="btn btn-success mr-1" type="button" id="">Print</button>
@@ -81,24 +81,83 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Harga Nett</label>
-                                        <input type="text" class="form-control" name="price_nett" id="price_nett">
+                                        <input type="text" class="form-control" name="price_nett" id="price_nett" value="0">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-footer text-right">                            
-                            @if($mbank_save == 'Y')
-                                <button class="btn btn-primary mr-1" type="submit"
-                                formaction="" id="confirm">Save</button>
-                            @elseif($mbank_save == 'N' || $mbank_save == null)
-                                <button class="btn btn-primary mr-1" type="submit"
-                                formaction="" id="confirm" disabled>Save</button>
-                            @endif
+                        <div class="card-footer text-right">            
+                            <button class="btn btn-primary mr-1" type="submit"
+                                formaction="{{ route('mitempost') }}" id="confirm">Save</button>
                             <button class="btn btn-secondary" type="reset">Cancel</button>
                         </div>
                     </form>
                 </div>
             </div>            
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="datatable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="border border-5">No</th>
+                                        <th scope="col" class="border border-5">Kode / Artikel</th>
+                                        <th scope="col" class="border border-5">Nama</th>
+                                        <th scope="col" class="border border-5">Warna</th>
+                                        <th scope="col" class="border border-5">Kategori</th>
+                                        <th scope="col" class="border border-5">Price (Rp.)</th>
+                                        <th scope="col" class="border border-5">Size</th>
+                                        <th scope="col" class="border border-5">Satuan</th>
+                                        <th scope="col" class="border border-5">Material</th>
+                                        <th scope="col" class="border border-5">Harga Gross</th>
+                                        <th scope="col" class="border border-5">Harga Nett</th>
+                                        <th scope="col" class="border border-5">Special Price</th>
+                                        <th scope="col" class="border border-5">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php $counter = 0 @endphp
+                                    @foreach($datas as $data => $item)
+                                    @php $counter++ @endphp
+                                    <tr>
+                                        <th scope="row" class="border border-5">{{ $counter }}</th>
+                                        <td class="border border-5" style="text-align: center;">{{ $item->code }}</td>
+                                        <td class="border border-5" style="text-align: center;">{{ $item->name }}</td>
+                                        <td class="border border-5" style="text-align: center;">{{ $item->warna }}</td>
+                                        <td class="border border-5" style="text-align: center;">{{ $item->kategori }}</td>
+                                        <td class="border border-5" style="text-align: center;">{{ $item->hrgjual }}</td>
+                                        <td class="border border-5" style="text-align: center;">{{ $item->size }}</td>
+                                        <td class="border border-5" style="text-align: center;">{{ $item->satuan }}</td>
+                                        <td class="border border-5" style="text-align: center;">{{ $item->material }}</td>
+                                        <td class="border border-5" style="text-align: center;">{{ $item->gross }}</td>
+                                        <td class="border border-5" style="text-align: center;">{{ $item->nett }}</td>
+                                        <td class="border border-5" style="text-align: center;">{{ $item->spcprice }}</td>
+                                        <td style="text-align: center;" class="d-flex justify-content-center">
+                                            <a href="/masterbank/{{ $item->id }}/edit"
+                                                class="btn btn-icon icon-left btn-primary"><i class="far fa-edit">
+                                                    Edit</i></a>
+                                            <form action="/mitem/delete/{{ $item->id }}" id="del-{{ $item->id }}"
+                                                method="POST" class="px-2">
+                                                @csrf
+                                                <button class="btn btn-icon icon-left btn-danger"
+                                                    id="del-{{ $item->id }}" type="submit"
+                                                    data-confirm="WARNING!|Do you want to delete {{ $item->name }} data?"
+                                                    data-confirm-yes="submitDel({{ $item->id }})"><i
+                                                        class="fa fa-trash">
+                                                        Delete</i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -119,15 +178,82 @@
     }
     $(document).on("click","#confirm",function(e){
         // Validate ifnull
-        kode = $("#kode").val();
         nama = $("#nama").val();
+        warna = $("#warna").val();
+        price = $("#price").val();
+        satuan = $("#satuan").val();
+        price_gross = $("#price_gross").val();
+        price_special = $("#price_special").val();
+        kode = $("#kode").val();
+        kategori = $("#kategori").val();
+        size = $("#size").val();
+        material = $("#material").val();
+        price_nett = $("#price_nett").val();
+
+
         if (kode == ""){
             swal('WARNING', 'Kode Tidak boleh kosong!', 'warning');
             return false;
-        }else if (nama == 0){
+        }else if (nama == ""){
             swal('WARNING', 'Nama Tidak boleh kosong!', 'warning');
             return false;
+        }else if (warna == ""){
+            swal('WARNING', 'Warna Tidak boleh kosong!', 'warning');
+            return false;
+        }else if (price == ""){
+            swal('WARNING', 'Price Tidak boleh kosong!', 'warning');
+            return false;
+        }else if (satuan == ""){
+            swal('WARNING', 'Satuan Tidak boleh kosong!', 'warning');
+            return false;
+        }else if (price_gross == ""){
+            swal('WARNING', 'Price Gross Tidak boleh kosong!', 'warning');
+            return false;
+        }else if (price_special == ""){
+            swal('WARNING', 'Price Special Tidak boleh kosong!', 'warning');
+            return false;
+        }else if(kategori == ""){
+            swal('WARNING', 'Kategori Tidak boleh kosong!', 'warning');
+            return false;
+        }else if(size == ""){
+            swal('WARNING', 'Size Tidak boleh kosong!', 'warning');
+            return false;
+        }else if(material == ""){
+            swal('WARNING', 'Material Tidak boleh kosong!', 'warning');
+            return false;
+        }else if(price_nett == ""){
+            swal('WARNING', 'Price Nett Tidak boleh kosong!', 'warning');
+            return false;
         }
+        // End Validate ifnull
+    });
+
+    $("#price").keyup(function(e){
+        if (/\D/g.test(this.value)){
+            // Filter non-digits from input value.
+            this.value = this.value.replace(/\D/g, '');
+        }            
+    });
+
+    $("#price_gross").keyup(function(e){
+        if (/\D/g.test(this.value)){
+            // Filter non-digits from input value.
+            this.value = this.value.replace(/\D/g, '');
+        }            
+    });
+
+    $("#price_special").keyup(function(e){
+        if (/\D/g.test(this.value)){
+            // Filter non-digits from input value.
+            this.value = this.value.replace(/\D/g, '');
+        }            
+    });
+
+    $("#price_nett").keyup(function(e){
+        if (/\D/g.test(this.value)){
+            // Filter non-digits from input value.
+            this.value = this.value.replace(/\D/g, '');
+        }            
     });
 </script>
 @endsection
