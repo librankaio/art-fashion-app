@@ -20,6 +20,8 @@ class CreateUsersTable extends Migration
             $table->string('hp',128);
             $table->string('jenis',64);
             $table->string('counter',128);
+            $table->string('privilage',128)->nullable();
+            $table->string('acs_stat',2)->nullable();
             // $table->string('email')->unique();
             // $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

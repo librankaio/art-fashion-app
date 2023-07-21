@@ -15,6 +15,13 @@ class CreateTsobDsTable extends Migration
     {
         Schema::create('tsob_ds', function (Blueprint $table) {
             $table->id();
+            $table->string('no_sob', 64);
+            $table->string('code', 64);
+            $table->string('name', 128);
+            $table->decimal('qty', $precision = 19, $scale = 6);
+            $table->string('satuan', 32);
+            $table->decimal('hrgjual', $precision = 19, $scale = 6);
+            $table->decimal('subtotal', $precision = 19, $scale = 6);
             $table->timestamps();
         });
     }

@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Tsob_d extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'no_sob',
+        'code',
+        'name',
+        'qty',
+        'satuan',
+        'hrgjual',
+        'subtotal',
+    ];
 }

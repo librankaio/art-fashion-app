@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Tsob_h extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'no',
+        'tgl',
+        'counter',
+        'note',
+        'grdtotal',
+        'user',
+    ];
 }

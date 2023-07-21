@@ -28,15 +28,15 @@
                                     {{-- @foreach($notrans as $key => $code)
                                         @php $codetrans = $code->codetrans @endphp
                                     @endforeach --}}
-                                    <input type="text" class="form-control" name="no" id="no" value="" readonly>
+                                    <input type="text" class="form-control" name="no" id="no" value="">
                                 </div>       
                                 <div class="form-group">
                                     <label>Counter</label>
-                                    <select class="form-control select2" name="cabang" id="cabang">
-                                        <option disabled selected>--Select Cabang--</option>
-                                        {{-- @foreach($cabangs as $data => $cabang)
-                                        <option>{{ $cabang->name." - ".$cabang->address }}</option>
-                                        @endforeach --}}
+                                    <select class="form-control select2" name="counter" id="counter">
+                                        <option disabled selected>--Select Counter--</option>
+                                        @foreach($counters as $counter)
+                                        <option>{{ $counter->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>                         
                                 <div class="form-group">
@@ -64,9 +64,9 @@
                                     <label>Kode</label>
                                     <select class="form-control select2" id="kode">
                                         <option disabled selected>--Select Kode--</option>
-                                        {{-- @foreach($items as $data => $item)                                        
-                                        <option value="{{ $item->code }}">{{ $item->code."-".$item->name }}</option>
-                                        @endforeach --}}
+                                        @foreach($mitems as $data => $item)                                        
+                                        <option value="{{ $item->code }}">{{ $item->code." - ".$item->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -75,7 +75,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Harga Jual</label>
-                                    <input type="text" class="form-control" id="hrgsatuan" value="0">
+                                    <input type="text" class="form-control" id="hrgjual" value="0">
                                 </div>    
                                 <div class="form-group">
                                     <a href="" id="addItem">
@@ -137,6 +137,7 @@
                         </div>
                     </div>              
                     <div class="card-footer text-right">
+                        <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('tsobpost') }}">Submit</button>
                         {{-- @if($tpos_save == 'Y')
                             <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}">Submit</button>
                         @elseif($tpos_save == 'N' || $tpos_save == null)
@@ -158,6 +159,31 @@
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $(document).ready(function() {
             $('.select2').select2({});
+            $("#kode").on('select2:select', function(e) {
+                var kode = $(this).val();
+                $.ajax({
+                    url: '{{ route('getmitem') }}', 
+                    method: 'post', 
+                    data: {'kode': kode}, 
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
+                    dataType: 'json', 
+                    success: function(response) {
+                        // console.log(kode);
+                        console.log(response);
+                        for (i=0; i < response.length; i++) {
+                            if(response[i].code == kode){
+                                $("#nama_item").val(response[i].name)
+                                hrg = Number(response[i].hrgjual);
+                                $("#satuan").val(response[i].satuan)
+                                subtotal = Number(hrg).toFixed(2) * $('#quantity').val()
+                                $("#subtot").val(thousands_separators(subtotal.toFixed(2)));
+                                $("#hrgjual").val(thousands_separators(hrg.toFixed(2)));
+                            }
+                        }
+                    }
+                });
+            });
 
             var counter = 1;
             $(document).on("click", "#addItem", function(e) {
@@ -167,75 +193,101 @@
                     return false;
                 }
 
-                no = $("#no").val();
                 kode = $("#select2-kode-container").text();
-                nama = $("#nama").val();
-                hrgsatuan = $("#hrgsatuan").val();
-                discount = $("#disc").val();
-                tax = $("#tax").val();
+                kode_id = $("#kode").val();
                 nama_item = $("#nama_item").val();
-                satuan = $("#satuan").val();
+                hrgjual = $("#hrgjual").val();
                 quantity = $("#quantity").val();
-                merk = $("#merk").val();
+                satuan = $("#satuan").val();
                 subtot = $("#subtot").val();
-                note = $("#note").val();
 
 
-                tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='nama_item_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input type='text' style='width:100px;' form='thisform' class='quantityclass form-control' name='quantity[]' value='" + quantity + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='" + satuan + "' name='satuan_d[]'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='hargaclass form-control' value='" + hrgsatuan + "' name='harga_d[]'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='discclass form-control' value='" + discount + "' name='disc_d[]' id='disc_d_"+counter+"'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='taxclass form-control' value='" + tax + "' name='tax_d[]' id='tax_d_"+counter+"'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><input type='text' form='thisform' style='width:100px;' class='subtotclass form-control' value='" + note + "' name='note_d[]'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
+                tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
                 
                 subtotparse = subtot.replaceAll(",", "");
                 $("#datatable tbody").append(tablerow);
+                // if(counter == 1){
+                //     disc = Number(subtotparse).toFixed(2) * ($("#disc").val() / 100);
+                //     tax = (Number(subtotparse).toFixed(2) - Number(disc).toFixed(2)) * ($("#tax").val() / 100);
+                //     total =  (Number(subtotparse).toFixed(2) - Number(disc).toFixed(2)) + Number(tax.toFixed(2));
+                //     subtot = Number(subtotparse);
+
+                //     $("#subtotal_h").val(thousands_separators(subtot.toFixed(2)));
+                //     $("#price_disc").val(thousands_separators(disc.toFixed(2)));
+                //     $("#price_tax").val(thousands_separators(tax.toFixed(2)));
+                //     $("#price_total").val(thousands_separators(total.toFixed(2)));
+
+
+                //     $("#nama_item").val('');
+                //     $('#tax').val(0);
+                //     $('#disc').val(0);
+                //     $('#hrgjual').val(0);
+                //     $('#quantity').val(0);
+                //     console.log("Disc : "+disc.toFixed(2), "Tax : "+tax, "Total : "+total);
+                // }else{
+                //     subtot_old = $("#subtotal_h").val().replaceAll(",", "");
+                //     disc_old = $("#price_disc").val().replaceAll(",", "");
+                //     tax_old = $("#price_tax").val().replaceAll(",", "");
+                //     total_old = $("#price_total").val().replaceAll(",", "");
+                //     thisdisc = $("#disc").val();
+                //     thistax = $("#tax").val()
+
+                //     disc = Number(subtotparse).toFixed(2) * (Number(thisdisc).toFixed(2) / 100);
+                //     tax = (Number(subtotparse).toFixed(2) - Number(disc).toFixed(2)) * (Number(thistax).toFixed(2) / 100);
+                //     total =  (Number(subtotparse).toFixed(2) - Number(disc).toFixed(2)) + Number(tax.toFixed(2));
+
+                //     subtot_new = Number(Number(subtotparse).toFixed(2)) + Number(Number(subtot_old).toFixed(2));
+                //     disc_new = Number(Number(disc_old).toFixed(2)) + Number(disc.toFixed(2));
+                //     tax_new = Number(Number(tax_old).toFixed(2)) + Number(tax.toFixed(2));
+                //     total_new = Number(Number(total_old).toFixed(2)) + Number(total.toFixed(2));
+
+                //     $("#subtotal_h").val(thousands_separators(subtot_new.toFixed(2)));
+                //     $("#price_disc").val(thousands_separators(disc_new.toFixed(2)));
+                //     $("#price_tax").val(thousands_separators(tax_new.toFixed(2)));
+                //     $("#price_total").val(thousands_separators(total_new.toFixed(2)));
+
+                //     $("#nama_item").val('');
+                //     $('#tax').val(0);
+                //     $('#disc').val(0);
+                //     $('#hrgjual').val(0);
+                //     $('#quantity').val(0);
+                // }
                 if(counter == 1){
-                    disc = Number(subtotparse).toFixed(2) * ($("#disc").val() / 100);
-                    tax = (Number(subtotparse).toFixed(2) - Number(disc).toFixed(2)) * ($("#tax").val() / 100);
-                    total =  (Number(subtotparse).toFixed(2) - Number(disc).toFixed(2)) + Number(tax.toFixed(2));
-                    subtot = Number(subtotparse);
+                    if (/\D/g.test(subtot))
+                    {
+                        // Filter comma
+                        subtot = subtot.replace(/\,/g,"");
+                        subtot = Number(Math.trunc(subtot))
+                    }
+                    grandtot = subtot;
 
-                    $("#subtotal_h").val(thousands_separators(subtot.toFixed(2)));
-                    $("#price_disc").val(thousands_separators(disc.toFixed(2)));
-                    $("#price_tax").val(thousands_separators(tax.toFixed(2)));
-                    $("#price_total").val(thousands_separators(total.toFixed(2)));
-
-
-                    $("#nama_item").val('');
-                    $('#tax').val(0);
-                    $('#disc').val(0);
-                    $('#hrgsatuan').val(0);
-                    $('#quantity').val(0);
-                    console.log("Disc : "+disc.toFixed(2), "Tax : "+tax, "Total : "+total);
+                    $("#price_total").val(thousands_separators(grandtot.toFixed(2)));
                 }else{
-                    subtot_old = $("#subtotal_h").val().replaceAll(",", "");
-                    disc_old = $("#price_disc").val().replaceAll(",", "");
-                    tax_old = $("#price_tax").val().replaceAll(",", "");
-                    total_old = $("#price_total").val().replaceAll(",", "");
-                    thisdisc = $("#disc").val();
-                    thistax = $("#tax").val()
+                    if (/\D/g.test(subtot))
+                    {
+                        // Filter comma
+                        subtot = subtot.replace(/\,/g,"");
+                        subtot = Number(Math.trunc(subtot))
+                    }
 
-                    disc = Number(subtotparse).toFixed(2) * (Number(thisdisc).toFixed(2) / 100);
-                    tax = (Number(subtotparse).toFixed(2) - Number(disc).toFixed(2)) * (Number(thistax).toFixed(2) / 100);
-                    total =  (Number(subtotparse).toFixed(2) - Number(disc).toFixed(2)) + Number(tax.toFixed(2));
+                    old_grandtot = $("#price_total").val();
+                    if (/\D/g.test(old_grandtot))
+                    {
+                        // Filter comma
+                        old_grandtot = old_grandtot.replace(/\,/g,"");
+                        old_grandtot = Number(Math.trunc(old_grandtot))
+                    }
+                    
+                    console.log("subtotal: " + subtot + ", grandtot: " + grandtot);
+                    sum = subtot + old_grandtot;
 
-                    subtot_new = Number(Number(subtotparse).toFixed(2)) + Number(Number(subtot_old).toFixed(2));
-                    disc_new = Number(Number(disc_old).toFixed(2)) + Number(disc.toFixed(2));
-                    tax_new = Number(Number(tax_old).toFixed(2)) + Number(tax.toFixed(2));
-                    total_new = Number(Number(total_old).toFixed(2)) + Number(total.toFixed(2));
-
-                    $("#subtotal_h").val(thousands_separators(subtot_new.toFixed(2)));
-                    $("#price_disc").val(thousands_separators(disc_new.toFixed(2)));
-                    $("#price_tax").val(thousands_separators(tax_new.toFixed(2)));
-                    $("#price_total").val(thousands_separators(total_new.toFixed(2)));
-
-                    $("#nama_item").val('');
-                    $('#tax').val(0);
-                    $('#disc').val(0);
-                    $('#hrgsatuan').val(0);
-                    $('#quantity').val(0);
+                    $("#price_total").val(thousands_separators(sum.toFixed(2)));
                 }
                 counter++;
                 $("#kode").prop('selectedIndex', 0).trigger('change');
                 $("#nama").val('');
                 $("#nama_item").val('');
-                $("#hrgsatuan").val(0);
+                $("#hrgjual").val(0);
                 $("#satuan").val('');
                 $("#quantity").val(0);
                 $("#merk").val('');
@@ -248,29 +300,28 @@
                 var r = confirm("Delete Transaksi ?");
                 if (r == true) {
                     counter_id = $(this).closest('tr').text();
+                    console.log(counter_id);
                     subtot = $("#subtot_d_"+ counter_id).val().replaceAll(",", "");
-                    // console.log(subtot);
-                    price_tax = $("#price_tax").val().replaceAll(",", "");
-                    price_disc = $("#price_disc").val().replaceAll(",", "");
-                    price_total = $("#price_total").val().replaceAll(",", "");
-                    subtotal_h = $("#subtotal_h").val().replaceAll(",", "");
-                    disc_d = $("#disc_d_"+ counter_id).val()
-                    tax_d = $("#tax_d_"+ counter_id).val()
                     
-                    
-                    disc = Number(subtot).toFixed(2) * (Number(disc_d).toFixed(2) / 100);
-                    tax = (Number(subtot).toFixed(2) - Number(disc).toFixed(2)) * (Number(tax_d).toFixed(2) / 100);
-                    total =  (Number(subtot).toFixed(2) - Number(disc).toFixed(2)) + Number(tax.toFixed(2));                    
+                    if (/\D/g.test(subtot))
+                    {
+                        // Filter comma
+                        subtot = subtot.replace(/\,/g,"");
+                        subtot = Number(Math.trunc(subtot))
+                    }
 
-                    subtotal = Number(subtotal_h).toFixed(2) - Number(subtot).toFixed(2);
-                    totaltax = Number(price_tax).toFixed(2) - Number(tax).toFixed(2);
-                    totaldisc = Number(price_disc).toFixed(2) - Number(disc).toFixed(2);
-                    totalfinal = Number(price_total).toFixed(2) - Number(total).toFixed(2);
+                    old_grandtot = $("#price_total").val();
 
-                    $("#subtotal_h").val(thousands_separators(subtotal.toFixed(2)));
-                    $("#price_disc").val(thousands_separators(totaldisc.toFixed(2)));
-                    $("#price_tax").val(thousands_separators(totaltax.toFixed(2)));
-                    $("#price_total").val(thousands_separators(totalfinal.toFixed(2)));
+                    if (/\D/g.test(old_grandtot))
+                    {
+                        // Filter comma
+                        old_grandtot = old_grandtot.replace(/\,/g,"");
+                        old_grandtot = Number(Math.trunc(old_grandtot))
+                    }
+
+                    sum = old_grandtot - subtot;
+
+                    $("#price_total").val(thousands_separators(sum.toFixed(2)));
                     $(this).closest('tr').remove();
                 } else {
                     return false;
@@ -293,24 +344,25 @@
                 if($('#quantity').val() == ''){
                     $('#quantity').val(0);
                 }
-                hrgparse = $('#hrgsatuan').val();
-                if (/\D/g.test(hrgparse)){
-                // Filter non-digits from input value.
-                hrgparse = hrgparse.replace(/\D/g, '');
+                hrg = $('#hrgjual').val();
+                if (/\D/g.test(hrg))
+                {
+                    // Filter comma
+                    hrg = hrg.replace(/\,/g,"");
+                    hrg = Number(Math.trunc(hrg))
                 }
-                var hrg = Number(hrgparse).toFixed(2);
-                var qty = Number($("#quantity").val()).toFixed(2);
-                var total = Number(hrg) * Number(qty);
-                // console.log(hrg);                
-                $("#subtot").val(thousands_separators(total));
+                console.log(hrg);
+                var qty = this.value
+                var total = parseInt(hrg) * parseInt(qty);               
+                $("#subtot").val(thousands_separators(total.toFixed(2)));
             });
 
-            $(document).on("change", "#hrgsatuan", function(e) {
-                if($('#hrgsatuan').val() == ''){
-                    $('#hrgsatuan').val(0);
+            $(document).on("change", "#hrgjual", function(e) {
+                if($('#hrgjual').val() == ''){
+                    $('#hrgjual').val(0);
                 }
                 $(this).val(thousands_separators($(this).val()));
-                hrgparse = $('#hrgsatuan').val();
+                hrgparse = $('#hrgjual').val();
                 if (/\D/g.test(hrgparse)){
                 // Filter non-digits from input value.
                 hrgparse = hrgparse.replace(/\D/g, '');
@@ -329,7 +381,7 @@
                 $(this).val(thousands_separators($(this).val()));
             });
 
-            $(document).on("click", "#hrgsatuan", function(e) {
+            $(document).on("click", "#hrgjual", function(e) {
                 if (/\D/g.test(this.value)){
                 // Filter non-digits from input value.
                 this.value = this.value.replace(/\D/g, '');
@@ -350,7 +402,7 @@
                 this.value = this.value.replace(/\D/g, '');
             }
         });
-        $("#hrgsatuan").keyup(function(e){
+        $("#hrgjual").keyup(function(e){
             if (/\D/g.test(this.value)){
                 // Filter non-digits from input value.
                 this.value = this.value.replace(/\D/g, '');

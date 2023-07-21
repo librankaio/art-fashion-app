@@ -15,6 +15,15 @@ class CreateMhakaksesTable extends Migration
     {
         Schema::create('mhakakses', function (Blueprint $table) {
             $table->id();
+            $table->integer('id_user');
+            $table->string('nik', 64);
+            $table->string('counter', 128);
+            $table->string('feature', 128);
+            $table->string('save', 2)->nullable();
+            $table->string('open', 2)->nullable();
+            $table->string('updt', 2)->nullable();
+            $table->string('print', 2)->nullable();
+            $table->string('dlt', 2)->nullable();
             $table->timestamps();
         });
     }

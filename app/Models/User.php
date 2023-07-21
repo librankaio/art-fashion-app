@@ -22,6 +22,8 @@ class User extends Authenticatable
         'name',
         'hp',
         'jenis',
+        'acs_stat',
+        'privilage',
         'counter',
         'password',
     ];
