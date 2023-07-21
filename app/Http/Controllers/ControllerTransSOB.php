@@ -21,7 +21,7 @@ class ControllerTransSOB extends Controller
     }
 
     public function post(Request $request){
-        dd($request->all());
+        // dd($request->all());
 
         $checkexist = Tsob_h::select('id','no')->where('no','=', $request->no)->first();
         if($checkexist == null){
