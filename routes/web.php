@@ -55,6 +55,12 @@ Route::get('rstockoverview', [ControllerReportStockOverview::class, 'index'])->n
 Route::get('rmutasistock', [ControllerReportMutasiStock::class, 'index'])->name('rmutasistock');
 Route::get('romsetcounter', [ControllerReportOmsetPecounter::class, 'index'])->name('romsetcounter');
 
+Route::get('mspg', [ControllerMasterSPG::class, 'index'])->name('mspg');
+    Route::post('/mspgpost', [ControllerMasterSPG::class, 'post'])->name('mspgpost');
+    Route::get('/mspg/{user}/edit', [ControllerMasterSPG::class, 'getedit'])->name('mspggetedit');
+    Route::post('/mspg/{user}', [ControllerMasterSPG::class, 'update'])->name('mspgupdt');
+    Route::post('/mspg/delete/{user}', [ControllerMasterSPG::class, 'delete'])->name('mspgdelete');
+
 Route::group(['middleware' => ['auth']], function () {
 
     //--- Master Warna ---
@@ -64,11 +70,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/mwarna/{mwarna}', [ControllerMasterWarna::class, 'update'])->name('mwarnaupdt');
     Route::post('/mwarna/delete/{mwarna}', [ControllerMasterWarna::class, 'delete'])->name('mwarnadelete');
 
-    Route::get('mspg', [ControllerMasterSPG::class, 'index'])->name('mspg');
-    Route::post('/mspgpost', [ControllerMasterSPG::class, 'post'])->name('mspgpost');
-    Route::get('/mspg/{user}/edit', [ControllerMasterSPG::class, 'getedit'])->name('mspggetedit');
-    Route::post('/mspg/{user}', [ControllerMasterSPG::class, 'update'])->name('mspgupdt');
-    Route::post('/mspg/delete/{user}', [ControllerMasterSPG::class, 'delete'])->name('mspgdelete');
+    // Route::get('mspg', [ControllerMasterSPG::class, 'index'])->name('mspg');
+    // Route::post('/mspgpost', [ControllerMasterSPG::class, 'post'])->name('mspgpost');
+    // Route::get('/mspg/{user}/edit', [ControllerMasterSPG::class, 'getedit'])->name('mspggetedit');
+    // Route::post('/mspg/{user}', [ControllerMasterSPG::class, 'update'])->name('mspgupdt');
+    // Route::post('/mspg/delete/{user}', [ControllerMasterSPG::class, 'delete'])->name('mspgdelete');
 
     Route::get('mlokasi', [ControllerMasterDataLokasi::class, 'index'])->name('mlokasi');
     Route::post('/mlokasipost', [ControllerMasterDataLokasi::class, 'post'])->name('mlokasipost');
