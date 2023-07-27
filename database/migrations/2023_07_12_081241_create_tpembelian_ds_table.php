@@ -15,6 +15,7 @@ class CreateTpembelianDsTable extends Migration
     {
         Schema::create('tpembelian_ds', function (Blueprint $table) {
             $table->id();
+            $table->integer('idh');
             $table->string('no_pembelian', 64);
             $table->string('code', 64);
             $table->string('name', 128);

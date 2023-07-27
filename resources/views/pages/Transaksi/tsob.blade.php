@@ -137,7 +137,7 @@
                         </div>
                     </div>              
                     <div class="card-footer text-right">
-                        <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('tsobpost') }}">Submit</button>
+                        <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('tsobpost') }}">Save</button>
                         {{-- @if($tpos_save == 'Y')
                             <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}">Submit</button>
                         @elseif($tpos_save == 'N' || $tpos_save == null)
@@ -175,7 +175,7 @@
                             if(response[i].code == kode){
                                 $("#nama_item").val(response[i].name)
                                 hrg = Number(response[i].hrgjual);
-                                $("#satuan").val(response[i].satuan)
+                                $("#satuan").val(response[i].satuan);
                                 subtotal = Number(hrg).toFixed(2) * $('#quantity').val()
                                 $("#subtot").val(thousands_separators(subtotal.toFixed(2)));
                                 $("#hrgjual").val(thousands_separators(hrg.toFixed(2)));
@@ -328,17 +328,6 @@
                 }
             });
 
-            $(document).on("change", "#disc", function(e) {
-                if($('#disc').val() == ''){
-                    $('#disc').val(0);
-                }
-            });
-
-            $(document).on("change", "#tax", function(e) {
-                if($('#tax').val() == ''){
-                    $('#tax').val(0);
-                }
-            });
 
             $(document).on("change", "#quantity", function(e) {
                 if($('#quantity').val() == ''){
@@ -363,16 +352,18 @@
                 }
                 $(this).val(thousands_separators($(this).val()));
                 hrgparse = $('#hrgjual').val();
-                if (/\D/g.test(hrgparse)){
-                // Filter non-digits from input value.
-                hrgparse = hrgparse.replace(/\D/g, '');
+                if (/\D/g.test(hrgparse))
+                {
+                    // Filter comma
+                    hrgparse = hrgparse.replace(/\,/g,"");
+                    hrgparse = Number(Math.trunc(hrgparse))
                 }
                 var hrg = Number(hrgparse).toFixed(2);
                 var qty = Number($("#quantity").val()).toFixed(2);
                 var total = Number(hrg) * Number(qty);
                 console.log(total);
-                
-                $("#subtot").val(thousands_separators(total));
+            
+            $("#subtot").val(thousands_separators(total.toFixed(2)));
             });
             $(document).on("change", "#kurs", function(e) {
                 if($('#kurs').val() == ''){
@@ -382,16 +373,11 @@
             });
 
             $(document).on("click", "#hrgjual", function(e) {
-                if (/\D/g.test(this.value)){
-                // Filter non-digits from input value.
-                this.value = this.value.replace(/\D/g, '');
-                }
-            });
-
-            $(document).on("click", "#kurs", function(e) {
-                if (/\D/g.test(this.value)){
-                // Filter non-digits from input value.
-                this.value = this.value.replace(/\D/g, '');
+                if (/\D/g.test(this.value))
+                {
+                    // Filter comma
+                    this.value = this.value.replace(/\,/g,"");
+                    this.value = Number(Math.trunc(this.value))
                 }
             });
         });
@@ -406,30 +392,6 @@
             if (/\D/g.test(this.value)){
                 // Filter non-digits from input value.
                 this.value = this.value.replace(/\D/g, '');
-            }
-        });
-        $("#kurs").keyup(function(e){
-            if (/\D/g.test(this.value)){
-                // Filter non-digits from input value.
-                this.value = this.value.replace(/\D/g, '');
-            }            
-        });
-        $("#disc").keyup(function(e){
-            if (/\D/g.test(this.value)){
-                // Filter non-digits from input value.
-                this.value = this.value.replace(/\D/g, '');
-            }
-            if(this.value >= 99){
-                this.value = 99;
-            }
-        });
-        $("#tax").keyup(function(e){
-            if (/\D/g.test(this.value)){
-                // Filter non-digits from input value.
-                this.value = this.value.replace(/\D/g, '');
-            }
-            if(this.value >= 99){
-                this.value = 99;
             }
         });
 

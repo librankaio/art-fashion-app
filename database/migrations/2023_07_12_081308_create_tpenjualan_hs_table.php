@@ -16,10 +16,11 @@ class CreateTpenjualanHsTable extends Migration
         Schema::create('tpenjualan_hs', function (Blueprint $table) {
             $table->id();
             $table->string('no', 64);
-            $table->date('tgl');
             $table->string('counter', 64);
+            $table->date('tgl');
             $table->string('note', 256);
-            $table->string('user', 64);
+            $table->decimal('grdtotal', $precision = 19, $scale = 6);
+            $table->string('user', 64)->nullable();
             $table->timestamps();
         });
     }

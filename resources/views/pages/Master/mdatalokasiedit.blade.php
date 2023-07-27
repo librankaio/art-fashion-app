@@ -36,7 +36,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Alamat</label>
-                                        <textarea class="form-control" style="height:90px" name="alamat" value="{{ $mcounter->alamat }}"></textarea>
+                                        <textarea class="form-control" style="height:90px" name="alamat">{{ $mcounter->alamat }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -49,7 +49,7 @@
                         </div>
                         <div class="card-footer text-right">    
                             <button class="btn btn-primary mr-1" type="submit"
-                                formaction="/mlokasi/{{ $mwarna->id }}" id="confirm">Update</button>
+                                formaction="/mlokasi/{{ $mcounter->id }}" id="confirm">Update</button>
                             <button class="btn btn-secondary" type="reset">Cancel</button>
                         </div>
                     </form>

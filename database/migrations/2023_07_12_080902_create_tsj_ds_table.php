@@ -15,7 +15,8 @@ class CreateTsjDsTable extends Migration
     {
         Schema::create('tsj_ds', function (Blueprint $table) {
             $table->id();
-            $table->string('no_sob', 64);
+            $table->integer('idh');
+            $table->string('no_sj', 64);
             $table->string('code', 64);
             $table->string('name', 128);
             $table->decimal('qty', $precision = 19, $scale = 6);

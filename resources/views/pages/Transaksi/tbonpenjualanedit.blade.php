@@ -2,10 +2,10 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h1>Surat Jalan</h1>
+        <h1>Bon Penjualan</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item active"><a href="#">Transaction</a></div>
-            <div class="breadcrumb-item"><a class="text-muted">Surat Jalan</a></div>
+            <div class="breadcrumb-item"><a class="text-muted">Bon Penjualan</a></div>
         </div>
     </div>
     @php
@@ -28,42 +28,25 @@
                                     {{-- @foreach($notrans as $key => $code)
                                         @php $codetrans = $code->codetrans @endphp
                                     @endforeach --}}
-                                    <input type="text" class="form-control" name="no" id="no" value="">
+                                    <input type="text" class="form-control" name="no" id="no" value="{{ $tpenjualanh->no }}">
                                 </div>       
                                 <div class="form-group">
                                     <label>Counter</label>
                                     <select class="form-control select2" name="counter" id="counter">
-                                        <option disabled selected>--Select Counter--</option>
+                                        <option selected>{{ $tpenjualanh->counter }}</option>
                                         @foreach($counters as $counter)
                                         <option>{{ $counter->name}}</option>
                                         @endforeach
                                     </select>
-                                </div>                  
-                                <div class="form-group">
-                                    <label>Jenis</label>
-                                    <select class="form-control" name="jenis" id="jenis">
-                                        <option disabled selected>--Select Jenis--</option>
-                                        <option>Normal</option>
-                                        <option>Retur</option>
-                                    </select>
                                 </div>                         
                                 <div class="form-group">
                                     <label>Tanggal</label>
-                                    <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d") }}">
+                                    <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d", strtotime($tpenjualanh->tgl)) }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Catatan</label>
-                                    <textarea class="form-control" style="height:100px" name="note"></textarea>
+                                    <textarea class="form-control" style="height:100px" name="note">{{$tpenjualanh->note}}</textarea>
                                 </div>
-                                <div class="form-group">
-                                    <label>No SOB.</label>
-                                    <select class="form-control select2" name="nosob" id="nosob">
-                                        <option disabled selected>--Select No SOB--</option>
-                                        @foreach($sobs as $data => $sob)
-                                        <option>{{ $sob->no }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>        
                             </div>
                         </div>
                     </div>
@@ -87,8 +70,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>Nama Item</label>
-                                    <input type="text" class="form-control" id="nama_item" disabled>
+                                    <label>Quantity</label>
+                                    <input type="text" class="form-control" id="quantity" value="0">
                                 </div>
                                 <div class="form-group">
                                     <label>Harga Jual</label>
@@ -102,9 +85,9 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Quantity</label>
-                                    <input type="text" class="form-control" id="quantity" value="0">
-                                </div>
+                                    <label>Nama Item</label>
+                                    <input type="text" class="form-control" id="nama_item" disabled>
+                                </div>                                
                                 <div class="form-group">
                                     <label>Satuan</label>
                                     <input type="text" class="form-control" id="satuan" disabled>
@@ -112,6 +95,10 @@
                                 <div class="form-group">
                                     <label>Subtotal</label>
                                     <input type="text" class="form-control" id="subtot" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label>Keterangan</label>
+                                    <textarea class="form-control" style="height:70px" id="keterangan"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -131,11 +118,26 @@
                                         <th scope="col" class="border border-5">Quantity</th>
                                         <th scope="col" class="border border-5">Satuan</th>
                                         <th scope="col" class="border border-5">Harga</th>
-                                        <th scope="col" class="border border-5">Sub Total Harga</th>
+                                        <th scope="col" class="border border-5">Subtotal</th>
+                                        <th scope="col" class="border border-5">Keterangan</th>
                                         <th scope="col" class="border border-5">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php $counter = 0; @endphp
+                                    @for($i = 0; $i < sizeof($tpenjualands); $i++) @php $counter++; @endphp <tr>
+                                        <th class="id-header border border-5" style='readonly:true;' headers="{{ $counter }}">{{ $counter }}</th>
+                                        <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='{{ $tpenjualands[$i]->code }}'></td>
+                                        <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='{{ $tpenjualands[$i]->name }}'></td>
+                                        <td class="border border-5"><input type='text' style='width:100px;' form='thisform' class='quantityclass form-control' name='quantity_d[]' value='{{ number_format($tpenjualands[$i]->qty, 0, '.', '') }}'></td>
+                                        <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='{{ $tpenjualands[$i]->satuan }}' name='satuan_d[]'></td>
+                                        <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='hrgjualclass form-control' value='{{ number_format($tpenjualands[$i]->hrgjual, 2, '.', ',') }}' name='hrgjual_d[]'></td>
+                                        <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='{{ number_format($tpenjualands[$i]->subtotal, 2, '.', ',') }}' name='subtot_d[]' id='subtot_d{{ $counter }}'></td>
+                                        <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='keteranganclass form-control' value='{{ $tpenjualands[$i]->keterangan }}' name='keterangan_d[]'></td>
+                                        <td class="border border-5"><button title='Delete' class='delete btn btn-primary' value="{{ $counter }}"><i style='font-size:15pt;color:#ffff;' class='fa fa-trash'></i></button></td>
+                                        <td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value=''></td>
+                                        </tr>
+                                    @endfor
                                 </tbody>                            
                             </table>
                         </div>                                              
@@ -148,13 +150,13 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Total</label>
-                                    <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" readonly>
+                                    <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" value="{{ number_format($tpenjualanh->grdtotal, 2, '.', ',') }}" readonly>
                                 </div>
                             </div>
                         </div>
                     </div>              
                     <div class="card-footer text-right">
-                        <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('tsuratjalanpost') }}">Save</button>
+                        <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="/tbonjual/{{ $tpenjualanh->id }}">Update</button>
                         {{-- @if($tpos_save == 'Y')
                             <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}">Submit</button>
                         @elseif($tpos_save == 'N' || $tpos_save == null)
@@ -202,7 +204,7 @@
                 });
             });
 
-            var counter = 1;
+            var counter = parseInt({{ $counter}}) +1;
             $(document).on("click", "#addItem", function(e) {
                 e.preventDefault();
                 if($('#quantity').val() == 0){
@@ -217,9 +219,10 @@
                 quantity = $("#quantity").val();
                 satuan = $("#satuan").val();
                 subtot = $("#subtot").val();
+                keterangan = $("#keterangan").val();
 
 
-                tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
+                tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='keteranganclass form-control' name='keterangan_d[]' type='text' value='" + keterangan + "'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
                 
                 subtotparse = subtot.replaceAll(",", "");
                 $("#datatable tbody").append(tablerow);
@@ -249,7 +252,7 @@
                         old_grandtot = Number(Math.trunc(old_grandtot))
                     }
                     
-                    console.log("subtotal: " + subtot + ", grandtot: " + grandtot);
+                    console.log("subtotal: " + subtot + ", grandtot: " + old_grandtot);
                     sum = subtot + old_grandtot;
 
                     $("#price_total").val(thousands_separators(sum.toFixed(2)));
@@ -263,51 +266,68 @@
                 $("#quantity").val(0);
                 $("#merk").val('');
                 $("#subtot").val('');
-                $("#note").val('');
+                $("#keterangan").val('');
             });
 
             $(document).on("click", ".delete", function(e) {
                 e.preventDefault();
+                counter_id = $(this).val();
                 var r = confirm("Delete Transaksi ?");
                 if (r == true) {
-                    counter_id = $(this).closest('tr').text();
-                    console.log(counter_id);
-                    subtot = $("#subtot_d_"+ counter_id).val().replaceAll(",", "");
-                    
-                    if (/\D/g.test(subtot))
-                    {
-                        // Filter comma
-                        subtot = subtot.replace(/\,/g,"");
-                        subtot = Number(Math.trunc(subtot))
-                    }
+                    if(counter_id != 0){
+                        console.log(counter_id);
+                        subtot = $("#subtot_d" + counter_id).val().replaceAll(",", "");
 
-                    old_grandtot = $("#price_total").val();
+                        if (/\D/g.test(subtot))
+                        {
+                            // Filter comma
+                            subtot = subtot.replace(/\,/g,"");
+                            subtot = Number(Math.trunc(subtot))
+                        }
 
-                    if (/\D/g.test(old_grandtot))
-                    {
-                        // Filter comma
-                        old_grandtot = old_grandtot.replace(/\,/g,"");
-                        old_grandtot = Number(Math.trunc(old_grandtot))
-                    }
+                        old_grandtot = $("#price_total").val();
 
-                    sum = old_grandtot - subtot;
+                        if (/\D/g.test(old_grandtot))
+                        {
+                            // Filter comma
+                            old_grandtot = old_grandtot.replace(/\,/g,"");
+                            old_grandtot = Number(Math.trunc(old_grandtot))
+                        }
 
-                    $("#price_total").val(thousands_separators(sum.toFixed(2)));
-                    $(this).closest('tr').remove();
+                        sum = old_grandtot - subtot;
+
+                        $("#price_total").val(thousands_separators(sum.toFixed(2)));
+                        $(this).closest('tr').remove();
+
+                        counter_id = 0;
+                    }else{
+                        counter_id = $(this).closest('tr').text();
+                        console.log(counter_id);
+                        subtot = $("#subtot_d_"+ counter_id).val().replaceAll(",", "");
+                        
+                        if (/\D/g.test(subtot))
+                        {
+                            // Filter comma
+                            subtot = subtot.replace(/\,/g,"");
+                            subtot = Number(Math.trunc(subtot))
+                        }
+
+                        old_grandtot = $("#price_total").val();
+
+                        if (/\D/g.test(old_grandtot))
+                        {
+                            // Filter comma
+                            old_grandtot = old_grandtot.replace(/\,/g,"");
+                            old_grandtot = Number(Math.trunc(old_grandtot))
+                        }
+
+                        sum = old_grandtot - subtot;
+
+                        $("#price_total").val(thousands_separators(sum.toFixed(2)));
+                        $(this).closest('tr').remove();
+                        }  
                 } else {
                     return false;
-                }
-            });
-
-            $(document).on("change", "#disc", function(e) {
-                if($('#disc').val() == ''){
-                    $('#disc').val(0);
-                }
-            });
-
-            $(document).on("change", "#tax", function(e) {
-                if($('#tax').val() == ''){
-                    $('#tax').val(0);
                 }
             });
 
@@ -353,36 +373,6 @@
             if (/\D/g.test(this.value)){
                 // Filter non-digits from input value.
                 this.value = this.value.replace(/\D/g, '');
-            }
-        });
-        $("#hrgsatuan").keyup(function(e){
-            if (/\D/g.test(this.value)){
-                // Filter non-digits from input value.
-                this.value = this.value.replace(/\D/g, '');
-            }
-        });
-        $("#kurs").keyup(function(e){
-            if (/\D/g.test(this.value)){
-                // Filter non-digits from input value.
-                this.value = this.value.replace(/\D/g, '');
-            }            
-        });
-        $("#disc").keyup(function(e){
-            if (/\D/g.test(this.value)){
-                // Filter non-digits from input value.
-                this.value = this.value.replace(/\D/g, '');
-            }
-            if(this.value >= 99){
-                this.value = 99;
-            }
-        });
-        $("#tax").keyup(function(e){
-            if (/\D/g.test(this.value)){
-                // Filter non-digits from input value.
-                this.value = this.value.replace(/\D/g, '');
-            }
-            if(this.value >= 99){
-                this.value = 99;
             }
         });
 

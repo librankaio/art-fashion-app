@@ -36,7 +36,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Warna</label>
-                                        <textarea class="form-control" style="height:90px" name="warna" value="{{ $mitem->warna }}"></textarea>
+                                        <textarea class="form-control" style="height:90px" name="warna">{{ $mitem->warna }}</textarea>
                                     </div>
                                     <div class="form-group">
                                         <label>Price (Rp)</label>
@@ -88,7 +88,7 @@
                         </div>
                         <div class="card-footer text-right">            
                             <button class="btn btn-primary mr-1" type="submit"
-                                formaction="/mitem/{{ $mwarna->id }}" id="confirm">Update</button>
+                                formaction="/mitem/{{ $mitem->id }}" id="confirm">Update</button>
                             <button class="btn btn-secondary" type="reset">Cancel</button>
                         </div>
                     </form>

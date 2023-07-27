@@ -19,6 +19,7 @@ class CreateTpembelianHsTable extends Migration
             $table->date('tgl');
             $table->string('counter', 64);
             $table->string('note', 256);
+            $table->decimal('grdtotal', $precision = 19, $scale = 6);
             $table->string('user', 64);
             $table->timestamps();
         });

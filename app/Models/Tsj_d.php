@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Tsj_d extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'idh',
+        'no_sj',
+        'code',
+        'name',
+        'qty',
+        'satuan',
+        'hrgjual',
+        'subtotal',
+    ];
 }

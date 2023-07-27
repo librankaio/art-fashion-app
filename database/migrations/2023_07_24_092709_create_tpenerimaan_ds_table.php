@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTadjDsTable extends Migration
+class CreateTpenerimaanDsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,17 @@ class CreateTadjDsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tadj_ds', function (Blueprint $table) {
+        Schema::create('tpenerimaan_ds', function (Blueprint $table) {
             $table->id();
             $table->integer('idh');
-            $table->string('no_adj', 64);
+            $table->string('no_penerimaan', 64);
             $table->string('code', 64);
             $table->string('name', 128);
-            $table->integer('qty');
+            $table->decimal('qty', $precision = 19, $scale = 6);
+            $table->decimal('subtotal', $precision = 19, $scale = 6);
             $table->string('satuan', 32);
+            $table->string('keterangan', 32);
+            $table->decimal('hrgjual', $precision = 19, $scale = 6);
             $table->timestamps();
         });
     }
@@ -32,6 +35,6 @@ class CreateTadjDsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tadj_ds');
+        Schema::dropIfExists('tpenerimaan_ds');
     }
 }

@@ -136,7 +136,7 @@
                                         <td class="border border-5" style="text-align: center;">{{ $item->nett }}</td>
                                         <td class="border border-5" style="text-align: center;">{{ $item->spcprice }}</td>
                                         <td style="text-align: center;" class="d-flex justify-content-center">
-                                            <a href="/masterbank/{{ $item->id }}/edit"
+                                            <a href="/mitem/{{ $item->id }}/edit"
                                                 class="btn btn-icon icon-left btn-primary"><i class="far fa-edit">
                                                     Edit</i></a>
                                             <form action="/mitem/delete/{{ $item->id }}" id="del-{{ $item->id }}"

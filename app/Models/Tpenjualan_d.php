@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Tpenjualan_d extends Model
 {
     use HasFactory;
+    
+    protected $fillable = [
+        'idh',
+        'no_penjualan',
+        'code',
+        'name',
+        'qty',
+        'satuan',
+        'hrgjual',
+        'subtotal',
+        'note',
+    ];
 }

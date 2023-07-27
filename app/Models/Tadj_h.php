@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Tadj_h extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'no',
+        'tgl',
+        'note',
+        'user',
+    ];
 }

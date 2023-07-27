@@ -37,7 +37,8 @@ class ControllerMasterSPG extends Controller
     }
     
     public function update(User $user){
-        if($user->password == null || $user->password == ''){
+        // dd(request()->all());
+        if(request('password') == null || request('password') == ''){
             User::where('id', '=', $user->id)->update([
                 'nik' => request('nik'),
                 'name' => request('name'),
@@ -47,14 +48,14 @@ class ControllerMasterSPG extends Controller
             ]);
             return redirect()->route('mspg');
         }
-
+        $password = bcrypt(request('password'));
         User::where('id', '=', $user->id)->update([
             'nik' => request('nik'),
             'name' => request('name'),
             'hp' => request('phone'),
             'jenis' => request('jenis'),
             'counter' => request('counter'),
-            'password' => request('password'),         
+            'password' => $password        
         ]);
         return redirect()->route('mspg');
     }

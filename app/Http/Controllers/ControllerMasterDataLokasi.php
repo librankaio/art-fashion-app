@@ -31,8 +31,8 @@ class ControllerMasterDataLokasi extends Controller
 
     public function update(Mcounter $mcounter){
         Mcounter::where('id', '=', $mcounter->id)->update([
-            'code' => request('kode'),
-            'name' => request('nama'),
+            'code' => request('code'),
+            'name' => request('name'),
             'alamat' => request('alamat'),
         ]);
 

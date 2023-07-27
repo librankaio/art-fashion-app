@@ -5,18 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tsob_d extends Model
+class Tpenerimaan_d extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'idh',
-        'no_sob',
+        'no_penerimaan',
         'code',
         'name',
         'qty',
         'satuan',
         'hrgjual',
+        'keterangan',
         'subtotal',
     ];
 }

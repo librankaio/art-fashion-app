@@ -7,6 +7,7 @@ use App\Models\Mitem;
 use App\Models\Tsob_d;
 use App\Models\Tsob_h;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ControllerTransSOB extends Controller
 {
@@ -47,8 +48,8 @@ class ControllerTransSOB extends Controller
                     'name' => $request->namaitem_d[$i],
                     'qty' => $request->quantity_d[$i],
                     'satuan' => $request->satuan_d[$i],
-                    'htgjual' => (float) str_replace(',', '', $request->hrgjual_d[$i]),
                     'subtotal' => (float) str_replace(',', '', $request->subtot_d[$i]),
+                    'hrgjual' => (float) str_replace(',', '', $request->hrgjual_d[$i]),
                 ]);
                 $count++;
             }
@@ -67,5 +68,60 @@ class ControllerTransSOB extends Controller
             $mitems = Mitem::select('id','code','name','satuan','hrgjual')->where('code','=',$kode)->get();
         }
         return json_encode($mitems);
+    }
+
+    public function list(){
+        $tsobhs = Tsob_h::select('id','no','tgl','counter','note','grdtotal','user',)->orderBy('created_at', 'asc')->get();
+        $tsobds = Tsob_d::select('id','idh','no_sob','code','name','qty','satuan','hrgjual','subtotal',)->get();
+        return view('pages.Transaksi.tsoblist',[
+            'tsobhs' => $tsobhs,
+            'tsobds' => $tsobds
+        ]);
+    }
+
+    public function getedit(Tsob_h $tsobh){
+        $counters = Mcounter::select('id','code','name')->get();
+        $mitems = Mitem::select('id','code','name')->get();
+        $tsobds = Tsob_d::select('id','idh','no_sob','code','name','qty','satuan','hrgjual','subtotal',)->where('idh','=',$tsobh->id)->get();
+        return view('pages.Transaksi.tsobedit',[
+            'counters' => $counters,
+            'mitems' => $mitems,
+            'tsobh' => $tsobh,
+            'tsobds' => $tsobds,
+        ]);
+    }
+
+    public function update(Tsob_h $tsobh){
+        // dd(request()->all());
+        for($j=0;$j<sizeof(request('no_d'));$j++){
+            $no_sobh = request('no');
+        }
+        DB::delete('delete from tsob_ds where no_sob = ?', [$no_sobh] );
+        Tsob_h::where('id', '=', $tsobh->id)->update([
+            'no' => request('no'),
+            'tgl' => request('dt'),
+            'counter' => request('counter'),
+            'note' => request('note'),
+            'grdtotal' =>  (float) str_replace(',', '', request('price_total'))
+        ]);
+        $count=0;
+        $countrows = sizeof(request('no_d'));
+        for ($i=0;$i<sizeof(request('no_d'));$i++){
+            Tsob_d::create([
+                'idh' => $tsobh->id,
+                'no_sob' => request('no')[$i],
+                'code' => request('kode_d')[$i],
+                'name' => request('namaitem_d')[$i],
+                'qty' => request('quantity_d')[$i],
+                'satuan' => request('satuan_d')[$i],
+                'hrgjual' => (float) str_replace(',', '', request('hrgjual_d')[$i]),
+                'subtotal' => (float) str_replace(',', '', request('subtot_d')[$i])
+            ]);
+            $count++;
+        }
+        
+        if($count == $countrows){
+            return redirect()->route('tsoblist');
+        }
     }
 }

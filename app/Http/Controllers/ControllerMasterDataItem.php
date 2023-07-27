@@ -57,6 +57,6 @@ class ControllerMasterDataItem extends Controller
 
     public function delete(Mitem $mitem){
         Mitem::find($mitem->id)->delete();
-        return redirect()->route('mspg');
+        return redirect()->route('mitem');
     }
 }

@@ -15,6 +15,7 @@ class CreateTrcvDsTable extends Migration
     {
         Schema::create('trcv_ds', function (Blueprint $table) {
             $table->id();
+            $table->integer('idh');
             $table->string('no_rcv', 64);
             $table->string('code', 64);
             $table->string('name', 128);

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTsjHsTable extends Migration
+class CreateTpenerimaanHsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateTsjHsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tsj_hs', function (Blueprint $table) {
+        Schema::create('tpenerimaan_hs', function (Blueprint $table) {
             $table->id();
             $table->string('no', 64);
-            $table->date('tgl');
+            $table->string('no_sj', 64);
             $table->string('counter', 64);
-            $table->string('no_sob', 64);
+            $table->date('tgl');
             $table->string('note', 256);
+            $table->string('jenis', 64);
             $table->decimal('grdtotal', $precision = 19, $scale = 6);
             $table->string('user', 64)->nullable();
             $table->timestamps();
@@ -33,6 +34,6 @@ class CreateTsjHsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tsj_hs');
+        Schema::dropIfExists('tpenerimaan_hs');
     }
 }

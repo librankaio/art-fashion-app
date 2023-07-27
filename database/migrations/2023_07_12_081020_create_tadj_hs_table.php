@@ -17,9 +17,8 @@ class CreateTadjHsTable extends Migration
             $table->id();
             $table->string('no', 64);
             $table->date('tgl');
-            $table->string('counter', 64);
             $table->string('note', 256);
-            $table->string('user', 64);
+            $table->string('user', 64)->nullable();
             $table->timestamps();
         });
     }

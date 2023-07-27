@@ -15,6 +15,7 @@ class CreateTsobDsTable extends Migration
     {
         Schema::create('tsob_ds', function (Blueprint $table) {
             $table->id();
+            $table->integer('idh');
             $table->string('no_sob', 64);
             $table->string('code', 64);
             $table->string('name', 128);
