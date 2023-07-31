@@ -120,7 +120,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @php $counter = 0 @endphp
+                                    @php $counter = 0 @endphp
                                     @foreach($datas as $data => $item)
                                     @php $counter++ @endphp
                                     <tr>
@@ -152,9 +152,12 @@
                                             </form>
                                         </td>
                                     </tr>
-                                    @endforeach --}}
+                                    @endforeach
                                 </tbody>
                             </table>
+                            <div class="links">
+                                {{ $datas->links() }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -169,57 +172,25 @@
 @stop
 @section('botscripts')
 <script type="text/javascript">
-    $('#datatable').DataTable({
-        // "ordering":false,
-        // "bInfo" : false
-        ajax: "mitem",
-        // columns: [
-        //     {data: 'id', name: 'id'},
-        //     {data: 'code', name: 'code'},
-        //     {data: 'name', name: 'name'},
-        //     {data: 'warna', name: 'warna'},
-        //     {data: 'kategori', name: 'kategori'},
-        //     {data: 'hrgjual', name: 'hrgjual'},
-        //     {data: 'size', name: 'size'},
-        //     {data: 'satuan', name: 'satuan'},
-        //     {data: 'material', name: 'material'},
-        //     {data: 'gross', name: 'gross'},
-        //     {data: 'nett', name: 'nett'},
-        //     {data: 'spcprice', name: 'spcprice'},
-        //     {data: 'spcprice', name: 'spcprice'},
-        // ]
-        columns: [
-            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-            {data: 'code', name: 'code'},
-            {data: 'name', name: 'name'},
-            {data: 'warna', name: 'warna'},
-            {data: 'kategori', name: 'kategori'},
-            {data: 'hrgjual', name: 'hrgjual'},
-            {data: 'size', name: 'size'},
-            {data: 'satuan', name: 'satuan'},
-            {data: 'material', name: 'material'},
-            {data: 'gross', name: 'gross'},
-            {data: 'nett', name: 'nett'},
-            {data: 'spcprice', name: 'spcprice'},
-            {
-                data: 'action', 
-                name: 'action', 
-                orderable: true, 
-                searchable: true
-            },
-        ],
-    });
-
-    // new DataTable('#datatable', {
-    // ajax: '{{ route('dtablegetmitem') }}',
-    // processing: true,
-    // serverSide: true
-    // });
-
-    // var table = $('.yajra-datatable').DataTable({
-    //     processing: true,
-    //     serverSide: true,
-    //     ajax: "{{ route('dtablegetmitem') }}",
+    // $('#datatable').DataTable({
+    //     // "ordering":false,
+    //     // "bInfo" : false
+    //     ajax: "mitem",
+    //     // columns: [
+    //     //     {data: 'id', name: 'id'},
+    //     //     {data: 'code', name: 'code'},
+    //     //     {data: 'name', name: 'name'},
+    //     //     {data: 'warna', name: 'warna'},
+    //     //     {data: 'kategori', name: 'kategori'},
+    //     //     {data: 'hrgjual', name: 'hrgjual'},
+    //     //     {data: 'size', name: 'size'},
+    //     //     {data: 'satuan', name: 'satuan'},
+    //     //     {data: 'material', name: 'material'},
+    //     //     {data: 'gross', name: 'gross'},
+    //     //     {data: 'nett', name: 'nett'},
+    //     //     {data: 'spcprice', name: 'spcprice'},
+    //     //     {data: 'spcprice', name: 'spcprice'},
+    //     // ]
     //     columns: [
     //         {data: 'DT_RowIndex', name: 'DT_RowIndex'},
     //         {data: 'code', name: 'code'},
@@ -239,8 +210,14 @@
     //             orderable: true, 
     //             searchable: true
     //         },
-    //     ]
+    //     ],
     // });
+
+    $('#datatable').DataTable({
+        "ordering":false,
+        "bInfo" : false,
+        "bPaginate": false,
+    });
 
     $(".alert button.close").click(function (e) {
         $(this).parent().fadeOut(2000);

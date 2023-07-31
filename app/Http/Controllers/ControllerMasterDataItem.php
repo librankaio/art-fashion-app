@@ -11,36 +11,37 @@ class ControllerMasterDataItem extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            $data = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice')->get();
-            // return datatables()->of($data)->toJson();
+        // if ($request->ajax()) {
+        //     $data = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice')->get();           
+        //     // return datatables()->of($data)->toJson();
 
-            return datatables()->of($data)
-                ->addIndexColumn()
-                ->addColumn('action', function($data){
-                    $token = request()->session()->token();
+        //     return datatables()->of($data)
+        //         ->addIndexColumn()
+        //         ->addColumn('action', function($data){
+        //             $token = request()->session()->token();
  
-                    $token = csrf_token();
-                    $actionBtn = '<a href="/mitem/'.$data->id.'/edit"
-                    class="btn btn-icon icon-left btn-primary"><i class="far fa-edit">
-                        Edit</i></a>
+        //             $token = csrf_token();
+        //             $actionBtn = '<a href="/mitem/'.$data->id.'/edit"
+        //             class="btn btn-icon icon-left btn-primary"><i class="far fa-edit">
+        //                 Edit</i></a>
                         
-                        <form action="/mitem/delete/'.$data->id.'" id="del-'.$data->id.'"
-                            method="POST" class="px-2">
-                            <input type="hidden" name="_token" value="'.$token.'" />
-                            <button class="btn btn-icon icon-left btn-danger"
-                                id="del-'.$data->id.'" type="submit"
-                                data-confirm="WARNING!|Do you want to delete '.$data->id.' data?"
-                                data-confirm-yes="submitDel('.$data->id.')"><i
-                                    class="fa fa-trash">
-                                    Delete</i></button>
-                        </form>';
-                    return $actionBtn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-        $datas = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice')->get();
+        //                 <form action="/mitem/delete/'.$data->id.'" id="del-'.$data->id.'"
+        //                     method="POST" class="px-2">
+        //                     <input type="hidden" name="_token" value="'.$token.'" />
+        //                     <button class="btn btn-icon icon-left btn-danger"
+        //                         id="del-'.$data->id.'" type="submit"
+        //                         data-confirm="WARNING!|Do you want to delete '.$data->id.' data?"
+        //                         data-confirm-yes="submitDel('.$data->id.')"><i
+        //                             class="fa fa-trash">
+        //                             Delete</i></button>
+        //                 </form>';
+        //             return $actionBtn;
+        //         })
+        //         ->rawColumns(['action'])
+        //         ->make(true);
+        // }
+        $datas = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice')->paginate(50);
+        // $datas = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice')->get();
         return view('pages.Master.mdataitem',[
             'datas' => $datas
         ]);
