@@ -101,25 +101,26 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="datatable">
+                            {{-- <table class="table table-bordered yajra-datatable"> --}}
                                 <thead>
                                     <tr>
-                                        <th scope="col" class="border border-5">No</th>
-                                        <th scope="col" class="border border-5">Kode / Artikel</th>
-                                        <th scope="col" class="border border-5">Nama</th>
-                                        <th scope="col" class="border border-5">Warna</th>
-                                        <th scope="col" class="border border-5">Kategori</th>
-                                        <th scope="col" class="border border-5">Price (Rp.)</th>
-                                        <th scope="col" class="border border-5">Size</th>
-                                        <th scope="col" class="border border-5">Satuan</th>
-                                        <th scope="col" class="border border-5">Material</th>
-                                        <th scope="col" class="border border-5">Harga Gross</th>
-                                        <th scope="col" class="border border-5">Harga Nett</th>
-                                        <th scope="col" class="border border-5">Special Price</th>
-                                        <th scope="col" class="border border-5">Action</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">No</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Kode / Artikel</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Nama</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Warna</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Kategori</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Price (Rp.)</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Size</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Satuan</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Material</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Harga Gross</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Harga Nett</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Special Price</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php $counter = 0 @endphp
+                                    {{-- @php $counter = 0 @endphp
                                     @foreach($datas as $data => $item)
                                     @php $counter++ @endphp
                                     <tr>
@@ -151,7 +152,7 @@
                                             </form>
                                         </td>
                                     </tr>
-                                    @endforeach
+                                    @endforeach --}}
                                 </tbody>
                             </table>
                         </div>
@@ -162,12 +163,84 @@
     </div>
 </section>
 @stop
+@section('pluginjs')
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+@stop
 @section('botscripts')
 <script type="text/javascript">
     $('#datatable').DataTable({
         // "ordering":false,
-        "bInfo" : false
+        // "bInfo" : false
+        ajax: "mitem",
+        // columns: [
+        //     {data: 'id', name: 'id'},
+        //     {data: 'code', name: 'code'},
+        //     {data: 'name', name: 'name'},
+        //     {data: 'warna', name: 'warna'},
+        //     {data: 'kategori', name: 'kategori'},
+        //     {data: 'hrgjual', name: 'hrgjual'},
+        //     {data: 'size', name: 'size'},
+        //     {data: 'satuan', name: 'satuan'},
+        //     {data: 'material', name: 'material'},
+        //     {data: 'gross', name: 'gross'},
+        //     {data: 'nett', name: 'nett'},
+        //     {data: 'spcprice', name: 'spcprice'},
+        //     {data: 'spcprice', name: 'spcprice'},
+        // ]
+        columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'code', name: 'code'},
+            {data: 'name', name: 'name'},
+            {data: 'warna', name: 'warna'},
+            {data: 'kategori', name: 'kategori'},
+            {data: 'hrgjual', name: 'hrgjual'},
+            {data: 'size', name: 'size'},
+            {data: 'satuan', name: 'satuan'},
+            {data: 'material', name: 'material'},
+            {data: 'gross', name: 'gross'},
+            {data: 'nett', name: 'nett'},
+            {data: 'spcprice', name: 'spcprice'},
+            {
+                data: 'action', 
+                name: 'action', 
+                orderable: true, 
+                searchable: true
+            },
+        ],
     });
+
+    // new DataTable('#datatable', {
+    // ajax: '{{ route('dtablegetmitem') }}',
+    // processing: true,
+    // serverSide: true
+    // });
+
+    // var table = $('.yajra-datatable').DataTable({
+    //     processing: true,
+    //     serverSide: true,
+    //     ajax: "{{ route('dtablegetmitem') }}",
+    //     columns: [
+    //         {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+    //         {data: 'code', name: 'code'},
+    //         {data: 'name', name: 'name'},
+    //         {data: 'warna', name: 'warna'},
+    //         {data: 'kategori', name: 'kategori'},
+    //         {data: 'hrgjual', name: 'hrgjual'},
+    //         {data: 'size', name: 'size'},
+    //         {data: 'satuan', name: 'satuan'},
+    //         {data: 'material', name: 'material'},
+    //         {data: 'gross', name: 'gross'},
+    //         {data: 'nett', name: 'nett'},
+    //         {data: 'spcprice', name: 'spcprice'},
+    //         {
+    //             data: 'action', 
+    //             name: 'action', 
+    //             orderable: true, 
+    //             searchable: true
+    //         },
+    //     ]
+    // });
 
     $(".alert button.close").click(function (e) {
         $(this).parent().fadeOut(2000);

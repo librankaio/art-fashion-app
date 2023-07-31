@@ -75,8 +75,11 @@ Route::get('tsuratjalanlist', [ControllerTransSuratJalan::class, 'list'])->name(
 Route::get('/tsuratjalan/{tsjh}/edit', [ControllerTransSuratJalan::class, 'getedit'])->name('tsuratjalanedit');
 Route::post('/tsuratjalan/{tsjh}', [ControllerTransSuratJalan::class, 'update'])->name('tsuratjalanupdate');
 
-Route::get('tstockopname', [ControllerTransStockOpname::class, 'index'])->name('tstockopname');
 Route::get('tpembelianbarang', [ControllerTransPembelianBarang::class, 'index'])->name('tpembelianbarang');
+Route::post('/tpembelianbarangpost', [ControllerTransPembelianBarang::class, 'post'])->name('tpembelianbarangpost');
+
+
+Route::get('tstockopname', [ControllerTransStockOpname::class, 'index'])->name('tstockopname');
 
 // ---Report---
 Route::get('romsetitem', [ControllerReportOmsetItem::class, 'index'])->name('romsetitem');
@@ -122,6 +125,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/mitem/{mitem}/edit', [ControllerMasterDataItem::class, 'getedit'])->name('mitemgetedit');
     Route::post('/mitem/{mitem}', [ControllerMasterDataItem::class, 'update'])->name('mitemupdt');
     Route::post('/mitem/delete/{mitem}', [ControllerMasterDataItem::class, 'delete'])->name('mitemdelete');
+    Route::post('/dtablegetmitem', [ControllerMasterDataItem::class, 'getmitem'])->name('dtablegetmitem');
 
     Route::get('mhakses', [ControllerMasterHakAkses::class, 'index'])->name('mhakses');
     Route::post('mhaksespost', [ControllerMasterHakAkses::class, 'post'])->name('mhaksespost');

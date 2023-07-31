@@ -365,6 +365,7 @@
             
             $("#subtot").val(thousands_separators(total.toFixed(2)));
             });
+            
             $(document).on("change", "#kurs", function(e) {
                 if($('#kurs').val() == ''){
                     $('#kurs').val(1);

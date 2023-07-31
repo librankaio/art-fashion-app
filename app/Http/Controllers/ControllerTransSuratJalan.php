@@ -8,6 +8,7 @@ use App\Models\Tsj_d;
 use App\Models\Tsj_h;
 use App\Models\Tsob_h;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ControllerTransSuratJalan extends Controller
 {
@@ -66,7 +67,7 @@ class ControllerTransSuratJalan extends Controller
 
     public function list(){
         $tsjhs = Tsj_h::select('id','no','tgl','counter','note','grdtotal','user',)->orderBy('created_at', 'asc')->get();
-        $tsjds = Tsj_d::select('id','idh','no_sob','code','name','qty','satuan','hrgjual','subtotal',)->get();
+        $tsjds = Tsj_d::select('id','idh','no_sj','code','name','qty','satuan','hrgjual','subtotal',)->get();
         return view('pages.Transaksi.tsuratjalanlist',[
             'tsjhs' => $tsjhs,
             'tsjds' => $tsjds
@@ -77,7 +78,7 @@ class ControllerTransSuratJalan extends Controller
         $counters = Mcounter::select('id','code','name')->get();
         $mitems = Mitem::select('id','code','name')->get();
         $sobs = Tsob_h::select('id','no','tgl','counter','note','grdtotal','user',)->get();
-        $tsjds = Tsj_d::select('id','idh','no_sob','code','name','qty','satuan','hrgjual','subtotal',)->where('idh','=',$tsjh->id)->get();
+        $tsjds = Tsj_d::select('id','idh','no_sj','code','name','qty','satuan','hrgjual','subtotal',)->where('idh','=',$tsjh->id)->get();
         return view('pages.Transaksi.tsuratjalanedit',[
             'counters' => $counters,
             'mitems' => $mitems,
@@ -87,25 +88,27 @@ class ControllerTransSuratJalan extends Controller
         ]);
     }
 
-    public function update(Tsob_h $tsobh){
+    public function update(Tsj_h $tsjh){
         // dd(request()->all());
         for($j=0;$j<sizeof(request('no_d'));$j++){
-            $no_sobh = request('no');
+            $no_sjh = request('no');
         }
-        DB::delete('delete from tsob_ds where no_sob = ?', [$no_sobh] );
-        Tsob_h::where('id', '=', $tsobh->id)->update([
+        DB::delete('delete from tsj_ds where no_sj = ?', [$no_sjh] );
+        Tsj_h::where('id', '=', $tsjh->id)->update([
             'no' => request('no'),
-            'tgl' => request('dt'),
             'counter' => request('counter'),
+            'jenis' => request('jenis'),
+            'tgl' => request('dt'),
             'note' => request('note'),
+            'no_sob' => request('nosob'),
             'grdtotal' =>  (float) str_replace(',', '', request('price_total'))
         ]);
         $count=0;
         $countrows = sizeof(request('no_d'));
         for ($i=0;$i<sizeof(request('no_d'));$i++){
-            Tsob_d::create([
-                'idh' => $tsobh->id,
-                'no_sob' => request('no')[$i],
+            Tsj_d::create([
+                'idh' => $tsjh->id,
+                'no_sj' => request('no')[$i],
                 'code' => request('kode_d')[$i],
                 'name' => request('namaitem_d')[$i],
                 'qty' => request('quantity_d')[$i],
@@ -117,7 +120,7 @@ class ControllerTransSuratJalan extends Controller
         }
         
         if($count == $countrows){
-            return redirect()->route('tsoblist');
+            return redirect()->route('tsuratjalanlist');
         }
     }
 }
