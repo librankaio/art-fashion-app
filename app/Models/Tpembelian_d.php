@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Tpembelian_d extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'idh',
+        'no_pembelian',
+        'code',
+        'name',
+        'qty',
+        'satuan',
+        'hrgbeli',
+        'subtotal',
+    ];
 }

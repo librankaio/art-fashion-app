@@ -66,6 +66,7 @@
                 <li><a class="nav-link" href="{{ route('tsuratjalanlist') }}">Surat Jalan List</a></li>
                 <li><a class="nav-link" href="{{ route('tstockopname') }}">Stock Opname</a></li>
                 <li><a class="nav-link" href="{{ route('tpembelianbarang') }}">Pembelian Barang</a></li>
+                <li><a class="nav-link" href="{{ route('tpembelianbaranglist') }}">Pembelian Barang List</a></li>
             {{-- @endif --}}
         </ul>
     </li>

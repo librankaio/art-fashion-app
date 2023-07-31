@@ -19,7 +19,10 @@ class CreateTpembelianDsTable extends Migration
             $table->string('no_pembelian', 64);
             $table->string('code', 64);
             $table->string('name', 128);
-            $table->integer('qty');
+            $table->decimal('qty', $precision = 19, $scale = 6);
+            $table->string('satuan', 32);
+            $table->decimal('hrgbeli', $precision = 19, $scale = 6);
+            $table->decimal('subtotal', $precision = 19, $scale = 6);
             $table->timestamps();
         });
     }

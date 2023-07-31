@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mitem;
+use App\Models\Tpembelian_d;
+use App\Models\Tpembelian_h;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ControllerTransPembelianBarang extends Controller
 {
@@ -18,18 +21,16 @@ class ControllerTransPembelianBarang extends Controller
     public function post(Request $request){
         // dd($request->all());
 
-        $checkexist = Tsj_h::select('id','no')->where('no','=', $request->no)->first();
+        $checkexist = Tpembelian_h::select('id','no')->where('no','=', $request->no)->first();
         if($checkexist == null){
-            Tsj_h::create([
+            Tpembelian_h::create([
                 'no' => $request->no,
-                'counter' => $request->counter,
-                'jenis' => $request->jenis,
                 'tgl' => $request->dt,
+                'supplier' => $request->supplier,
                 'note' => $request->note,
-                'no_sob' => $request->nosob,
                 'grdtotal' => (float) str_replace(',', '', $request->price_total),
             ]);
-            $idh_loop = Tsj_h::select('id')->where('no','=',$request->no)->get();
+            $idh_loop = Tpembelian_h::select('id')->where('no','=',$request->no)->get();
             for($j=0; $j<sizeof($idh_loop); $j++){
                 $idh = $idh_loop[$j]->id;
             }
@@ -37,15 +38,15 @@ class ControllerTransPembelianBarang extends Controller
             $countrows = sizeof($request->no_d);
             $count=0;
             for ($i=0;$i<sizeof($request->no_d);$i++){
-                Tsj_d::create([
+                Tpembelian_d::create([
                     'idh' => $idh,
-                    'no_sj' => $request->no,
+                    'no_pembelian' => $request->no,
                     'code' => $request->kode_d[$i],
-                    'name' => $request->namaitem_d[$i],
+                    'name' => $request->nama_item_d[$i],
                     'qty' => $request->quantity_d[$i],
                     'satuan' => $request->satuan_d[$i],
                     'subtotal' => (float) str_replace(',', '', $request->subtot_d[$i]),
-                    'hrgjual' => (float) str_replace(',', '', $request->hrgjual_d[$i]),
+                    'hrgbeli' => (float) str_replace(',', '', $request->hrgbeli_d[$i]),
                 ]);
                 $count++;
             }
@@ -57,61 +58,55 @@ class ControllerTransPembelianBarang extends Controller
     }
 
     public function list(){
-        $tsjhs = Tsj_h::select('id','no','tgl','counter','note','grdtotal','user',)->orderBy('created_at', 'asc')->get();
-        $tsjds = Tsj_d::select('id','idh','no_sj','code','name','qty','satuan','hrgjual','subtotal',)->get();
-        return view('pages.Transaksi.tsuratjalanlist',[
-            'tsjhs' => $tsjhs,
-            'tsjds' => $tsjds
+        $tpembelianhs = Tpembelian_h::select('id','no','tgl','supplier','note','grdtotal',)->orderBy('created_at', 'asc')->get();
+        $toembeliands = Tpembelian_d::select('id','idh','no_pembelian','code','name','qty','satuan','hrgbeli','subtotal')->get();
+        return view('pages.Transaksi.tpembelianbaranglist',[
+            'tpembelianhs' => $tpembelianhs,
+            'toembeliands' => $toembeliands
         ]);
     }
 
-    public function getedit(Tsj_h $tsjh){
-        $counters = Mcounter::select('id','code','name')->get();
+    public function getedit(Tpembelian_h $tpembelianh){
         $mitems = Mitem::select('id','code','name')->get();
-        $sobs = Tsob_h::select('id','no','tgl','counter','note','grdtotal','user',)->get();
-        $tsjds = Tsj_d::select('id','idh','no_sj','code','name','qty','satuan','hrgjual','subtotal',)->where('idh','=',$tsjh->id)->get();
-        return view('pages.Transaksi.tsuratjalanedit',[
-            'counters' => $counters,
+        $tpembeliands = Tpembelian_d::select('id','idh','no_pembelian','code','name','qty','satuan','hrgbeli','subtotal')->where('idh','=',$tpembelianh->id)->get();
+        return view('pages.Transaksi.tpembelianbarangedit',[
             'mitems' => $mitems,
-            'sobs' => $sobs,
-            'tsjh' => $tsjh,
-            'tsjds' => $tsjds,
+            'tpembelianh' => $tpembelianh,
+            'tpembeliands' => $tpembeliands,
         ]);
     }
 
-    public function update(Tsj_h $tsjh){
+    public function update(Tpembelian_h $tpembelianh){
         // dd(request()->all());
         for($j=0;$j<sizeof(request('no_d'));$j++){
-            $no_sjh = request('no');
+            $no_pembelianh = request('no');
         }
-        DB::delete('delete from tsj_ds where no_sj = ?', [$no_sjh] );
-        Tsj_h::where('id', '=', $tsjh->id)->update([
+        DB::delete('delete from tpembelian_ds where no_pembelian = ?', [$no_pembelianh] );
+        Tpembelian_h::where('id', '=', $tpembelianh->id)->update([
             'no' => request('no'),
-            'counter' => request('counter'),
-            'jenis' => request('jenis'),
             'tgl' => request('dt'),
+            'supplier' => request('supplier'),
             'note' => request('note'),
-            'no_sob' => request('nosob'),
             'grdtotal' =>  (float) str_replace(',', '', request('price_total'))
         ]);
         $count=0;
         $countrows = sizeof(request('no_d'));
         for ($i=0;$i<sizeof(request('no_d'));$i++){
-            Tsj_d::create([
-                'idh' => $tsjh->id,
-                'no_sj' => request('no')[$i],
+            Tpembelian_d::create([
+                'idh' => $tpembelianh->id,
+                'no_pembelian' => request('no')[$i],
                 'code' => request('kode_d')[$i],
-                'name' => request('namaitem_d')[$i],
+                'name' => request('nama_item_d')[$i],
                 'qty' => request('quantity_d')[$i],
                 'satuan' => request('satuan_d')[$i],
-                'hrgjual' => (float) str_replace(',', '', request('hrgjual_d')[$i]),
+                'hrgbeli' => (float) str_replace(',', '', request('hrgbeli_d')[$i]),
                 'subtotal' => (float) str_replace(',', '', request('subtot_d')[$i])
             ]);
             $count++;
         }
         
         if($count == $countrows){
-            return redirect()->route('tsuratjalanlist');
+            return redirect()->route('tpembelianbaranglist');
         }
     }
 }

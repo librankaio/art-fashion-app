@@ -28,12 +28,12 @@
                                     {{-- @foreach($notrans as $key => $code)
                                         @php $codetrans = $code->codetrans @endphp
                                     @endforeach --}}
-                                    <input type="text" class="form-control" name="no" id="no" value="">
+                                    <input type="text" class="form-control" name="no" id="no" value="{{ $tpembelianh->no }}">
                                 </div>       
                                 <div class="form-group">
                                     <label>Supplier</label>
                                     <select class="form-control select2" name="supplier" id="supplier">
-                                        <option disabled selected>--Select Supplier--</option>
+                                        <option selected>{{ $tpembelianh->supplier }}</option>
                                         <option selected>Supplier 1</option>
                                         {{-- @foreach($cabangs as $data => $cabang)
                                         <option>{{ $cabang->name." - ".$cabang->address }}</option>
@@ -42,11 +42,11 @@
                                 </div>                         
                                 <div class="form-group">
                                     <label>Tanggal</label>
-                                    <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d") }}">
+                                    <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d", strtotime($tpembelianh->tgl)) }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Catatan</label>
-                                    <textarea class="form-control" style="height:100px" name="note"></textarea>
+                                    <textarea class="form-control" style="height:100px" name="note">{{$tpembelianh->note}}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -124,6 +124,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php $counter = 0; @endphp
+                                    @for($i = 0; $i < sizeof($tpembeliands); $i++) @php $counter++; @endphp <tr>
+                                        <th class="id-header border border-5" style='readonly:true;' headers="{{ $counter }}">{{ $counter }}</th>
+                                        <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='{{ $tpembeliands[$i]->code }}'></td>
+                                        <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='nama_item_d[]' type='text' value='{{ $tpembeliands[$i]->name }}'></td>
+                                        <td class="border border-5"><input type='text' style='width:100px;' form='thisform' class='quantityclass form-control' name='quantity_d[]' value='{{ number_format($tpembeliands[$i]->qty, 0, '.', '') }}'></td>
+                                        <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='{{ $tpembeliands[$i]->satuan }}' name='satuan_d[]'></td>
+                                        <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='hrgbeliclass form-control' value='{{ number_format($tpembeliands[$i]->hrgbeli, 2, '.', ',') }}' name='hrgbeli_d[]'></td>
+                                        <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='{{ number_format($tpembeliands[$i]->subtotal, 2, '.', ',') }}' name='subtot_d[]' id='subtot_d{{ $counter }}'></td>
+                                        <td class="border border-5"><button title='Delete' class='delete btn btn-primary' value="{{ $counter }}"><i style='font-size:15pt;color:#ffff;' class='fa fa-trash'></i></button></td>
+                                        <td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value=''></td>
+                                        </tr>
+                                    @endfor
                                 </tbody>                            
                             </table>
                         </div>                                              
@@ -136,13 +149,13 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Total</label>
-                                    <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" readonly>
+                                    <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" value="{{ number_format($tpembelianh->grdtotal, 2, '.', ',') }}" readonly>
                                 </div>
                             </div>
                         </div>
                     </div>              
                     <div class="card-footer text-right">
-                        <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('tpembelianbarangpost') }}">Save</button>
+                        <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="/tpembelianbarang/{{ $tpembelianh->id }}">Save</button>
                         {{-- @if($tpos_save == 'Y')
                             <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}">Submit</button>
                         @elseif($tpos_save == 'N' || $tpos_save == null)
@@ -186,7 +199,7 @@
                 });
             });
 
-            var counter = 1;
+            var counter = parseInt({{ $counter}}) +1;;
             $(document).on("click", "#addItem", function(e) {
                 e.preventDefault();
                 if($('#quantity').val() == 0){
@@ -233,7 +246,7 @@
                         old_grandtot = Number(Math.trunc(old_grandtot))
                     }
                     
-                    console.log("subtotal: " + subtot + ", grandtot: " + grandtot);
+                    console.log("subtotal: " + subtot + ", grandtot: " + old_grandtot);
                     sum = subtot + old_grandtot;
 
                     $("#price_total").val(thousands_separators(sum.toFixed(2)));
@@ -249,32 +262,61 @@
 
             $(document).on("click", ".delete", function(e) {
                 e.preventDefault();
+                counter_id = $(this).val();
                 var r = confirm("Delete Transaksi ?");
                 if (r == true) {
-                    counter_id = $(this).closest('tr').text();
-                    console.log(counter_id);
-                    subtot = $("#subtot_d_"+ counter_id).val().replaceAll(",", "");
-                    
-                    if (/\D/g.test(subtot))
-                    {
-                        // Filter comma
-                        subtot = subtot.replace(/\,/g,"");
-                        subtot = Number(Math.trunc(subtot))
-                    }
+                    if(counter_id != 0){
+                        console.log(counter_id);
+                        subtot = $("#subtot_d" + counter_id).val().replaceAll(",", "");
 
-                    old_grandtot = $("#price_total").val();
+                        if (/\D/g.test(subtot))
+                        {
+                            // Filter comma
+                            subtot = subtot.replace(/\,/g,"");
+                            subtot = Number(Math.trunc(subtot))
+                        }
 
-                    if (/\D/g.test(old_grandtot))
-                    {
-                        // Filter comma
-                        old_grandtot = old_grandtot.replace(/\,/g,"");
-                        old_grandtot = Number(Math.trunc(old_grandtot))
-                    }
+                        old_grandtot = $("#price_total").val();
 
-                    sum = old_grandtot - subtot;
+                        if (/\D/g.test(old_grandtot))
+                        {
+                            // Filter comma
+                            old_grandtot = old_grandtot.replace(/\,/g,"");
+                            old_grandtot = Number(Math.trunc(old_grandtot))
+                        }
 
-                    $("#price_total").val(thousands_separators(sum.toFixed(2)));
-                    $(this).closest('tr').remove();
+                        sum = old_grandtot - subtot;
+
+                        $("#price_total").val(thousands_separators(sum.toFixed(2)));
+                        $(this).closest('tr').remove();
+
+                        counter_id = 0;
+                    }else{
+                        counter_id = $(this).closest('tr').text();
+                        console.log(counter_id);
+                        subtot = $("#subtot_d_"+ counter_id).val().replaceAll(",", "");
+                        
+                        if (/\D/g.test(subtot))
+                        {
+                            // Filter comma
+                            subtot = subtot.replace(/\,/g,"");
+                            subtot = Number(Math.trunc(subtot))
+                        }
+
+                        old_grandtot = $("#price_total").val();
+
+                        if (/\D/g.test(old_grandtot))
+                        {
+                            // Filter comma
+                            old_grandtot = old_grandtot.replace(/\,/g,"");
+                            old_grandtot = Number(Math.trunc(old_grandtot))
+                        }
+
+                        sum = old_grandtot - subtot;
+
+                        $("#price_total").val(thousands_separators(sum.toFixed(2)));
+                        $(this).closest('tr').remove();
+                        }  
                 } else {
                     return false;
                 }

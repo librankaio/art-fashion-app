@@ -77,6 +77,9 @@ Route::post('/tsuratjalan/{tsjh}', [ControllerTransSuratJalan::class, 'update'])
 
 Route::get('tpembelianbarang', [ControllerTransPembelianBarang::class, 'index'])->name('tpembelianbarang');
 Route::post('/tpembelianbarangpost', [ControllerTransPembelianBarang::class, 'post'])->name('tpembelianbarangpost');
+Route::get('tpembelianbaranglist', [ControllerTransPembelianBarang::class, 'list'])->name('tpembelianbaranglist');
+Route::get('/tpembelianbarang/{tpembelianh}/edit', [ControllerTransPembelianBarang::class, 'getedit'])->name('tpembelianbarangedit');
+Route::post('/tpembelianbarang/{tpembelianh}', [ControllerTransPembelianBarang::class, 'update'])->name('tpembelianbarangupdate');
 
 
 Route::get('tstockopname', [ControllerTransStockOpname::class, 'index'])->name('tstockopname');
