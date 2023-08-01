@@ -2,10 +2,10 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h1>Master Data</h1>
+        <h1>Pembelian Barang List</h1>
         <div class="section-header-breadcrumb">
-            <div class="breadcrumb-item active"><a href="#">Master Data</a></div>
-            <div class="breadcrumb-item"><a class="text-muted">Master Data Warna</a></div>
+            <div class="breadcrumb-item active"><a href="#">Transaction</a></div>
+            <div class="breadcrumb-item"><a class="text-muted">Pembelian Barang List</a></div>
         </div>
     </div>
     @php
@@ -85,7 +85,7 @@
                                                 @csrf
                                                 <button class="btn btn-icon icon-left btn-danger"
                                                     id="del-{{ $item->id }}" type="submit"
-                                                    data-confirm="WARNING!|Do you want to delete {{ $item->name }} data?"
+                                                    data-confirm="WARNING!|Do you want to delete {{ $item->no }} data?"
                                                     data-confirm-yes="submitDel({{ $item->id }})"><i
                                                         class="fa fa-trash">
                                                         Delete</i></button>

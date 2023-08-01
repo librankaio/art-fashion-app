@@ -23,7 +23,7 @@ class CreateTpenjualanDsTable extends Migration
             $table->string('satuan', 32);
             $table->decimal('hrgjual', $precision = 19, $scale = 6);
             $table->decimal('subtotal', $precision = 19, $scale = 6);
-            $table->string('note', 256);
+            $table->string('note', 256)->nullable();
             $table->timestamps();
         });
     }

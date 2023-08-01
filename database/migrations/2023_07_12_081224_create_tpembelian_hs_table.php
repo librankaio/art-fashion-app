@@ -18,7 +18,7 @@ class CreateTpembelianHsTable extends Migration
             $table->string('no', 64);
             $table->date('tgl');
             $table->string('supplier', 64);
-            $table->string('note', 256);
+            $table->string('note', 256)->nullable();
             $table->decimal('grdtotal', $precision = 19, $scale = 6);
             $table->string('user', 64)->nullable();
             $table->timestamps();

@@ -101,4 +101,11 @@ class ControllerTransAdjustmentStock extends Controller
             return redirect()->route('tadjlist');
         }
     }
+
+    public function delete(Tadj_h $tadjh){
+        Tadj_h::find($tadjh->id)->delete();
+        Tadj_d::find($tadjh->id)->where('idh','=',$tadjh->id)->get();
+
+        return redirect()->route('tadjlist');
+    }
 }

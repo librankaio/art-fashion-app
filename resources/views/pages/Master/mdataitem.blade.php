@@ -98,6 +98,19 @@
         <div class="row">
             <div class="col-12 col-md-12 col-lg-12">
                 <div class="card">
+                    <div class="card-header">
+                        <h4>Lists</h4>
+                        <div class="card-header-action">
+                          <form formaction="/mitem" method="get">
+                            <div class="input-group">
+                              <input type="text" class="form-control" placeholder="Search" name="search">
+                              <div class="input-group-btn">
+                                <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="datatable">
@@ -155,9 +168,9 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            <div class="links">
+                            <div class="card-footer text-right">
                                 {{ $datas->links() }}
-                            </div>
+                              </div>
                         </div>
                     </div>
                 </div>
@@ -217,6 +230,7 @@
         "ordering":false,
         "bInfo" : false,
         "bPaginate": false,
+        "searching": false
     });
 
     $(".alert button.close").click(function (e) {

@@ -109,4 +109,11 @@ class ControllerTransPembelianBarang extends Controller
             return redirect()->route('tpembelianbaranglist');
         }
     }
+
+    public function delete(Tpembelian_h $tpembelianh){
+        Tpembelian_h::find($tpembelianh->id)->delete();
+        Tpembelian_d::find($tpembelianh->id)->where('idh','=',$tpembelianh->id)->get();
+
+        return redirect()->route('tpembelianbaranglist');
+    }
 }

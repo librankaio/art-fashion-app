@@ -87,7 +87,7 @@
                                                 @csrf
                                                 <button class="btn btn-icon icon-left btn-danger"
                                                     id="del-{{ $item->id }}" type="submit"
-                                                    data-confirm="WARNING!|Do you want to delete {{ $item->name }} data?"
+                                                    data-confirm="WARNING!|Do you want to delete {{ $item->no }} data?"
                                                     data-confirm-yes="submitDel({{ $item->id }})"><i
                                                         class="fa fa-trash">
                                                         Delete</i></button>

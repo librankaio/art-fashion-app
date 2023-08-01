@@ -2,10 +2,10 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h1>Bon Penjualan</h1>
+        <h1>Bon Penjualan Edit</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item active"><a href="#">Transaction</a></div>
-            <div class="breadcrumb-item"><a class="text-muted">Bon Penjualan</a></div>
+            <div class="breadcrumb-item"><a class="text-muted">Bon Penjualan Edit</a></div>
         </div>
     </div>
     @php

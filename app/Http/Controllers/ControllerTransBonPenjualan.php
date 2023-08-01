@@ -126,4 +126,11 @@ class ControllerTransBonPenjualan extends Controller
             return redirect()->route('tbonjuallist');
         }
     }
+
+    public function delete(Tpenjualan_h $tpenjualanh){
+        Tpenjualan_h::find($tpenjualanh->id)->delete();
+        Tpenjualan_d::find($tpenjualanh->id)->where('idh','=',$tpenjualanh->id)->get();
+
+        return redirect()->route('treturjuallist');
+    }
 }

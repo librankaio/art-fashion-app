@@ -80,12 +80,12 @@
                                             <a href="/treturjual/{{ $item->id }}/edit"
                                                 class="btn btn-icon icon-left btn-primary"><i class="far fa-edit">
                                                     Edit</i></a>
-                                            <form action="/tpenerimaanbrg/delete/{{ $item->id }}" id="del-{{ $item->id }}"
+                                            <form action="/treturjual/delete/{{ $item->id }}" id="del-{{ $item->id }}"
                                                 method="POST" class="px-2">
                                                 @csrf
                                                 <button class="btn btn-icon icon-left btn-danger"
                                                     id="del-{{ $item->id }}" type="submit"
-                                                    data-confirm="WARNING!|Do you want to delete {{ $item->name }} data?"
+                                                    data-confirm="WARNING!|Do you want to delete {{ $item->no }} data?"
                                                     data-confirm-yes="submitDel({{ $item->id }})"><i
                                                         class="fa fa-trash">
                                                         Delete</i></button>

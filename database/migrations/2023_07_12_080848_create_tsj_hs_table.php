@@ -19,7 +19,7 @@ class CreateTsjHsTable extends Migration
             $table->date('tgl');
             $table->string('counter', 64);
             $table->string('no_sob', 64);
-            $table->string('note', 256);
+            $table->string('note', 256)->nullable();
             $table->string('jenis', 64);
             $table->decimal('grdtotal', $precision = 19, $scale = 6);
             $table->string('user', 64)->nullable();

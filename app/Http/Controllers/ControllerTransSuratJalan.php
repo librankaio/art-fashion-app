@@ -123,4 +123,11 @@ class ControllerTransSuratJalan extends Controller
             return redirect()->route('tsuratjalanlist');
         }
     }
+
+    public function delete(Tsj_h $tsjh){
+        Tsj_h::find($tsjh->id)->delete();
+        Tsj_d::find($tsjh->id)->where('idh','=',$tsjh->id)->get();
+
+        return redirect()->route('tsuratjalanlist');
+    }
 }

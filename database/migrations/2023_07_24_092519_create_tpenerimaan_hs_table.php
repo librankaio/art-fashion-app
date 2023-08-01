@@ -19,7 +19,7 @@ class CreateTpenerimaanHsTable extends Migration
             $table->string('no_sj', 64);
             $table->string('counter', 64);
             $table->date('tgl');
-            $table->string('note', 256);
+            $table->string('note', 256)->nullable();
             $table->string('jenis', 64);
             $table->decimal('grdtotal', $precision = 19, $scale = 6);
             $table->string('user', 64)->nullable();

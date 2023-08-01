@@ -19,7 +19,7 @@ class CreateTrcvHsTable extends Migration
             $table->date('tgl');
             $table->string('counter', 64);
             $table->string('no_sj', 64);
-            $table->string('note', 256);
+            $table->string('note', 256)->nullable();
             $table->string('user', 64);
             $table->timestamps();
         });
