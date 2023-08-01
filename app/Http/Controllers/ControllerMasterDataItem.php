@@ -44,6 +44,9 @@ class ControllerMasterDataItem extends Controller
 
         if (isset($request->search)) {
             $datas = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice')->where('code','LIKE','%'.$request->search.'%')->paginate(50);
+            return view('pages.Master.mdataitem',[
+                'datas' => $datas
+            ]);
         }
         $datas = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice')->paginate(50);
         return view('pages.Master.mdataitem',[

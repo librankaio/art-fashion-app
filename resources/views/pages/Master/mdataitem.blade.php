@@ -103,7 +103,7 @@
                         <div class="card-header-action">
                           <form formaction="/mitem" method="get">
                             <div class="input-group">
-                              <input type="text" class="form-control" placeholder="Search" name="search">
+                              <input type="text" class="form-control" placeholder="Search" name="search" value="@php if(request()->input('search')==NULL){ echo date('d/m/Y');} else{ echo $_GET['search']; } @endphp">
                               <div class="input-group-btn">
                                 <button class="btn btn-primary"><i class="fas fa-search"></i></button>
                               </div>
