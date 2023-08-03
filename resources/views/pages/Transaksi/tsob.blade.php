@@ -155,6 +155,7 @@
 @section('botscripts')
 <script type="text/javascript">
     $(document).ready(function() {
+        rowCount = 0;
         //CSRF TOKEN
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $(document).ready(function() {
@@ -189,7 +190,7 @@
             $(document).on("click", "#addItem", function(e) {
                 e.preventDefault();
                 if($('#quantity').val() == 0){
-                    alert('Quantity tidak boleh 0');
+                    swal('WARNING', 'Quantity Tidak boleh 0!', 'warning');
                     return false;
                 }
 
@@ -261,6 +262,7 @@
                     }
                     grandtot = subtot;
 
+                    rowCount++;
                     $("#price_total").val(thousands_separators(grandtot.toFixed(2)));
                 }else{
                     if (/\D/g.test(subtot))
@@ -281,6 +283,7 @@
                     console.log("subtotal: " + subtot + ", grandtot: " + grandtot);
                     sum = subtot + old_grandtot;
 
+                    rowCount++;
                     $("#price_total").val(thousands_separators(sum.toFixed(2)));
                 }
                 counter++;
@@ -321,6 +324,7 @@
 
                     sum = old_grandtot - subtot;
 
+                    rowCount--;
                     $("#price_total").val(thousands_separators(sum.toFixed(2)));
                     $(this).closest('tr').remove();
                 } else {
@@ -397,16 +401,19 @@
         });
 
         $(document).on("click","#confirm",function(e){
-        // Validate ifnull
-        no = $("#no").val();
-        code_cust = $("#code_cust").prop('selectedIndex');
-        if (no == ""){
-            swal('WARNING', 'No Tidak boleh kosong!', 'warning');
-            return false;
-        }else if (code_cust == 0){
-            swal('WARNING', 'Please select Code Cust', 'warning');
-            return false;
-        }
+            // Validate ifnull
+            no = $("#no").val();
+            counter = $("#counter").prop('selectedIndex');
+            if (rowCount == 0){
+                swal('WARNING', 'Silahkan Masukkan data detail terlebih dahulu!', 'warning');
+                return false;
+            }else if (counter == 0){
+                swal('WARNING', 'Please select Code Cust', 'warning');
+                return false;
+            }else if (no == ""){
+                swal('WARNING', 'No Tidak boleh kosong!', 'warning');
+                return false;
+            }
         });
         
     })

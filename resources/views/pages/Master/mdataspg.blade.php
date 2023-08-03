@@ -171,11 +171,11 @@
         password = $("#password").val();
         jenis = $("#jenis").prop('selectedIndex');
 
-        if (name == ""){
-            swal('WARNING', 'Nama Tidak boleh kosong!', 'warning');
-            return false;
-        }else if (nik == ""){
+        if (nik == ""){
             swal('WARNING', 'NIK Tidak boleh kosong!', 'warning');
+            return false;
+        }else if (name == ""){
+            swal('WARNING', 'Nama Tidak boleh kosong!', 'warning');
             return false;
         }else if (counter == 0){
             swal('WARNING', 'Counter Tidak boleh kosong!', 'warning');

@@ -122,7 +122,7 @@
         if (kode == ""){
             swal('WARNING', 'Kode Tidak boleh kosong!', 'warning');
             return false;
-        }else if (nama == 0){
+        }else if (nama == ""){
             swal('WARNING', 'Nama Tidak boleh kosong!', 'warning');
             return false;
         }

@@ -653,10 +653,10 @@
 
     $(document).on("click","#confirm",function(e){
         // Validate ifnull        
-        nik = $("#nik").val();
+        nik = $("#nik").prop('selectedIndex');
         password = $("#password").val();
         counter = $("#counter").prop('selectedIndex');
-        if (nik == ""){
+        if (nik == 0){
             swal('WARNING', 'NIK Tidak boleh kosong!', 'warning');
             return false;
         }else if (counter == 0){

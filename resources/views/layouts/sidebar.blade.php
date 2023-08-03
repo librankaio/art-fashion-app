@@ -4,42 +4,36 @@
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-cubes"></i><span>Master Data</span></a>
         <ul class="dropdown-menu">
             @php
-                // $role = session('privilage');
-                // $mitem_open = session('mitem_open');
-                // $muser_open = session('muser_open');
-                // $msatuan_open = session('msatuan_open');
-                // $mdtgrp_open = session('mdtgrp_open');
-                // $mcoa_open = session('mcoa_open');
-                // $mbank_open = session('mbank_open');
-                // $mmtuang_open = session('mmtuang_open');
-                // $mcust_open = session('mcust_open');
-                // $msupp_open = session('msupp_open');
-                // $mlokasi_open = session('mlokasi_open');
-                // $mcabang_open = session('mcabang_open');
-                // $tpembelianbrg_open = session('tpembelianbrg_open');
-                // $tpos_open = session('tpos_open');
-                // $tops_open = session('tops_open');
-                // $tjvouch_open = session('tjvouch_open');
-                // $tpenerimaan_open = session('tpenerimaan_open');
+                $role = session('privilage');
+                $mitem_open = session('mitem_open');
+                $muser_open = session('muser_open');
+                $mwarna_open = session('mwarna_open');
+                $mcounter_open = session('mcounter_open');
+                $mhakses_open = session('mhakses_open');
+                $tsob_open = session('tsob_open');
+                $tpenerimaan_open = session('tpenerimaan_open');
+                $tretur_open = session('tretur_open');
+                $tbonjual_open = session('tbonjual_open');
+                $tadjstock_open = session('tadjstock_open');
+                $tsuratjalan_open = session('tsuratjalan_open');
+                $tstopname_open = session('tstopname_open');
+                $tbelibrg_open = session('tbelibrg_open');
             @endphp
-            {{-- @if($muser_open == 'Y' || $role == 'ADM')  
-                <li><a class="nav-link" href="{{ route('muser') }}">Master Data User</a></li>          
-            @endif --}}
-            {{-- @if($mitem_open == 'Y') --}}
+            @if($mwarna_open == 'Y' || $role == 'ADM')      
                 <li><a class="nav-link" href="{{ route('mwarna') }}">Master Data Warna</a></li>     
-            {{-- @endif --}}
-            {{-- @if($msatuan_open == 'Y') --}}
-                <li><a class="nav-link" href="{{ route('mspg') }}">Master SPG / User</a></li>   
-                <li><a class="nav-link" href="{{ route('mlokasi') }}">Master Counter / Lokasi</a></li>   
-                <li><a class="nav-link" href="{{ route('mitem') }}">Master Data Item</a></li>   
+            @endif
+            @if($muser_open == 'Y' || $role == 'ADM')      
+                <li><a class="nav-link" href="{{ route('mspg') }}">Master SPG / User</a></li>      
+            @endif
+            @if($mcounter_open == 'Y' || $role == 'ADM')      
+                <li><a class="nav-link" href="{{ route('mlokasi') }}">Master Counter / Lokasi</a></li>       
+            @endif
+            @if($mitem_open == 'Y' || $role == 'ADM')      
+                <li><a class="nav-link" href="{{ route('mitem') }}">Master Data Item</a></li>      
+            @endif  
+            @if($mhakses_open == 'Y' || $role == 'ADM')          
                 <li><a class="nav-link" href="{{ route('mhakses') }}">Master Hak Akses</a></li>   
-            {{-- @endif --}}
-            {{-- @if($mdtgrp_open == 'Y')
-                <li><a class="nav-link" href="{{ route('mgrup') }}">Master Data Group</a></li>  
-            @endif --}}
-            {{-- @if($mcoa_open == 'Y') --}}
-                {{-- <li><a class="nav-link" href="">Master Chart Of Account</a></li>  --}}
-            {{-- @endif --}}
+            @endif  
         </ul>
     </li>
     <li class="menu-header">Transaction</li>
@@ -47,27 +41,35 @@
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-exchange-alt"></i>
             <span>Transaction</span></a>
         <ul class="dropdown-menu">
-            {{-- @if($tpembelianbrg_open == 'Y')
-                <li><a class="nav-link" href="{{ route('transbelibrg') }}">Pembelian Barang</a></li>
-                <li><a class="nav-link" href="{{ route('tbelibrglist') }}">Pembelian Barang List</a></li>
-            @endif --}}
-            {{-- @if($tpos_open == 'Y') --}}
+            @if($tsob_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('tsob') }}">Surat Order Barang</a></li>
                 <li><a class="nav-link" href="{{ route('tsoblist') }}">Surat Order Barang List</a></li>
+            @endif
+            @if($tpenerimaan_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('tpenerimaanbrg') }}">Penerimaan Barang</a></li>
                 <li><a class="nav-link" href="{{ route('tpenerimaanbrglist') }}">Penerimaan Barang List</a></li>
+            @endif
+            @if($tretur_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('treturjual') }}">Retur Penjualan</a></li>
                 <li><a class="nav-link" href="{{ route('treturjuallist') }}">Retur Penjualan List</a></li>
+            @endif
+            @if($tbonjual_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('tbonjual') }}">Bon Penjualan</a></li>
                 <li><a class="nav-link" href="{{ route('tbonjuallist') }}">Bon Penjualan List</a></li>
+            @endif
+            @if($tadjstock_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('tadjustmentstock') }}">Adjustment Stock</a></li>
                 <li><a class="nav-link" href="{{ route('tadjlist') }}">Adjustment Stock List</a></li>
+            @endif
+            @if($tsuratjalan_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('tsuratjalan') }}">Surat Jalan</a></li>
                 <li><a class="nav-link" href="{{ route('tsuratjalanlist') }}">Surat Jalan List</a></li>
-                <li><a class="nav-link" href="{{ route('tstockopname') }}">Stock Opname</a></li>
+            @endif
+            @if($tbelibrg_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('tpembelianbarang') }}">Pembelian Barang</a></li>
                 <li><a class="nav-link" href="{{ route('tpembelianbaranglist') }}">Pembelian Barang List</a></li>
-            {{-- @endif --}}
+            @endif
+            <li><a class="nav-link" href="{{ route('tstockopname') }}">Stock Opname</a></li>
         </ul>
     </li>
     <li class="menu-header">Reports</li>

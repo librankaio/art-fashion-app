@@ -13,14 +13,6 @@ class ControllerLogin extends Controller
     protected $comp_name;
     protected $comp_code;
     protected $privilage;
-    // protected $create_mitem;
-    // protected $read_mitem;
-    // protected $update_mitem;
-    // protected $delete_mitem;
-    // protected $create_user;
-    // protected $read_user;
-    // protected $update_user;
-    // protected $delete_user;
     
     public function index(){
         return view('auth.login');
@@ -85,6 +77,86 @@ class ControllerLogin extends Controller
                 $request->session()->put('mhakses_updt', $auth_mhakses->updt);
                 $request->session()->put('mhakses_dlt', $auth_mhakses->dlt);
                 $request->session()->put('mhakses_print', $auth_mhakses->print);
+            }     
+
+            $auth_tsob = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'tsob')->first();
+
+            if($auth_tsob != null){
+                $request->session()->put('tsob_save', $auth_tsob->save);
+                $request->session()->put('tsob_open', $auth_tsob->open);
+                $request->session()->put('tsob_updt', $auth_tsob->updt);
+                $request->session()->put('tsob_dlt', $auth_tsob->dlt);
+                $request->session()->put('tsob_print', $auth_tsob->print);
+            }     
+
+            $auth_tpenerimaan = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'tpenerimaan')->first();
+
+            if($auth_tpenerimaan != null){
+                $request->session()->put('tpenerimaan_save', $auth_tpenerimaan->save);
+                $request->session()->put('tpenerimaan_open', $auth_tpenerimaan->open);
+                $request->session()->put('tpenerimaan_updt', $auth_tpenerimaan->updt);
+                $request->session()->put('tpenerimaan_dlt', $auth_tpenerimaan->dlt);
+                $request->session()->put('tpenerimaan_print', $auth_tpenerimaan->print);
+            }            
+
+            $auth_tretur = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'tretur')->first();
+
+            if($auth_tretur != null){
+                $request->session()->put('tretur_save', $auth_tretur->save);
+                $request->session()->put('tretur_open', $auth_tretur->open);
+                $request->session()->put('tretur_updt', $auth_tretur->updt);
+                $request->session()->put('tretur_dlt', $auth_tretur->dlt);
+                $request->session()->put('tretur_print', $auth_tretur->print);
+            }            
+            
+            $auth_tbonjual = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'tbonjual')->first();
+
+            if($auth_tbonjual != null){
+                $request->session()->put('tbonjual_save', $auth_tbonjual->save);
+                $request->session()->put('tbonjual_open', $auth_tbonjual->open);
+                $request->session()->put('tbonjual_updt', $auth_tbonjual->updt);
+                $request->session()->put('tbonjual_dlt', $auth_tbonjual->dlt);
+                $request->session()->put('tbonjual_print', $auth_tbonjual->print);
+            }          
+
+            $auth_tadjstock = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'tadjstock')->first();
+
+            if($auth_tadjstock != null){
+                $request->session()->put('tadjstock_save', $auth_tadjstock->save);
+                $request->session()->put('tadjstock_open', $auth_tadjstock->open);
+                $request->session()->put('tadjstock_updt', $auth_tadjstock->updt);
+                $request->session()->put('tadjstock_dlt', $auth_tadjstock->dlt);
+                $request->session()->put('tadjstock_print', $auth_tadjstock->print);
+            }        
+
+            $auth_tsuratjalan = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'tsuratjalan')->first();
+
+            if($auth_tsuratjalan != null){
+                $request->session()->put('tsuratjalan_save', $auth_tsuratjalan->save);
+                $request->session()->put('tsuratjalan_open', $auth_tsuratjalan->open);
+                $request->session()->put('tsuratjalan_updt', $auth_tsuratjalan->updt);
+                $request->session()->put('tsuratjalan_dlt', $auth_tsuratjalan->dlt);
+                $request->session()->put('tsuratjalan_print', $auth_tsuratjalan->print);
+            }            
+
+            $auth_tstopname = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'tstopname')->first();
+
+            if($auth_tstopname != null){
+                $request->session()->put('tstopname_save', $auth_tstopname->save);
+                $request->session()->put('tstopname_open', $auth_tstopname->open);
+                $request->session()->put('tstopname_updt', $auth_tstopname->updt);
+                $request->session()->put('tstopname_dlt', $auth_tstopname->dlt);
+                $request->session()->put('tstopname_print', $auth_tstopname->print);
+            }        
+
+            $auth_tbelibrg = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'tbelibrg')->first();
+
+            if($auth_tbelibrg != null){
+                $request->session()->put('tbelibrg_save', $auth_tbelibrg->save);
+                $request->session()->put('tbelibrg_open', $auth_tbelibrg->open);
+                $request->session()->put('tbelibrg_updt', $auth_tbelibrg->updt);
+                $request->session()->put('tbelibrg_dlt', $auth_tbelibrg->dlt);
+                $request->session()->put('tbelibrg_print', $auth_tbelibrg->print);
             }            
             // dd(session()->all());
             return redirect()->intended('/mwarna');

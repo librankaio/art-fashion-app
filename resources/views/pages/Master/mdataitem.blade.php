@@ -255,25 +255,25 @@
         price_nett = $("#price_nett").val();
 
 
-        if (kode == ""){
-            swal('WARNING', 'Kode Tidak boleh kosong!', 'warning');
-            return false;
-        }else if (nama == ""){
+        if (nama == ""){
             swal('WARNING', 'Nama Tidak boleh kosong!', 'warning');
+            return false;
+        }else if (kode == ""){
+            swal('WARNING', 'Kode Tidak boleh kosong!', 'warning');
             return false;
         }else if (warna == ""){
             swal('WARNING', 'Warna Tidak boleh kosong!', 'warning');
             return false;
-        }else if (price == ""){
+        }else if (price == "" || price == 0){
             swal('WARNING', 'Price Tidak boleh kosong!', 'warning');
             return false;
         }else if (satuan == ""){
             swal('WARNING', 'Satuan Tidak boleh kosong!', 'warning');
             return false;
-        }else if (price_gross == ""){
+        }else if (price_gross == "" || price_gross == 0){
             swal('WARNING', 'Price Gross Tidak boleh kosong!', 'warning');
             return false;
-        }else if (price_special == ""){
+        }else if (price_special == "" || price_special == 0){
             swal('WARNING', 'Price Special Tidak boleh kosong!', 'warning');
             return false;
         }else if(kategori == ""){

@@ -17,8 +17,8 @@ class CreateTsobHsTable extends Migration
             $table->id();
             $table->string('no', 64);
             $table->date('tgl');
-            $table->string('counter', 64)->nullable();
-            $table->string('note', 256);
+            $table->string('counter', 64);
+            $table->string('note', 256)->nullable();
             $table->decimal('grdtotal', $precision = 19, $scale = 6);
             $table->string('user', 64)->nullable();
             $table->timestamps();

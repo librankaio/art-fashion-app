@@ -48,6 +48,7 @@ Route::post('/tsob/delete/{tsobh}', [ControllerTransSOB::class, 'delete'])->name
 Route::get('tpenerimaanbrg', [ControllerTransPenerimaanBrg::class, 'index'])->name('tpenerimaanbrg');
 Route::post('/tpenerimaanbrgpost', [ControllerTransPenerimaanBrg::class, 'post'])->name('tpenerimaanbrgpost');
 Route::post('/getmitempenerimaan', [ControllerTransPenerimaanBrg::class, 'getmitem'])->name('getmitempenerimaan');
+Route::post('/getnosjd', [ControllerTransPenerimaanBrg::class, 'getnosj'])->name('getnosjd');
 Route::get('tpenerimaanbrglist', [ControllerTransPenerimaanBrg::class, 'list'])->name('tpenerimaanbrglist');
 Route::get('/tpenerimaanbrg/{tpenerimaanh}/edit', [ControllerTransPenerimaanBrg::class, 'getedit'])->name('tpenerimaanbrgedit');
 Route::post('/tpenerimaanbrg/{tpenerimaanh}', [ControllerTransPenerimaanBrg::class, 'update'])->name('tpenerimaanbrgupdate');

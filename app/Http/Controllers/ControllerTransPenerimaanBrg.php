@@ -6,6 +6,8 @@ use App\Models\Mcounter;
 use App\Models\Mitem;
 use App\Models\Tpenerimaan_d;
 use App\Models\Tpenerimaan_h;
+use App\Models\Tsj_d;
+use App\Models\Tsj_h;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,9 +17,11 @@ class ControllerTransPenerimaanBrg extends Controller
     {
         $counters = Mcounter::select('id','code','name')->get();
         $mitems = Mitem::select('id','code','name')->get();
+        $notsjs = Tsj_h::select('id','no','tgl','counter',)->get();
         return view('pages.Transaksi.tpenerimaanbrg',[
             'counters' => $counters,
             'mitems' => $mitems,
+            'notsjs' => $notsjs,
         ]);
     }
 
@@ -71,6 +75,16 @@ class ControllerTransPenerimaanBrg extends Controller
             $mitems = Mitem::select('id','code','name','satuan','hrgjual')->where('code','=',$kode)->get();
         }
         return json_encode($mitems);
+    }
+
+    public function  getnosj(Request $request){
+        $nosj = $request->nosj;
+        if($nosj == ''){
+            $items = Tsj_d::select('id','idh','no_sj','code','name','qty','satuan','hrgjual','subtotal',)->get();
+        }else{
+            $items = Tsj_d::select('id','idh','no_sj','code','name','qty','satuan','hrgjual','subtotal',)->where('no_sj','=',$nosj)->get();
+        }
+        return json_encode($items);
     }
 
     public function list(){
