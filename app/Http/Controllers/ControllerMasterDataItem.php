@@ -121,4 +121,16 @@ class ControllerMasterDataItem extends Controller
         Mitem::find($mitem->id)->delete();
         return redirect()->route('mitem');
     }
+    
+    public function print(Request $request){
+        // dd($request->all());
+        $name = $request->nama;
+        $code = $request->kode;
+        $price = $request->price;
+        return view('pages.Print.mitemprint',[
+            'name' => $name,
+            'code' => $code,
+            'price' => $price
+        ]);
+    }
 }

@@ -162,6 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Milon\Barcode\BarcodeServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -216,7 +217,7 @@ return [
         'Mail' => Illuminate\Support\Facades\Mail::class,
         'Notification' => Illuminate\Support\Facades\Notification::class,
         'Password' => Illuminate\Support\Facades\Password::class,
-        'Queue' => Illuminate\Support\Facades\Queue::class,
+        'Queue' => Illuminate\Support\Facades\Queue::class, 
         'RateLimiter' => Illuminate\Support\Facades\RateLimiter::class,
         'Redirect' => Illuminate\Support\Facades\Redirect::class,
         // 'Redis' => Illuminate\Support\Facades\Redis::class,
@@ -231,6 +232,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
+        'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
 
     ],
 

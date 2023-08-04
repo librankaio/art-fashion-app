@@ -63,7 +63,7 @@
                                                 <input type="text" class="form-control" name="kode" id="kode">
                                             </div>
                                             <div class="col-md-6 align-self-end">
-                                                <button class="btn btn-success mr-1" type="button" id="">Print</button>
+                                                <button class="btn btn-success mr-1" type="submit" formaction="{{ route('mitemprint') }}" formtarget="_blank" id="print">Print</button>
                                             </div>
                                         </div>
                                     </div>

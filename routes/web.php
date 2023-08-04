@@ -137,6 +137,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/mitem/{mitem}', [ControllerMasterDataItem::class, 'update'])->name('mitemupdt');
     Route::post('/mitem/delete/{mitem}', [ControllerMasterDataItem::class, 'delete'])->name('mitemdelete');
     Route::post('/dtablegetmitem', [ControllerMasterDataItem::class, 'getmitem'])->name('dtablegetmitem');
+    Route::post('mitemprint', [ControllerMasterDataItem::class, 'print'])->name('mitemprint');
 
     Route::get('mhakses', [ControllerMasterHakAkses::class, 'index'])->name('mhakses');
     Route::post('mhaksespost', [ControllerMasterHakAkses::class, 'post'])->name('mhaksespost');
