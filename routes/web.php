@@ -74,6 +74,7 @@ Route::get('tbonjuallist', [ControllerTransBonPenjualan::class, 'list'])->name('
 Route::get('/tbonjual/{tpenjualanh}/edit', [ControllerTransBonPenjualan::class, 'getedit'])->name('tbonjualedit');
 Route::post('/tbonjual/{tpenjualanh}', [ControllerTransBonPenjualan::class, 'update'])->name('tbonjualupdate');
 Route::post('/tbonjual/delete/{tpenjualanh}', [ControllerTransBonPenjualan::class, 'delete'])->name('tbonjualdelete');
+Route::get('/tbonjual/{tpenjualanh}/print', [ControllerTransBonPenjualan::class, 'print'])->name('tbonjualprint');
 
 Route::get('tsuratjalan', [ControllerTransSuratJalan::class, 'index'])->name('tsuratjalan');
 Route::post('/tsuratjalanpost', [ControllerTransSuratJalan::class, 'post'])->name('tsuratjalanpost');
@@ -81,6 +82,7 @@ Route::get('tsuratjalanlist', [ControllerTransSuratJalan::class, 'list'])->name(
 Route::get('/tsuratjalan/{tsjh}/edit', [ControllerTransSuratJalan::class, 'getedit'])->name('tsuratjalanedit');
 Route::post('/tsuratjalan/{tsjh}', [ControllerTransSuratJalan::class, 'update'])->name('tsuratjalanupdate');
 Route::post('/tsuratjalan/delete/{tsjh}', [ControllerTransSuratJalan::class, 'delete'])->name('tsuratjalandelete');
+Route::get('/tsuratjalan/{tsjh}/print', [ControllerTransSuratJalan::class, 'print'])->name('tsuratjalanprint');
 
 Route::get('tpembelianbarang', [ControllerTransPembelianBarang::class, 'index'])->name('tpembelianbarang');
 Route::post('/tpembelianbarangpost', [ControllerTransPembelianBarang::class, 'post'])->name('tpembelianbarangpost');
@@ -137,7 +139,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/mitem/{mitem}', [ControllerMasterDataItem::class, 'update'])->name('mitemupdt');
     Route::post('/mitem/delete/{mitem}', [ControllerMasterDataItem::class, 'delete'])->name('mitemdelete');
     Route::post('/dtablegetmitem', [ControllerMasterDataItem::class, 'getmitem'])->name('dtablegetmitem');
-    Route::post('mitemprint', [ControllerMasterDataItem::class, 'print'])->name('mitemprint');
+    Route::get('/mitem/{mitem}/print', [ControllerMasterDataItem::class, 'print'])->name('mitemprint');
 
     Route::get('mhakses', [ControllerMasterHakAkses::class, 'index'])->name('mhakses');
     Route::post('mhaksespost', [ControllerMasterHakAkses::class, 'post'])->name('mhaksespost');

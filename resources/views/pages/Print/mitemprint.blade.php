@@ -6,10 +6,10 @@
 <body class="idr" onload="window.print()">
 
 <div style="margin-left: 0%; margin-right: 0%;">
-    {{$name}} <br>
-    <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($code, 'C128') }}" alt="barcode" /> <br>
-    {{$code}} <br>
-    Rp. {{ number_format( $price, 2, '.', ',')}} <br>
+    {{$mitem->name}} <br>
+    <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code, 'C128') }}" alt="barcode" /> <br>
+    {{$mitem->code}} <br>
+    Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}} <br>
 
 
 {{-- <h2>Journal Voucher</h2>

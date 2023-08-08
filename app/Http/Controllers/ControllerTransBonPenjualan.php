@@ -133,4 +133,15 @@ class ControllerTransBonPenjualan extends Controller
 
         return redirect()->route('treturjuallist');
     }
+
+    public function print(Tpenjualan_h $tpenjualanh){
+        
+        $tpenjualands = Tpenjualan_d::find($tpenjualanh->id)->where('idh','=',$tpenjualanh->id)->get();
+        
+        // dd($tpenjualands);
+        return view('pages.Print.tbonjualprint',[
+            'tpenjualanh' => $tpenjualanh,
+            'tpenjualands' => $tpenjualands
+        ]);
+    }
 }

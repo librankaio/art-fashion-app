@@ -75,7 +75,7 @@
                                         <th scope="row" class="border border-5" style="text-align: center;">{{ $counter }}</th>
                                         <td class="border border-5" style="text-align: center;">{{ $item->no }}</td>
                                         <td class="border border-5" style="text-align: center;">{{ $item->counter }}</td>
-                                        <td class="border border-5" style="text-align: center;">{{ $item->grdtotal }}</td>
+                                        <td class="border border-5" style="text-align: center;">{{ number_format($item->grdtotal, 2, '.', ',') }}</td>
                                         <td style="text-align: center;" class="d-flex justify-content-center">
                                             <a href="/tsob/{{ $item->id }}/edit"
                                                 class="btn btn-icon icon-left btn-primary"><i class="far fa-edit">

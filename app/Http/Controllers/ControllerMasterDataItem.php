@@ -122,15 +122,10 @@ class ControllerMasterDataItem extends Controller
         return redirect()->route('mitem');
     }
     
-    public function print(Request $request){
-        // dd($request->all());
-        $name = $request->nama;
-        $code = $request->kode;
-        $price = $request->price;
+    public function print(Mitem $mitem){
+        // dd($mitem);
         return view('pages.Print.mitemprint',[
-            'name' => $name,
-            'code' => $code,
-            'price' => $price
+            'mitem' => $mitem
         ]);
     }
 }

@@ -57,15 +57,15 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <div class="row">
+                                        <label>Kode / Artikel</label>
+                                        <input type="text" class="form-control" name="kode" id="kode">
+                                        {{-- <div class="row">
                                             <div class="col-md-6">
-                                                <label>Kode / Artikel</label>
-                                                <input type="text" class="form-control" name="kode" id="kode">
                                             </div>
                                             <div class="col-md-6 align-self-end">
-                                                <button class="btn btn-success mr-1" type="submit" formaction="{{ route('mitemprint') }}" formtarget="_blank" id="print">Print</button>
+                                                
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                     <div class="form-group">
                                         <label>Kategori</label>
@@ -103,7 +103,7 @@
                         <div class="card-header-action">
                           <form formaction="/mitem" method="get">
                             <div class="input-group">
-                              <input type="text" class="form-control" placeholder="Search" name="search" value="@php if(request()->input('search')==NULL){ echo date('d/m/Y');} else{ echo $_GET['search']; } @endphp">
+                              <input type="text" class="form-control" placeholder="Search" name="search" value="@php if(request()->input('search')==NULL){ echo "";} else{ echo $_GET['search']; } @endphp">
                               <div class="input-group-btn">
                                 <button class="btn btn-primary"><i class="fas fa-search"></i></button>
                               </div>
@@ -142,13 +142,13 @@
                                         <td class="border border-5" style="text-align: center;">{{ $item->name }}</td>
                                         <td class="border border-5" style="text-align: center;">{{ $item->warna }}</td>
                                         <td class="border border-5" style="text-align: center;">{{ $item->kategori }}</td>
-                                        <td class="border border-5" style="text-align: center;">{{ $item->hrgjual }}</td>
+                                        <td class="border border-5" style="text-align: center;">{{ number_format($item->hrgjual, 2, '.', ',') }}</td>
                                         <td class="border border-5" style="text-align: center;">{{ $item->size }}</td>
                                         <td class="border border-5" style="text-align: center;">{{ $item->satuan }}</td>
                                         <td class="border border-5" style="text-align: center;">{{ $item->material }}</td>
-                                        <td class="border border-5" style="text-align: center;">{{ $item->gross }}</td>
-                                        <td class="border border-5" style="text-align: center;">{{ $item->nett }}</td>
-                                        <td class="border border-5" style="text-align: center;">{{ $item->spcprice }}</td>
+                                        <td class="border border-5" style="text-align: center;">{{ number_format($item->gross, 2, '.', ',') }}</td>
+                                        <td class="border border-5" style="text-align: center;">{{ number_format($item->nett, 2, '.', ',') }}</td>
+                                        <td class="border border-5" style="text-align: center;">{{ number_format($item->spcprice, 2, '.', ',') }}</td>
                                         <td style="text-align: center;" class="d-flex justify-content-center">
                                             <a href="/mitem/{{ $item->id }}/edit"
                                                 class="btn btn-icon icon-left btn-primary"><i class="far fa-edit">
@@ -163,6 +163,9 @@
                                                         class="fa fa-trash">
                                                         Delete</i></button>
                                             </form>
+                                            <a href="/mitem/{{ $item->id }}/print"
+                                                class="btn btn-icon icon-left btn-success" target="_blank"><i class="far fa-print">
+                                                    Print</i></a>
                                         </td>
                                     </tr>
                                     @endforeach

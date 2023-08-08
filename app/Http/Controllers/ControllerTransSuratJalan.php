@@ -130,4 +130,15 @@ class ControllerTransSuratJalan extends Controller
 
         return redirect()->route('tsuratjalanlist');
     }
+
+    public function print(Tsj_h $tsjh){
+        
+        $tsjds = Tsj_d::find($tsjh->id)->where('idh','=',$tsjh->id)->get();
+        
+        // dd($tsjds);
+        return view('pages.Print.tsuratjalanprint',[
+            'tsjh' => $tsjh,
+            'tsjds' => $tsjds
+        ]);
+    }
 }

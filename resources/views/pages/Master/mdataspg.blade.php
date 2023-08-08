@@ -65,7 +65,8 @@
                                         <label>Jenis</label>
                                         <select class="form-control select2" name="jenis" id="jenis">
                                             <option disabled selected>--Select Jenis--</option>
-                                            <option>Jenis 1</option>
+                                            <option>SPG</option>
+                                            <option>ADMIN</option>
                                         </select>                                   
                                     </div>
                                 </div>

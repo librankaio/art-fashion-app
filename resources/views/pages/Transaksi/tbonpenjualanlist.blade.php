@@ -75,7 +75,7 @@
                                         <th scope="row" class="border border-5" style="text-align: center;">{{ $counter }}</th>
                                         <td class="border border-5" style="text-align: center;">{{ $item->no }}</td>
                                         <td class="border border-5" style="text-align: center;">{{ $item->counter }}</td>
-                                        <td class="border border-5" style="text-align: center;">{{ $item->grdtotal }}</td>
+                                        <td class="border border-5" style="text-align: center;">{{ number_format($item->grdtotal, 2, '.', ',')}}</td>
                                         <td style="text-align: center;" class="d-flex justify-content-center">
                                             <a href="/tbonjual/{{ $item->id }}/edit"
                                                 class="btn btn-icon icon-left btn-primary"><i class="far fa-edit">
@@ -90,6 +90,9 @@
                                                         class="fa fa-trash">
                                                         Delete</i></button>
                                             </form>
+                                            <a href="/tbonjual/{{ $item->id }}/print"
+                                                class="btn btn-icon icon-left btn-success" target="_blank"><i class="far fa-print">
+                                                    Print</i></a>
                                         </td>
                                     </tr>
                                     @endforeach
