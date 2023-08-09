@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>PROJECT BETA</title>
+    <title>Art Fashion Inventory Apps</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- General CSS Files -->
@@ -47,7 +47,7 @@
                             class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                             <img alt="image" src="{{ asset('../assets/img/avatar/avatar-1.png') }}"
                                 class="rounded-circle mr-1">
-                            <div class="d-sm-none d-lg-inline-block">Hi, {{ session('username') }}</div>
+                            <div class="d-sm-none d-lg-inline-block">Hi, {{ session('name') }}</div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a href="{{ 'logout' }}" class="dropdown-item has-icon text-danger">
@@ -60,10 +60,10 @@
             <div class="main-sidebar sidebar-style-2">
                 <aside id="sidebar-wrapper">
                     <div class="sidebar-brand">
-                        <a href="index.html">Swifect Inventory</a>
+                        <a href="/mwarna">ArtFashion Inventory</a>
                     </div>
                     <div class="sidebar-brand sidebar-brand-sm">
-                        <a href="index.html">SI</a>
+                        <a href="/mwarna">AI</a>
                     </div>
                     @include('layouts.sidebar')
                 </aside>

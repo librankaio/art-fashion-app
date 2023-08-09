@@ -13,11 +13,13 @@ class ControllerTransBonPenjualan extends Controller
 {
     public function index()
     {
-        $counters = Mcounter::select('id','code','name')->get();
+        $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         $mitems = Mitem::select('id','code','name')->get();
+        $notrans = DB::select("select fgetcode('tpenjualan') as codetrans");
         return view('pages.Transaksi.tbonpenjualan',[
             'counters' => $counters,
             'mitems' => $mitems,
+            'notrans' => $notrans,
         ]);
     }
 

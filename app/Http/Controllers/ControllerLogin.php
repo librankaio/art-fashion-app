@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ControllerLogin extends Controller
 {
-    protected $comp_name;
+    protected $name;
     protected $comp_code;
     protected $privilage;
     
@@ -23,9 +23,13 @@ class ControllerLogin extends Controller
         if(Auth::attempt($request->only('nik', 'password'))){
             $request->session()->regenerate();
             $nik = Auth::User()->nik;
+            $name = Auth::User()->name;
+            $counter = Auth::User()->counter;
             $privilage = Auth::User()->privilage;
             $request->session()->put('nik', $nik);
+            $request->session()->put('name', $name);
             $request->session()->put('privilage', $privilage);
+            $request->session()->put('counter', $counter);
             
             $user = User::select('id','nik','name')->where('nik','=', $request->nik)->first();
 

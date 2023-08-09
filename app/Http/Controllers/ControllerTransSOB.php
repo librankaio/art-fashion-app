@@ -13,11 +13,13 @@ class ControllerTransSOB extends Controller
 {
     public function index()
     {
-        $counters = Mcounter::select('id','code','name')->get();
+        $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         $mitems = Mitem::select('id','code','name')->get();
+        $notrans = DB::select("select fgetcode('tsob') as codetrans");
         return view('pages.Transaksi.tsob',[
             'counters' => $counters,
             'mitems' => $mitems,
+            'notrans' => $notrans,
         ]);
     }
 

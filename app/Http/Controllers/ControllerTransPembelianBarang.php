@@ -13,8 +13,10 @@ class ControllerTransPembelianBarang extends Controller
     public function index()
     {
         $mitems = Mitem::select('id','code','name')->get();
+        $notrans = DB::select("select fgetcode('tsj') as codetrans");
         return view('pages.Transaksi.tpembelianbarang',[
-            'mitems' => $mitems
+            'mitems' => $mitems,
+            'notrans' => $notrans
         ]);
     }
 

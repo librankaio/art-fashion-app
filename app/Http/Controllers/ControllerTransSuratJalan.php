@@ -14,13 +14,15 @@ class ControllerTransSuratJalan extends Controller
 {
     public function index()
     {
-        $counters = Mcounter::select('id','code','name')->get();
+        $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         $mitems = Mitem::select('id','code','name')->get();
         $sobs = Tsob_h::select('id','no','tgl','counter','note','grdtotal','user',)->get();
+        $notrans = DB::select("select fgetcode('tsj') as codetrans");
         return view('pages.Transaksi.tsuratjalan',[
             'counters' => $counters,
             'mitems' => $mitems,
             'sobs' => $sobs,
+            'notrans' => $notrans,
         ]);
     }
 

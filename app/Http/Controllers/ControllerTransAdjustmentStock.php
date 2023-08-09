@@ -13,8 +13,10 @@ class ControllerTransAdjustmentStock extends Controller
     public function index()
     {
         $mitems = Mitem::select('id','code','name')->get();
+        $notrans = DB::select("select fgetcode('tadj') as codetrans");
         return view('pages.Transaksi.tadjustmentstock',[
             'mitems' => $mitems,
+            'notrans' => $notrans,
         ]);
     }
 

@@ -43,31 +43,31 @@
         <ul class="dropdown-menu">
             @if($tsob_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('tsob') }}">Surat Order Barang</a></li>
-                <li><a class="nav-link" href="{{ route('tsoblist') }}">Surat Order Barang List</a></li>
+                {{-- <li><a class="nav-link" href="{{ route('tsoblist') }}">Surat Order Barang List</a></li> --}}
             @endif
             @if($tpenerimaan_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('tpenerimaanbrg') }}">Penerimaan Barang</a></li>
-                <li><a class="nav-link" href="{{ route('tpenerimaanbrglist') }}">Penerimaan Barang List</a></li>
+                {{-- <li><a class="nav-link" href="{{ route('tpenerimaanbrglist') }}">Penerimaan Barang List</a></li> --}}
             @endif
             @if($tretur_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('treturjual') }}">Retur Penjualan</a></li>
-                <li><a class="nav-link" href="{{ route('treturjuallist') }}">Retur Penjualan List</a></li>
+                {{-- <li><a class="nav-link" href="{{ route('treturjuallist') }}">Retur Penjualan List</a></li> --}}
             @endif
             @if($tbonjual_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('tbonjual') }}">Bon Penjualan</a></li>
-                <li><a class="nav-link" href="{{ route('tbonjuallist') }}">Bon Penjualan List</a></li>
+                {{-- <li><a class="nav-link" href="{{ route('tbonjuallist') }}">Bon Penjualan List</a></li> --}}
             @endif
             @if($tadjstock_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('tadjustmentstock') }}">Adjustment Stock</a></li>
-                <li><a class="nav-link" href="{{ route('tadjlist') }}">Adjustment Stock List</a></li>
+                {{-- <li><a class="nav-link" href="{{ route('tadjlist') }}">Adjustment Stock List</a></li> --}}
             @endif
             @if($tsuratjalan_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('tsuratjalan') }}">Surat Jalan</a></li>
-                <li><a class="nav-link" href="{{ route('tsuratjalanlist') }}">Surat Jalan List</a></li>
+                {{-- <li><a class="nav-link" href="{{ route('tsuratjalanlist') }}">Surat Jalan List</a></li> --}}
             @endif
             @if($tbelibrg_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('tpembelianbarang') }}">Pembelian Barang</a></li>
-                <li><a class="nav-link" href="{{ route('tpembelianbaranglist') }}">Pembelian Barang List</a></li>
+                {{-- <li><a class="nav-link" href="{{ route('tpembelianbaranglist') }}">Pembelian Barang List</a></li> --}}
             @endif
             <li><a class="nav-link" href="{{ route('tstockopname') }}">Stock Opname</a></li>
         </ul>

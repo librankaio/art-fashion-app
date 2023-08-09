@@ -25,10 +25,10 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>No Trans</label>
-                                    {{-- @foreach($notrans as $key => $code)
+                                    @foreach($notrans as $key => $code)
                                         @php $codetrans = $code->codetrans @endphp
-                                    @endforeach --}}
-                                    <input type="text" class="form-control" name="no" id="no" value="">
+                                    @endforeach
+                                    <input type="text" class="form-control" name="no" id="no" value="{{ $code->codetrans }}" readonly>
                                 </div>       
                                 <div class="form-group">
                                     <label>Counter</label>
@@ -154,6 +154,7 @@
                         </div>
                     </div>              
                     <div class="card-footer text-right">
+                        <a class="btn btn-warning mr-1" href="/tsuratjalanlist">List</a>
                         <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('tsuratjalanpost') }}">Save</button>
                         {{-- @if($tpos_save == 'Y')
                             <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}">Submit</button>

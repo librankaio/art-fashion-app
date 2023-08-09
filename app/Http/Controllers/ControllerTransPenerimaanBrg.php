@@ -15,13 +15,15 @@ class ControllerTransPenerimaanBrg extends Controller
 {
     public function index()
     {
-        $counters = Mcounter::select('id','code','name')->get();
+        $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         $mitems = Mitem::select('id','code','name')->get();
         $notsjs = Tsj_h::select('id','no','tgl','counter',)->get();
+        $notrans = DB::select("select fgetcode('tpenerimaan') as codetrans");
         return view('pages.Transaksi.tpenerimaanbrg',[
             'counters' => $counters,
             'mitems' => $mitems,
             'notsjs' => $notsjs,
+            'notrans' => $notrans,
         ]);
     }
 
