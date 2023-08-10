@@ -163,7 +163,7 @@ class ControllerLogin extends Controller
                 $request->session()->put('tbelibrg_print', $auth_tbelibrg->print);
             }            
             // dd(session()->all());
-            return redirect()->intended('/mwarna');
+            return redirect()->intended('/home');
         }
         return redirect()->back();
     }

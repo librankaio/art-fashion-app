@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ControllerHome;
 use App\Http\Controllers\ControllerLogin;
 use App\Http\Controllers\ControllerMasterDataItem;
 use App\Http\Controllers\ControllerMasterDataLokasi;
@@ -37,6 +38,8 @@ Route::post('/', [ControllerLogin::class, 'postLogin'])->name('postlogin');
 Route::get('logout', [ControllerLogin::class, 'logout'])->name('logout');
 
 // ---Transaksi---
+Route::get('home', [ControllerHome::class, 'index'])->name('home');
+
 Route::get('tsob', [ControllerTransSOB::class, 'index'])->name('tsob');
 Route::post('/tsobpost', [ControllerTransSOB::class, 'post'])->name('tsobpost');
 Route::post('/getmitem', [ControllerTransSOB::class, 'getmitem'])->name('getmitem');
