@@ -31,6 +31,15 @@
                                     <input type="text" class="form-control" name="no" id="no" value="{{ $code->codetrans }}" readonly>
                                 </div>       
                                 <div class="form-group">
+                                    <label>No SOB.</label>
+                                    <select class="form-control select2" name="nosob" id="nosob">
+                                        <option disabled selected>--Select No SOB--</option>
+                                        @foreach($sobs as $data => $sob)
+                                        <option>{{ $sob->no }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <label>Counter</label>
                                     <select class="form-control select2" name="counter" id="counter">
                                         <option disabled selected>--Select Counter--</option>
@@ -54,16 +63,7 @@
                                 <div class="form-group">
                                     <label>Catatan</label>
                                     <textarea class="form-control" style="height:100px" name="note"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>No SOB.</label>
-                                    <select class="form-control select2" name="nosob" id="nosob">
-                                        <option disabled selected>--Select No SOB--</option>
-                                        @foreach($sobs as $data => $sob)
-                                        <option>{{ $sob->no }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>        
+                                </div>       
                             </div>
                         </div>
                     </div>
@@ -179,6 +179,7 @@
             $('.select2').select2({});
             $("#kode").on('select2:select', function(e) {
                 var kode = $(this).val();
+                show_loading()
                 $.ajax({
                     url: '{{ route('getmitem') }}', 
                     method: 'post', 
@@ -199,6 +200,7 @@
                                 $("#hrgjual").val(thousands_separators(hrg.toFixed(2)));
                             }
                         }
+                        hide_loading()
                     }
                 });
             });

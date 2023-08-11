@@ -190,6 +190,7 @@
             $('.select2').select2({});
             $("#kode").on('select2:select', function(e) {
                 var kode = $(this).val();
+                show_loading()
                 $.ajax({
                     url: '{{ route('getmitem') }}', 
                     method: 'post', 
@@ -210,6 +211,7 @@
                                 $("#hrgjual").val(thousands_separators(hrg.toFixed(2)));
                             }
                         }
+                        hide_loading()
                     }
                 });
             });

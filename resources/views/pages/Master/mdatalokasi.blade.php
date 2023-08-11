@@ -125,7 +125,7 @@
         // Validate ifnull
         kode = $("#code").val();
         name = $("#name").val();
-        alamat = $("#alamat").val();
+        // alamat = $("#alamat").val();
 
         if (kode == ""){
             swal('WARNING', 'Kode Tidak boleh kosong!', 'warning');
@@ -133,10 +133,11 @@
         }else if (name == ""){
             swal('WARNING', 'Nama Tidak boleh kosong!', 'warning');
             return false;
-        }else if (alamat == ""){
-            swal('WARNING', 'Alamat Tidak boleh kosong!', 'warning');
-            return false;
         }
+        // else if (alamat == ""){
+        //     swal('WARNING', 'Alamat Tidak boleh kosong!', 'warning');
+        //     return false;
+        // }
 
     });
 </script>

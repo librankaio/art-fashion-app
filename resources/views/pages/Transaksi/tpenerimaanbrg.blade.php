@@ -190,6 +190,7 @@
             $('.select2').select2({});
             $("#kode").on('select2:select', function(e) {
                 var kode = $(this).val();
+                show_loading()
                 $.ajax({
                     url: '{{ route('getmitempenerimaan') }}', 
                     method: 'post', 
@@ -210,12 +211,14 @@
                                 $("#subtot").val(thousands_separators(subtotal.toFixed(2)));
                             }
                         }
+                        hide_loading()
                     }
                 });
             });
 
             $("#nosj").on('select2:select', function(e) {
                 var nosj = $(this).val();
+                show_loading()
                 console.log(nosj);
                 $.ajax({
                     url: '{{ route('getnosjd') }}', 
@@ -321,6 +324,7 @@
                                 }
                             }
                         }
+                        hide_loading()
                     }
                 });
             });

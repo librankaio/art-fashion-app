@@ -167,6 +167,7 @@
             $('.select2').select2({});
             $("#kode").on('select2:select', function(e) {
                 var kode = $(this).val();
+                show_loading()
                 $.ajax({
                     url: '{{ route('getmitem') }}', 
                     method: 'post', 
@@ -183,6 +184,7 @@
                                 $("#satuan").val(response[i].satuan);
                             }
                         }
+                        hide_loading()
                     }
                 });
             });

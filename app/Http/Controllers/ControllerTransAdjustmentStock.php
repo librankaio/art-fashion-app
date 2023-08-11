@@ -28,6 +28,7 @@ class ControllerTransAdjustmentStock extends Controller
             Tadj_h::create([
                 'no' => $request->no,
                 'tgl' => $request->dt,
+                'jenis' => $request->jenis,
                 'note' => $request->note,
             ]);
             $idh_loop = Tadj_h::select('id')->where('no','=',$request->no)->get();

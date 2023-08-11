@@ -13,6 +13,7 @@ class Tadj_h extends Model
         'no',
         'tgl',
         'note',
+        'jenis',
         'user',
     ];
 }

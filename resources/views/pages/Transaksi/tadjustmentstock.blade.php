@@ -35,6 +35,14 @@
                                     <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d") }}">
                                 </div>
                                 <div class="form-group">
+                                    <label>Jenis</label>
+                                    <select class="form-control select2" name="jenis" id="jenis">
+                                        <option disabled selected>--Select Jenis--</option>
+                                        <option>Normal</option>
+                                        <option>Retur</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <label>Catatan</label>
                                     <textarea class="form-control" style="height:100px" name="note"></textarea>
                                 </div>
@@ -130,6 +138,7 @@
             $('.select2').select2({});
             $("#kode").on('select2:select', function(e) {
                 var kode = $(this).val();
+                show_loading()
                 $.ajax({
                     url: '{{ route('getmitem') }}', 
                     method: 'post', 
@@ -146,6 +155,7 @@
                                 $("#satuan").val(response[i].satuan)
                             }
                         }
+                        hide_loading()
                     }
                 });
             });

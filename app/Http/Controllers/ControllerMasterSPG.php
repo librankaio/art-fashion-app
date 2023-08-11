@@ -20,15 +20,21 @@ class ControllerMasterSPG extends Controller
     
     public function post(Request $request){
         // dd($request->all());
-        User::create([
-            'nik' => $request->nik,
-            'name' => $request->name,
-            'hp' => $request->phone,
-            'jenis' => $request->jenis,
-            'counter' => $request->counter,
-            'password' => $request->password,
-        ]);
-        return redirect()->back();
+        $availuser = User::where('nik', '=', $request->nik)->first();
+
+        if($availuser != null){
+            return redirect()->back()->with('error', 'NIK sudah terdaftar');
+        }else{
+            User::create([
+                'nik' => $request->nik,
+                'name' => $request->name,
+                'hp' => $request->phone,
+                'jenis' => $request->jenis,
+                'counter' => $request->counter,
+                'password' => $request->password,
+            ]);
+            return redirect()->back()->with('success', 'Data berhasil ditambahkan');
+        }
     }
     
     public function getedit(User $user){

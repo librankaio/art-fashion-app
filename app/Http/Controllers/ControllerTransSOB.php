@@ -14,7 +14,7 @@ class ControllerTransSOB extends Controller
     public function index()
     {
         $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
-        $mitems = Mitem::select('id','code','name')->get();
+        $mitems = Mitem::select('id','code','name')->orderBy('code', 'asc')->get();
         $notrans = DB::select("select fgetcode('tsob') as codetrans");
         return view('pages.Transaksi.tsob',[
             'counters' => $counters,
@@ -65,9 +65,9 @@ class ControllerTransSOB extends Controller
     public function  getmitem(Request $request){
         $kode = $request->kode;
         if($kode == ''){
-            $mitems = Mitem::select('id','code','name','satuan','hrgjual')->get();
+            $mitems = Mitem::select('id','code','name','satuan','hrgjual')->orderBy('code', 'asc')->limit(20)->get();
         }else{
-            $mitems = Mitem::select('id','code','name','satuan','hrgjual')->where('code','=',$kode)->get();
+            $mitems = Mitem::select('id','code','name','satuan','hrgjual')->where('code','=',$kode)->limit(20)->get();
         }
         return json_encode($mitems);
     }

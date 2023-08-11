@@ -18,11 +18,17 @@ class ControllerMasterWarna extends Controller
 
     public function post(Request $request){
         // dd($request->all());
-        Mwarna::create([
-            'code' => $request->kode,
-            'name' => $request->nama,
-        ]);
-        return redirect()->back();
+        $availcode = Mwarna::where('code', '=', $request->kode)->first();
+
+        if($availcode != null){
+            return redirect()->back()->with('error', 'Kode sudah terdaftar');
+        }else{
+            Mwarna::create([
+                'code' => $request->kode,
+                'name' => $request->nama,
+            ]);
+            return redirect()->back()->with('success', 'Data berhasil ditambahkan');
+        }
     }
 
     public function getedit(Mwarna $mwarna){

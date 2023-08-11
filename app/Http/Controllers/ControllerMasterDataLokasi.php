@@ -17,12 +17,18 @@ class ControllerMasterDataLokasi extends Controller
 
     public function post(Request $request){
         // dd($request->all());
-        Mcounter::create([
-            'code' => $request->code,
-            'name' => $request->name,
-            'alamat' => $request->alamat,
-        ]);
-        return redirect()->back();
+        $availcode = Mcounter::where('code', '=', $request->kode)->first();
+
+        if($availcode != null){
+            return redirect()->back()->with('error', 'Kode sudah terdaftar');
+        }else{
+            Mcounter::create([
+                'code' => $request->code,
+                'name' => $request->name,
+                'alamat' => $request->alamat,
+            ]);
+            return redirect()->back()->with('success', 'Data berhasil ditambahkan');
+        }
     }
 
     public function getedit(Mcounter $mcounter){

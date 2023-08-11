@@ -36,7 +36,12 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Warna</label>
-                                        <textarea class="form-control" style="height:90px" name="warna"></textarea>
+                                        <select class="form-control select2" id="warna" name="warna">
+                                            <option disabled selected>--Select Warna--</option>
+                                            @foreach($warnas as $data => $warna)                                        
+                                            <option value="{{ $warna->code }}">{{ $warna->code." - ".$warna->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label>Price (Rp)</label>
@@ -302,11 +307,43 @@
         }            
     });
 
+    $(document).on("change", "#price", function(e) {
+        if($('#price').val() == ''){
+            $('#price').val(0);
+        }
+        $(this).val(thousands_separators($(this).val()));
+    });
+
+    $(document).on("click", "#price", function(e) {
+        if (/\D/g.test(this.value))
+        {
+            // Filter comma
+            this.value = this.value.replace(/\,/g,"");
+            this.value = Number(Math.trunc(this.value))
+        }
+    });
+
     $("#price_gross").keyup(function(e){
         if (/\D/g.test(this.value)){
             // Filter non-digits from input value.
             this.value = this.value.replace(/\D/g, '');
         }            
+    });
+
+    $(document).on("change", "#price_gross", function(e) {
+        if($('#price_gross').val() == ''){
+            $('#price_gross').val(0);
+        }
+        $(this).val(thousands_separators($(this).val()));
+    });
+
+    $(document).on("click", "#price_gross", function(e) {
+        if (/\D/g.test(this.value))
+        {
+            // Filter comma
+            this.value = this.value.replace(/\,/g,"");
+            this.value = Number(Math.trunc(this.value))
+        }
     });
 
     $("#price_special").keyup(function(e){
@@ -316,11 +353,43 @@
         }            
     });
 
+    $(document).on("change", "#price_special", function(e) {
+        if($('#price_special').val() == ''){
+            $('#price_special').val(0);
+        }
+        $(this).val(thousands_separators($(this).val()));
+    });
+
+    $(document).on("click", "#price_special", function(e) {
+        if (/\D/g.test(this.value))
+        {
+            // Filter comma
+            this.value = this.value.replace(/\,/g,"");
+            this.value = Number(Math.trunc(this.value))
+        }
+    });
+
     $("#price_nett").keyup(function(e){
         if (/\D/g.test(this.value)){
             // Filter non-digits from input value.
             this.value = this.value.replace(/\D/g, '');
         }            
+    });
+
+    $(document).on("change", "#price_nett", function(e) {
+        if($('#price_nett').val() == ''){
+            $('#price_nett').val(0);
+        }
+        $(this).val(thousands_separators($(this).val()));
+    });
+
+    $(document).on("click", "#price_nett", function(e) {
+        if (/\D/g.test(this.value))
+        {
+            // Filter comma
+            this.value = this.value.replace(/\,/g,"");
+            this.value = Number(Math.trunc(this.value))
+        }
     });
 </script>
 @endsection

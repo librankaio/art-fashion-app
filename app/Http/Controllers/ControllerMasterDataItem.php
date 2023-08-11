@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mitem;
+use App\Models\Mwarna;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Contracts\DataTable;
 use Yajra\DataTables\DataTables as DataTables;
@@ -43,14 +44,18 @@ class ControllerMasterDataItem extends Controller
         // $datas = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice')->get();
 
         if (isset($request->search)) {
+            $warnas = Mwarna::select('code','name')->get();
             $datas = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice')->where('code','LIKE','%'.$request->search.'%')->paginate(50);
             return view('pages.Master.mdataitem',[
-                'datas' => $datas
+                'datas' => $datas,
+                'warnas' => $warnas
             ]);
         }
-        $datas = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice')->paginate(50);
-        return view('pages.Master.mdataitem',[
-            'datas' => $datas
+            $warnas = Mwarna::select('code','name')->get();
+            $datas = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice')->paginate(50);
+            return view('pages.Master.mdataitem',[
+                'datas' => $datas,
+                'warnas' => $warnas
         ]);
     }
 
@@ -60,20 +65,26 @@ class ControllerMasterDataItem extends Controller
 
     public function post(Request $request){
         // dd($request->all());
-        Mitem::create([
-            'name' => $request->nama,
-            'code' => $request->kode,
-            'warna' => $request->warna,
-            'kategori' => $request->kategori,
-            'hrgjual' => (float) str_replace(',', '', $request->price),
-            'size' => $request->size,
-            'satuan' => $request->satuan,
-            'material' => $request->material,
-            'gross' => (float) str_replace(',', '', $request->price_gross),
-            'nett' => (float) str_replace(',', '', $request->price_nett),
-            'spcprice' => (float) str_replace(',', '', $request->price_special),
-        ]);
-        return redirect()->back();
+        $availcode = Mitem::where('code', '=', $request->kode)->first();
+
+        if($availcode != null){
+            return redirect()->back()->with('error', 'Kode sudah terdaftar');
+        }else{
+            Mitem::create([
+                'name' => $request->nama,
+                'code' => $request->kode,
+                'warna' => $request->warna,
+                'kategori' => $request->kategori,
+                'hrgjual' => (float) str_replace(',', '', $request->price),
+                'size' => $request->size,
+                'satuan' => $request->satuan,
+                'material' => $request->material,
+                'gross' => (float) str_replace(',', '', $request->price_gross),
+                'nett' => (float) str_replace(',', '', $request->price_nett),
+                'spcprice' => (float) str_replace(',', '', $request->price_special),
+            ]);
+            return redirect()->back()->with('success', 'Data berhasil ditambahkan');
+        }
     }
 
     public function  getmitem(Request $request){

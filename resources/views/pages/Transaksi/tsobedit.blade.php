@@ -14,153 +14,153 @@
     <div class="section-body">
         <form action="" method="POST" id="thisform">
             @csrf
-        <div class="row">
-            <div class="col-12 col-md-4 col-lg-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Header Information</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>No Trans</label>
-                                    {{-- @foreach($notrans as $key => $code)
-                                        @php $codetrans = $code->codetrans @endphp
-                                    @endforeach --}}
-                                    <input type="text" class="form-control" name="no" id="no" value="{{ $tsobh->no }}">
-                                </div>       
-                                <div class="form-group">
-                                    <label>Counter</label>
-                                    <select class="form-control select2" name="counter" id="counter">
-                                        <option selected>{{ $tsobh->counter }}</option>
-                                        @foreach($counters as $counter)
-                                        <option>{{ $counter->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>                         
-                                <div class="form-group">
-                                    <label>Tanggal</label>
-                                    <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d", strtotime($tsobh->tgl)) }}">
-                                </div>
-                                <div class="form-group">
-                                    <label>Catatan</label>
-                                    <textarea class="form-control" style="height:100px" name="note">{{$tsobh->note}}</textarea>
+            <div class="row">
+                <div class="col-12 col-md-4 col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Header Information</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>No Trans</label>
+                                        {{-- @foreach($notrans as $key => $code)
+                                            @php $codetrans = $code->codetrans @endphp
+                                        @endforeach --}}
+                                        <input type="text" class="form-control" name="no" id="no" value="{{ $tsobh->no }}">
+                                    </div>       
+                                    <div class="form-group">
+                                        <label>Counter</label>
+                                        <select class="form-control select2" name="counter" id="counter">
+                                            <option selected>{{ $tsobh->counter }}</option>
+                                            @foreach($counters as $counter)
+                                            <option>{{ $counter->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>                         
+                                    <div class="form-group">
+                                        <label>Tanggal</label>
+                                        <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d", strtotime($tsobh->tgl)) }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Catatan</label>
+                                        <textarea class="form-control" style="height:100px" name="note">{{$tsobh->note}}</textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-6">
-                <div class="card" style="border: 1px solid lightblue">
-                    <div class="card-header">
-                        <h4>Add Items</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Kode</label>
-                                    <select class="form-control select2" id="kode">
-                                        <option disabled selected>--Select Kode--</option>
-                                        @foreach($mitems as $data => $item)                                        
-                                        <option value="{{ $item->code }}">{{ $item->code." - ".$item->name }}</option>
-                                        @endforeach
-                                    </select>
+                <div class="col-12 col-md-6 col-lg-6">
+                    <div class="card" style="border: 1px solid lightblue">
+                        <div class="card-header">
+                            <h4>Add Items</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Kode</label>
+                                        <select class="form-control select2" id="kode">
+                                            <option disabled selected>--Select Kode--</option>
+                                            @foreach($mitems as $data => $item)                                        
+                                            <option value="{{ $item->code }}">{{ $item->code." - ".$item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Nama Item</label>
+                                        <input type="text" class="form-control" id="nama_item" disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Harga Jual</label>
+                                        <input type="text" class="form-control" id="hrgjual" value="0">
+                                    </div>    
+                                    <div class="form-group">
+                                        <a href="" id="addItem">
+                                            <i class="fa fa-plus" style="font-size:18pt"></i>
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Nama Item</label>
-                                    <input type="text" class="form-control" id="nama_item" disabled>
-                                </div>
-                                <div class="form-group">
-                                    <label>Harga Jual</label>
-                                    <input type="text" class="form-control" id="hrgjual" value="0">
-                                </div>    
-                                <div class="form-group">
-                                    <a href="" id="addItem">
-                                        <i class="fa fa-plus" style="font-size:18pt"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Quantity</label>
-                                    <input type="text" class="form-control" id="quantity" value="0">
-                                </div>
-                                <div class="form-group">
-                                    <label>Satuan</label>
-                                    <input type="text" class="form-control" id="satuan" disabled>
-                                </div>
-                                <div class="form-group">
-                                    <label>Subtotal</label>
-                                    <input type="text" class="form-control" id="subtot" disabled>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Quantity</label>
+                                        <input type="text" class="form-control" id="quantity" value="0">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Satuan</label>
+                                        <input type="text" class="form-control" id="satuan" disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Subtotal</label>
+                                        <input type="text" class="form-control" id="subtot" disabled>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12 col-md-12 col-lg-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="datatable">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" class="border border-5">No</th>
-                                        <th scope="col" class="border border-5">Kode</th>
-                                        <th scope="col" class="border border-5">Nama Item</th>
-                                        <th scope="col" class="border border-5">Quantity</th>
-                                        <th scope="col" class="border border-5">Satuan</th>
-                                        <th scope="col" class="border border-5">Harga Jual</th>
-                                        <th scope="col" class="border border-5">Subtotal</th>
-                                        <th scope="col" class="border border-5">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @php $counter = 0; @endphp
-                                @for($i = 0; $i < sizeof($tsobds); $i++) @php $counter++; @endphp <tr>
-                                    <th class="id-header border border-5" style='readonly:true;' headers="{{ $counter }}">{{ $counter }}</th>
-                                    <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='{{ $tsobds[$i]->code }}'></td>
-                                    <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='{{ $tsobds[$i]->name }}'></td>
-                                    <td class="border border-5"><input type='text' style='width:100px;' form='thisform' class='quantityclass form-control' name='quantity_d[]' value='{{ number_format($tsobds[$i]->qty, 0, '.', '') }}'></td>
-                                    <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='{{ $tsobds[$i]->satuan }}' name='satuan_d[]'></td>
-                                    <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='hrgjualclass form-control' value='{{ number_format($tsobds[$i]->hrgjual, 2, '.', ',') }}' name='hrgjual_d[]'></td>
-                                    <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='{{ number_format($tsobds[$i]->subtotal, 2, '.', ',') }}' name='subtot_d[]' id='subtot_d{{ $counter }}'></td>
-                                    <td class="border border-5"><button title='Delete' class='delete btn btn-primary' value="{{ $counter }}"><i style='font-size:15pt;color:#ffff;' class='fa fa-trash'></i></button></td>
-                                    <td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value=''></td>
-                                    </tr>
-                                @endfor
-                                </tbody>                            
-                            </table>
-                        </div>                                              
-                    </div>      
-                    <div class="col-12 col-md-6 col-lg-6 align-self-end">
-                        <div class="row">
-                            <div class="col-md-8">
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Total</label>
-                                    <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" value="{{ number_format($tsobh->grdtotal, 2, '.', ',') }}" readonly>
+                <div class="col-12 col-md-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="border border-5">No</th>
+                                            <th scope="col" class="border border-5">Kode</th>
+                                            <th scope="col" class="border border-5">Nama Item</th>
+                                            <th scope="col" class="border border-5">Quantity</th>
+                                            <th scope="col" class="border border-5">Satuan</th>
+                                            <th scope="col" class="border border-5">Harga Jual</th>
+                                            <th scope="col" class="border border-5">Subtotal</th>
+                                            <th scope="col" class="border border-5">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @php $counter = 0; @endphp
+                                    @for($i = 0; $i < sizeof($tsobds); $i++) @php $counter++; @endphp <tr>
+                                        <th class="id-header border border-5" style='readonly:true;' headers="{{ $counter }}">{{ $counter }}</th>
+                                        <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='{{ $tsobds[$i]->code }}'></td>
+                                        <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='{{ $tsobds[$i]->name }}'></td>
+                                        <td class="border border-5"><input type='text' style='width:100px;' form='thisform' class='quantityclass form-control' name='quantity_d[]' value='{{ number_format($tsobds[$i]->qty, 0, '.', '') }}'></td>
+                                        <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='{{ $tsobds[$i]->satuan }}' name='satuan_d[]'></td>
+                                        <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='hrgjualclass form-control' value='{{ number_format($tsobds[$i]->hrgjual, 2, '.', ',') }}' name='hrgjual_d[]'></td>
+                                        <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='{{ number_format($tsobds[$i]->subtotal, 2, '.', ',') }}' name='subtot_d[]' id='subtot_d{{ $counter }}'></td>
+                                        <td class="border border-5"><button title='Delete' class='delete btn btn-primary' value="{{ $counter }}"><i style='font-size:15pt;color:#ffff;' class='fa fa-trash'></i></button></td>
+                                        <td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value=''></td>
+                                        </tr>
+                                    @endfor
+                                    </tbody>                            
+                                </table>
+                            </div>                                              
+                        </div>      
+                        <div class="col-12 col-md-6 col-lg-6 align-self-end">
+                            <div class="row">
+                                <div class="col-md-8">
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Total</label>
+                                        <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" value="{{ number_format($tsobh->grdtotal, 2, '.', ',') }}" readonly>
+                                    </div>
                                 </div>
                             </div>
+                        </div>              
+                        <div class="card-footer text-right">
+                            <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="/tsob/{{ $tsobh->id }}">Update</button>
+                            {{-- @if($tpos_save == 'Y')
+                                <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}">Submit</button>
+                            @elseif($tpos_save == 'N' || $tpos_save == null)
+                                <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}" disabled>Submit</button>
+                            @endif --}}
+                            <button class="btn btn-secondary" type="reset">Reset</button>
                         </div>
-                    </div>              
-                    <div class="card-footer text-right">
-                        <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="/tsob/{{ $tsobh->id }}">Update</button>
-                        {{-- @if($tpos_save == 'Y')
-                            <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}">Submit</button>
-                        @elseif($tpos_save == 'N' || $tpos_save == null)
-                            <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}" disabled>Submit</button>
-                        @endif --}}
-                        <button class="btn btn-secondary" type="reset">Reset</button>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
     </div>
 </section>
 @stop
@@ -173,6 +173,7 @@
             $('.select2').select2({});
             $("#kode").on('select2:select', function(e) {
                 var kode = $(this).val();
+                show_loading()
                 $.ajax({
                     url: '{{ route('getmitem') }}', 
                     method: 'post', 
@@ -193,6 +194,7 @@
                                 $("#hrgjual").val(thousands_separators(hrg.toFixed(2)));
                             }
                         }
+                        hide_loading()
                     }
                 });
             });

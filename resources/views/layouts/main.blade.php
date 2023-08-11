@@ -14,6 +14,10 @@
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.css" rel="stylesheet">
     
+    {{-- Loading CSS --}}
+    <link href="/css/loading.css" rel="stylesheet">
+    {{-- ENd Loading CSS --}}
+
     {{-- Mix JS and CSS --}}
     <script src="{!! mix('js/app.js') !!}"></script>
     <link rel="stylesheet" href="{!! mix('css/app.css') !!}">
@@ -29,7 +33,19 @@
     {{-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script> --}}
 </head>
 
-<body>
+<body onload="hide_loading()">
+    <div class="loading overlay">
+        <div class="lds-roller">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+    </div>
     <div id="app">
         <div class="main-wrapper">
             <div class="navbar-bg"></div>
@@ -50,7 +66,7 @@
                             <div class="d-sm-none d-lg-inline-block">Hi, {{ session('name') }}</div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a href="{{ 'logout' }}" class="dropdown-item has-icon text-danger">
+                            <a href="{{ route('logout') }}" class="dropdown-item has-icon text-danger">
                                 <i class="fas fa-sign-out-alt"></i> Logout
                             </a>
                         </div>
@@ -107,6 +123,27 @@
 
     {{-- Bottom Javascript --}}
     @yield('botscripts')
+    <script type="text/javascript">
+        let fadeTarget = document.querySelector(".loading")
+        function show_loading(){
+            fadeTarget.style.display = "block";
+            fadeTarget.style.opacity = 1;
+        }
+        function hide_loading(){
+            // fadeTarget.style.display = "none";
+            var fadeEffect = setInterval(() => {
+                if (!fadeTarget.style.opacity){
+                    fadeTarget.style.opacity = 1;
+                }
+                if (fadeTarget.style.opacity > 0){
+                    fadeTarget.style.opacity -= 1;
+                } else {
+                    clearInterval(fadeEffect);
+                    fadeTarget.style.display = "none";
+                }
+            }, 300);
+        }
+    </script>
     <!-- Page Specific JS File -->
     {{-- {% block page_js %}{% endblock %} --}}
 </body>
