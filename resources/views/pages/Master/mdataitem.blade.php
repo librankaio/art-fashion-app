@@ -251,7 +251,7 @@
     $(document).on("click","#confirm",function(e){
         // Validate ifnull
         nama = $("#nama").val();
-        warna = $("#warna").val();
+        warna = $("#warna").prop('selectedIndex');
         price = $("#price").val();
         satuan = $("#satuan").val();
         price_gross = $("#price_gross").val();
@@ -269,29 +269,23 @@
         }else if (kode == ""){
             swal('WARNING', 'Kode Tidak boleh kosong!', 'warning');
             return false;
-        }else if (warna == ""){
+        }else if (warna == "" || warna == 0){
             swal('WARNING', 'Warna Tidak boleh kosong!', 'warning');
             return false;
-        }else if (price == "" || price == 0){
+        }else if (price == ""){
             swal('WARNING', 'Price Tidak boleh kosong!', 'warning');
             return false;
         }else if (satuan == ""){
             swal('WARNING', 'Satuan Tidak boleh kosong!', 'warning');
             return false;
-        }else if (price_gross == "" || price_gross == 0){
+        }else if (price_gross == ""){
             swal('WARNING', 'Price Gross Tidak boleh kosong!', 'warning');
             return false;
-        }else if (price_special == "" || price_special == 0){
+        }else if (price_special == ""){
             swal('WARNING', 'Price Special Tidak boleh kosong!', 'warning');
             return false;
         }else if(kategori == ""){
             swal('WARNING', 'Kategori Tidak boleh kosong!', 'warning');
-            return false;
-        }else if(size == ""){
-            swal('WARNING', 'Size Tidak boleh kosong!', 'warning');
-            return false;
-        }else if(material == ""){
-            swal('WARNING', 'Material Tidak boleh kosong!', 'warning');
             return false;
         }else if(price_nett == ""){
             swal('WARNING', 'Price Nett Tidak boleh kosong!', 'warning');

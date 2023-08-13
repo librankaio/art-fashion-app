@@ -1,7 +1,7 @@
 <html>
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-	<title>Jurnal Voucher</title>
+	<title>Print Barcode</title>
 </head>
 <body class="idr" onload="window.print()">
 
