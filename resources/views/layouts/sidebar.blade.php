@@ -82,6 +82,14 @@
             <li><a class="nav-link" href="{{ route('rmutasistock') }}">Laporan Mutasi Stock</a></li>
         </ul>
     </li>
+    <li class="menu-header">Upload Data</li>
+    <li class="nav-item dropdown">
+        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-exchange-alt"></i>
+            <span>Upload Data</span></a>
+        <ul class="dropdown-menu">
+                <li><a class="nav-link" href="{{ route('tsob') }}">Upload ....</a></li>
+        </ul>
+    </li>
     {{-- <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank Page</span></a></li>
     <li class="nav-item dropdown">
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-th"></i> <span>Bootstrap</span></a>

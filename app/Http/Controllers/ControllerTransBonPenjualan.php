@@ -32,6 +32,7 @@ class ControllerTransBonPenjualan extends Controller
                 'no' => $request->no,
                 'tgl' => $request->dt,
                 'counter' => $request->counter,
+                'jenis_promosi' => $request->jenis_promosi,
                 'note' => $request->note,
                 'grdtotal' => (float) str_replace(',', '', $request->price_total),
             ]);
@@ -50,6 +51,8 @@ class ControllerTransBonPenjualan extends Controller
                     'name' => $request->namaitem_d[$i],
                     'qty' => $request->quantity_d[$i],
                     'satuan' => $request->satuan_d[$i],
+                    'qty' => $request->quantity_d[$i],
+                    'diskon' => $request->diskon_d[$i],
                     'subtotal' => (float) str_replace(',', '', $request->subtot_d[$i]),
                     'hrgjual' => (float) str_replace(',', '', $request->hrgjual_d[$i]),
                     'note' => $request->keterangan_d[$i],
@@ -75,7 +78,7 @@ class ControllerTransBonPenjualan extends Controller
 
     public function list(){
         $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','grdtotal',)->orderBy('created_at', 'asc')->get();
-        $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','subtotal','note',)->get();
+        $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note',)->get();
         return view('pages.Transaksi.tbonpenjualanlist',[
             'tpenjualanhs' => $tpenjualanhs,
             'tpenjualands' => $tpenjualands
@@ -85,7 +88,7 @@ class ControllerTransBonPenjualan extends Controller
     public function getedit(Tpenjualan_h $tpenjualanh){
         $counters = Mcounter::select('id','code','name')->get();
         $mitems = Mitem::select('id','code','name')->get();
-        $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','subtotal','note')->where('idh','=',$tpenjualanh->id)->get();
+        $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note')->where('idh','=',$tpenjualanh->id)->get();
         return view('pages.Transaksi.tbonpenjualanedit',[
             'counters' => $counters,
             'mitems' => $mitems,
@@ -102,8 +105,9 @@ class ControllerTransBonPenjualan extends Controller
         DB::delete('delete from tpenjualan_ds where no_penjualan = ?', [$no_penjualan] );
         Tpenjualan_h::where('id', '=', $tpenjualanh->id)->update([
             'no' => request('no'),
-            'tgl' => request('dt'),
             'counter' => request('counter'),
+            'jenis_promosi' => request('jenis_promosi'),
+            'tgl' => request('dt'),
             'note' => request('note'),
             'grdtotal' =>  (float) str_replace(',', '', request('price_total'))
         ]);
@@ -117,6 +121,7 @@ class ControllerTransBonPenjualan extends Controller
                 'name' => request('namaitem_d')[$i],
                 'qty' => request('quantity_d')[$i],
                 'satuan' => request('satuan_d')[$i],
+                'diskon' => request('diskon_d')[$i],
                 'hrgjual' => (float) str_replace(',', '', request('hrgjual_d')[$i]),
                 'subtotal' => (float) str_replace(',', '', request('subtot_d')[$i]),
                 'note' => request('keterangan_d')[$i],

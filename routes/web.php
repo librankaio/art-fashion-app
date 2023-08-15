@@ -47,6 +47,7 @@ Route::get('tsoblist', [ControllerTransSOB::class, 'list'])->name('tsoblist');
 Route::get('/tsob/{tsobh}/edit', [ControllerTransSOB::class, 'getedit'])->name('tsobedit');
 Route::post('/tsob/{tsobh}', [ControllerTransSOB::class, 'update'])->name('tsobupdate');
 Route::post('/tsob/delete/{tsobh}', [ControllerTransSOB::class, 'delete'])->name('tsobdelete');
+Route::get('/tsob/{tsobh}/print', [ControllerTransSOB::class, 'print'])->name('tsobprint');
 
 Route::get('tpenerimaanbrg', [ControllerTransPenerimaanBrg::class, 'index'])->name('tpenerimaanbrg');
 Route::post('/tpenerimaanbrgpost', [ControllerTransPenerimaanBrg::class, 'post'])->name('tpenerimaanbrgpost');
@@ -81,6 +82,7 @@ Route::get('/tbonjual/{tpenjualanh}/print', [ControllerTransBonPenjualan::class,
 
 Route::get('tsuratjalan', [ControllerTransSuratJalan::class, 'index'])->name('tsuratjalan');
 Route::post('/tsuratjalanpost', [ControllerTransSuratJalan::class, 'post'])->name('tsuratjalanpost');
+Route::post('/getnosobd', [ControllerTransSuratJalan::class, 'getnosob'])->name('getnosobd');
 Route::get('tsuratjalanlist', [ControllerTransSuratJalan::class, 'list'])->name('tsuratjalanlist');
 Route::get('/tsuratjalan/{tsjh}/edit', [ControllerTransSuratJalan::class, 'getedit'])->name('tsuratjalanedit');
 Route::post('/tsuratjalan/{tsjh}', [ControllerTransSuratJalan::class, 'update'])->name('tsuratjalanupdate');

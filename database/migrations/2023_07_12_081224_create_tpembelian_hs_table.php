@@ -15,7 +15,7 @@ class CreateTpembelianHsTable extends Migration
     {
         Schema::create('tpembelian_hs', function (Blueprint $table) {
             $table->id();
-            $table->string('no', 64);
+            $table->string('no', 64)->charset('latin1')->collate('latin1_swedish_ci');
             $table->date('tgl');
             $table->string('supplier', 64);
             $table->string('note', 256)->nullable();

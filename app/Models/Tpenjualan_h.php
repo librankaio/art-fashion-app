@@ -13,6 +13,7 @@ class Tpenjualan_h extends Model
         'no',
         'tgl',
         'counter',
+        'jenis_promosi',
         'note',
         'grdtotal',
         'user',

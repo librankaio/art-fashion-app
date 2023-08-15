@@ -38,8 +38,8 @@
                                     <label>Jenis</label>
                                     <select class="form-control select2" name="jenis" id="jenis">
                                         <option disabled selected>--Select Jenis--</option>
-                                        <option>Normal</option>
-                                        <option>Retur</option>
+                                        <option>Plus</option>
+                                        <option>Minus</option>
                                     </select>
                                 </div>
                                 <div class="form-group">

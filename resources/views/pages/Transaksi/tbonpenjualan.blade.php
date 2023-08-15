@@ -40,6 +40,14 @@
                                     </select>
                                 </div>                         
                                 <div class="form-group">
+                                    <label>Jenis Promosi</label>
+                                    <select class="form-control select2" name="jenis_promosi" id="jenis_promosi">
+                                        <option disabled selected>--Select Jenis Promosi--</option>
+                                        <option>Special Price</option>
+                                        <option>Diskon</option>
+                                    </select>
+                                </div>                         
+                                <div class="form-group">
                                     <label>Tanggal</label>
                                     <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d") }}">
                                 </div>
@@ -76,6 +84,10 @@
                                 <div class="form-group">
                                     <label>Harga Jual</label>
                                     <input type="text" class="form-control" id="hrgjual" value="0">
+                                </div>    
+                                <div class="form-group">
+                                    <label>Diskon (rate)</label>
+                                    <input type="text" class="form-control" id="disc" value="0">
                                 </div>    
                                 <div class="form-group">
                                     <a href="" id="addItem">
@@ -118,6 +130,7 @@
                                         <th scope="col" class="border border-5">Quantity</th>
                                         <th scope="col" class="border border-5">Satuan</th>
                                         <th scope="col" class="border border-5">Harga</th>
+                                        <th scope="col" class="border border-5">Diskon</th>
                                         <th scope="col" class="border border-5">Subtotal</th>
                                         <th scope="col" class="border border-5">Keterangan</th>
                                         <th scope="col" class="border border-5">Action</th>
@@ -205,13 +218,14 @@
                 kode_id = $("#kode").val();
                 nama_item = $("#nama_item").val();
                 hrgjual = $("#hrgjual").val();
+                diskon = $("#disc").val();
                 quantity = $("#quantity").val();
                 satuan = $("#satuan").val();
                 subtot = $("#subtot").val();
                 keterangan = $("#keterangan").val();
 
 
-                tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='keteranganclass form-control' name='keterangan_d[]' type='text' value='" + keterangan + "'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
+                tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='diskonclass form-control' name='diskon_d[]' type='text' value='" + diskon + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='keteranganclass form-control' name='keterangan_d[]' type='text' value='" + keterangan + "'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
                 
                 subtotparse = subtot.replaceAll(",", "");
                 $("#datatable tbody").append(tablerow);
@@ -251,6 +265,7 @@
                 $("#nama").val('');
                 $("#nama_item").val('');
                 $("#hrgjual").val(0);
+                $("#disc").val(0);
                 $("#satuan").val('');
                 $("#quantity").val(0);
                 $("#merk").val('');

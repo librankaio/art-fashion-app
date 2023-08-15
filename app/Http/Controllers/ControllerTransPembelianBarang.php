@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mitem;
+use App\Models\Mwarna;
 use App\Models\Tpembelian_d;
 use App\Models\Tpembelian_h;
 use Illuminate\Http\Request;
@@ -13,9 +14,11 @@ class ControllerTransPembelianBarang extends Controller
     public function index()
     {
         $mitems = Mitem::select('id','code','name')->get();
-        $notrans = DB::select("select fgetcode('tsj') as codetrans");
+        $mwarnas = Mwarna::select('id','code','name')->get();
+        $notrans = DB::select("select fgetcode('tpembelian') as codetrans");
         return view('pages.Transaksi.tpembelianbarang',[
             'mitems' => $mitems,
+            'mwarnas' => $mwarnas,
             'notrans' => $notrans
         ]);
     }
@@ -45,10 +48,12 @@ class ControllerTransPembelianBarang extends Controller
                     'no_pembelian' => $request->no,
                     'code' => $request->kode_d[$i],
                     'name' => $request->nama_item_d[$i],
+                    'warna' => $request->warna_d[$i],
                     'qty' => $request->quantity_d[$i],
                     'satuan' => $request->satuan_d[$i],
-                    'subtotal' => (float) str_replace(',', '', $request->subtot_d[$i]),
                     'hrgbeli' => (float) str_replace(',', '', $request->hrgbeli_d[$i]),
+                    'hrgjual' => (float) str_replace(',', '', $request->subtot_d[$i]),
+                    'subtotal' => (float) str_replace(',', '', $request->subtot_d[$i]),
                 ]);
                 $count++;
             }
@@ -61,7 +66,7 @@ class ControllerTransPembelianBarang extends Controller
 
     public function list(){
         $tpembelianhs = Tpembelian_h::select('id','no','tgl','supplier','note','grdtotal',)->orderBy('created_at', 'asc')->get();
-        $toembeliands = Tpembelian_d::select('id','idh','no_pembelian','code','name','qty','satuan','hrgbeli','subtotal')->get();
+        $toembeliands = Tpembelian_d::select('id','idh','no_pembelian','code','name','warna','qty','satuan','hrgbeli','hrgjual','subtotal')->get();
         return view('pages.Transaksi.tpembelianbaranglist',[
             'tpembelianhs' => $tpembelianhs,
             'toembeliands' => $toembeliands
@@ -69,9 +74,11 @@ class ControllerTransPembelianBarang extends Controller
     }
 
     public function getedit(Tpembelian_h $tpembelianh){
+        $mwarnas = Mwarna::select('id','code','name')->get();
         $mitems = Mitem::select('id','code','name')->get();
-        $tpembeliands = Tpembelian_d::select('id','idh','no_pembelian','code','name','qty','satuan','hrgbeli','subtotal')->where('idh','=',$tpembelianh->id)->get();
+        $tpembeliands = Tpembelian_d::select('id','idh','no_pembelian','code','name','warna','qty','satuan','hrgbeli','hrgjual','subtotal')->where('idh','=',$tpembelianh->id)->get();
         return view('pages.Transaksi.tpembelianbarangedit',[
+            'mwarnas' => $mwarnas,
             'mitems' => $mitems,
             'tpembelianh' => $tpembelianh,
             'tpembeliands' => $tpembeliands,
@@ -99,9 +106,11 @@ class ControllerTransPembelianBarang extends Controller
                 'no_pembelian' => request('no')[$i],
                 'code' => request('kode_d')[$i],
                 'name' => request('nama_item_d')[$i],
+                'warna' => request('warna_d')[$i],
                 'qty' => request('quantity_d')[$i],
                 'satuan' => request('satuan_d')[$i],
                 'hrgbeli' => (float) str_replace(',', '', request('hrgbeli_d')[$i]),
+                'hrgjual' => (float) str_replace(',', '', request('hrgjual_d')[$i]),
                 'subtotal' => (float) str_replace(',', '', request('subtot_d')[$i])
             ]);
             $count++;

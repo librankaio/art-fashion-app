@@ -132,4 +132,15 @@ class ControllerTransSOB extends Controller
         Tsob_d::find($tsobh->id)->where('idh','=',$tsobh->id)->get();
         return redirect()->route('tsoblist');
     }
+
+    public function print(Tsob_h $tsobh){
+        
+        $tsobds = Tsob_d::find($tsobh->id)->where('idh','=',$tsobh->id)->get();
+        
+        // dd($tsobds);
+        return view('pages.Print.tsobprint',[
+            'tsobh' => $tsobh,
+            'tsobds' => $tsobds
+        ]);
+    }
 }

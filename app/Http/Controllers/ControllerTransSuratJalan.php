@@ -6,6 +6,7 @@ use App\Models\Mcounter;
 use App\Models\Mitem;
 use App\Models\Tsj_d;
 use App\Models\Tsj_h;
+use App\Models\Tsob_d;
 use App\Models\Tsob_h;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -65,6 +66,16 @@ class ControllerTransSuratJalan extends Controller
             }
         }
         return redirect()->back();
+    }
+
+    public function  getnosob(Request $request){
+        $nosob = $request->nosob;
+        if($nosob == ''){
+            $items = Tsob_d::select('id','idh','no_sob','code','name','qty','satuan','hrgjual','subtotal',)->get();
+        }else{
+            $items = Tsob_d::select('id','idh','no_sob','code','name','qty','satuan','hrgjual','subtotal',)->where('no_sob','=',$nosob)->get();
+        }
+        return json_encode($items);
     }
 
     public function list(){

@@ -14,9 +14,11 @@ class Tpembelian_d extends Model
         'no_pembelian',
         'code',
         'name',
+        'warna',
         'qty',
         'satuan',
         'hrgbeli',
+        'hrgjual',
         'subtotal',
     ];
 }

@@ -17,6 +17,7 @@ class Tpenjualan_d extends Model
         'qty',
         'satuan',
         'hrgjual',
+        'diskon',
         'subtotal',
         'note',
     ];

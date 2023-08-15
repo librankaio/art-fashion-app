@@ -90,6 +90,9 @@
                                                         class="fa fa-trash">
                                                         Delete</i></button>
                                             </form>
+                                            <a href="/tsob/{{ $item->id }}/print"
+                                                class="btn btn-icon icon-left btn-success" target="_blank"><i class="far fa-print">
+                                                    Print</i></a>
                                         </td>
                                     </tr>
                                     @endforeach

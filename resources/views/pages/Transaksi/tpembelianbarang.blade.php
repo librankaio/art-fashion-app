@@ -75,9 +75,9 @@
                                     <input type="text" class="form-control" id="nama_item" readonly>
                                 </div>
                                 <div class="form-group">
-                                    <label>Warna</label>
-                                    <input type="text" class="form-control" id="warna">
-                                </div>                                                                     
+                                    <label>Quantity</label>
+                                    <input type="text" class="form-control" id="quantity" value="0">
+                                </div>                                            
                                 <div class="form-group">
                                     <a href="" id="addItem">
                                         <i class="fa fa-plus" style="font-size:18pt"></i>
@@ -86,9 +86,14 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Quantity</label>
-                                    <input type="text" class="form-control" id="quantity" value="0">
-                                </div>
+                                    <label>Warna</label>
+                                    <select class="form-control select2" id="warna">
+                                        <option disabled selected>--Select Warna--</option>
+                                        @foreach($mwarnas as $data => $item)                                        
+                                        <option value="{{ $item->code }}">{{ $item->code." - ".$item->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>    
                                 <div class="form-group">
                                     <label>Satuan</label>
                                     <input type="text" class="form-control" id="satuan" readonly>
@@ -96,6 +101,10 @@
                                 <div class="form-group">
                                     <label>Harga Beli</label>
                                     <input type="text" class="form-control" id="hrgbeli" value="0">
+                                </div>   
+                                <div class="form-group">
+                                    <label>Harga Jual</label>
+                                    <input type="text" class="form-control" id="hrgjual" value="0">
                                 </div>   
                                 <div class="form-group">
                                     <label>Subtotal</label>
@@ -116,9 +125,11 @@
                                         <th scope="col" class="border border-5">No</th>
                                         <th scope="col" class="border border-5">Kode</th>
                                         <th scope="col" class="border border-5">Nama Item</th>
+                                        <th scope="col" class="border border-5">Warna</th>
                                         <th scope="col" class="border border-5">Quantity</th>
                                         <th scope="col" class="border border-5">Satuan</th>
                                         <th scope="col" class="border border-5">Harga Beli</th>
+                                        <th scope="col" class="border border-5">Harga Jual</th>
                                         <th scope="col" class="border border-5">Subtotal Harga</th>
                                         <th scope="col" class="border border-5">Action</th>
                                     </tr>
@@ -198,15 +209,17 @@
                 }
 
                 kode = $("#select2-kode-container").text();
+                warna = $("#select2-warna-container").text();
                 kode_id = $("#kode").val();
                 nama_item = $("#nama_item").val();
                 hrgbeli = $("#hrgbeli").val();
+                hrgjual = $("#hrgjual").val();
                 quantity = $("#quantity").val();
                 satuan = $("#satuan").val();
                 subtot = $("#subtot").val();
 
 
-                tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='nama_item_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input type='text' style='width:100px;' form='thisform' class='quantityclass form-control' name='quantity_d[]' value='" + quantity + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='" + satuan + "' name='satuan_d[]'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='hrgbeliclass form-control' value='" + hrgbeli + "' name='hrgbeli_d[]'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
+                tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='nama_item_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td><td class='border border-5'><input type='text' style='width:100px;' form='thisform' class='quantityclass form-control' name='quantity_d[]' value='" + quantity + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='" + satuan + "' name='satuan_d[]'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='hrgbeliclass form-control' value='" + hrgbeli + "' name='hrgbeli_d[]'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='hrgjualclass form-control' value='" + hrgjual + "' name='hrgjual_d[]'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
                 
                 subtotparse = subtot.replaceAll(",", "");
                 $("#datatable tbody").append(tablerow);
@@ -244,7 +257,9 @@
                 counter++;
                 $("#kode").prop('selectedIndex', 0).trigger('change');
                 $("#nama_item").val('');
+                $("#warna").prop('selectedIndex', 0).trigger('change');
                 $("#hrgbeli").val(0);
+                $("#hrgjual").val(0);
                 $("#quantity").val(0);
                 $("#satuan").val('');
                 $("#subtot").val('');
@@ -320,7 +335,20 @@
             $("#subtot").val(thousands_separators(total.toFixed(2)));
             });
 
+            $(document).on("change", "#hrgjual", function(e) {
+                if($('#hrgjual').val() == ''){
+                    $('#hrgjual').val(0);
+                }
+                $(this).val(thousands_separators($(this).val()));
+            });
+
             $(document).on("click", "#hrgbeli", function(e) {
+                if (/\D/g.test(this.value)){
+                // Filter non-digits from input value.
+                this.value = this.value.replace(/\D/g, '');
+                }
+            });
+            $(document).on("click", "#hrgjual", function(e) {
                 if (/\D/g.test(this.value)){
                 // Filter non-digits from input value.
                 this.value = this.value.replace(/\D/g, '');
