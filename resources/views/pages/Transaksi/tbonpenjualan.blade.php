@@ -33,7 +33,7 @@
                                 <div class="form-group">
                                     <label>Counter</label>
                                     <select class="form-control select2" name="counter" id="counter">
-                                        <option disabled selected>--Select Counter--</option>
+                                        {{-- <option disabled selected>--Select Counter--</option> --}}
                                         @foreach($counters as $counter)
                                         <option>{{ $counter->name}}</option>
                                         @endforeach
@@ -42,9 +42,9 @@
                                 <div class="form-group">
                                     <label>Jenis Promosi</label>
                                     <select class="form-control select2" name="jenis_promosi" id="jenis_promosi">
-                                        <option disabled selected>--Select Jenis Promosi--</option>
+                                        {{-- <option disabled selected>--Select Jenis Promosi--</option> --}}
+                                        <option selected>Diskon</option>
                                         <option>Special Price</option>
-                                        <option>Diskon</option>
                                     </select>
                                 </div>                         
                                 <div class="form-group">
@@ -143,8 +143,14 @@
                     </div>      
                     <div class="col-12 col-md-6 col-lg-6 align-self-end">
                         <div class="row">
-                            <div class="col-md-8">
-                                
+                            <div class="col-md-4">
+
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Total Diskon</label>
+                                    <input type="text" class="form-control" name="price_disc" form="thisform" id="price_disc" readonly>
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -225,7 +231,7 @@
                 keterangan = $("#keterangan").val();
 
 
-                tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='diskonclass form-control' name='diskon_d[]' type='text' value='" + diskon + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='keteranganclass form-control' name='keterangan_d[]' type='text' value='" + keterangan + "'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
+                tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='diskonclass form-control' name='diskon_d[]' id='diskon_d_"+counter+"' type='text' value='" + diskon + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='keteranganclass form-control' name='keterangan_d[]' type='text' value='" + keterangan + "'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
                 
                 subtotparse = subtot.replaceAll(",", "");
                 $("#datatable tbody").append(tablerow);
@@ -236,8 +242,12 @@
                         subtot = subtot.replace(/\,/g,"");
                         subtot = Number(Math.trunc(subtot))
                     }
-                    grandtot = subtot;
+                    disc = subtot * ($("#disc").val() / 100);
+                    total =  (subtot - disc);
 
+                    grandtot = total;
+
+                    $("#price_disc").val(thousands_separators(disc));
                     $("#price_total").val(thousands_separators(grandtot.toFixed(2)));
                 }else{
                     if (/\D/g.test(subtot))
@@ -254,11 +264,23 @@
                         old_grandtot = old_grandtot.replace(/\,/g,"");
                         old_grandtot = Number(Math.trunc(old_grandtot))
                     }
-                    
-                    console.log("subtotal: " + subtot + ", grandtot: " + grandtot);
-                    sum = subtot + old_grandtot;
 
-                    $("#price_total").val(thousands_separators(sum.toFixed(2)));
+                    disc_old = $("#price_disc").val()
+                    if (/\D/g.test(disc_old))
+                    {
+                        // Filter comma
+                        disc_old = disc_old.replace(/\,/g,"");
+                        disc_old = Number(Math.trunc(disc_old))
+                    }
+
+                    disc = subtot * (parseFloat($("#disc").val()) / 100);
+
+                    disc_new = disc_old + disc;
+                    total =  (subtot - disc);
+                    subtot_new = old_grandtot + total;
+
+                    $("#price_disc").val(thousands_separators(disc_new));
+                    $("#price_total").val(thousands_separators(subtot_new.toFixed(2)));
                 }
                 counter++;
                 $("#kode").prop('selectedIndex', 0).trigger('change');
@@ -297,9 +319,21 @@
                         old_grandtot = Number(Math.trunc(old_grandtot))
                     }
 
-                    sum = old_grandtot - subtot;
+                    old_disc = $("#price_disc").val();
 
-                    $("#price_total").val(thousands_separators(sum.toFixed(2)));
+                    if (/\D/g.test(old_disc))
+                    {
+                        // Filter comma
+                        old_disc = old_disc.replace(/\,/g,"");
+                        old_disc = Number(Math.trunc(old_disc))
+                    }
+                    disc = subtot * ($("#diskon_d_"+ counter_id).val() / 100);
+                    totaldisc = old_disc - disc;
+                    totalwithdisc = (subtot) - disc;
+                    total =  old_grandtot - totalwithdisc;
+
+                    $("#price_disc").val(thousands_separators(totaldisc));
+                    $("#price_total").val(thousands_separators(total.toFixed(2)));
                     $(this).closest('tr').remove();
                 } else {
                     return false;

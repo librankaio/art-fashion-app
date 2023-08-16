@@ -39,6 +39,7 @@ Route::get('logout', [ControllerLogin::class, 'logout'])->name('logout');
 
 // ---Transaksi---
 Route::get('home', [ControllerHome::class, 'index'])->name('home');
+Route::get('uploadsample', [ControllerHome::class, 'uploadsample'])->name('uploadsample');
 
 Route::get('tsob', [ControllerTransSOB::class, 'index'])->name('tsob');
 Route::post('/tsobpost', [ControllerTransSOB::class, 'post'])->name('tsobpost');

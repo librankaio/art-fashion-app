@@ -87,7 +87,7 @@
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-exchange-alt"></i>
             <span>Upload Data</span></a>
         <ul class="dropdown-menu">
-                <li><a class="nav-link" href="{{ route('tsob') }}">Upload ....</a></li>
+                <li><a class="nav-link" href="{{ route('uploadsample') }}">Upload Sample Form</a></li>
         </ul>
     </li>
     {{-- <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank Page</span></a></li>

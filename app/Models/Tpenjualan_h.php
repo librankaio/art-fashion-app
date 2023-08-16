@@ -15,6 +15,7 @@ class Tpenjualan_h extends Model
         'counter',
         'jenis_promosi',
         'note',
+        'diskon',
         'grdtotal',
         'user',
     ];

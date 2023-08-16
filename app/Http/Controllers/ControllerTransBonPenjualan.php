@@ -34,6 +34,7 @@ class ControllerTransBonPenjualan extends Controller
                 'counter' => $request->counter,
                 'jenis_promosi' => $request->jenis_promosi,
                 'note' => $request->note,
+                'diskon' =>  (float) str_replace(',', '', $request->price_disc),
                 'grdtotal' => (float) str_replace(',', '', $request->price_total),
             ]);
             $idh_loop = Tpenjualan_h::select('id')->where('no','=',$request->no)->get();
@@ -109,6 +110,7 @@ class ControllerTransBonPenjualan extends Controller
             'jenis_promosi' => request('jenis_promosi'),
             'tgl' => request('dt'),
             'note' => request('note'),
+            'diskon' =>  (float) str_replace(',', '', request('price_disc')),
             'grdtotal' =>  (float) str_replace(',', '', request('price_total'))
         ]);
         $count=0;

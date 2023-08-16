@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mcounter;
 use App\Models\Mitem;
 use App\Models\Tadj_d;
 use App\Models\Tadj_h;
@@ -12,9 +13,11 @@ class ControllerTransAdjustmentStock extends Controller
 {
     public function index()
     {
+        $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         $mitems = Mitem::select('id','code','name')->get();
         $notrans = DB::select("select fgetcode('tadj') as codetrans");
         return view('pages.Transaksi.tadjustmentstock',[
+            'counters' => $counters,
             'mitems' => $mitems,
             'notrans' => $notrans,
         ]);
@@ -28,6 +31,7 @@ class ControllerTransAdjustmentStock extends Controller
             Tadj_h::create([
                 'no' => $request->no,
                 'tgl' => $request->dt,
+                'counter' => $request->counter,
                 'jenis' => $request->jenis,
                 'note' => $request->note,
             ]);
@@ -66,9 +70,11 @@ class ControllerTransAdjustmentStock extends Controller
     }
 
     public function getedit(Tadj_h $tadjh){
+        $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         $mitems = Mitem::select('id','code','name')->get();
         $tadjs = Tadj_d::select('id','idh','no_adj','code','name','qty','satuan',)->where('idh','=',$tadjh->id)->get();
         return view('pages.Transaksi.tadjustmentstockedit',[
+            'counters' => $counters,
             'mitems' => $mitems,
             'tadjh' => $tadjh,
             'tadjs' => $tadjs,
@@ -84,6 +90,8 @@ class ControllerTransAdjustmentStock extends Controller
         Tadj_h::where('id', '=', $tadjh->id)->update([
             'no' => request('no'),
             'tgl' => request('dt'),
+            'counter' => request('counter'),
+            'jenis' => request('jenis'),
             'note' => request('note'),
         ]);
         $count=0;

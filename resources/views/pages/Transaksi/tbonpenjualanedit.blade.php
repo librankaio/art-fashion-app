@@ -145,7 +145,7 @@
                                         <td class="border border-5"><input type='text' style='width:100px;' form='thisform' class='quantityclass form-control' name='quantity_d[]' value='{{ number_format($tpenjualands[$i]->qty, 0, '.', '') }}'></td>
                                         <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='{{ $tpenjualands[$i]->satuan }}' name='satuan_d[]'></td>
                                         <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='hrgjualclass form-control' value='{{ number_format($tpenjualands[$i]->hrgjual, 2, '.', ',') }}' name='hrgjual_d[]'></td>
-                                        <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='diskonclass form-control' value='{{ $tpenjualands[$i]->diskon }}' name='diskon_d[]'></td>
+                                        <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='diskonclass form-control' value='{{ $tpenjualands[$i]->diskon }}' name='diskon_d[]' id='diskon_d_{{ $counter }}'></td>
                                         <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='{{ number_format($tpenjualands[$i]->subtotal, 2, '.', ',') }}' name='subtot_d[]' id='subtot_d{{ $counter }}'></td>
                                         <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='keteranganclass form-control' value='{{ $tpenjualands[$i]->note }}' name='keterangan_d[]'></td>
                                         <td class="border border-5"><button title='Delete' class='delete btn btn-primary' value="{{ $counter }}"><i style='font-size:15pt;color:#ffff;' class='fa fa-trash'></i></button></td>
@@ -158,7 +158,14 @@
                     </div>      
                     <div class="col-12 col-md-6 col-lg-6 align-self-end">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-4">
+
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Total Diskon</label>
+                                    <input type="text" class="form-control" name="price_disc" form="thisform" id="price_disc" value="{{ number_format($tpenjualanh->diskon, 2, '.', ',') }}" readonly>
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -238,7 +245,7 @@
                 keterangan = $("#keterangan").val();
 
 
-                tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='diskonclass form-control' name='diskon_d[]' type='text' value='" + diskon + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='keteranganclass form-control' name='keterangan_d[]' type='text' value='" + keterangan + "'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
+                tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='diskonclass form-control' name='diskon_d[]' id='diskon_d_"+counter+"' type='text' value='" + diskon + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='keteranganclass form-control' name='keterangan_d[]' type='text' value='" + keterangan + "'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
                 
                 subtotparse = subtot.replaceAll(",", "");
                 $("#datatable tbody").append(tablerow);
@@ -249,8 +256,12 @@
                         subtot = subtot.replace(/\,/g,"");
                         subtot = Number(Math.trunc(subtot))
                     }
-                    grandtot = subtot;
 
+                    disc = Number(subtot).toFixed(2) * ($("#disc").val() / 100);
+
+                    grandtot = subtot;
+                    
+                    $("#price_disc").val(thousands_separators(disc.toFixed(2)));
                     $("#price_total").val(thousands_separators(grandtot.toFixed(2)));
                 }else{
                     if (/\D/g.test(subtot))
@@ -267,11 +278,17 @@
                         old_grandtot = old_grandtot.replace(/\,/g,"");
                         old_grandtot = Number(Math.trunc(old_grandtot))
                     }
-                    
-                    console.log("subtotal: " + subtot + ", grandtot: " + old_grandtot);
-                    sum = subtot + old_grandtot;
+                    disc_old = $("#price_disc").val().replaceAll(",", "");
+                    total_old = $("#price_total").val().replaceAll(",", "");
 
-                    $("#price_total").val(thousands_separators(sum.toFixed(2)));
+                    disc = Number(subtot).toFixed(2) * (Number(diskon).toFixed(2) / 100);
+                    total =  Number(subtot).toFixed(2) - Number(disc).toFixed(2);
+
+                    disc_new = Number(Number(disc_old).toFixed(2)) + Number(disc.toFixed(2));;
+                    total_new = Number(Number(total_old).toFixed(2)) + Number(total.toFixed(2));
+
+                    $("#price_disc").val(thousands_separators(disc_new.toFixed(2)));
+                    $("#price_total").val(thousands_separators(total_new.toFixed(2)));
                 }
                 counter++;
                 $("#kode").prop('selectedIndex', 0).trigger('change');
@@ -311,9 +328,28 @@
                             old_grandtot = Number(Math.trunc(old_grandtot))
                         }
 
-                        sum = old_grandtot - subtot;
+                        old_disc = $("#price_disc").val();
 
-                        $("#price_total").val(thousands_separators(sum.toFixed(2)));
+                        if (/\D/g.test(old_disc))
+                        {
+                            // Filter comma
+                            old_disc = old_disc.replace(/\,/g,"");
+                            old_disc = Number(Math.trunc(old_disc))
+                        }
+
+                        disc_d = $("#diskon_d_" + counter_id).val()
+                        console.log(disc_d);
+
+                        disc = Number(subtot).toFixed(2) * (Number(disc_d).toFixed(2) / 100);
+                        total = Number(subtot).toFixed(2) - Number(disc).toFixed(2);
+
+                        totaldisc = Number(old_disc).toFixed(2) - Number(disc).toFixed(2);
+                        totalfinal = Number(old_grandtot).toFixed(2) - Number(total).toFixed(2);
+
+                        // sum = old_grandtot - subtot;
+
+                        $("#price_disc").val(thousands_separators(totaldisc));
+                        $("#price_total").val(thousands_separators(totalfinal.toFixed(2)));
                         $(this).closest('tr').remove();
 
                         counter_id = 0;
@@ -338,9 +374,19 @@
                             old_grandtot = Number(Math.trunc(old_grandtot))
                         }
 
-                        sum = old_grandtot - subtot;
+                        price_disc = $("#price_disc").val().replaceAll(",", "");
+                        price_total = $("#price_total").val().replaceAll(",", "");
 
-                        $("#price_total").val(thousands_separators(sum.toFixed(2)));
+                        disc_d = $("#diskon_d_" + counter_id).val()
+
+                        disc = Number(subtot).toFixed(2) * (Number(disc_d).toFixed(2) / 100);
+                        total = (Number(subtot).toFixed(2) - Number(disc).toFixed(2))
+
+                        totaldisc = Number(price_disc).toFixed(2) - Number(disc).toFixed(2);
+                        totalfinal = Number(price_total).toFixed(2) - Number(total).toFixed(2);
+                        
+                        $("#price_disc").val(thousands_separators(totaldisc));
+                        $("#price_total").val(thousands_separators(totalfinal.toFixed(2)));
                         $(this).closest('tr').remove();
                         }  
                 } else {

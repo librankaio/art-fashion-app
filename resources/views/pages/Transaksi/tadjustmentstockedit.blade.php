@@ -35,13 +35,22 @@
                                     <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d", strtotime($tadjh->tgl)) }}">
                                 </div>
                                 <div class="form-group">
+                                    <label>Counter</label>
+                                    <select class="form-control select2" name="counter" id="counter">
+                                        <option disabled selected>{{ $tadjh->counter }}</option>
+                                        @foreach($counters as $counter)
+                                        <option>{{ $counter->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>  
+                                <div class="form-group">
                                     <label>Jenis</label>
                                     <select class="form-control select2" name="jenis" id="jenis">
                                         <option disabled selected>{{ $tadjh->jenis }}</option>
                                         <option>Plus</option>
                                         <option>Minus</option>
                                     </select>
-                                </div>
+                                </div>                                
                                 <div class="form-group">
                                     <label>Catatan</label>
                                     <textarea class="form-control" style="height:100px" name="note">{{ $tadjh->note }}</textarea>
