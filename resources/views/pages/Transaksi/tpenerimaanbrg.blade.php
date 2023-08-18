@@ -42,7 +42,7 @@
                                 <div class="form-group">
                                     <label>Counter</label>
                                     <select class="form-control select2" name="counter" id="counter">
-                                        <option disabled selected>--Select Counter--</option>
+                                        {{-- <option disabled selected>--Select Counter--</option> --}}
                                         @foreach($counters as $data => $counter)
                                         <option>{{ $counter->name }}</option>
                                         @endforeach
