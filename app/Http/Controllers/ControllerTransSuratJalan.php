@@ -145,7 +145,7 @@ class ControllerTransSuratJalan extends Controller
     }
 
     public function print(Tsj_h $tsjh){
-        
+        // dd($tsjh->id);
         $tsjds = Tsj_d::find($tsjh->id)->where('idh','=',$tsjh->id)->get();
         
         // dd($tsjds);

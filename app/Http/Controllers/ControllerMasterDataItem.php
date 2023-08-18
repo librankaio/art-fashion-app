@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mitem;
 use App\Models\Mwarna;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Contracts\DataTable;
 use Yajra\DataTables\DataTables as DataTables;
 
@@ -66,10 +67,13 @@ class ControllerMasterDataItem extends Controller
     public function post(Request $request){
         // dd($request->all());
         $availcode = Mitem::where('code', '=', $request->kode)->first();
-
+        $counter = session('counter');
+        $nik = session('nik');
         if($availcode != null){
             return redirect()->back()->with('error', 'Kode sudah terdaftar');
         }else{
+            DB::select( DB::raw("INSERT INTO mitems_counters (code_mitem, name_mitem, code_mcounters, name_mcounters)
+            (SELECT code, name, '[$request->kode]', '[$counter]' FROM mitems TA);") );
             Mitem::create([
                 'name' => $request->nama,
                 'code' => $request->kode,

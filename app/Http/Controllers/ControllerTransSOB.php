@@ -82,7 +82,7 @@ class ControllerTransSOB extends Controller
     }
 
     public function getedit(Tsob_h $tsobh){
-        $counters = Mcounter::select('id','code','name')->get();
+        $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         $mitems = Mitem::select('id','code','name')->get();
         $tsobds = Tsob_d::select('id','idh','no_sob','code','name','qty','satuan','hrgjual','subtotal',)->where('idh','=',$tsobh->id)->get();
         return view('pages.Transaksi.tsobedit',[

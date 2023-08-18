@@ -14,41 +14,24 @@
         <div style="margin-left: 0%; margin-right: 0%;">
             <div class="container pt-5">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-1">
+                        <img src="{{ asset('../assets/img/artfashion_logo.png') }}" alt="logo" width="100">
+                    </div>                    
+                    <div class="col-5 pl-5">
                         <h5>Art Fashion Jewelry <br>Telp. (62 - 21) 645 0910/11<br>Fax. (62 - 21) 684288</h5>
-                    </div>
-                    <div class="col-6 d-flex justify-content-end align-items-end">
-                        <table id="mytable" border="1px">
-                            <thead>
-                                <tr>
-                                    <td align="center" style="width: 150px; word-wrap: break-word;">ORIGINAL</td>
-                                </tr>  
-                            </thead>
-                            <tbody>
-                                    <td align="center" style="width: 150px; word-wrap: break-word;">MEI 2023</td>
-                            </tbody>  
-                        </table>
-                    </div>
-                </div>
-                <div class="row pt-4">
-                    <div class="col-6">
-                    </div>
-                    <div class="col-6 d-flex justify-content-end align-items-end">
-                        <table id="mytable" border="1px">
-                            <thead>
-                                <tr>
-                                    <td class="p-2" style="width: 300px; word-wrap: break-word;">To : <br> PT.Matahari Depstore. TBK Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </td>
-                                </tr>  
-                            </thead>
-                        </table>
                     </div>
                 </div>
             </div>
+            <center>
+                <h1 style="text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px;">SURAT ORDER BARANG</h1>
+            </center>
             <div class="row">
                 <div class="col-6">
-                    <h5>No Faktur : {{ $tsobh->no }} </h5>
+                    <h5>Nama Counter : {{ $tsobh->no }} </h5>
+                    <h5>Tanggal : 10/08/2023</h5>
                 </div>
-                <div class="col-6 text-right">
+                <div class="col-6 d-flex justify-content-end align-items-end">
+                    <h5>No Faktur : {{ $tsobh->no }} </h5>
                 </div>
             </div>
             <center>              
@@ -84,21 +67,37 @@
                     <td align="center" colspan="3">Grand Balance : {{ number_format($tsobh->grdtotal, 2, '.', ',') }}</td>
                 </table>
             </center>
-            <center>
-                <div class="container pt-5">
-                    <div class="row">
-                        <div class="col-3">
-                            <h5>Jakarta, Mei 2023</h5>
-                            <br>
-                            <br>
-                            <br>
-                            <h5>Tri Haryanto</h5>
-                            <h5>Accounting</h5>
-                            {{-- <hr style="border-top: dotted 0.3px;" /> --}}
-                        </div>
+        </center>
+        <center>
+            <div class="container pt-5">
+                <div class="row d-flex justify-content-center align-items-center">
+                    <div class="col-3">
+                        <h5>Diorder Oleh</h5>
+                        <br>
+                        <br>
+                        <br>
+                        <hr style="border-top: dotted 0.3px;" />
+                        <h5>Supervisor</h5>
+                    </div>
+                    <div class="col-3">
+                        <h5>Diketahui Oleh</h5>
+                        <br>
+                        <br>
+                        <br>
+                        <hr style="border-top: dotted 0.3px;" />
+                        <h5>Gudang</h5>
+                    </div>
+                    <div class="col-3">
+                        <h5>Dicek Oleh</h5>
+                        <br>
+                        <br>
+                        <br>
+                        <hr style="border-top: dotted 0.3px;" />
+                        <h5>Control</h5>
                     </div>
                 </div>
-            </center>
+            </div>
+        </center>
             </div>
     </section>
 
