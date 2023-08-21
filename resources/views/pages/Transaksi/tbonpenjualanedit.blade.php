@@ -28,7 +28,7 @@
                                     {{-- @foreach($notrans as $key => $code)
                                         @php $codetrans = $code->codetrans @endphp
                                     @endforeach --}}
-                                    <input type="text" class="form-control" name="no" id="no" value="{{ $tpenjualanh->no }}">
+                                    <input type="text" class="form-control" name="no" id="no" value="{{ $tpenjualanh->no }}" readonly>
                                 </div>       
                                 <div class="form-group">
                                     <label>Counter</label>

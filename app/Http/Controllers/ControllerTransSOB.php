@@ -65,9 +65,9 @@ class ControllerTransSOB extends Controller
     public function  getmitem(Request $request){
         $kode = $request->kode;
         if($kode == ''){
-            $mitems = Mitem::select('id','code','name','satuan','hrgjual')->orderBy('code', 'asc')->limit(20)->get();
+            $mitems = Mitem::select('id','code','name','warna','satuan','hrgjual')->orderBy('code', 'asc')->limit(20)->get();
         }else{
-            $mitems = Mitem::select('id','code','name','satuan','hrgjual')->where('code','=',$kode)->limit(20)->get();
+            $mitems = Mitem::select('id','code','name','warna','satuan','hrgjual')->where('code','=',$kode)->limit(20)->get();
         }
         return json_encode($mitems);
     }

@@ -413,10 +413,8 @@
             if (rowCount == 0){
                 swal('WARNING', 'Silahkan Masukkan data detail terlebih dahulu!', 'warning');
                 return false;
-            }else if (counter == 0){
-                swal('WARNING', 'Please select Code Cust', 'warning');
-                return false;
-            }else if (no == ""){
+            }
+            else if (no == ""){
                 swal('WARNING', 'No Tidak boleh kosong!', 'warning');
                 return false;
             }

@@ -28,7 +28,7 @@
                                     {{-- @foreach($notrans as $key => $code)
                                         @php $codetrans = $code->codetrans @endphp
                                     @endforeach --}}
-                                    <input type="text" class="form-control" name="no" id="no" value="{{ $tpembelianh->no }}">
+                                    <input type="text" class="form-control" name="no" id="no" value="{{ $tpembelianh->no }}" readonly>
                                 </div>       
                                 <div class="form-group">
                                     <label>Supplier</label>
@@ -87,12 +87,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Warna</label>
-                                    <select class="form-control select2" id="warna">
+                                    <input type="text" class="form-control" id="warna" readonly>
+                                    {{-- <select class="form-control select2" id="warna">
                                         <option disabled selected>--Select Warna--</option>
                                         @foreach($mwarnas as $data => $item)                                        
                                         <option value="{{ $item->code }}">{{ $item->code." - ".$item->name }}</option>
                                         @endforeach
-                                    </select>
+                                    </select> --}}
                                 </div>  
                                 <div class="form-group">
                                     <label>Satuan</label>
@@ -207,6 +208,7 @@
                             if(response[i].code == kode){
                                 $("#nama_item").val(response[i].name)
                                 $("#satuan").val(response[i].satuan);
+                                $("#warna").val(response[i].warna);
                             }
                         }
                         hide_loading()
@@ -223,7 +225,7 @@
                 }
 
                 kode = $("#select2-kode-container").text();
-                warna = $("#select2-warna-container").text();
+                warna = $("#warna").val();
                 kode_id = $("#kode").val();
                 nama_item = $("#nama_item").val();
                 hrgbeli = $("#hrgbeli").val();
@@ -271,7 +273,9 @@
                 counter++;
                 $("#kode").prop('selectedIndex', 0).trigger('change');
                 $("#nama_item").val('');
+                $("#warna").val('');
                 $("#hrgbeli").val(0);
+                $("#hrgjual").val(0);
                 $("#quantity").val(0);
                 $("#satuan").val('');
                 $("#subtot").val('');

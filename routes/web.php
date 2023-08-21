@@ -19,6 +19,7 @@ use App\Http\Controllers\ControllerTransReturPenjualan;
 use App\Http\Controllers\ControllerTransSOB;
 use App\Http\Controllers\ControllerTransStockOpname;
 use App\Http\Controllers\ControllerTransSuratJalan;
+use App\Http\Controllers\ControllerUpload;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,7 +40,8 @@ Route::get('logout', [ControllerLogin::class, 'logout'])->name('logout');
 
 // ---Transaksi---
 Route::get('home', [ControllerHome::class, 'index'])->name('home');
-Route::get('uploadsample', [ControllerHome::class, 'uploadsample'])->name('uploadsample');
+Route::get('uploadsample', [ControllerUpload::class, 'index'])->name('uploadsample');
+Route::get('uploadpost', [ControllerUpload::class, 'uploadpost'])->name('uploadpost');
 
 Route::get('tsob', [ControllerTransSOB::class, 'index'])->name('tsob');
 Route::post('/tsobpost', [ControllerTransSOB::class, 'post'])->name('tsobpost');
