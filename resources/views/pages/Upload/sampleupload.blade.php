@@ -2,10 +2,10 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h1>Master Data</h1>
+        <h1>Upload Data</h1>
         <div class="section-header-breadcrumb">
-            <div class="breadcrumb-item active"><a href="#">Master Data</a></div>
-            <div class="breadcrumb-item"><a class="text-muted">Master Data Warna</a></div>
+            <div class="breadcrumb-item active"><a href="#">Upload Data</a></div>
+            <div class="breadcrumb-item"><a class="text-muted">Upload Data</a></div>
         </div>
     </div>
     @php
@@ -23,7 +23,7 @@
             <div class="col-12 col-md-6 col-lg-6">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Master Data Warna</h4>
+                        <h4>Upload Data</h4>
                     </div>
                     <form action="" method="POST">
                         @csrf
@@ -38,7 +38,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                {{-- <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Tipe Master Data</label>
                                         <select class="form-control select2" name="jenis" id="jenis">
@@ -47,7 +47,7 @@
                                             <option>TEST</option>
                                         </select>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <div class="card-footer text-right">                            

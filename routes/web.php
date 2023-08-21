@@ -86,6 +86,7 @@ Route::get('/tbonjual/{tpenjualanh}/print', [ControllerTransBonPenjualan::class,
 Route::get('tsuratjalan', [ControllerTransSuratJalan::class, 'index'])->name('tsuratjalan');
 Route::post('/tsuratjalanpost', [ControllerTransSuratJalan::class, 'post'])->name('tsuratjalanpost');
 Route::post('/getnosobd', [ControllerTransSuratJalan::class, 'getnosob'])->name('getnosobd');
+Route::post('/getcounter', [ControllerTransSuratJalan::class, 'getcounter'])->name('getcounter');
 Route::get('tsuratjalanlist', [ControllerTransSuratJalan::class, 'list'])->name('tsuratjalanlist');
 Route::get('/tsuratjalan/{tsjh}/edit', [ControllerTransSuratJalan::class, 'getedit'])->name('tsuratjalanedit');
 Route::post('/tsuratjalan/{tsjh}', [ControllerTransSuratJalan::class, 'update'])->name('tsuratjalanupdate');

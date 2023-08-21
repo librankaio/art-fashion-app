@@ -41,12 +41,13 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Counter</label>
-                                    <select class="form-control select2" name="counter" id="counter">
+                                    <input type="text" class="form-control" name="counter" id="counter" readonly>
+                                    {{-- <select class="form-control select2" name="counter" id="counter">
                                         <option disabled selected>--Select Counter--</option>
                                         @foreach($counters as $counter)
                                         <option>{{ $counter->name}}</option>
                                         @endforeach
-                                    </select>
+                                    </select> --}}
                                 </div>                  
                                 <div class="form-group">
                                     <label>Jenis</label>
@@ -200,6 +201,7 @@
                                 $("#nama_item").val(response[i].name)
                                 hrg = Number(response[i].hrgjual);
                                 $("#satuan").val(response[i].satuan);
+                                $("#satuan").val(response[i].satuan);
                                 subtotal = Number(hrg).toFixed(2) * $('#quantity').val()
                                 $("#subtot").val(thousands_separators(subtotal.toFixed(2)));
                                 $("#hrgjual").val(thousands_separators(hrg.toFixed(2)));
@@ -307,6 +309,22 @@
                                 }
                             }
                         }
+                        $.ajax({
+                            url: '{{ route('getcounter') }}', 
+                            method: 'post', 
+                            data: {'nosob': nosob}, 
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
+                            dataType: 'json', 
+                            success: function(response) {
+                                console.log(response);
+                                for (i=0; i < response.length; i++) {
+                                    if(response[i].no == nosob){
+                                        $("#counter").val(response[i].counter);
+                                    }
+                                }
+                            }
+                        });
                         hide_loading()
                     }
                 });

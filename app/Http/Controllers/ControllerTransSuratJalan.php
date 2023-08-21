@@ -68,12 +68,22 @@ class ControllerTransSuratJalan extends Controller
         return redirect()->back();
     }
 
-    public function  getnosob(Request $request){
+    public function getnosob(Request $request){
         $nosob = $request->nosob;
         if($nosob == ''){
-            $items = Tsob_d::select('id','idh','no_sob','code','name','qty','satuan','hrgjual','subtotal',)->get();
+            $items = Tsob_d::select('id','idh','no_sob','code','name','qty','satuan','hrgjual','subtotal')->get();
         }else{
-            $items = Tsob_d::select('id','idh','no_sob','code','name','qty','satuan','hrgjual','subtotal',)->where('no_sob','=',$nosob)->get();
+            $items = Tsob_d::select('id','idh','no_sob','code','name','qty','satuan','hrgjual','subtotal')->where('no_sob','=',$nosob)->get();
+        }
+        return json_encode($items);
+    }
+
+    public function getcounter(Request $request){
+        $nosob = $request->nosob;
+        if($nosob == ''){
+            $items = Tsob_h::select('id','no','tgl','counter','note','grdtotal')->get();
+        }else{
+            $items = Tsob_h::select('id','no','tgl','counter','note','grdtotal')->where('no','=',$nosob)->get();
         }
         return json_encode($items);
     }
