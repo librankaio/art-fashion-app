@@ -14,6 +14,7 @@ class Tsj_d extends Model
         'no_sj',
         'code',
         'name',
+        'warna',
         'qty',
         'satuan',
         'hrgjual',

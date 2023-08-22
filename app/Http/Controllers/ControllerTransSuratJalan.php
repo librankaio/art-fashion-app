@@ -54,6 +54,7 @@ class ControllerTransSuratJalan extends Controller
                     'no_sj' => $request->no,
                     'code' => $request->kode_d[$i],
                     'name' => $request->namaitem_d[$i],
+                    'warna' => $request->warna_d[$i],
                     'qty' => $request->quantity_d[$i],
                     'satuan' => $request->satuan_d[$i],
                     'subtotal' => (float) str_replace(',', '', $request->subtot_d[$i]),
@@ -73,7 +74,7 @@ class ControllerTransSuratJalan extends Controller
         if($nosob == ''){
             $items = Tsob_d::select('id','idh','no_sob','code','name','qty','satuan','hrgjual','subtotal')->get();
         }else{
-            $items = Tsob_d::select('id','idh','no_sob','code','name','qty','satuan','hrgjual','subtotal')->where('no_sob','=',$nosob)->get();
+            $items = Tsob_d::select('id','idh','no_sob','code','name','warna','qty','satuan','hrgjual','subtotal')->where('no_sob','=',$nosob)->get();
         }
         return json_encode($items);
     }
@@ -101,7 +102,7 @@ class ControllerTransSuratJalan extends Controller
         $counters = Mcounter::select('id','code','name')->get();
         $mitems = Mitem::select('id','code','name')->get();
         $sobs = Tsob_h::select('id','no','tgl','counter','note','grdtotal','user',)->get();
-        $tsjds = Tsj_d::select('id','idh','no_sj','code','name','qty','satuan','hrgjual','subtotal',)->where('idh','=',$tsjh->id)->get();
+        $tsjds = Tsj_d::select('id','idh','no_sj','code','name','warna','qty','satuan','hrgjual','subtotal',)->where('idh','=',$tsjh->id)->get();
         return view('pages.Transaksi.tsuratjalanedit',[
             'counters' => $counters,
             'mitems' => $mitems,
@@ -112,7 +113,6 @@ class ControllerTransSuratJalan extends Controller
     }
 
     public function update(Tsj_h $tsjh){
-        // dd(request()->all());
         for($j=0;$j<sizeof(request('no_d'));$j++){
             $no_sjh = request('no');
         }
@@ -134,6 +134,7 @@ class ControllerTransSuratJalan extends Controller
                 'no_sj' => request('no')[$i],
                 'code' => request('kode_d')[$i],
                 'name' => request('namaitem_d')[$i],
+                'warna' => request('warna_d')[$i],
                 'qty' => request('quantity_d')[$i],
                 'satuan' => request('satuan_d')[$i],
                 'hrgjual' => (float) str_replace(',', '', request('hrgjual_d')[$i]),

@@ -103,7 +103,7 @@ class ControllerTransPembelianBarang extends Controller
         for ($i=0;$i<sizeof(request('no_d'));$i++){
             Tpembelian_d::create([
                 'idh' => $tpembelianh->id,
-                'no_pembelian' => request('no')[$i],
+                'no_pembelian' => request('no'),
                 'code' => request('kode_d')[$i],
                 'name' => request('nama_item_d')[$i],
                 'warna' => request('warna_d')[$i],

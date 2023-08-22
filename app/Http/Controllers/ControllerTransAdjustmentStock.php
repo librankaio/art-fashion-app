@@ -101,6 +101,7 @@ class ControllerTransAdjustmentStock extends Controller
                 'idh' => $tadjh->id,
                 'no_adj' => request('no'),
                 'code' =>  request('kode_d')[$i],
+                'warna' => request('warna_d')[$i],
                 'name' =>  request('nama_item_d')[$i],
                 'qty' =>  request('quantity_d')[$i],
                 'satuan' => request('satuan_d')[$i],

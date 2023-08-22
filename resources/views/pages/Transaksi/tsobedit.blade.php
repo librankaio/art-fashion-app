@@ -74,9 +74,9 @@
                                         <input type="text" class="form-control" id="nama_item" disabled>
                                     </div>
                                     <div class="form-group">
-                                        <label>Harga Jual</label>
-                                        <input type="text" class="form-control" id="hrgjual" value="0">
-                                    </div>    
+                                        <label>Warna</label>
+                                        <input type="text" class="form-control" id="warna" disabled>
+                                    </div>                                           
                                     <div class="form-group">
                                         <a href="" id="addItem">
                                             <i class="fa fa-plus" style="font-size:18pt"></i>
@@ -85,13 +85,17 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label>Satuan</label>
+                                        <input type="text" class="form-control" id="satuan" disabled>
+                                    </div>
+                                    <div class="form-group">
                                         <label>Quantity</label>
                                         <input type="text" class="form-control" id="quantity" value="0">
                                     </div>
                                     <div class="form-group">
-                                        <label>Satuan</label>
-                                        <input type="text" class="form-control" id="satuan" disabled>
-                                    </div>
+                                        <label>Harga Jual</label>
+                                        <input type="text" class="form-control" id="hrgjual" value="0">
+                                    </div> 
                                     <div class="form-group">
                                         <label>Subtotal</label>
                                         <input type="text" class="form-control" id="subtot" disabled>
@@ -111,6 +115,7 @@
                                             <th scope="col" class="border border-5">No</th>
                                             <th scope="col" class="border border-5">Kode</th>
                                             <th scope="col" class="border border-5">Nama Item</th>
+                                            <th scope="col" class="border border-5">Warna</th>
                                             <th scope="col" class="border border-5">Quantity</th>
                                             <th scope="col" class="border border-5">Satuan</th>
                                             <th scope="col" class="border border-5">Harga Jual</th>
@@ -124,6 +129,7 @@
                                         <th class="id-header border border-5" style='readonly:true;' headers="{{ $counter }}">{{ $counter }}</th>
                                         <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='{{ $tsobds[$i]->code }}'></td>
                                         <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='{{ $tsobds[$i]->name }}'></td>
+                                        <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='{{ $tsobds[$i]->warna }}'></td>
                                         <td class="border border-5"><input type='text' style='width:100px;' form='thisform' class='quantityclass form-control' name='quantity_d[]' value='{{ number_format($tsobds[$i]->qty, 0, '.', '') }}'></td>
                                         <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='{{ $tsobds[$i]->satuan }}' name='satuan_d[]'></td>
                                         <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='hrgjualclass form-control' value='{{ number_format($tsobds[$i]->hrgjual, 2, '.', ',') }}' name='hrgjual_d[]'></td>
@@ -189,6 +195,7 @@
                                 $("#nama_item").val(response[i].name)
                                 hrg = Number(response[i].hrgjual);
                                 $("#satuan").val(response[i].satuan)
+                                $("#warna").val(response[i].warna);
                                 subtotal = Number(hrg).toFixed(2) * $('#quantity').val()
                                 $("#subtot").val(thousands_separators(subtotal.toFixed(2)));
                                 $("#hrgjual").val(thousands_separators(hrg.toFixed(2)));
@@ -210,13 +217,14 @@
                 kode = $("#select2-kode-container").text();
                 kode_id = $("#kode").val();
                 nama_item = $("#nama_item").val();
+                warna = $("#warna").val();
                 hrgjual = $("#hrgjual").val();
                 quantity = $("#quantity").val();
                 satuan = $("#satuan").val();
                 subtot = $("#subtot").val();
 
 
-                tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
+                tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
                 
                 subtotparse = subtot.replaceAll(",", "");
                 $("#datatable tbody").append(tablerow);
@@ -254,8 +262,8 @@
                 }
                 counter++;
                 $("#kode").prop('selectedIndex', 0).trigger('change');
-                $("#nama").val('');
                 $("#nama_item").val('');
+                $("#warna").val('');
                 $("#hrgjual").val(0);
                 $("#satuan").val('');
                 $("#quantity").val(0);

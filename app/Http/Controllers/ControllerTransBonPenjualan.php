@@ -118,9 +118,10 @@ class ControllerTransBonPenjualan extends Controller
         for ($i=0;$i<sizeof(request('no_d'));$i++){
             Tpenjualan_d::create([
                 'idh' => $tpenjualanh->id,
-                'no_penjualan' => request('no')[$i],
+                'no_penjualan' => request('no'),
                 'code' => request('kode_d')[$i],
                 'name' => request('namaitem_d')[$i],
+                'warna' => request('warna_d')[$i],
                 'qty' => request('quantity_d')[$i],
                 'satuan' => request('satuan_d')[$i],
                 'diskon' => request('diskon_d')[$i],

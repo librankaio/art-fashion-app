@@ -48,6 +48,7 @@ class ControllerTransSOB extends Controller
                     'no_sob' => $request->no,
                     'code' => $request->kode_d[$i],
                     'name' => $request->namaitem_d[$i],
+                    'warna' => $request->warna_d[$i],
                     'qty' => $request->quantity_d[$i],
                     'satuan' => $request->satuan_d[$i],
                     'subtotal' => (float) str_replace(',', '', $request->subtot_d[$i]),
@@ -84,7 +85,7 @@ class ControllerTransSOB extends Controller
     public function getedit(Tsob_h $tsobh){
         $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         $mitems = Mitem::select('id','code','name')->get();
-        $tsobds = Tsob_d::select('id','idh','no_sob','code','name','qty','satuan','hrgjual','subtotal',)->where('idh','=',$tsobh->id)->get();
+        $tsobds = Tsob_d::select('id','idh','no_sob','code','name','warna','qty','satuan','hrgjual','subtotal',)->where('idh','=',$tsobh->id)->get();
         return view('pages.Transaksi.tsobedit',[
             'counters' => $counters,
             'mitems' => $mitems,
@@ -111,9 +112,10 @@ class ControllerTransSOB extends Controller
         for ($i=0;$i<sizeof(request('no_d'));$i++){
             Tsob_d::create([
                 'idh' => $tsobh->id,
-                'no_sob' => request('no')[$i],
+                'no_sob' => request('no'),
                 'code' => request('kode_d')[$i],
                 'name' => request('namaitem_d')[$i],
+                'warna' => request('warna_d')[$i],
                 'qty' => request('quantity_d')[$i],
                 'satuan' => request('satuan_d')[$i],
                 'hrgjual' => (float) str_replace(',', '', request('hrgjual_d')[$i]),

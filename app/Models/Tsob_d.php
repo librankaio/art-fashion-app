@@ -14,6 +14,7 @@ class Tsob_d extends Model
         'no_sob',
         'code',
         'name',
+        'warna',
         'qty',
         'satuan',
         'hrgjual',

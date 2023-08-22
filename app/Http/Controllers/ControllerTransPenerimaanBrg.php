@@ -54,6 +54,7 @@ class ControllerTransPenerimaanBrg extends Controller
                     'no_penerimaan' => $request->no,
                     'code' => $request->kode_d[$i],
                     'name' => $request->nama_item_d[$i],
+                    'warna' => $request->warna_d[$i],
                     'qty' => $request->quantity_d[$i],
                     'satuan' => $request->satuan_d[$i],
                     'hrgjual' => (float) str_replace(',', '', $request->hrgjual_d[$i]),
