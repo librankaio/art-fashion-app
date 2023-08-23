@@ -73,9 +73,9 @@ class ControllerTransPenerimaanBrg extends Controller
     public function  getmitem(Request $request){
         $kode = $request->kode;
         if($kode == ''){
-            $mitems = Mitem::select('id','code','name','satuan','hrgjual')->get();
+            $mitems = Mitem::select('id','code','name','warna','satuan','hrgjual')->get();
         }else{
-            $mitems = Mitem::select('id','code','name','satuan','hrgjual')->where('code','=',$kode)->get();
+            $mitems = Mitem::select('id','code','name','warna','satuan','hrgjual')->where('code','=',$kode)->get();
         }
         return json_encode($mitems);
     }
@@ -83,9 +83,9 @@ class ControllerTransPenerimaanBrg extends Controller
     public function  getnosj(Request $request){
         $nosj = $request->nosj;
         if($nosj == ''){
-            $items = Tsj_d::select('id','idh','no_sj','code','name','qty','satuan','hrgjual','subtotal',)->get();
+            $items = Tsj_d::select('id','idh','no_sj','code','name','warna','qty','satuan','hrgjual','subtotal',)->get();
         }else{
-            $items = Tsj_d::select('id','idh','no_sj','code','name','qty','satuan','hrgjual','subtotal',)->where('no_sj','=',$nosj)->get();
+            $items = Tsj_d::select('id','idh','no_sj','code','name','warna','qty','satuan','hrgjual','subtotal',)->where('no_sj','=',$nosj)->get();
         }
         return json_encode($items);
     }
@@ -102,7 +102,7 @@ class ControllerTransPenerimaanBrg extends Controller
     public function getedit(Tpenerimaan_h $tpenerimaanh){
         $counters = Mcounter::select('id','code','name')->get();
         $mitems = Mitem::select('id','code','name')->get();
-        $tpenerimaands = Tpenerimaan_d::select('id','idh','no_penerimaan','code','name','qty','satuan','hrgjual','keterangan','subtotal',)->where('idh','=',$tpenerimaanh->id)->get();
+        $tpenerimaands = Tpenerimaan_d::select('id','idh','no_penerimaan','code','name','warna','qty','satuan','hrgjual','keterangan','subtotal',)->where('idh','=',$tpenerimaanh->id)->get();
         return view('pages.Transaksi.tpenerimaanbrgedit',[
             'counters' => $counters,
             'mitems' => $mitems,
@@ -133,7 +133,8 @@ class ControllerTransPenerimaanBrg extends Controller
                 'idh' => $tpenerimaanh->id,
                 'no_penerimaan' => request('no'),
                 'code' =>  request('kode_d')[$i],
-                'name' =>  request('nama_item_d')[$i],
+                'name' =>  request('namaitem_d')[$i],
+                'warna' =>  request('warna_d')[$i],
                 'qty' =>  request('quantity_d')[$i],
                 'satuan' => request('satuan_d')[$i],
                 'hrgjual' => (float) str_replace(',', '', request('hrgjual_d')[$i]),

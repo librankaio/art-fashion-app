@@ -82,6 +82,10 @@
                                     <input type="text" class="form-control" id="nama_item" disabled>
                                 </div>
                                 <div class="form-group">
+                                    <label>Warna</label>
+                                    <input type="text" class="form-control" id="warna" disabled>
+                                </div> 
+                                <div class="form-group">
                                     <a href="" id="addItem">
                                         <i class="fa fa-plus" style="font-size:18pt"></i>
                                     </a>
@@ -111,6 +115,7 @@
                                         <th scope="col" class="border border-5">No</th>
                                         <th scope="col" class="border border-5">Kode</th>
                                         <th scope="col" class="border border-5">Nama Item</th>
+                                        <th scope="col" class="border border-5">Warna</th>
                                         <th scope="col" class="border border-5">Quantity</th>
                                         <th scope="col" class="border border-5">Satuan</th>
                                         <th scope="col" class="border border-5">Action</th>
@@ -161,6 +166,7 @@
                         for (i=0; i < response.length; i++) {
                             if(response[i].code == kode){
                                 $("#nama_item").val(response[i].name)
+                                $("#warna").val(response[i].warna)
                                 $("#satuan").val(response[i].satuan)
                             }
                         }
@@ -180,20 +186,23 @@
                 kode = $("#select2-kode-container").text();
                 kode_id = $("#kode").val();
                 nama_item = $("#nama_item").val();
+                warna = $("#warna").val();
                 quantity = $("#quantity").val();
                 satuan = $("#satuan").val();
 
 
-                tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='nama_item_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input type='text' style='width:100px;' form='thisform' class='quantityclass form-control' name='quantity_d[]' value='" + quantity + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='" + satuan + "' name='satuan_d[]'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
+                tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='nama_item_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td><td class='border border-5'><input type='text' style='width:100px;' form='thisform' class='quantityclass form-control' name='quantity_d[]' value='" + quantity + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='" + satuan + "' name='satuan_d[]'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
                 
                 $("#datatable tbody").append(tablerow);
                 if(counter == 1){
                     $("#nama_item").val('');
+                    $("#warna").val('');
                     $('#hrgsatuan').val(0);
                     $('#quantity').val(0);
                 }else{
 
                     $("#nama_item").val('');
+                    $("#warna").val('');
                     $('#hrgsatuan').val(0);
                     $('#quantity').val(0);
                 }

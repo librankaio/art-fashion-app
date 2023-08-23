@@ -132,7 +132,7 @@
                                 @endfor
                                     {{-- <label>counter</label> --}}
                                     <input type="text" class="form-control" id="number_counter" value="{{ $row_counter }}" readonly>
-                                </div>
+                            </div>
                             <table class="table table-bordered" id="datatable">
                                 <thead>
                                     <tr>

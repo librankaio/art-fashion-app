@@ -48,6 +48,7 @@ class ControllerTransAdjustmentStock extends Controller
                     'no_adj' => $request->no,
                     'code' => $request->kode_d[$i],
                     'name' => $request->nama_item_d[$i],
+                    'warna' => $request->warna_d[$i],
                     'qty' => $request->quantity_d[$i],
                     'satuan' => $request->satuan_d[$i],
                 ]);
@@ -72,7 +73,7 @@ class ControllerTransAdjustmentStock extends Controller
     public function getedit(Tadj_h $tadjh){
         $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         $mitems = Mitem::select('id','code','name')->get();
-        $tadjs = Tadj_d::select('id','idh','no_adj','code','name','qty','satuan',)->where('idh','=',$tadjh->id)->get();
+        $tadjs = Tadj_d::select('id','idh','no_adj','code','name','warna','qty','satuan',)->where('idh','=',$tadjh->id)->get();
         return view('pages.Transaksi.tadjustmentstockedit',[
             'counters' => $counters,
             'mitems' => $mitems,
@@ -101,8 +102,8 @@ class ControllerTransAdjustmentStock extends Controller
                 'idh' => $tadjh->id,
                 'no_adj' => request('no'),
                 'code' =>  request('kode_d')[$i],
-                'warna' => request('warna_d')[$i],
                 'name' =>  request('nama_item_d')[$i],
+                'warna' => request('warna_d')[$i],
                 'qty' =>  request('quantity_d')[$i],
                 'satuan' => request('satuan_d')[$i],
             ]);

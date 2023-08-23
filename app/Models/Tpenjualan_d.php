@@ -14,6 +14,7 @@ class Tpenjualan_d extends Model
         'no_penjualan',
         'code',
         'name',
+        'warna',
         'qty',
         'satuan',
         'hrgjual',

@@ -101,6 +101,10 @@
                                     <input type="text" class="form-control" id="nama_item" disabled>
                                 </div>                                
                                 <div class="form-group">
+                                    <label>Warna</label>
+                                    <input type="text" class="form-control" id="warna" disabled>
+                                </div>
+                                <div class="form-group">
                                     <label>Satuan</label>
                                     <input type="text" class="form-control" id="satuan" disabled>
                                 </div>
@@ -127,6 +131,7 @@
                                         <th scope="col" class="border border-5">No</th>
                                         <th scope="col" class="border border-5">Kode</th>
                                         <th scope="col" class="border border-5">Nama Item</th>
+                                        <th scope="col" class="border border-5">Warna</th>
                                         <th scope="col" class="border border-5">Quantity</th>
                                         <th scope="col" class="border border-5">Satuan</th>
                                         <th scope="col" class="border border-5">Harga</th>
@@ -202,6 +207,7 @@
                                 $("#nama_item").val(response[i].name)
                                 hrg = Number(response[i].hrgjual);
                                 $("#satuan").val(response[i].satuan);
+                                $("#warna").val(response[i].warna);
                                 subtotal = Number(hrg).toFixed(2) * $('#quantity').val()
                                 $("#subtot").val(thousands_separators(subtotal.toFixed(2)));
                                 $("#hrgjual").val(thousands_separators(hrg.toFixed(2)));
@@ -223,6 +229,7 @@
                 kode = $("#select2-kode-container").text();
                 kode_id = $("#kode").val();
                 nama_item = $("#nama_item").val();
+                warna = $("#warna").val();
                 hrgjual = $("#hrgjual").val();
                 diskon = $("#disc").val();
                 quantity = $("#quantity").val();
@@ -231,7 +238,7 @@
                 keterangan = $("#keterangan").val();
 
 
-                tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='diskonclass form-control' name='diskon_d[]' id='diskon_d_"+counter+"' type='text' value='" + diskon + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='keteranganclass form-control' name='keterangan_d[]' type='text' value='" + keterangan + "'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
+                tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='diskonclass form-control' name='diskon_d[]' id='diskon_d_"+counter+"' type='text' value='" + diskon + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='keteranganclass form-control' name='keterangan_d[]' type='text' value='" + keterangan + "'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
                 
                 subtotparse = subtot.replaceAll(",", "");
                 $("#datatable tbody").append(tablerow);
@@ -284,7 +291,7 @@
                 }
                 counter++;
                 $("#kode").prop('selectedIndex', 0).trigger('change');
-                $("#nama").val('');
+                $("#warna").val('');
                 $("#nama_item").val('');
                 $("#hrgjual").val(0);
                 $("#disc").val(0);

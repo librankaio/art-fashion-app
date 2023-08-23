@@ -72,7 +72,7 @@ class ControllerTransReturPenjualan extends Controller
     public function getedit(Tretur_h $treturh){
         $counters = Mcounter::select('id','code','name')->get();
         $mitems = Mitem::select('id','code','name')->get();
-        $treturds = Tretur_d::select('id','idh','no_retur','code','name','qty','satuan',)->where('idh','=',$treturh->id)->get();
+        $treturds = Tretur_d::select('id','idh','no_retur','code','name','warna','qty','satuan',)->where('idh','=',$treturh->id)->get();
         return view('pages.Transaksi.treturpenjualanedit',[
             'counters' => $counters,
             'mitems' => $mitems,

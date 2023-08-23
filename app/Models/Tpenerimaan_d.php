@@ -14,6 +14,7 @@ class Tpenerimaan_d extends Model
         'no_penerimaan',
         'code',
         'name',
+        'warna',
         'qty',
         'satuan',
         'hrgjual',

@@ -14,6 +14,7 @@ class Tadj_d extends Model
         'no_adj',
         'code',
         'name',
+        'warna',
         'qty',
         'satuan',
     ];

@@ -50,6 +50,7 @@ class ControllerTransBonPenjualan extends Controller
                     'no_penjualan' => $request->no,
                     'code' => $request->kode_d[$i],
                     'name' => $request->namaitem_d[$i],
+                    'warna' => $request->warna_d[$i],
                     'qty' => $request->quantity_d[$i],
                     'satuan' => $request->satuan_d[$i],
                     'qty' => $request->quantity_d[$i],
@@ -89,7 +90,7 @@ class ControllerTransBonPenjualan extends Controller
     public function getedit(Tpenjualan_h $tpenjualanh){
         $counters = Mcounter::select('id','code','name')->get();
         $mitems = Mitem::select('id','code','name')->get();
-        $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note')->where('idh','=',$tpenjualanh->id)->get();
+        $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','warna','qty','satuan','hrgjual','diskon','subtotal','note')->where('idh','=',$tpenjualanh->id)->get();
         return view('pages.Transaksi.tbonpenjualanedit',[
             'counters' => $counters,
             'mitems' => $mitems,
