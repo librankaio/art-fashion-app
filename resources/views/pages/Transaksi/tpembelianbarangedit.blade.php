@@ -32,13 +32,7 @@
                                 </div>       
                                 <div class="form-group">
                                     <label>Supplier</label>
-                                    <select class="form-control select2" name="supplier" id="supplier">
-                                        <option selected>{{ $tpembelianh->supplier }}</option>
-                                        <option selected>Supplier 1</option>
-                                        {{-- @foreach($cabangs as $data => $cabang)
-                                        <option>{{ $cabang->name." - ".$cabang->address }}</option>
-                                        @endforeach --}}
-                                    </select>
+                                    <input type="text" class="form-control" name="supplier" id="supplier" value="{{ $tpembelianh->supplier }}">
                                 </div>                         
                                 <div class="form-group">
                                     <label>Tanggal</label>
@@ -175,7 +169,7 @@
                         @elseif($tpos_save == 'N' || $tpos_save == null)
                             <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}" disabled>Submit</button>
                         @endif --}}
-                        <button class="btn btn-secondary" type="reset">Reset</button>
+                        {{-- <button class="btn btn-secondary" type="reset">Reset</button> --}}
                     </div>
                 </div>
             </div>

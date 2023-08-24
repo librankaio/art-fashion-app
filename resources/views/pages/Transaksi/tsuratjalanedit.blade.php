@@ -29,6 +29,15 @@
                                         @php $codetrans = $code->codetrans @endphp
                                     @endforeach --}}
                                     <input type="text" class="form-control" name="no" id="no" value="{{ $tsjh->no }}" readonly>
+                                </div>      
+                                <div class="form-group">
+                                    <label>No SOB.</label>
+                                    <select class="form-control select2" name="nosob" id="nosob">
+                                        <option selected>{{ $tsjh->no_sob }}</option>
+                                        @foreach($sobs as $data => $sob)
+                                        <option>{{ $sob->no }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>       
                                 <div class="form-group">
                                     <label>Counter</label>
@@ -38,7 +47,11 @@
                                         <option>{{ $counter->name}}</option>
                                         @endforeach
                                     </select>
-                                </div>                  
+                                </div>                          
+                                <div class="form-group">
+                                    <label>Tanggal</label>
+                                    <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d", strtotime($tsjh->tgl)) }}">
+                                </div>
                                 <div class="form-group">
                                     <label>Jenis</label>
                                     <select class="form-control" name="jenis" id="jenis">
@@ -46,24 +59,11 @@
                                         <option>Normal</option>
                                         <option>Retur</option>
                                     </select>
-                                </div>                         
-                                <div class="form-group">
-                                    <label>Tanggal</label>
-                                    <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d", strtotime($tsjh->tgl)) }}">
-                                </div>
+                                </div>   
                                 <div class="form-group">
                                     <label>Catatan</label>
                                     <textarea class="form-control" style="height:100px" name="note">{{$tsjh->note}}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>No SOB.</label>
-                                    <select class="form-control select2" name="nosob" id="nosob">
-                                        <option selected>{{ $tsjh->jenis }}</option>
-                                        @foreach($sobs as $data => $sob)
-                                        <option>{{ $sob->no }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>        
+                                </div>                                 
                             </div>
                         </div>
                     </div>
@@ -185,7 +185,7 @@
                         @elseif($tpos_save == 'N' || $tpos_save == null)
                             <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}" disabled>Submit</button>
                         @endif --}}
-                        <button class="btn btn-secondary" type="reset">Reset</button>
+                        {{-- <button class="btn btn-secondary" type="reset">Reset</button> --}}
                     </div>
                 </div>
             </div>

@@ -32,13 +32,7 @@
                                 </div>       
                                 <div class="form-group">
                                     <label>Supplier</label>
-                                    <select class="form-control select2" name="supplier" id="supplier">
-                                        <option disabled selected>--Select Supplier--</option>
-                                        <option selected>Supplier 1</option>
-                                        {{-- @foreach($cabangs as $data => $cabang)
-                                        <option>{{ $cabang->name." - ".$cabang->address }}</option>
-                                        @endforeach --}}
-                                    </select>
+                                    <input type="text" class="form-control" name="supplier" id="supplier">
                                 </div>                         
                                 <div class="form-group">
                                     <label>Tanggal</label>
@@ -161,7 +155,7 @@
                         @elseif($tpos_save == 'N' || $tpos_save == null)
                             <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}" disabled>Submit</button>
                         @endif --}}
-                        <button class="btn btn-secondary" type="reset">Reset</button>
+                        {{-- <button class="btn btn-secondary" type="reset">Reset</button> --}}
                     </div>
                 </div>
             </div>
@@ -374,6 +368,7 @@
             $(document).on("click","#confirm",function(e){
             // Validate ifnull
             no = $("#no").val();
+            supplier = $("#supplier").val();
             code_cust = $("#code_cust").prop('selectedIndex');
             if (no == ""){
                 swal('WARNING', 'No Tidak boleh kosong!', 'warning');
@@ -381,7 +376,11 @@
             }else if (code_cust == 0){
                 swal('WARNING', 'Please select Code Cust', 'warning');
                 return false;
+            }else if (supplier == ''){
+                swal('WARNING', 'Supplier tidak boleh kosong!', 'warning');
+                return false;
             }
+            
             });
         
         })
