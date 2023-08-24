@@ -347,6 +347,17 @@
                 }
             });
 
+            $(document).on("change", "#jenis_promosi", function(e) {
+                isi = this.value
+
+                if(isi == 'Special Price'){
+                    $("#disc").val(0);
+                    $("#disc").prop('readonly', true); 
+                }else{
+                    $("#disc").prop('readonly', false);
+                }
+            });
+
             $(document).on("change", "#quantity", function(e) {
                 if($('#quantity').val() == ''){
                     $('#quantity').val(0);

@@ -62,8 +62,8 @@
                                     <tr>
                                         <th scope="col" class="border border-5" style="text-align: center;">No</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">No Trans</th>
-                                        <th scope="col" class="border border-5" style="text-align: center;">Catatan</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Tanggal</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Catatan</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Action</th>
                                     </tr>
                                 </thead>
@@ -74,8 +74,8 @@
                                     <tr>
                                         <th scope="row" class="border border-5" style="text-align: center;">{{ $counter }}</th>
                                         <td class="border border-5" style="text-align: center;">{{ $item->no }}</td>
-                                        <td class="border border-5" style="text-align: center;">{{ $item->note }}</td>
                                         <td class="border border-5" style="text-align: center;">{{ date("Y-m-d", strtotime($item->tgl)) }}</td>
+                                        <td class="border border-5" style="text-align: center;">{{ $item->note }}</td>
                                         <td style="text-align: center;" class="d-flex justify-content-center">
                                             <a href="/tadj/{{ $item->id }}/edit"
                                                 class="btn btn-icon icon-left btn-primary"><i class="far fa-edit">
