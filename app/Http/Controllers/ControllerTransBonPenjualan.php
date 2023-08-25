@@ -34,6 +34,8 @@ class ControllerTransBonPenjualan extends Controller
                 'counter' => $request->counter,
                 'jenis_promosi' => $request->jenis_promosi,
                 'note' => $request->note,
+                'payment_mthd' => $request->payment_mthd,
+                'noreff' => $request->noreff,
                 'diskon' =>  (float) str_replace(',', '', $request->price_disc),
                 'grdtotal' => (float) str_replace(',', '', $request->price_total),
             ]);
@@ -79,7 +81,7 @@ class ControllerTransBonPenjualan extends Controller
     }
 
     public function list(){
-        $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','grdtotal',)->orderBy('created_at', 'asc')->get();
+        $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal',)->orderBy('created_at', 'asc')->get();
         $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note',)->get();
         return view('pages.Transaksi.tbonpenjualanlist',[
             'tpenjualanhs' => $tpenjualanhs,
@@ -111,6 +113,8 @@ class ControllerTransBonPenjualan extends Controller
             'jenis_promosi' => request('jenis_promosi'),
             'tgl' => request('dt'),
             'note' => request('note'),
+            'payment_mthd' => request('payment_mthd'),
+            'noreff' => request('noreff'),
             'diskon' =>  (float) str_replace(',', '', request('price_disc')),
             'grdtotal' =>  (float) str_replace(',', '', request('price_total'))
         ]);

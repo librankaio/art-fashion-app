@@ -59,7 +59,7 @@
                                         <option>Normal</option>
                                         <option>Retur</option>
                                     </select>
-                                </div>   
+                                </div>                                  
                                 <div class="form-group">
                                     <label>Catatan</label>
                                     <textarea class="form-control" style="height:100px" name="note">{{$tsjh->note}}</textarea>

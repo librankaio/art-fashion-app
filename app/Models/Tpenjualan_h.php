@@ -16,6 +16,8 @@ class Tpenjualan_h extends Model
         'jenis_promosi',
         'note',
         'diskon',
+        'payment_mthd',
+        'noreff',
         'grdtotal',
         'user',
     ];

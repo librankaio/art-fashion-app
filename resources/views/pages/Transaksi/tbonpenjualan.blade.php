@@ -46,7 +46,21 @@
                                         <option selected>Diskon</option>
                                         <option>Special Price</option>
                                     </select>
-                                </div>                         
+                                </div>    
+                                <div class="form-group">
+                                    <label>Payment Method</label>
+                                    <select class="form-control" name="payment_mthd" id="payment_mthd">
+                                        <option>Debit</option>
+                                        <option>Qris</option>
+                                        <option>Online</option>
+                                        <option>Transfer</option>
+                                        <option>Cash</option>
+                                    </select>
+                                </div>                       
+                                <div class="form-group">
+                                    <label>No. Reff</label>
+                                    <input type="text" class="form-control" name="noreff" id="noreff">
+                                </div>                       
                                 <div class="form-group">
                                     <label>Tanggal</label>
                                     <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d") }}">

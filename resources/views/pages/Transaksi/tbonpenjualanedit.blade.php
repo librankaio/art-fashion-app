@@ -46,7 +46,22 @@
                                         <option>Special Price</option>
                                         <option>Diskon</option>
                                     </select>
-                                </div>                   
+                                </div>      
+                                <div class="form-group">
+                                    <label>Payment Method</label>
+                                    <select class="form-control" name="payment_mthd" id="payment_mthd">
+                                        <option selected>{{ $tpenjualanh->payment_mthd }}</option>
+                                        <option>Debit</option>
+                                        <option>Qris</option>
+                                        <option>Online</option>
+                                        <option>Transfer</option>
+                                        <option>Cash</option>
+                                    </select>
+                                </div>                       
+                                <div class="form-group">
+                                    <label>No. Reff</label>
+                                    <input type="text" class="form-control" name="noreff" id="noreff" value="{{ $tpenjualanh->noreff }}">
+                                </div>             
                                 <div class="form-group">
                                     <label>Tanggal</label>
                                     <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d", strtotime($tpenjualanh->tgl)) }}">

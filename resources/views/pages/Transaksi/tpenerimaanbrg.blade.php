@@ -542,6 +542,7 @@
         $(document).on("click","#confirm",function(e){
         // Validate ifnull
         no = $("#no").val();
+        rowCount = $('#number_counter').val();
         jenis = $("#jenis").prop('selectedIndex');
         if (rowCount == 0){
             swal('WARNING', 'Silahkan Masukkan data detail terlebih dahulu!', 'warning');
