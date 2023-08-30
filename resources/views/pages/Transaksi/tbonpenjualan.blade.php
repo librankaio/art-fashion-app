@@ -388,6 +388,16 @@
                 var total = parseInt(hrg) * parseInt(qty);               
                 $("#subtot").val(thousands_separators(total.toFixed(2)));
             });
+            $(document).on("change", "#disc", function(e) {
+                if($('#disc').val() == ''){
+                    $('#disc').val(0);
+                }
+                if($('#disc').val() >= 100){
+                    swal('WARNING', 'Diskon tidak bisa 100% / Lebih', 'warning');
+                    $('#disc').val(0);
+                    return false;
+                }
+            });
 
             $(document).on("change", "#hrgjual", function(e) {
                 if($('#hrgjual').val() == ''){
@@ -411,6 +421,12 @@
         });
         // VALIDATE TRIGGER
         $("#quantity").keyup(function(e){
+            if (/\D/g.test(this.value)){
+                // Filter non-digits from input value.
+                this.value = this.value.replace(/\D/g, '');
+            }
+        });
+        $("#disc").keyup(function(e){
             if (/\D/g.test(this.value)){
                 // Filter non-digits from input value.
                 this.value = this.value.replace(/\D/g, '');

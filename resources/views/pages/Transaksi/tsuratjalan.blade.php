@@ -276,8 +276,16 @@
                                     $("#datatable tbody").append(tablerow);
                                 }
                             }
+                            var x = document.getElementById("card_items");
+                            if (x.style.display === "none") {
+                                x.style.display = "block";
+                            } else {
+                                x.style.display = "none";
+                            }
                         }else if($('#number_counter').val() >= 0){
                             console.log('masuk222');
+
+                            $('#number_counter').val(0)
                             $("#datatable tbody").empty();
 
                             number_counter = Number($('#number_counter').val());
@@ -286,8 +294,6 @@
                                     // if(number_counter == 0){
                                     //     number_counter++;
                                     // }
-                                    
-                                    tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + number_counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + response[i].code + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + response[i].name + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + response[i].warna + "'></td><td class='border border-5'><input type='text' style='width:100px;' form='thisform' class='quantityclass form-control' name='quantity_d[]' value='" + parseInt(response[i].qty) + "'></td><td class='border border-5'><input type='text' style='width:100px;' form='thisform' class='hrgjualclass form-control' name='hrgjual_d[]' value='" + thousands_separators(Number(response[i].hrgjual).toFixed(2)) + "'></td><td class='border border-5'><input type='text' style='width:100px;' form='thisform' class='subtotclass form-control' name='subtot_d[]' id='subtot_d_"+number_counter+"' value='" + thousands_separators(Number(response[i].subtotal).toFixed(2)) + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='" + response[i].satuan + "' name='satuan_d[]'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
 
                                     old_grandtot = $('#price_total').val();
                                     
@@ -313,9 +319,18 @@
 
                                     $("#price_total").val(new_grandtot);
                                     number_counter++
+
                                     $('#number_counter').val(number_counter);
+
+                                    number_new = $('#number_counter').val();
+
+                                    tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + number_new + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + response[i].code + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + response[i].name + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + response[i].warna + "'></td><td class='border border-5'><input type='text' style='width:100px;' form='thisform' class='quantityclass form-control' name='quantity_d[]' value='" + parseInt(response[i].qty) + "'></td><td class='border border-5'><input type='text' style='width:100px;' form='thisform' class='hrgjualclass form-control' name='hrgjual_d[]' value='" + thousands_separators(Number(response[i].hrgjual).toFixed(2)) + "'></td><td class='border border-5'><input type='text' style='width:100px;' form='thisform' class='subtotclass form-control' name='subtot_d[]' id='subtot_d_"+number_new+"' value='" + thousands_separators(Number(response[i].subtotal).toFixed(2)) + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='" + response[i].satuan + "' name='satuan_d[]'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
                                     $("#datatable tbody").append(tablerow);
                                 }
+                            }
+                            var x = document.getElementById("card_items");
+                            if (x.style.display === "none") {
+                                x.style.display = "block";
                             }
                         }
                         $.ajax({
@@ -336,13 +351,7 @@
                         });
                         hide_loading()
                     }
-                });
-                var x = document.getElementById("card_items");
-                if (x.style.display === "none") {
-                    x.style.display = "block";
-                } else {
-                    x.style.display = "none";
-                }
+                });                
             });
 
             var counter = Number($('#number_counter').val());
@@ -463,6 +472,8 @@
                     sum = old_grandtot - subtot;
                     console.log(sum);
                     
+                    rowCount = $('#number_counter').val();
+
                     rowCount--;
                     $('#number_counter').val(rowCount);
                     $("#price_total").val(thousands_separators(sum.toFixed(2)));

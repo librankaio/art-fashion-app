@@ -33,6 +33,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/testreport', function () {
+    return view('pages.Print.printp');
+});
+Route::get('/tss', function () {
+    return view('pages.Print.printp');
+});
+
 // ---Master Data---
 Route::get('/', [ControllerLogin::class, 'index'])->name('login');
 Route::post('/', [ControllerLogin::class, 'postLogin'])->name('postlogin');

@@ -80,6 +80,7 @@
             <li><a class="nav-link" href="{{ route('romsetitem') }}">Laporan Omset Per Item</a></li>
             <li><a class="nav-link" href="{{ route('rstockoverview') }}">Laporan Stock Overview</a></li>
             <li><a class="nav-link" href="{{ route('rmutasistock') }}">Laporan Mutasi Stock</a></li>
+            <li><a class="nav-link" href="testreport" target="_blank">Laporan Test</a></li>
         </ul>
     </li>
     <li class="menu-header">Upload Data</li>
