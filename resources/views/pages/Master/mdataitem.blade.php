@@ -158,6 +158,18 @@
                                             <a href="/mitem/{{ $item->id }}/edit"
                                                 class="btn btn-icon icon-left btn-primary"><i class="far fa-edit">
                                                     Edit</i></a>
+                                            @if($item->exist_trans == "Y")                                            
+                                            <form action="/mitem/delete/{{ $item->id }}" id="del-{{ $item->id }}"
+                                                method="POST" class="px-2">
+                                                @csrf
+                                                <button class="btn btn-icon icon-left btn-danger" disabled
+                                                    id="del-{{ $item->id }}" type="submit"
+                                                    data-confirm="WARNING!|Do you want to delete {{ $item->name }} data?"
+                                                    data-confirm-yes="submitDel({{ $item->id }})"><i
+                                                        class="fa fa-trash">
+                                                        Delete</i></button>
+                                            </form>
+                                            @else
                                             <form action="/mitem/delete/{{ $item->id }}" id="del-{{ $item->id }}"
                                                 method="POST" class="px-2">
                                                 @csrf
@@ -168,6 +180,7 @@
                                                         class="fa fa-trash">
                                                         Delete</i></button>
                                             </form>
+                                            @endif
                                             <a href="/mitem/{{ $item->id }}/print"
                                                 class="btn btn-icon icon-left btn-success" target="_blank"><i class="far fa-print">
                                                     Print</i></a>

@@ -16,8 +16,7 @@ class ControllerMasterDataLokasi extends Controller
     }
 
     public function post(Request $request){
-        // dd($request->all());
-        $availcode = Mcounter::where('code', '=', $request->kode)->first();
+        $availcode = Mcounter::where('code', '=', $request->code)->first();
 
         if($availcode != null){
             return redirect()->back()->with('error', 'Kode sudah terdaftar');

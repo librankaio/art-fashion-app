@@ -46,14 +46,14 @@ class ControllerMasterDataItem extends Controller
 
         if (isset($request->search)) {
             $warnas = Mwarna::select('code','name')->get();
-            $datas = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice')->where('code','LIKE','%'.$request->search.'%')->paginate(50);
+            $datas = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice','exist_trans')->where('code','LIKE','%'.$request->search.'%')->paginate(50);
             return view('pages.Master.mdataitem',[
                 'datas' => $datas,
                 'warnas' => $warnas
             ]);
         }
             $warnas = Mwarna::select('code','name')->get();
-            $datas = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice')->paginate(50);
+            $datas = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice','exist_trans')->paginate(50);
             return view('pages.Master.mdataitem',[
                 'datas' => $datas,
                 'warnas' => $warnas

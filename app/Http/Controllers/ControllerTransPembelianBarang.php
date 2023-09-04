@@ -56,6 +56,14 @@ class ControllerTransPembelianBarang extends Controller
                     'subtotal' => (float) str_replace(',', '', $request->subtot_d[$i]),
                 ]);
                 $count++;
+                
+                $exist_transcode = Mitem::select('id','code')->where('code','=', $request->kode_d[$i])->first();
+                // dd(strtok($request->kode_d[$i], " "));
+                if($exist_transcode == null || $exist_transcode != "Y"){
+                    Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
+                        'exist_trans' => "Y",
+                    ]);
+                }
             }
             if($count == $countrows){
                 return redirect()->back();

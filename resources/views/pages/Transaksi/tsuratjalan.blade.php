@@ -12,6 +12,11 @@
         $tpos_save = session('tpos_save');
     @endphp
     <div class="section-body">
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                @include('layouts.flash-message')
+            </div>
+        </div>
         <form action="" method="POST" id="thisform">
             @csrf
         <div class="row">

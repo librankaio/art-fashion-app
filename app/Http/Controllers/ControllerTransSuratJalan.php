@@ -17,7 +17,7 @@ class ControllerTransSuratJalan extends Controller
     {
         $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         $mitems = Mitem::select('id','code','name')->get();
-        $sobs = Tsob_h::select('id','no','tgl','counter','note','grdtotal','user',)->get();
+        $sobs = Tsob_h::select('id','no','tgl','counter','note','grdtotal','user',)->whereNull('exist_sj')->get();
         $notrans = DB::select("select fgetcode('tsj') as codetrans");
         return view('pages.Transaksi.tsuratjalan',[
             'counters' => $counters,
@@ -62,8 +62,11 @@ class ControllerTransSuratJalan extends Controller
                 ]);
                 $count++;
             }
+            Tsob_h::where('no', '=', $request->nosob)->update([
+                'exist_sj' => "Y",
+            ]);
             if($count == $countrows){
-                return redirect()->back();
+                return redirect()->back()->with('success', 'Data berhasil ditambahkan');
             }
         }
         return redirect()->back();
