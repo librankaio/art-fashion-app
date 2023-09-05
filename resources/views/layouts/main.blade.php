@@ -20,6 +20,7 @@
     {{-- Loading CSS --}}
     <link href="/css/loading.css" rel="stylesheet">
     {{-- ENd Loading CSS --}}
+    <link href="/css/upload.css" rel="stylesheet">
 
     {{-- Mix JS and CSS --}}
     <script src="{!! mix('js/app.js') !!}"></script>
@@ -94,8 +95,8 @@
             </div>
             <footer class="main-footer">
                 <div class="footer-left">
-                    Swifect Copyright &copy; 2022 <div class="bullet"></div>
-                    <span>Designed By Namex (Anak Me...)</span>
+                    Swifect Copyright &copy; 2023 <div class="bullet"></div>
+                    <span>Developed by <a href="https://www.swifect.com/" target="_blank">PT Swifect Solusi Indonesia.</a></span>
                 </div>                
                 <div class="footer-right">
                     v 01.0.0 BETA

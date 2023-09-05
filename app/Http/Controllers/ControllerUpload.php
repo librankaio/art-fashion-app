@@ -13,7 +13,8 @@ class ControllerUpload extends Controller
     }
 
     public function uploadpost(Request $request){
-        Excel::import(new MitemsImport, $request->file);
+        // dd($request->all());
+        Excel::import(new MitemsImport, $request->file_upload);
 
         return redirect()->route('uploadsample')->with('success', 'User Imported Successfully');
     }

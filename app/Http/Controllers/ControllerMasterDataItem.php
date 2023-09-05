@@ -73,7 +73,7 @@ class ControllerMasterDataItem extends Controller
             return redirect()->back()->with('error', 'Kode sudah terdaftar');
         }else{
             DB::select( DB::raw("INSERT INTO mitems_counters (code_mitem, name_mitem, code_mcounters, name_mcounters)
-            (SELECT code, name, '[$request->kode]', '[$counter]' FROM mitems TA);") );
+            (SELECT code, name, '$request->kode', '$counter' FROM mitems TA);") );
             Mitem::create([  
                 'name' => $request->nama,
                 'code' => $request->kode,

@@ -6,7 +6,7 @@ use App\Models\Mitem;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class MitemsImport implements ToModel
+class MitemsImport implements ToModel,withHeadingRow
 {
     /**
     * @param array $row
@@ -17,17 +17,17 @@ class MitemsImport implements ToModel
     {
         $mitem = new Mitem([
             //
-            "code" => $row['first_name'],
-            "name" => $row['last_name'],
-            "warna" => $row['email'],
-            "kategori" => $row['mobile_number'],
-            "hrgjual" => 2, // User Type User
-            "size" => 1,
-            "satuan" => 1,
-            "material" => 1,
-            "gross" => 1,
-            "nett" => 1,
-            "spcprice" => 1,
+            "code" => $row['code'],
+            "name" => $row['name'],
+            "warna" => $row['warna'],
+            "kategori" => $row['kategori'],
+            "hrgjual" => $row['hrgjual'],
+            "size" => $row['size'],
+            "satuan" => $row['satuan'],
+            "material" => $row['material'],
+            "gross" => $row['gross'],
+            "nett" => $row['nett'],
+            "spcprice" => $row['spcprice'],
         ]);
 
         return $mitem;

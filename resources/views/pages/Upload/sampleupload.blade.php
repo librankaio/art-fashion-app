@@ -25,7 +25,7 @@
                     <div class="card-header">
                         <h4>Upload Data</h4>
                     </div>
-                    <form action="" method="POST">
+                    <form action="" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
                             <div class="row">
@@ -33,7 +33,7 @@
                                     <div class="form-group">
                                         <div class="section-title">File Browser</div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="customFile">
+                                            <input type="file" class="custom-file-input" id="customFile" name="file_upload">
                                             <label class="custom-file-label" for="customFile">Choose file</label>
                                         </div>
                                     </div>
@@ -52,7 +52,7 @@
                         </div>
                         <div class="card-footer text-right">                            
                             <button class="btn btn-primary mr-1" type="submit" 
-                            formaction="{{ route('mwarnapost') }}" id="confirm">Upload</button>                                
+                            formaction="{{ route('uploadpost') }}" id="confirm">Upload</button>                                
                             <button class="btn btn-secondary" type="reset">Reset</button>
                         </div>
                     </form>
@@ -88,5 +88,13 @@
             return false;
         }
     });
+
+    $('#customFile').on('change',function(){
+        //get the file name
+        var fileName = $(this).val();
+        //replace the "Choose a file" label
+        cleanFileName = fileName.replace('C:\\fakepath\\', " ");
+        $(this).next('.custom-file-label').html(cleanFileName);
+    })
 </script>
 @endsection
