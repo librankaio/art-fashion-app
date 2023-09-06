@@ -25,7 +25,7 @@ class MakeNoreffNullableInTpenjualanHsTable extends Migration
      * @return void
      */
     public function down()
-    {
+    { 
         Schema::table('tpenjualan_hs', function (Blueprint $table) {
             //
         });

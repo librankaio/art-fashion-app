@@ -20,7 +20,6 @@
     {{-- Loading CSS --}}
     <link href="/css/loading.css" rel="stylesheet">
     {{-- ENd Loading CSS --}}
-    <link href="/css/upload.css" rel="stylesheet">
 
     {{-- Mix JS and CSS --}}
     <script src="{!! mix('js/app.js') !!}"></script>

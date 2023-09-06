@@ -151,7 +151,7 @@ class ControllerTransPenerimaanBrg extends Controller
 
     public function delete(Tpenerimaan_h $tpenerimaanh){
         Tpenerimaan_h::find($tpenerimaanh->id)->delete();
-        Tpenerimaan_d::find($tpenerimaanh->id)->where('idh','=',$tpenerimaanh->id)->get();
+        Tpenerimaan_d::where('idh','=',$tpenerimaanh->id)->get();
 
         return redirect()->route('tpenerimaanbrglist');
     }

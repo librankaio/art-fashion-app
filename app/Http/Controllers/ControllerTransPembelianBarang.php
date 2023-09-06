@@ -131,7 +131,7 @@ class ControllerTransPembelianBarang extends Controller
 
     public function delete(Tpembelian_h $tpembelianh){
         Tpembelian_h::find($tpembelianh->id)->delete();
-        Tpembelian_d::find($tpembelianh->id)->where('idh','=',$tpembelianh->id)->get();
+        Tpembelian_d::where('idh','=',$tpembelianh->id)->get();
 
         return redirect()->route('tpembelianbaranglist');
     }

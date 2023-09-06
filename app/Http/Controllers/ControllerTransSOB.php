@@ -131,13 +131,13 @@ class ControllerTransSOB extends Controller
 
     public function delete(Tsob_h $tsobh){
         Tsob_h::find($tsobh->id)->delete();
-        Tsob_d::find($tsobh->id)->where('idh','=',$tsobh->id)->get();
+        Tsob_d::where('idh','=',$tsobh->id)->get();
         return redirect()->route('tsoblist');
     }
 
     public function print(Tsob_h $tsobh){
         
-        $tsobds = Tsob_d::find($tsobh->id)->where('idh','=',$tsobh->id)->get();
+        $tsobds = Tsob_d::where('idh','=',$tsobh->id)->get();
         
         // dd($tsobds);
         return view('pages.Print.tsobprint',[

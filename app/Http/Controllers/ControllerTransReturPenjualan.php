@@ -114,7 +114,7 @@ class ControllerTransReturPenjualan extends Controller
 
     public function delete(Tretur_h $treturh){
         Tretur_h::find($treturh->id)->delete();
-        Tretur_d::find($treturh->id)->where('idh','=',$treturh->id)->get();
+        Tretur_d::where('idh','=',$treturh->id)->get();
 
         return redirect()->route('treturjuallist');
     }

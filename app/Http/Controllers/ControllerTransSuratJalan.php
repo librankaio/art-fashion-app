@@ -153,14 +153,14 @@ class ControllerTransSuratJalan extends Controller
 
     public function delete(Tsj_h $tsjh){
         Tsj_h::find($tsjh->id)->delete();
-        Tsj_d::find($tsjh->id)->where('idh','=',$tsjh->id)->get();
+        Tsj_d::where('idh','=',$tsjh->id)->get();
 
         return redirect()->route('tsuratjalanlist');
     }
 
     public function print(Tsj_h $tsjh){
         // dd($tsjh->id);
-        $tsjds = Tsj_d::find($tsjh->id)->where('idh','=',$tsjh->id)->get();
+        $tsjds = Tsj_d::where('idh','=',$tsjh->id)->get();
         
         // dd($tsjds);
         return view('pages.Print.tsuratjalanprint',[
