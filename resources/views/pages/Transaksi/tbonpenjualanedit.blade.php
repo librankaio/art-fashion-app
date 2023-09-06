@@ -59,7 +59,7 @@
                                     </select>
                                 </div>                       
                                 <div class="form-group">
-                                    <label>No. Reff</label>
+                                    <label>No. Kartu</label>
                                     <input type="text" class="form-control" name="noreff" id="noreff" value="{{ $tpenjualanh->noreff }}">
                                 </div>             
                                 <div class="form-group">
