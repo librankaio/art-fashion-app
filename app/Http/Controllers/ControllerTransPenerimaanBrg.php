@@ -112,7 +112,7 @@ class ControllerTransPenerimaanBrg extends Controller
     }
 
     public function update(Tpenerimaan_h $tpenerimaanh){
-        dd(request()->all());
+        // dd(request()->all());
         for($j=0;$j<sizeof(request('no_d'));$j++){
             $no_penerimaanh = request('no');
         }
