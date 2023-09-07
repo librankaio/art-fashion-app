@@ -152,8 +152,13 @@ class ControllerTransSuratJalan extends Controller
     }
 
     public function delete(Tsj_h $tsjh){
+        $tsj = Tsj_h::find($tsjh->id)->first();
+        Tsob_h::where('no', '=', $tsj->no_sob)->update([
+            'exist_sj' => NULL,
+        ]);
+        // dd($tsjh->no_sob);
         Tsj_h::find($tsjh->id)->delete();
-        Tsj_d::where('idh','=',$tsjh->id)->get();
+        Tsj_d::where('idh','=',$tsjh->id)->delete();
 
         return redirect()->route('tsuratjalanlist');
     }

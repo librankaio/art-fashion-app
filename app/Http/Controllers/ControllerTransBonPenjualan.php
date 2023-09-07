@@ -144,7 +144,7 @@ class ControllerTransBonPenjualan extends Controller
 
     public function delete(Tpenjualan_h $tpenjualanh){
         Tpenjualan_h::find($tpenjualanh->id)->delete();
-        Tpenjualan_d::where('idh','=',$tpenjualanh->id)->get();
+        Tpenjualan_d::where('idh','=',$tpenjualanh->id)->delete();
 
         return redirect()->route('treturjuallist');
     }

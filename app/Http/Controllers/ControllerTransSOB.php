@@ -131,7 +131,7 @@ class ControllerTransSOB extends Controller
 
     public function delete(Tsob_h $tsobh){
         Tsob_h::find($tsobh->id)->delete();
-        Tsob_d::where('idh','=',$tsobh->id)->get();
+        Tsob_d::where('idh','=',$tsobh->id)->delete();
         return redirect()->route('tsoblist');
     }
 
