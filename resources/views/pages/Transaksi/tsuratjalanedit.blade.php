@@ -247,13 +247,14 @@
                 quantity = $("#quantity").val();
                 satuan = $("#satuan").val();
                 subtot = $("#subtot").val();
-                rowCount = $('#number_counter').val();
-                counter = rowCount;
+                // rowCount = $('#number_counter').val();
+                // counter = rowCount;
 
-                subtotparse = subtot.replaceAll(",", "");
-
-                // tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
+                tablerow = "<tr row_id="+ counter +"><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td><td class='border border-5'><input style='width:120px;' form='thisform' class='row_qty quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "' id='qty_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_hrgjual hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "' id='hrgjual_d_"+counter+"'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
                 
+                subtotparse = subtot.replaceAll(",", "");
+                $("#datatable tbody").append(tablerow);
+
                 console.log("Counter = "+counter)
                 if(counter == 1){
                     if (/\D/g.test(subtot))
@@ -285,37 +286,36 @@
                     // sum = subtot + old_grandtot;
 
                     // $("#price_total").val(thousands_separators(sum.toFixed(2)));
+                    if (/\D/g.test(subtot))
+                    {
+                        // Filter comma
+                        subtot = subtot.replace(/\,/g,"");
+                        subtot = Number(Math.trunc(subtot))
+                    }
 
-                    old_grandtot = $('#price_total').val();
-                                    
-                                    if (/\D/g.test(old_grandtot))
-                                    {
-                                        // Filter comma
-                                        old_grandtot = old_grandtot.replace(/\,/g,"");
-                                        old_grandtot = Number(Math.trunc(old_grandtot))
-                                    }
+                        old_grandtot = $('#price_total').val();   
+                        if (/\D/g.test(old_grandtot))
+                        {
+                            // Filter comma
+                            old_grandtot = old_grandtot.replace(/\,/g,"");
+                            old_grandtot = Number(Math.trunc(old_grandtot))
+                        }
 
-                                    if (/\D/g.test(subtotparse))
-                                    {
-                                        // Filter comma
-                                        subtotparse = subtotparse.replace(/\,/g,"");
-                                        subtotparse = Number(Math.trunc(subtotparse))
-                                    }
+                        if (/\D/g.test(subtotparse))
+                        {
+                            // Filter comma
+                            subtotparse = subtotparse.replace(/\,/g,"");
+                            subtotparse = Number(Math.trunc(subtotparse))
+                        }
 
-                                    sum = Number(subtotparse) + old_grandtot;
+                        sum = Number(subtotparse) + old_grandtot;
 
-                                    new_grandtot = thousands_separators(Number(sum).toFixed(2));
-                                    rowCount++;
-                                    $('#number_counter').val(rowCount);
-                                    $("#price_total").val(new_grandtot);
+                        new_grandtot = thousands_separators(Number(sum).toFixed(2));
+
+                        $("#price_total").val(new_grandtot);
                 }
-
-                // tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + rowCount + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+rowCount+"'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
-                
-                tablerow = "<tr row_id="+ rowCount +"><th style='readonly:true;' class='border border-5'>" + rowCount + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td><td class='border border-5'><input style='width:120px;' form='thisform' class='row_qty quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "' id='qty_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_hrgjual hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "' id='hrgjual_d_"+rowCount+"'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+rowCount+"'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
-
-                $("#datatable tbody").append(tablerow);
-
+                counter++;
+                $("#number_counter").val(counter);
                 $("#kode").prop('selectedIndex', 0).trigger('change');
                 $("#nama_item").val('');
                 $("#warna").val('');
