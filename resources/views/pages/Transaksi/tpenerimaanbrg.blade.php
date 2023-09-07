@@ -234,6 +234,7 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
                     dataType: 'json', 
                     success: function(response) {
+                        console.log(response);
                         if($('#number_counter').val() == 0){
                             console.log('masuk');
                             number_counter = Number($('#number_counter').val());

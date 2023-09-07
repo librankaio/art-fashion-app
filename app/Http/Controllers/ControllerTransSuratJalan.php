@@ -134,7 +134,7 @@ class ControllerTransSuratJalan extends Controller
         for ($i=0;$i<sizeof(request('no_d'));$i++){
             Tsj_d::create([
                 'idh' => $tsjh->id,
-                'no_sj' => request('no')[$i],
+                'no_sj' => request('no'),
                 'code' => request('kode_d')[$i],
                 'name' => request('namaitem_d')[$i],
                 'warna' => request('warna_d')[$i],

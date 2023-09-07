@@ -112,11 +112,11 @@ class ControllerTransPenerimaanBrg extends Controller
     }
 
     public function update(Tpenerimaan_h $tpenerimaanh){
-        // dd(request()->all());
+        dd(request()->all());
         for($j=0;$j<sizeof(request('no_d'));$j++){
             $no_penerimaanh = request('no');
         }
-        DB::delete('delete from tsob_ds where no_sob = ?', [$no_penerimaanh] );
+        DB::delete('delete from tpenerimaan_ds where no_penerimaan = ?', [$no_penerimaanh] );
         Tpenerimaan_h::where('id', '=', $tpenerimaanh->id)->update([
             'no' => request('no'),
             'no_sj' => request('nosj'),

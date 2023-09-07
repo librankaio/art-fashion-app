@@ -149,15 +149,16 @@
                                 </thead>
                                 <tbody>
                                     @php $counter = 0; @endphp
-                                @for($i = 0; $i < sizeof($tsjds); $i++) @php $counter++; @endphp <tr>
+                                @for($i = 0; $i < sizeof($tsjds); $i++) @php $counter++; @endphp 
+                                <tr row_id="{{ $counter }}">
                                     <th class="id-header border border-5" style='readonly:true;' headers="{{ $counter }}">{{ $counter }}</th>
                                     <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='{{ $tsjds[$i]->code }}'></td>
                                     <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='{{ $tsjds[$i]->name }}'></td>
                                     <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='{{ $tsjds[$i]->warna }}'></td>
-                                    <td class="border border-5"><input type='text' style='width:100px;' form='thisform' class='quantityclass form-control' name='quantity_d[]' value='{{ number_format($tsjds[$i]->qty, 0, '.', '') }}'></td>
+                                    <td class="border border-5"><input type='text' style='width:100px;' form='thisform' class='row_qty quantityclass form-control' name='quantity_d[]' id='qty_d_{{ $counter }}' value='{{ number_format($tsjds[$i]->qty, 0, '.', '') }}'></td>
                                     <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='{{ $tsjds[$i]->satuan }}' name='satuan_d[]'></td>
-                                    <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='hrgjualclass form-control' value='{{ number_format($tsjds[$i]->hrgjual, 2, '.', ',') }}' name='hrgjual_d[]'></td>
-                                    <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='{{ number_format($tsjds[$i]->subtotal, 2, '.', ',') }}' name='subtot_d[]' id='subtot_d{{ $counter }}'></td>
+                                    <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='row_hrgjual hrgjualclass form-control' value='{{ number_format($tsjds[$i]->hrgjual, 2, '.', ',') }}' name='hrgjual_d[]' id='hrgjual_d_{{ $counter }}'></td>
+                                    <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='{{ number_format($tsjds[$i]->subtotal, 2, '.', ',') }}' name='subtot_d[]' id='subtot_d_{{ $counter }}'></td>
                                     <td class="border border-5"><button title='Delete' class='delete btn btn-primary' value="{{ $counter }}"><i style='font-size:15pt;color:#ffff;' class='fa fa-trash'></i></button></td>
                                     <td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value=''></td>
                                     </tr>
@@ -309,8 +310,10 @@
                                     $("#price_total").val(new_grandtot);
                 }
 
-                tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + rowCount + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+rowCount+"'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
+                // tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + rowCount + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+rowCount+"'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
                 
+                tablerow = "<tr row_id="+ rowCount +"><th style='readonly:true;' class='border border-5'>" + rowCount + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td><td class='border border-5'><input style='width:120px;' form='thisform' class='row_qty quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "' id='qty_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_hrgjual hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "' id='hrgjual_d_"+rowCount+"'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+rowCount+"'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
+
                 $("#datatable tbody").append(tablerow);
 
                 $("#kode").prop('selectedIndex', 0).trigger('change');
@@ -331,7 +334,7 @@
                 if (r == true) {
                     if(counter_id != 0){
                         console.log(counter_id);
-                        subtot = $("#subtot_d" + counter_id).val().replaceAll(",", "");
+                        subtot = $("#subtot_d_" + counter_id).val().replaceAll(",", "");
 
                         if (/\D/g.test(subtot))
                         {
@@ -503,6 +506,52 @@
             return false;
         }
         });
+
+        $(document).on('focusout', '.row_qty', function(event) 
+            {
+                event.preventDefault();
+
+                console.log("focus out");
+                var tbl_row = $(this).closest('tr');
+                var row_id = tbl_row.attr('row_id');
+
+                subtot = $('#subtot_d_'+row_id).val();
+                console.log("subtot : "+subtot);
+                if (/\D/g.test(subtot))
+                {
+                    // Filter comma
+                    subtot = subtot.replace(/\,/g,"");
+                    subtot = Number(Math.trunc(subtot))
+                }
+
+                total = $('#price_total').val();
+                console.log("total : "+total);
+                if (/\D/g.test(total))
+                {
+                    // Filter comma
+                    total = total.replace(/\,/g,"");
+                    total = Number(Math.trunc(total))
+                }
+
+                total_old = total - subtot;
+
+                qty = $(this).val();
+
+                hrg = $('#hrgjual_d_'+row_id).val();
+                if (/\D/g.test(hrg))
+                {
+                    // Filter comma
+                    hrg = hrg.replace(/\,/g,"");
+                    hrg = Number(Math.trunc(hrg))
+                }
+
+                sum = hrg * qty;
+                $('#subtot_d_'+row_id).val(thousands_separators(sum.toFixed(2)));
+
+                total_new = total_old + sum;
+
+                $('#price_total').val(thousands_separators(total_new.toFixed(2)));
+            })
         
     })
 
