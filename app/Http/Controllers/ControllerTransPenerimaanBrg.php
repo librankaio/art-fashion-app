@@ -17,7 +17,7 @@ class ControllerTransPenerimaanBrg extends Controller
     {
         $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         $mitems = Mitem::select('id','code','name')->get();
-        $notsjs = Tsj_h::select('id','no','tgl','counter',)->get();
+        $notsjs = Tsj_h::select('id','no','tgl','counter',)->whereNull('exist_penerimaan')->get();
         $notrans = DB::select("select fgetcode('tpenerimaan') as codetrans");
         return view('pages.Transaksi.tpenerimaanbrg',[
             'counters' => $counters,
@@ -58,11 +58,14 @@ class ControllerTransPenerimaanBrg extends Controller
                     'qty' => $request->quantity_d[$i],
                     'satuan' => $request->satuan_d[$i],
                     'hrgjual' => (float) str_replace(',', '', $request->hrgjual_d[$i]),
-                    'keterangan' => $request->satuan_d[$i],
+                    'keterangan' => $request->keterangan_d[$i],
                     'subtotal' => (float) str_replace(',', '', $request->subtot_d[$i]),
                 ]);
                 $count++;
             }
+            Tsj_h::where('no', '=', $request->nosj)->update([
+                'exist_penerimaan' => "Y",
+            ]);
             if($count == $countrows){
                 return redirect()->back();
             }
@@ -150,7 +153,12 @@ class ControllerTransPenerimaanBrg extends Controller
     }
 
     public function delete(Tpenerimaan_h $tpenerimaanh){
-        Tpenerimaan_h::find($tpenerimaanh->id)->delete();
+        $tpenerimaan = Tpenerimaan_h::where('id','=',$tpenerimaanh->id)->first();
+        $tsjh = Tsj_h::where('no', '=', $tpenerimaan->no_sj)->first();
+        Tsj_h::where('no', '=', $tpenerimaan->no_sj)->update([
+            'exist_penerimaan' => NULL,
+        ]);
+        Tpenerimaan_h::where('id','=',$tpenerimaanh->id)->delete();
         Tpenerimaan_d::where('idh','=',$tpenerimaanh->id)->delete();
 
         return redirect()->route('tpenerimaanbrglist');
