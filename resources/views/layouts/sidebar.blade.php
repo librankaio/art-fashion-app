@@ -34,6 +34,9 @@
             @if($mhakses_open == 'Y' || $role == 'ADM')          
                 <li><a class="nav-link" href="{{ route('mhakses') }}">Master Hak Akses</a></li>   
             @endif  
+            @if($mhakses_open == 'Y' || $role == 'ADM')          
+                <li><a class="nav-link" href="{{ route('mjenispayment') }}">Master Jenis Pembayaran</a></li>   
+            @endif  
         </ul>
     </li>
     <li class="menu-header">Transaction</li>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Mcounter;
 use App\Models\Mitem;
+use App\Models\Mjenispayment;
 use App\Models\Tpenjualan_d;
 use App\Models\Tpenjualan_h;
 use Illuminate\Http\Request;
@@ -15,10 +16,12 @@ class ControllerTransBonPenjualan extends Controller
     {
         $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         $mitems = Mitem::select('id','code','name')->get();
+        $payments = Mjenispayment::select('id','code','name')->get();
         $notrans = DB::select("select fgetcode('tpenjualan') as codetrans");
         return view('pages.Transaksi.tbonpenjualan',[
             'counters' => $counters,
             'mitems' => $mitems,
+            'payments' => $payments,
             'notrans' => $notrans,
         ]);
     }
@@ -59,6 +62,7 @@ class ControllerTransBonPenjualan extends Controller
                     'diskon' => $request->diskon_d[$i],
                     'subtotal' => (float) str_replace(',', '', $request->subtot_d[$i]),
                     'hrgjual' => (float) str_replace(',', '', $request->hrgjual_d[$i]),
+                    'disctot' => (float) str_replace(',', '', $request->totdisc_d[$i]),
                     'note' => $request->keterangan_d[$i],
                 ]);
                 $count++;
@@ -92,10 +96,12 @@ class ControllerTransBonPenjualan extends Controller
     public function getedit(Tpenjualan_h $tpenjualanh){
         $counters = Mcounter::select('id','code','name')->get();
         $mitems = Mitem::select('id','code','name')->get();
-        $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','warna','qty','satuan','hrgjual','diskon','subtotal','note')->where('idh','=',$tpenjualanh->id)->get();
+        $payments = Mjenispayment::select('id','code','name')->get();
+        $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','warna','qty','satuan','hrgjual','diskon','subtotal','disctot','note')->where('idh','=',$tpenjualanh->id)->get();
         return view('pages.Transaksi.tbonpenjualanedit',[
             'counters' => $counters,
             'mitems' => $mitems,
+            'payments' => $payments,
             'tpenjualanh' => $tpenjualanh,
             'tpenjualands' => $tpenjualands,
         ]);
@@ -132,6 +138,7 @@ class ControllerTransBonPenjualan extends Controller
                 'diskon' => request('diskon_d')[$i],
                 'hrgjual' => (float) str_replace(',', '', request('hrgjual_d')[$i]),
                 'subtotal' => (float) str_replace(',', '', request('subtot_d')[$i]),
+                'disctot' => (float) str_replace(',', '', request('totdisc_d')[$i]),
                 'note' => request('keterangan_d')[$i],
             ]);
             $count++;

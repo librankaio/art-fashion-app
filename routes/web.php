@@ -5,6 +5,7 @@ use App\Http\Controllers\ControllerLogin;
 use App\Http\Controllers\ControllerMasterDataItem;
 use App\Http\Controllers\ControllerMasterDataLokasi;
 use App\Http\Controllers\ControllerMasterHakAkses;
+use App\Http\Controllers\ControllerMasterJenisPayment;
 use App\Http\Controllers\ControllerMasterSPG;
 use App\Http\Controllers\ControllerMasterWarna;
 use App\Http\Controllers\ControllerReportMutasiStock;
@@ -33,17 +34,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/testreport', function () {
-    return view('pages.Print.printp');
-});
-Route::get('/tss', function () {
-    return view('pages.Print.printp');
-});
+// Route::get('/testreport', function () {
+//     return view('pages.Print.printp');
+// });
+// Route::get('/tss', function () {
+//     return view('pages.Print.printp');
+// });
 
 // ---Master Data---
 Route::get('/', [ControllerLogin::class, 'index'])->name('login');
 Route::post('/', [ControllerLogin::class, 'postLogin'])->name('postlogin');
-Route::get('logout', [ControllerLogin::class, 'logout'])->name('logout');
+Route::get('/logout', [ControllerLogin::class, 'logout'])->name('logout');
 
 // ---Transaksi---
 Route::get('home', [ControllerHome::class, 'index'])->name('home');
@@ -136,6 +137,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/mwarna/{mwarna}/edit', [ControllerMasterWarna::class, 'getedit'])->name('mwarnagetedit');
     Route::post('/mwarna/{mwarna}', [ControllerMasterWarna::class, 'update'])->name('mwarnaupdt');
     Route::post('/mwarna/delete/{mwarna}', [ControllerMasterWarna::class, 'delete'])->name('mwarnadelete');
+    
+    Route::get('/mjenispayment', [ControllerMasterJenisPayment::class, 'index'])->name('mjenispayment');
+    Route::post('/mjenispaymentpost', [ControllerMasterJenisPayment::class, 'post'])->name('mjenispaymentpost');
+    Route::get('/mjenispayment/{mjenispayment}/edit', [ControllerMasterJenisPayment::class, 'getedit'])->name('mjenispaymentedit');
+    Route::post('/mjenispayment/{mjenispayment}', [ControllerMasterJenisPayment::class, 'update'])->name('mjenispaymentupdt');
+    Route::post('/mjenispayment/delete/{mjenispayment}', [ControllerMasterJenisPayment::class, 'delete'])->name('mjenispaymentdelete');
 
     // Route::get('mspg', [ControllerMasterSPG::class, 'index'])->name('mspg');
     // Route::post('/mspgpost', [ControllerMasterSPG::class, 'post'])->name('mspgpost');

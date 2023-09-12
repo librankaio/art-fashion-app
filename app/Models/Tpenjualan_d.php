@@ -20,6 +20,7 @@ class Tpenjualan_d extends Model
         'hrgjual',
         'diskon',
         'subtotal',
+        'disctot',
         'note',
     ];
 }

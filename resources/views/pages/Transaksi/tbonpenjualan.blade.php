@@ -49,12 +49,11 @@
                                 </div>    
                                 <div class="form-group">
                                     <label>Payment Method</label>
-                                    <select class="form-control" name="payment_mthd" id="payment_mthd">
-                                        <option>Debit</option>
-                                        <option>Qris</option>
-                                        <option>Online</option>
-                                        <option>Transfer</option>
-                                        <option>Cash</option>
+                                    <select class="form-control select2" name="payment_mthd" id="payment_mthd">
+                                        <option disabled selected>--Select Payment--</option>
+                                        @foreach($payments as $payment)
+                                        <option>{{ $payment->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>                       
                                 <div class="form-group">
@@ -168,13 +167,13 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Total Diskon</label>
-                                    <input type="text" class="form-control" name="price_disc" form="thisform" id="price_disc" readonly>
+                                    <input type="text" class="form-control" name="price_disc" form="thisform" id="price_disc" value="0" readonly>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Total</label>
-                                    <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" readonly>
+                                    <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" value="0" readonly>
                                 </div>
                             </div>
                         </div>
@@ -251,8 +250,19 @@
                 subtot = $("#subtot").val();
                 keterangan = $("#keterangan").val();
 
+                hrg = hrgjual
+                if (/\D/g.test(hrg))
+                {
+                    // Filter comma
+                    hrg = hrg.replace(/\,/g,"");
+                    hrg = Number(Math.trunc(hrg))
+                }
 
-                tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='diskonclass form-control' name='diskon_d[]' id='diskon_d_"+counter+"' type='text' value='" + diskon + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='keteranganclass form-control' name='keterangan_d[]' type='text' value='" + keterangan + "'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
+                tot = hrg * quantity;
+                diskon_total = (tot * diskon)/100;
+
+
+                tablerow = "<tr row_id="+ counter +"><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td></td><td class='border border-5'><input style='width:120px;' form='thisform' class='row_qty quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "' id='qty_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_hrgjual hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "' id='hrgjual_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_diskon diskonclass form-control' name='diskon_d[]' id='diskon_d_"+counter+"' type='text' value='" + diskon + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='keteranganclass form-control' name='keterangan_d[]' type='text' value='" + keterangan + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='totdiscclass form-control' value='" +  thousands_separators(diskon_total) + "' name='totdisc_d[]' id='totdisc_d_"+counter+"'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
                 
                 subtotparse = subtot.replaceAll(",", "");
                 $("#datatable tbody").append(tablerow);
@@ -296,7 +306,10 @@
 
                     disc = subtot * (parseFloat($("#disc").val()) / 100);
 
-                    disc_new = disc_old + disc;
+                    console.log("disc" + disc)
+
+                    disc_new = parseFloat(disc_old) + disc;
+                    console.log("Disc New : ",disc_new);
                     total =  (subtot - disc);
                     subtot_new = old_grandtot + total;
 
@@ -348,13 +361,24 @@
                         old_disc = old_disc.replace(/\,/g,"");
                         old_disc = Number(Math.trunc(old_disc))
                     }
-                    disc = subtot * ($("#diskon_d_"+ counter_id).val() / 100);
-                    totaldisc = old_disc - disc;
-                    totalwithdisc = (subtot) - disc;
-                    total =  old_grandtot - totalwithdisc;
+                    discrow = $("#totdisc_d_"+ counter_id).val();
+                    if (/\D/g.test(discrow))
+                    {
+                        // Filter comma
+                        discrow = discrow.replace(/\,/g,"");
+                        discrow = Number(Math.trunc(discrow))
+                    }
+                    new_disc = old_disc - discrow;
+                    total_row = subtot - discrow;
 
-                    $("#price_disc").val(thousands_separators(totaldisc));
-                    $("#price_total").val(thousands_separators(total.toFixed(2)));
+                    new_grantot = old_grandtot - total_row
+                    // disc = subtot * ( / 100);
+                    // totaldisc = old_disc - disc;
+                    // totalwithdisc = (subtot) - disc;
+                    // total =  old_grandtot - totalwithdisc;
+
+                    $("#price_disc").val(thousands_separators(new_disc));
+                    $("#price_total").val(thousands_separators(new_grantot.toFixed(2)));
                     $(this).closest('tr').remove();
                 } else {
                     return false;
@@ -437,14 +461,127 @@
         // Validate ifnull
         no = $("#no").val();
         code_cust = $("#code_cust").prop('selectedIndex');
+        payment_method = $("#payment_mthd").prop('selectedIndex');
         if (no == ""){
             swal('WARNING', 'No Tidak boleh kosong!', 'warning');
             return false;
         }else if (code_cust == 0){
             swal('WARNING', 'Please select Code Cust', 'warning');
             return false;
+        }else if (payment_method == 0){
+            swal('WARNING', 'Please select Jenis Payment', 'warning');
+            return false;
         }
         });
+
+        $(document).on('keyup', '.row_qty', function(event) 
+        {
+            event.preventDefault(); 
+            if (/\D/g.test(this.value)){
+                // Filter non-digits from input value.
+                this.value = this.value.replace(/\D/g, '');
+            }
+        });
+
+        $(document).on('focusout', '.row_qty', function(event) 
+        {
+            event.preventDefault();
+
+            console.log("focus out");
+            var tbl_row = $(this).closest('tr');
+            var row_id = tbl_row.attr('row_id');
+
+            this_row_subtot = $('#subtot_d_'+row_id).val();
+            console.log("subtot : "+this_row_subtot);
+            if (/\D/g.test(this_row_subtot))
+            {
+                // Filter comma
+                this_row_subtot = this_row_subtot.replace(/\,/g,"");
+                this_row_subtot = Number(Math.trunc(this_row_subtot))
+            }
+
+            head_total = $('#price_total').val();
+            console.log("total : "+head_total);
+            if (/\D/g.test(head_total))
+            {
+                    // Filter comma
+                    head_total = head_total.replace(/\,/g,"");
+                    head_total = Number(Math.trunc(head_total))
+            }
+
+            head_disc = $('#price_disc').val();
+            console.log("disc : "+head_disc);
+            if (/\D/g.test(head_disc))
+            {
+                    // Filter comma
+                    head_disc = head_disc.replace(/\,/g,"");
+                    head_disc = Number(Math.trunc(head_disc))
+            }
+
+
+            this_row_qty = $(this).val();
+
+            this_row_hrg = $('#hrgjual_d_'+row_id).val();
+            if (/\D/g.test(this_row_hrg))
+            {
+                // Filter comma
+                this_row_hrg = this_row_hrg.replace(/\,/g,"");
+                this_row_hrg = Number(Math.trunc(this_row_hrg))
+            }
+
+            this_row_diskon = $('#diskon_d_'+row_id).val();
+
+            this_row_old_diskon = $('#totdisc_d_'+row_id).val();
+            if (/\D/g.test(this_row_old_diskon))
+            {
+                // Filter comma
+                this_row_old_diskon = this_row_old_diskon.replace(/\,/g,"");
+                this_row_old_diskon = Number(Math.trunc(this_row_old_diskon))
+            }
+
+
+            // INITIAL VARIABLE END
+
+            // FIND THIS ROW OLD DISC and Total
+            this_row_sum = this_row_hrg * this_row_qty; 
+            this_row_totdisc = (this_row_sum * this_row_diskon)/100;
+            this_row_total = this_row_subtot - this_row_old_diskon;
+
+            console.log("this_row_total " + this_row_total)
+
+            console.log("this row price sum :"+ this_row_sum)
+            console.log("this row price discounted :"+ this_row_totdisc)
+
+            // Mins Old Total Disc, total and This row Old disc, total
+            old_total_disc_mins = head_disc - this_row_old_diskon;
+            old_total_price_mins = head_total - this_row_total;
+            console.log("old_total_disc_mins :" +old_total_disc_mins);
+            console.log("old_total_price_mins :" +old_total_price_mins);
+            $('#price_disc').val(thousands_separators(old_total_disc_mins.toFixed(2)))
+            $('#price_total').val(thousands_separators(old_total_price_mins.toFixed(2)))
+
+            // New Total disc and This row New disc
+            $('#totdisc_d_'+row_id).val(thousands_separators(this_row_totdisc.toFixed(2)));
+
+            console.log(this_row_totdisc)
+            console.log(old_total_disc_mins)
+            // This Row New disc
+            this_row_new_disc = old_total_disc_mins + this_row_totdisc
+            $('#price_disc').val(thousands_separators(this_row_new_disc.toFixed(2)))
+
+            new_total_price = $('#totdisc_d_'+row_id).val();
+            if (/\D/g.test(new_total_price))
+            {
+                    // Filter comma
+                    new_total_price = new_total_price.replace(/\,/g,"");
+                    new_total_price = Number(Math.trunc(new_total_price))
+            }
+
+            // Find total price row
+            total_price_new = this_row_subtot - new_total_price
+            this_row_new_total = old_total_price_mins + total_price_new
+            $('#price_total').val(thousands_separators(this_row_new_total.toFixed(2)))
+        })	
         
     })
 

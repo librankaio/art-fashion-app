@@ -141,7 +141,7 @@ class ControllerTransPenerimaanBrg extends Controller
                 'qty' =>  request('quantity_d')[$i],
                 'satuan' => request('satuan_d')[$i],
                 'hrgjual' => (float) str_replace(',', '', request('hrgjual_d')[$i]),
-                'keterangan' => request('satuan_d')[$i],
+                'keterangan' => request('keterangan_d')[$i],
                 'subtotal' => (float) str_replace(',', '', request('subtot_d')[$i]),
             ]);
             $count++;
