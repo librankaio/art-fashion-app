@@ -525,9 +525,6 @@
         }else if (code_cust == 0){
             swal('WARNING', 'Please select Code Cust', 'warning');
             return false;
-        }else if (payment_method == 0){
-            swal('WARNING', 'Please select Jenis Payment', 'warning');
-            return false;
         }
         });
         
