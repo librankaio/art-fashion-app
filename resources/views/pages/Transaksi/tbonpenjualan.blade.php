@@ -549,6 +549,7 @@
 
             console.log("this_row_total " + this_row_total)
 
+            $('#subtot_d_'+row_id).val(thousands_separators(this_row_sum.toFixed(2)));
             console.log("this row price sum :"+ this_row_sum)
             console.log("this row price discounted :"+ this_row_totdisc)
 
@@ -578,7 +579,7 @@
             }
 
             // Find total price row
-            total_price_new = this_row_subtot - new_total_price
+            total_price_new = this_row_sum - new_total_price
             this_row_new_total = old_total_price_mins + total_price_new
             $('#price_total').val(thousands_separators(this_row_new_total.toFixed(2)))
         })	
