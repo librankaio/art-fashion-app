@@ -40,7 +40,7 @@
 <style type="text/css" media="print">
   @page { size: landscape; margin: 0px auto; }
   body {
-  font-size: 9px;
+  font-size: 13px;
   }
 </style>
 
