@@ -2,44 +2,30 @@
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 	<title>Print - Barcode</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body class="idr" onload="window.print()">
 
 <div style="margin-left: 0%; margin-right: 0%;">
-    {{$mitem->name}} <br>
-    <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code, 'C128') }}" alt="barcode" /> <br>
-    {{$mitem->code}} <br>
-    Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}} <br>
-
-
-{{-- <h2>Journal Voucher</h2>
-<h5>NO Voucher : {{$name}} <br>
-TANGGAL : <br>
-KETERANGAN : <br> 
-MATA UANG : </h5>
-<center>
-<table id="mytable" border="1px" cellspacing="0">
-    <tr>
-        <td align="center" style="width: 150px; word-wrap: break-word;">No</td>
-        <td align="center" style="width: 150px; word-wrap: break-word;">Kode</td>
-        <td align="center" style="width: 150px; word-wrap: break-word;">Nama</td>
-        <td align="center" style="width: 150px; word-wrap: break-word;">Debit</td>
-        <td align="center" style="width: 150px; word-wrap: break-word;">Credit</td>
-        <td align="center" style="width: 150px; word-wrap: break-word;">Memo/Catatan</td>
-    </tr>                      
-    
-    <td align="center" colspan="3">Total Debit : {!! DNS1D::getBarcodeHtml("xvz241241",'C128') !!}
-    BR - {{ $name }}
-    </td>
-    <td align="center" colspan="3">Total Credit : <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG('xvz241241', 'C128') }}" alt="barcode" />
-    BR - {{ $name }}
-    </td>
-    <td align="center" colspan="3">Grand Balance : </td>
-    </table>
-</center>
-<br><br>
-<p> --}}
-	{{-- <footer><a href="http://www.swifect.com">~ Swifect Custom Application ~</a></footer> --}}
+    {{-- <div class="upright">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-1">
+                    test
+                </div>
+            </div>
+        </div>
+    </div> --}}
+    <div class="container">
+        {{$mitem->name}} <br>
+        <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code, 'C128') }}" alt="barcode" width="100"/> <br>
+        {{$mitem->code}} <br>
+        Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}} <br>
+    </div>
 </div>
 </body>
 </html>
