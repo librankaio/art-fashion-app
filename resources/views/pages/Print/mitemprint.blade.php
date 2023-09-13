@@ -24,9 +24,19 @@
         <div class="row">
             <div class="col-2">
                 <center>
-                {{$mitem->name}}<br>
+                <p style="margin: 0px auto;">{{$mitem->name}}</p>
                 <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code, 'C128') }}" alt="barcode" width="158" height="30"/> <br>
-                {{$mitem->code ." ".date("dmY")}}<br>
+                {{-- {{$mitem->code ." ".date("mY")}}<br> --}}
+                <div class="row">
+                    <div class="col-6" style="height: 15">
+                        <p>{{ $mitem->code }}</p>
+                    </div>
+                    <div class="col-6" style="height: 15">
+                        <p>
+                            {{date("mY")}}
+                        </p>
+                    </div>
+                </div>
                 Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}} <br>
                 </center>
             </div>
