@@ -22,10 +22,10 @@
     </div> --}}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-2">
+            <div class="col-3">
                 <center>
                 {{$mitem->name}}<br>
-                <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code, 'C128') }}" alt="barcode" width="158"/> <br>
+                <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code, 'C128') }}" alt="barcode" width="158" height="30"/> <br>
                 {{$mitem->code}} <br>
                 Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}} <br>
                 </center>
