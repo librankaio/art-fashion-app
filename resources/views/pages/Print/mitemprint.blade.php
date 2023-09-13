@@ -11,7 +11,7 @@
 </head>
 <body class="idr" onload="window.print()">
 
-<div style="margin-left: 0%; margin-right: 0%;">
+<div style="margin-left: 0%; margin-right: 0%; margin-top: 0%;">
     {{-- <div class="upright">
         <div class="container-fluid">
             <div class="row">
@@ -26,7 +26,7 @@
             <div class="col-2">
                 <center>
                 <p style="margin: 0px auto;">{{$mitem->name}}</p>
-                <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code, 'C128') }}" alt="barcode" width="158" height="30"/> <br>
+                <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code, 'C128') }}" alt="barcode" width="158" height="28"/> <br>
                 {{-- {{$mitem->code ." ".date("mY")}}<br> --}}
                 <div class="row">
                     <div class="col-6" style="height: 15">
@@ -38,7 +38,7 @@
                         </p>
                     </div>
                 </div>
-                <p style="margin: 0px auto; font-size: 10px;">Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}}</p>
+                <p style="margin: 0px auto;">Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}}</p>
                 {{-- Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}} <br> --}}
                 </center>
             </div>
@@ -52,7 +52,6 @@
 <style type="text/css" media="print">
   @page { size: landscape; margin: 0px auto; }
   body {
-  font-size: 12px;
   font-weight: bold;
   }
   p {
