@@ -32,13 +32,13 @@
                     <div class="col-6" style="height: 15">
                         <p>{{ $mitem->code }}</p>
                     </div>
-                    <div class="col-6" style="height: 15">
+                    <div class="col-6 pl-5" style="height: 15">
                         <p style="font-weight: normal;" class="text-right">
                             {{date("mY")}}
                         </p>
                     </div>
                 </div>
-                <p style="margin: 0px auto;">Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}}</p>
+                <p style="margin: 0px auto; font-size: 10px;">Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}}</p>
                 {{-- Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}} <br> --}}
                 </center>
             </div>
