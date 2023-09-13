@@ -4,7 +4,8 @@
 	<title>Print - Barcode</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto:wght@700&display=swap" rel="stylesheet">
+    {{-- <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet"> --}}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
@@ -32,12 +33,13 @@
                         <p>{{ $mitem->code }}</p>
                     </div>
                     <div class="col-6" style="height: 15">
-                        <p>
+                        <p style="font-weight: normal;" class="text-right">
                             {{date("mY")}}
                         </p>
                     </div>
                 </div>
-                Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}} <br>
+                <p style="margin: 0px auto;">Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}}</p>
+                {{-- Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}} <br> --}}
                 </center>
             </div>
         </div>
@@ -52,6 +54,10 @@
   body {
   font-size: 10px;
   font-weight: bold;
+  }
+  p {
+    font-family: 'Roboto';
+    font-size: 10px;
   }
 </style>
 
