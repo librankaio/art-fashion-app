@@ -33,7 +33,7 @@
                         <p>{{ $mitem->code }}</p>
                     </div>
                     <div class="col-6 pl-5" style="height: 15">
-                        <p style="font-weight: normal;" class="text-right">
+                        <p style="font-weight: normal; font-size: 9px;" class="text-right">
                             {{date("mY")}}
                         </p>
                     </div>
