@@ -10,42 +10,35 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body class="idr" onload="window.print()">
-
-<div style="margin-left: 0%; margin-right: 0%; margin-top: 0%;">
-    {{-- <div class="upright">
+    <div style="margin-left: 0%; margin-right: 0%; margin-top: 0%;">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-1">
-                    test
+                <div class="col-2">
+                    <center>
+                    <p style="margin: 0px auto; font-size: 10px;">{{$mitem->name}}</p>
+                    <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code, 'C128') }}" alt="barcode" width="158" height="25"/> <br>
+                    {{-- {{$mitem->code ." ".date("mY")}}<br> --}}
+                    <div class="row">
+                        <div class="col-6" style="height: 14;">
+                            <p style="font-size: 12px;">{{ $mitem->code }}</p>
+                        </div>
+                        <div class="col-6 pl-5" style="height: 14">
+                            <p style="font-weight: normal; font-size: 9px;" class="text-right">
+                                {{date("mY")}}
+                            </p>
+                        </div>
+                    </div>
+                    {{-- <div class="row" style="padding: 0 !important;
+                    margin: 0 !important;">
+                        <p class="p" style="margin: 0px auto; font-size: 11px;">Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}}</p>
+                    </div> --}}
+                    Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}} <br>
+                    </center>
                 </div>
             </div>
         </div>
-    </div> --}}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-2">
-                <center>
-                <p style="margin: 0px auto;">{{$mitem->name}}</p>
-                <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code, 'C128') }}" alt="barcode" width="158" height="28"/> <br>
-                {{-- {{$mitem->code ." ".date("mY")}}<br> --}}
-                <div class="row">
-                    <div class="col-6" style="height: 15">
-                        <p>{{ $mitem->code }}</p>
-                    </div>
-                    <div class="col-6 pl-5" style="height: 15">
-                        <p style="font-weight: normal; font-size: 9px;" class="text-right">
-                            {{date("mY")}}
-                        </p>
-                    </div>
-                </div>
-                <p style="margin: 0px auto;">Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}}</p>
-                {{-- Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}} <br> --}}
-                </center>
-            </div>
-        </div>
+        
     </div>
-    
-</div>
 </body>
 </html>
 
@@ -53,9 +46,10 @@
   @page { size: landscape; margin: 0px auto; }
   body {
   font-weight: bold;
+  font-size: 11px;
   }
   p {
-    font-size: 12px;
+    font-size: 10px;
   }
 </style>
 
