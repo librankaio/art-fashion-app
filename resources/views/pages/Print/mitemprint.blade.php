@@ -22,7 +22,7 @@
     </div> --}}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-4">
+            <div class="col-2">
                 <center>
                 {{$mitem->name}} <br>
                 <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code, 'C128') }}" alt="barcode" width="140"/> <br>
