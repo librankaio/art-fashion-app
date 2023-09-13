@@ -24,8 +24,8 @@
         <div class="row">
             <div class="col-2">
                 <center>
-                {{$mitem->name}} <br>
-                <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code, 'C128') }}" alt="barcode" width="140"/> <br>
+                {{$mitem->name}}<br>
+                <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code, 'C128') }}" alt="barcode" width="110"/> <br>
                 {{$mitem->code}} <br>
                 Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}} <br>
                 </center>
@@ -39,6 +39,9 @@
 
 <style type="text/css" media="print">
   @page { size: landscape; margin: 0px auto; }
+  body {
+  font-size: 9px;
+  }
 </style>
 
 
