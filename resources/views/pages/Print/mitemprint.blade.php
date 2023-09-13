@@ -25,7 +25,7 @@
             <div class="col-2">
                 <center>
                 {{$mitem->name}}<br>
-                <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code, 'C128') }}" alt="barcode" width="170"/> <br>
+                <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code, 'C128') }}" alt="barcode" width="158"/> <br>
                 {{$mitem->code}} <br>
                 Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}} <br>
                 </center>
