@@ -20,12 +20,10 @@
             </div>
         </div>
     </div> --}}
-    <div class="container">
-        {{$mitem->name}} <br>
-        <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code, 'C128') }}" alt="barcode" width="100"/> <br>
-        {{$mitem->code}} <br>
-        Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}} <br>
-    </div>
+    {{$mitem->name}} <br>
+    <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code, 'C128') }}" alt="barcode" width="100"/> <br>
+    {{$mitem->code}} <br>
+    Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}} <br>
 </div>
 </body>
 </html>
