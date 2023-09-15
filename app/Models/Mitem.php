@@ -19,6 +19,7 @@ class Mitem extends Model
         'satuan',
         'material',
         'gross',
+        'stock',
         'nett',
         'spcprice',
     ];

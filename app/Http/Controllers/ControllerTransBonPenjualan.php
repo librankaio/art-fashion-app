@@ -65,8 +65,27 @@ class ControllerTransBonPenjualan extends Controller
                     'disctot' => (float) str_replace(',', '', $request->totdisc_d[$i]),
                     'note' => $request->keterangan_d[$i],
                 ]);
+                // $stock_mitem = Mitem::select('stock')->where('code', '=', strtok($request->kode_d[$i], " "))->first();
+                // dd($stock_mitem);
+                Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
+                    'exist_trans' => "Y",
+                ]);
                 $count++;
             }
+            // Mitem::where('id', '=', $mitem->id)->update([
+            //     'name' => request('nama'),
+            //     'code' => request('kode'),
+            //     'warna' => request('warna'),
+            //     'kategori' => request('kategori'),
+            //     'hrgjual' => (float) str_replace(',', '', request('price')),
+            //     'size' => request('size'),
+            //     'satuan' => request('satuan'),
+            //     'material' => request('material'),
+            //     'gross' => (float) str_replace(',', '', request('price_gross')),
+            //     'nett' => (float) str_replace(',', '', request('price_nett')),
+            //     'spcprice' => (float) str_replace(',', '', request('price_special')),
+            // ]);
+            
             if($count == $countrows){
                 return redirect()->back();
             }

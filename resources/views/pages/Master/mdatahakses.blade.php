@@ -607,6 +607,21 @@
                                                     <td class="border border-5" style="text-align: center;">Unavailable</td>
                                                 @endif
                                                 <td style="text-align: center;" class="d-flex justify-content-center">
+                                                    @if ($item->acs_stat == null || $item->acs_stat == 'N')
+                                                    <a href="/mhakses/{{ $item->id }}/edit"
+                                                        class="btn btn-icon icon-left btn-primary" style="cursor: not-allowed; opacity: 0.5; pointer-events: none;" disabled><i class="far fa-edit">
+                                                            Edit</i></a>
+                                                    <form action="/mhakses/delete/{{ $item->id }}" id="del-{{ $item->id }}"
+                                                        method="POST" class="px-2">
+                                                        @csrf
+                                                        <button disabled class="btn btn-icon icon-left btn-danger" style="cursor: not-allowed; opacity: 0.5;"
+                                                            id="del-{{ $item->id }}" type="submit"
+                                                            data-confirm="WARNING!|Do you want to delete {{ $item->id }} data?"
+                                                            data-confirm-yes="submitDel({{ $item->id }})"><i
+                                                                class="fa fa-trash">
+                                                                Delete</i></button>
+                                                    </form>
+                                                    @elseif($item->acs_stat == 'Y')
                                                     <a href="/mhakses/{{ $item->id }}/edit"
                                                         class="btn btn-icon icon-left btn-primary"><i class="far fa-edit">
                                                             Edit</i></a>
@@ -620,6 +635,7 @@
                                                                 class="fa fa-trash">
                                                                 Delete</i></button>
                                                     </form>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @php
