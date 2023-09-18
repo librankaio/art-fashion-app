@@ -2,10 +2,10 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h1>Laporan Mutasi Stock</h1>
+        <h1>Laporan Stock Per Counter</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item active"><a href="#">Report</a></div>
-            <div class="breadcrumb-item"><a class="text-muted">Laporan Mutasi Stock</a></div>
+            <div class="breadcrumb-item"><a class="text-muted">Laporan Stock Per Counter</a></div>
         </div>
     </div>
     @php
@@ -38,9 +38,9 @@
                         <div class="row">
                             <div class="col-md-12">                    
                                 <div class="form-group">
-                                    <label>Artikel</label>
-                                    <select class="form-control select2" name="artikel" id="artikel">
-                                        <option disabled selected>--Select Artikel--</option>
+                                    <label>Counter</label>
+                                    <select class="form-control select2" name="counter" id="counter">
+                                        <option disabled selected>--Select Counter--</option>
                                         {{-- @foreach($cabangs as $data => $cabang)
                                         <option>{{ $cabang->name." - ".$cabang->address }}</option>
                                         @endforeach --}}
@@ -65,11 +65,13 @@
                             <table class="table table-bordered" id="datatable">
                                 <thead>
                                     <tr>
-                                        <th scope="col" class="border border-5">Jenis Transaksi</th>
-                                        <th scope="col" class="border border-5">No Transaksi</th>
-                                        <th scope="col" class="border border-5">Tanggal</th>
-                                        <th scope="col" class="border border-5">Counter</th>
-                                        <th scope="col" class="border border-5">Quantity</th>
+                                        <th scope="col" class="border border-5">No</th>
+                                        <th scope="col" class="border border-5">Kode Barang</th>
+                                        <th scope="col" class="border border-5">Nama Barang</th>
+                                        <th scope="col" class="border border-5">Stock Awal</th>
+                                        <th scope="col" class="border border-5">Stock Masuk</th>
+                                        <th scope="col" class="border border-5">Stock Keluar</th>
+                                        <th scope="col" class="border border-5">Stock Akhir</th>
                                         <th scope="col" class="border border-5">Action</th>
                                     </tr>
                                 </thead>
@@ -80,19 +82,35 @@
                     </div>      
                     <div class="col-12 col-md-6 col-lg-6 align-self-end">
                         <div class="row">
-                            <div class="col-md-8">
-                                
-                            </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
-                                    <label>Total</label>
-                                    <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" readonly>
+                                    <label>Qty Stock Awal</label>
+                                    <input type="text" class="form-control" name="qty_stock_awal" form="thisform" id="qty_stock_awal" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Qty Stock Masuk</label>
+                                    <input type="text" class="form-control" name="qty_stock_masuk" form="thisform" id="qty_stock_masuk" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Qty Stock Keluar</label>
+                                    <input type="text" class="form-control" name="qty_stock_keluar" form="thisform" id="qty_stock_keluar" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Qty Stock Akhir</label>
+                                    <input type="text" class="form-control" name="qty_stock_akhir" form="thisform" id="qty_stock_akhir" readonly>
                                 </div>
                             </div>
                         </div>
                     </div>              
-                    <div class="card-footer text-right">                        
+                    <div class="card-footer text-right">
                         {{-- @if($tpos_save == 'Y')
+                            <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}">Submit</button>
                         @elseif($tpos_save == 'N' || $tpos_save == null)
                             <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}" disabled>Submit</button>
                         @endif --}}

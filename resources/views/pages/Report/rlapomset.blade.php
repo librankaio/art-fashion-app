@@ -25,14 +25,34 @@
                             <div class="col-md-6">                    
                                 <div class="form-group">
                                     <label>Periode</label>
-                                    <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d") }}">
+                                    <input type="date" class="form-control" name="dtfr" value="{{ date("Y-m-d") }}">
                                 </div>                                
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>s/d</label>
-                                    <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d") }}">
+                                    <input type="date" class="form-control" name="dtto" value="{{ date("Y-m-d") }}">
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">                    
+                                <div class="form-group">
+                                    <label>Counter</label>
+                                    <select class="form-control select2" name="counter" id="counter">
+                                        <option disabled selected>--Select Counter--</option>
+                                        @foreach($counters as $data => $counter)
+                                        <option>{{ $counter->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 d-flex justify-content-end">                    
+                                <div class="form-group">
+                                    <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('romsetitempost') }}">Search</button>
+                                </div>                                
                             </div>
                         </div>
                     </div>
@@ -49,7 +69,6 @@
                                         <th scope="col" class="border border-5">Kode</th>
                                         <th scope="col" class="border border-5">Nama Item</th>
                                         <th scope="col" class="border border-5">Quantity</th>
-                                        <th scope="col" class="border border-5">Warna</th>
                                         <th scope="col" class="border border-5">Total</th>
                                         <th scope="col" class="border border-5">Action</th>
                                     </tr>
@@ -61,13 +80,19 @@
                     </div>      
                     <div class="col-12 col-md-6 col-lg-6 align-self-end">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-4">
                                 
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
+                                    <label>Total Quantity</label>
+                                    <input type="text" class="form-control" form="thisform" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
                                     <label>Total Penjualan</label>
-                                    <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" readonly>
+                                    <input type="text" class="form-control" form="thisform" readonly>
                                 </div>
                             </div>
                         </div>
@@ -78,7 +103,7 @@
                         @elseif($tpos_save == 'N' || $tpos_save == null)
                             <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}" disabled>Submit</button>
                         @endif --}}
-                        <button class="btn btn-secondary" type="reset">Reset</button>
+                        {{-- <button class="btn btn-secondary" type="reset">Reset</button> --}}
                     </div>
                 </div>
             </div>

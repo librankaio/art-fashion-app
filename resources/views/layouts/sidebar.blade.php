@@ -81,8 +81,10 @@
             <span>Reports</span></a>
         <ul class="dropdown-menu">
             <li><a class="nav-link" href="{{ route('romsetitem') }}">Laporan Omset Per Item</a></li>
-            <li><a class="nav-link" href="{{ route('rstockoverview') }}">Laporan Stock Overview</a></li>
+            <li><a class="nav-link" href="{{ route('romsetcounter') }}">Lap. Omset Per-Counter</a></li>
+            <li><a class="nav-link" href="{{ route('rlapstockpercounter') }}">Laporan Stock Per-Counter</a></li>
             <li><a class="nav-link" href="{{ route('rmutasistock') }}">Laporan Mutasi Stock</a></li>
+            <li><a class="nav-link" href="{{ route('rstockoverview') }}">Laporan Stock Overview</a></li>
             <li><a class="nav-link" href="testreport" target="_blank">Laporan Test</a></li>
         </ul>
     </li>

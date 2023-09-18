@@ -142,7 +142,6 @@
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="update_mitem" value="Y" checked>
                                                             @if($auth_mitem->updt == 'Y')
                                                                 <input class="form-check-input checkbox" type="checkbox" name="update_mitem" value="Y" checked>
                                                             @elseif($auth_mitem->updt == 'N' || $auth_mitem->updt == null)
@@ -192,7 +191,6 @@
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="update_muser" value="Y" checked>
                                                             @if($auth_muser->updt == 'Y')
                                                                 <input class="form-check-input checkbox" type="checkbox" name="update_muser" value="Y" checked>
                                                             @elseif($auth_muser->updt == 'N' || $auth_muser->updt == null)
@@ -242,7 +240,6 @@
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="update_mwarna" value="Y" checked>
                                                             @if($auth_mwarna->updt == 'Y')
                                                                 <input class="form-check-input checkbox" type="checkbox" name="update_mwarna" value="Y" checked>
                                                             @elseif($auth_mwarna->updt == 'N' || $auth_mwarna->updt == null)
@@ -292,7 +289,6 @@
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="update_mcounter" value="Y" checked>
                                                             @if($auth_mcounter->updt == 'Y')
                                                                 <input class="form-check-input checkbox" type="checkbox" name="update_mcounter" value="Y" checked>
                                                             @elseif($auth_mcounter->updt == 'N' || $auth_mcounter->updt == null)
@@ -342,7 +338,6 @@
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="update_mhakses" value="Y" checked>
                                                             @if($auth_mhakses->updt == 'Y')
                                                                 <input class="form-check-input checkbox" type="checkbox" name="update_mhakses" value="Y" checked>
                                                             @elseif($auth_mhakses->updt == 'N' || $auth_mhakses->updt == null)
@@ -392,7 +387,6 @@
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="update_tsob" value="Y" checked>
                                                             @if($auth_tsob->updt == 'Y')
                                                                 <input class="form-check-input checkbox" type="checkbox" name="update_tsob" value="Y" checked>
                                                             @elseif($auth_tsob->updt == 'N' || $auth_tsob->updt == null)
@@ -442,7 +436,6 @@
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="update_tpenerimaan" value="Y" checked>
                                                             @if($auth_tpenerimaan->updt == 'Y')
                                                                 <input class="form-check-input checkbox" type="checkbox" name="update_tpenerimaan" value="Y" checked>
                                                             @elseif($auth_tpenerimaan->updt == 'N' || $auth_tpenerimaan->updt == null)
@@ -492,7 +485,6 @@
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="update_tretur" value="Y" checked>
                                                             @if($auth_tretur->updt == 'Y')
                                                                 <input class="form-check-input checkbox" type="checkbox" name="update_tretur" value="Y" checked>
                                                             @elseif($auth_tretur->updt == 'N' || $auth_tretur->updt == null)
@@ -542,7 +534,6 @@
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="update_tbonjual" value="Y" checked>
                                                             @if($auth_tbonjual->updt == 'Y')
                                                                 <input class="form-check-input checkbox" type="checkbox" name="update_tbonjual" value="Y" checked>
                                                             @elseif($auth_tbonjual->updt == 'N' || $auth_tbonjual->updt == null)
@@ -592,7 +583,6 @@
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="update_tadjstock" value="Y" checked>
                                                             @if($auth_tadjstock->updt == 'Y')
                                                                 <input class="form-check-input checkbox" type="checkbox" name="update_tadjstock" value="Y" checked>
                                                             @elseif($auth_tadjstock->updt == 'N' || $auth_tadjstock->updt == null)
@@ -642,7 +632,6 @@
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="update_tsuratjalan" value="Y" checked>
                                                             @if($auth_tsuratjalan->updt == 'Y')
                                                                 <input class="form-check-input checkbox" type="checkbox" name="update_tsuratjalan" value="Y" checked>
                                                             @elseif($auth_tsuratjalan->updt == 'N' || $auth_tsuratjalan->updt == null)
@@ -692,7 +681,6 @@
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="update_tstopname" value="Y" checked>
                                                             @if($auth_tstopname->updt == 'Y')
                                                                 <input class="form-check-input checkbox" type="checkbox" name="update_tstopname" value="Y" checked>
                                                             @elseif($auth_tstopname->updt == 'N' || $auth_tstopname->updt == null)
@@ -742,7 +730,6 @@
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="update_tbelibrg" value="Y" checked>
                                                             @if($auth_tbelibrg->updt == 'Y')
                                                                 <input class="form-check-input checkbox" type="checkbox" name="update_tbelibrg" value="Y" checked>
                                                             @elseif($auth_tbelibrg->updt == 'N' || $auth_tbelibrg->updt == null)
