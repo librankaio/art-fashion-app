@@ -115,8 +115,14 @@ class ControllerTransPembelianBarang extends Controller
 
     public function update(Tpembelian_h $tpembelianh){
         // dd(request()->all());
+        if(request('id_d') == true){
+            dd("Masuk id");
+        }else{
+            dd("id tidak ada");
+        }
         for($x=0;$x<sizeof(request('id_d'));$x++){
             $getstock_old = Tpembelian_d::where('id', '=', request('id_d')[$x])->first();
+            // dd($getstock_old);
             // dd((int)$getstock_old->qty);
             // dd($getstock_old->code);
             $old_stock_mitem_counter = DB::table('mitems_counters')
