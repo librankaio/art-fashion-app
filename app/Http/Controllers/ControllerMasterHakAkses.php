@@ -278,10 +278,11 @@ class ControllerMasterHakAkses extends Controller
         return redirect()->route('mhakses');
     }
 
-    public function delete(Mhakakses $mhakakses){
-        $data = Mhakakses::where('id_user',$mhakakses->id_user)->delete();
-        // dd($data);
-        // Mhakakses::find($mhakakses->id_user)->delete();
+    public function delete(User $user){
+        Mhakakses::where('id_user',$user->id)->delete();
+        User::where('id',$user->id)->update([
+            'acs_stat' => null,
+        ]);
         return redirect()->route('mhakses');
     }
 }

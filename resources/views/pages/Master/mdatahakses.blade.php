@@ -602,9 +602,9 @@
                                                 <td class="border border-5" style="text-align: center;">{{ $item->nik }}</td>
                                                 <td class="border border-5" style="text-align: center;">{{ $item->counter }}</td>
                                                 @if ($item->acs_stat == null || $item->acs_stat == 'N')
-                                                    <td class="border border-5" style="text-align: center;">Available</td>
+                                                    <td class="border border-5" style="text-align: center;">Unregister</td>
                                                 @elseif($item->acs_stat == 'Y')
-                                                    <td class="border border-5" style="text-align: center;">Unavailable</td>
+                                                    <td class="border border-5" style="text-align: center;">Registred</td>
                                                 @endif
                                                 <td style="text-align: center;" class="d-flex justify-content-center">
                                                     @if ($item->acs_stat == null || $item->acs_stat == 'N')

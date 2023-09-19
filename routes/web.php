@@ -114,12 +114,18 @@ Route::get('tstockopname', [ControllerTransStockOpname::class, 'index'])->name('
 
 // ---Report---
 Route::get('romsetitem', [ControllerReportOmsetItem::class, 'index'])->name('romsetitem');
-Route::post('romsetitempost', [ControllerReportOmsetItem::class, 'post'])->name('romsetitempost');
+Route::get('romsetitemsearch', [ControllerReportOmsetItem::class, 'post'])->name('romsetitempost');
+
+Route::get('romsetcounter', [ControllerReportOmsetPecounter::class, 'index'])->name('romsetcounter');
+Route::get('romsetcountersearch', [ControllerReportOmsetPecounter::class, 'post'])->name('romsetcounterpost');
+
+Route::get('rmutasistock', [ControllerReportMutasiStock::class, 'index'])->name('rmutasistock');
+Route::get('rmutasistocksearch', [ControllerReportMutasiStock::class, 'post'])->name('rmutasistockpost');
+
+Route::get('rlapstockpercounter', [ControllerReportStockCounter::class, 'index'])->name('rlapstockpercounter');
+Route::get('rlapstockpercountersearch', [ControllerReportStockCounter::class, 'post'])->name('rlapstockpercounterpost');
 
 Route::get('rstockoverview', [ControllerReportStockOverview::class, 'index'])->name('rstockoverview');
-Route::get('rmutasistock', [ControllerReportMutasiStock::class, 'index'])->name('rmutasistock');
-Route::get('romsetcounter', [ControllerReportOmsetPecounter::class, 'index'])->name('romsetcounter');
-Route::get('rlapstockpercounter', [ControllerReportStockCounter::class, 'index'])->name('rlapstockpercounter');
 
 Route::get('mspg', [ControllerMasterSPG::class, 'index'])->name('mspg');
 Route::post('/mspgpost', [ControllerMasterSPG::class, 'post'])->name('mspgpost');
@@ -172,6 +178,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('mhaksespost', [ControllerMasterHakAkses::class, 'post'])->name('mhaksespost');
     Route::get('/mhakses/{user}/edit', [ControllerMasterHakAkses::class, 'getedit'])->name('mhaksesgetedit');
     Route::post('/mhakses/{user}', [ControllerMasterHakAkses::class, 'update'])->name('mhaksesupdt');
-    Route::post('/mhakses/delete/{mhakakses}', [ControllerMasterHakAkses::class, 'delete'])->name('mhaksesdelete');
+    Route::post('/mhakses/delete/{user}', [ControllerMasterHakAkses::class, 'delete'])->name('mhaksesdelete');
 
 });
