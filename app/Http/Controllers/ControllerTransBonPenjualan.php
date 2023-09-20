@@ -152,7 +152,7 @@ class ControllerTransBonPenjualan extends Controller
     public function update(Tpenjualan_h $tpenjualanh){
         // dd(request()->all());
         for($x=0;$x<sizeof(request('id_d'));$x++){
-            $getstock_old = Tpenjualan_h::where('id', '=', request('id_d')[$x])->first();
+            $getstock_old = Tpenjualan_d::where('id', '=', request('id_d')[$x])->first();
             // dd((int)$getstock_old->qty);
             // dd($getstock_old->code);
             $old_stock_mitem_counter = DB::table('mitems_counters')
