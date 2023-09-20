@@ -248,8 +248,6 @@ class ControllerTransPembelianBarang extends Controller
     }
 
     public function delete(Tpembelian_h $tpembelianh){
-        // Tpembelian_h::find($tpembelianh->id)->delete();
-        // Tpembelian_d::where('idh','=',$tpembelianh->id)->delete();
         $pembelian_detail = Tpembelian_d::where('idh','=',$tpembelianh->id)->get();
         foreach($pembelian_detail as $pembelian_old_item){
             // Mins a value from the old stock in mitems table
@@ -276,6 +274,8 @@ class ControllerTransPembelianBarang extends Controller
                 'stock' => (int)$stock_mitem_counter_min,
             ]);
         }
+        Tpembelian_h::find($tpembelianh->id)->delete();
+        Tpembelian_d::where('idh','=',$tpembelianh->id)->delete();
         return redirect()->route('tpembelianbaranglist');
     }
 }
