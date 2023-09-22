@@ -132,7 +132,9 @@
                                         <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='{{ $tadjs[$i]->satuan }}' name='satuan_d[]'></td>
                                         <td class="border border-5"><button title='Delete' class='delete btn btn-primary' value="{{ $counter }}"><i style='font-size:15pt;color:#ffff;' class='fa fa-trash'></i></button></td>
                                         <td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value=''></td>
-                                        <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='idclass form-control' name='id_d[]' type='text' value='{{ $tadjs[$i]->id }}'></td>
+                                        <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='idclass form-control' name='id_d[]' type='text' value='{{ $tadjs[$i]->id }}' id="tbl_detail_id_{{ $counter }}"></td>
+                                    <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='delclass form-control' name='deleted_item_d[]' type='text' value='' id="deleted_d_{{ $counter }}"></td>
+                                    <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='existdbclass form-control' name='existdb_d[]' type='text' value='{{ $tadjs[$i]->id }}' id="existdb_{{ $counter }}"></td>
                                         </tr>
                                     @endfor
                                 </tbody>                            

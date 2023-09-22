@@ -214,7 +214,7 @@
                 });
             });
 
-            var counter = parseInt({{ $counter}}) +1;;
+            var counter = parseInt({{ $counter}}) +1;
             $(document).on("click", "#addItem", function(e) {
                 e.preventDefault();
                 if($('#quantity').val() == 0){
