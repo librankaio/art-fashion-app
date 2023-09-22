@@ -25,7 +25,8 @@ class ControllerReportOmsetItem extends Controller
         $dtto = $request->input('dtto');
         $counter = $request->input('counter');
 
-        $results = DB::table('vomsetperitem')->whereBetween('tgl', [$dtfr, $dtto])->where('counter','=',$counter)->paginate(100);
+        // $results = DB::table('vomsetperitem')->whereBetween('tgl', [$dtfr, $dtto])->where('counter','=',$counter)->paginate(100);
+        $results = DB::select('CALL vomsetperitem (?,?,?)', [$dtfr, $dtto, $counter]);
         $totqty = DB::select('SELECT sum(totalqty) as totalqty FROM vomsetperitem');
         $grandtot = DB::select('SELECT sum(subtotal) as grandtotal FROM vomsetperitem');
         $counters = Mcounter::select('id','code','name')->get();

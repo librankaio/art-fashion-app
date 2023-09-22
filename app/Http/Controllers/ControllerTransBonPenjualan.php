@@ -17,6 +17,9 @@ class ControllerTransBonPenjualan extends Controller
     {
         $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         $mitems = Mitem::select('id','code','name')->get();
+        // $mitems = DB::select( DB::raw("SELECT * FROM some_table WHERE some_col = '$someVariable'") );
+        $counter_name = session('counter');
+        $mitems = DB::select( DB::raw("SELECT DISTINCT p.code , p.name FROM mitems p JOIN mitems_counters s ON p.code = s.code_mitem WHERE s.name_mcounters = '$counter_name' "));
         $payments = Mjenispayment::select('id','code','name')->get();
         $notrans = DB::select("select fgetcode('tpenjualan') as codetrans");
         return view('pages.Transaksi.tbonpenjualan',[
@@ -29,6 +32,16 @@ class ControllerTransBonPenjualan extends Controller
 
     public function post(Request $request){
         // dd($request->all());
+        // for ($x=0;$x<sizeof($request->no_d);$x++){
+        //     $stock_mitem_counter = DB::table('mitems_counters')
+        //         ->selectRaw('stock')
+        //         ->where('code_mitem', '=', strtok($request->kode_d[$x], " "))
+        //         ->where('name_mcounters', '=', session('counter'))
+        //         ->first();
+        //     if ($stock_mitem_counter == null) {
+
+        //     }
+        // }
 
         $checkexist = Tpenjualan_h::select('id','no')->where('no','=', $request->no)->first();
         if($checkexist == null){
@@ -214,7 +227,7 @@ class ControllerTransBonPenjualan extends Controller
                     'idh' => $tpenjualanh->id,
                     'no_penjualan' => request('no'),
                     'code' => request('kode_d')[$i],
-                    'name' => request('namaitem_d')[$i],
+                    'name' => request('nama_item_d')[$i],
                     'warna' => request('warna_d')[$i],
                     'qty' => request('quantity_d')[$i],
                     'satuan' => request('satuan_d')[$i],
@@ -274,7 +287,7 @@ class ControllerTransBonPenjualan extends Controller
         Tpenjualan_h::find($tpenjualanh->id)->delete();
         Tpenjualan_d::where('idh','=',$tpenjualanh->id)->delete();
 
-        return redirect()->route('treturjuallist');
+        return redirect()->route('tbonjuallist');
     }
 
     public function print(Tpenjualan_h $tpenjualanh){
