@@ -54,7 +54,7 @@
                         <div class="row">
                             <div class="col-md-12 d-flex justify-content-end">                    
                                 <div class="form-group">
-                                    <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="/romsetcountersearch" onclick="show_loading()">Search</button>
+                                    <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="/romsetcountersearch" onclick="show_loading()">View</button>
                                 </div>                                
                             </div>
                         </div>
