@@ -158,9 +158,6 @@
                                             <a href="/mitem/{{ $item->id }}/edit"
                                                 class="btn btn-icon icon-left btn-primary"><i class="far fa-edit">
                                                     Edit</i></a>
-                                            <a href="/mitempdf" target="_blank"
-                                                class="btn btn-icon icon-left btn-primary"><i class="far fa-edit">
-                                                    PDF</i></a>
                                             @if($item->exist_trans == "Y")                                            
                                             <form action="/mitem/delete/{{ $item->id }}" id="del-{{ $item->id }}"
                                                 method="POST" class="px-2">
