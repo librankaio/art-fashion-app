@@ -27,11 +27,11 @@
             </center>
             <div class="row">
                 <div class="col-6">
-                    <h5>Nama Counter : {{ $tsobh->no }} </h5>
-                    <h5>Tanggal : 10/08/2023</h5>
+                    <h5>Nama Counter : {{ $tsobh->counter }} </h5>
+                    <h5>Tanggal : {{ date("d-m-Y", strtotime($tsobh->tgl)) }}</h5>
                 </div>
                 <div class="col-6 d-flex justify-content-end align-items-end">
-                    <h5>No Faktur : {{ $tsobh->no }} </h5>
+                    <h5>No SOB : {{ $tsobh->no }} </h5>
                 </div>
             </div>
             <center>              
@@ -58,13 +58,11 @@
                             <td align="center" style="width: 150px; word-wrap: break-word;" class="border-dotted">{{ $tsobds[$i]->satuan }}</td>
                             <td align="center" style="width: 150px; word-wrap: break-word;" class="border-dotted">{{ number_format($tsobds[$i]->hrgjual, 2, '.', ',') }}</td>
                             <td align="center" style="width: 150px; word-wrap: break-word;" class="border-dotted">{{ number_format($tsobds[$i]->subtotal, 2, '.', ',') }}</td>
-                            <td align="center" style="width: 150px; word-wrap: break-word;" class="border-dotted">{{ $tsobds[$i]->keterangan }}</td>
                             </tr>
                         @endfor
                     </tbody>  
-                    <td align="center" colspan="3">Total Debit :</td>
-                    <td align="center" colspan="3">Total Credit :</td>
-                    <td align="center" colspan="3">Grand Balance : {{ number_format($tsobh->grdtotal, 2, '.', ',') }}</td>
+                    <td align="center" colspan="6"></td>
+                    <td align="center" colspan="2">Grand Balance : {{ number_format($tsobh->grdtotal, 2, '.', ',') }}</td>
                 </table>
             </center>
         </center>

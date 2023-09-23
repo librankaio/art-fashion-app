@@ -101,6 +101,7 @@ Route::get('/tsuratjalan/{tsjh}/edit', [ControllerTransSuratJalan::class, 'geted
 Route::post('/tsuratjalan/{tsjh}', [ControllerTransSuratJalan::class, 'update'])->name('tsuratjalanupdate');
 Route::post('/tsuratjalan/delete/{tsjh}', [ControllerTransSuratJalan::class, 'delete'])->name('tsuratjalandelete');
 Route::get('/tsuratjalan/{tsjh}/print', [ControllerTransSuratJalan::class, 'print'])->name('tsuratjalanprint');
+Route::get('/tsuratjalan/{tsjh}/printitem', [ControllerTransSuratJalan::class, 'printItem'])->name('tsuratjalanprintitem');
 
 Route::get('tpembelianbarang', [ControllerTransPembelianBarang::class, 'index'])->name('tpembelianbarang');
 Route::post('/tpembelianbarangpost', [ControllerTransPembelianBarang::class, 'post'])->name('tpembelianbarangpost');
@@ -173,6 +174,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/mitem/delete/{mitem}', [ControllerMasterDataItem::class, 'delete'])->name('mitemdelete');
     Route::post('/dtablegetmitem', [ControllerMasterDataItem::class, 'getmitem'])->name('dtablegetmitem');
     Route::get('/mitem/{mitem}/print', [ControllerMasterDataItem::class, 'print'])->name('mitemprint');
+    Route::get('/mitempdf', [ControllerMasterDataItem::class, 'exportpdf'])->name('mitempdf');
 
     Route::get('mhakses', [ControllerMasterHakAkses::class, 'index'])->name('mhakses');
     Route::post('mhaksespost', [ControllerMasterHakAkses::class, 'post'])->name('mhaksespost');

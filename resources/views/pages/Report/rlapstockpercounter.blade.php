@@ -72,7 +72,6 @@
                                         <th scope="col" class="border border-5">Stock Masuk</th>
                                         <th scope="col" class="border border-5">Stock Keluar</th>
                                         <th scope="col" class="border border-5">Stock Akhir</th>
-                                        <th scope="col" class="border border-5">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>

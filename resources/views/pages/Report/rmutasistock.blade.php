@@ -70,7 +70,6 @@
                                         <th scope="col" class="border border-5">Tanggal</th>
                                         <th scope="col" class="border border-5">Counter</th>
                                         <th scope="col" class="border border-5">Quantity</th>
-                                        <th scope="col" class="border border-5">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -9,6 +9,7 @@ use App\Models\Tsj_d;
 use App\Models\Tsj_h;
 use App\Models\Tsob_d;
 use App\Models\Tsob_h;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -300,5 +301,13 @@ class ControllerTransSuratJalan extends Controller
             'tsjh' => $tsjh,
             'tsjds' => $tsjds
         ]);
+    }
+
+    public function printItem(Tsj_h $tsjh){
+        $items = Tsj_d::where('idh','=',$tsjh->id)->get();
+        $datenow = date("Y-m-d");
+        $customPaper = array(0,0,85.039,141.732);
+        $pdf = Pdf::loadView('pages.Print.tsuratjalanprintitem', array('items'=>$items))->setPaper($customPaper, 'landscape');
+        return $pdf->stream($datenow."_NOSJ/".$tsjh->no);
     }
 }

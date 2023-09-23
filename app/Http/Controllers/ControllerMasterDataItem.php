@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Mitem;
 use App\Models\Mwarna;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Contracts\DataTable;
 use Yajra\DataTables\DataTables as DataTables;
@@ -142,5 +144,19 @@ class ControllerMasterDataItem extends Controller
         return view('pages.Print.mitemprint',[
             'mitem' => $mitem
         ]);
+    }
+
+    public function exportpdf(){
+        // $pdf = Pdf::loadHTML('<h1>TEST</h1>');
+
+        // return $pdf->stream();
+
+        // $pdf = App::make('dompdf.wrapper');
+        // return $pdf->stream();
+        
+        $customPaper = array(0,0,85.039,141.732);
+        $pdf = PDF::loadView('pages.Print.mitemprint2')->setPaper($customPaper, 'landscape');
+        // $pdf->loadHTML('<h1>Test</h1>');
+        return $pdf->stream();
     }
 }

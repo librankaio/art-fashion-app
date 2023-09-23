@@ -95,6 +95,10 @@
                                             <a href="/tsuratjalan/{{ $item->id }}/print"
                                                 class="btn btn-icon icon-left btn-success" target="_blank"><i class="far fa-print">
                                                     Print</i></a>
+                                            <div class="divider px-1"></div>
+                                            <a href="/tsuratjalan/{{ $item->id }}/printitem"
+                                                class="btn btn-icon icon-left btn-success" target="_blank"><i class="far fa-print">
+                                                    Print Label Item</i></a>
                                         </td>
                                     </tr>
                                     @endforeach

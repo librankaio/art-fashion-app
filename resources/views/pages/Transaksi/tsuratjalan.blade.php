@@ -46,7 +46,9 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Counter</label>
-                                    <input type="text" class="form-control" name="counter" id="counter" readonly>
+                                    @foreach($counters as $counter)
+                                    <input type="text" class="form-control" name="counter" id="counter" value="{{ $counter->name}}" readonly>
+                                    @endforeach
                                     {{-- <select class="form-control select2" name="counter" id="counter">
                                         <option disabled selected>--Select Counter--</option>
                                         @foreach($counters as $counter)
@@ -134,7 +136,7 @@
                         <div class="table-responsive">
                             <div class="form-group">
                                 {{-- <label>counter</label> --}}
-                                <input type="text" class="form-control" id="number_counter" value="0" readonly>
+                                <input type="text" class="form-control" id="number_counter" value="0" hidden readonly>
                             </div>
                             <table class="table table-bordered" id="datatable">
                                 <thead>

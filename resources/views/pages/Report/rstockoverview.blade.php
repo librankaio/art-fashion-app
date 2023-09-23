@@ -67,7 +67,6 @@
                                         <th scope="col" class="border border-5">Stock In</th>
                                         <th scope="col" class="border border-5">Stock Out</th>
                                         <th scope="col" class="border border-5">Stock Akhir</th>
-                                        <th scope="col" class="border border-5">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>

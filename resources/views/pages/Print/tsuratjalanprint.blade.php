@@ -14,20 +14,11 @@
         <div style="margin-left: 0%; margin-right: 0%;">
             <div class="container pt-5">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-1">
+                        <img src="{{ asset('../assets/img/artfashion_logo.png') }}" alt="logo" width="100">
+                    </div>                    
+                    <div class="col-5 pl-5">
                         <h5>Art Fashion Jewelry <br>Telp. (62 - 21) 645 0910/11<br>Fax. (62 - 21) 684288</h5>
-                    </div>
-                    <div class="col-6 d-flex justify-content-end align-items-end">
-                        <table id="mytable" border="1px">
-                            <thead>
-                                <tr>
-                                    <td align="center" style="width: 150px; word-wrap: break-word;">ORIGINAL</td>
-                                </tr>  
-                            </thead>
-                            <tbody>
-                                    <td align="center" style="width: 150px; word-wrap: break-word;">MEI 2023</td>
-                            </tbody>  
-                        </table>
                     </div>
                 </div>
                 <div class="row pt-4">
@@ -37,7 +28,7 @@
                         <table id="mytable" border="1px">
                             <thead>
                                 <tr>
-                                    <td class="p-2" style="width: 300px; word-wrap: break-word;">To : <br> PT.Matahari Depstore. TBK Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </td>
+                                    <td class="p-2" style="width: 300px; word-wrap: break-word;">To : {{ $tsjh->counter }}<br> </td>
                                 </tr>  
                             </thead>
                         </table>
@@ -46,7 +37,7 @@
             </div>
             <div class="row">
                 <div class="col-6">
-                    <h5>No Faktur : {{ $tsjh->no }} </h5>
+                    <h5>No Surat Jalan : {{ $tsjh->no }} </h5>
                 </div>
                 <div class="col-6 text-right">
                 </div>
@@ -62,7 +53,6 @@
                             <td align="center" style="width: 150px; word-wrap: break-word;" class="border-dotted">Satuan</td>
                             <td align="center" style="width: 150px; word-wrap: break-word;" class="border-dotted">Harga</td>
                             <td align="center" style="width: 150px; word-wrap: break-word;" class="border-dotted">Subtotal</td>
-                            <td align="center" style="width: 150px; word-wrap: break-word;" class="border-dotted">Keterangan</td>
                         </tr>  
                     </thead>
                     <tbody>
@@ -75,25 +65,22 @@
                             <td align="center" style="width: 150px; word-wrap: break-word;" class="border-dotted">{{ $tsjds[$i]->satuan }}</td>
                             <td align="center" style="width: 150px; word-wrap: break-word;" class="border-dotted">{{ number_format($tsjds[$i]->hrgjual, 2, '.', ',') }}</td>
                             <td align="center" style="width: 150px; word-wrap: break-word;" class="border-dotted">{{ number_format($tsjds[$i]->subtotal, 2, '.', ',') }}</td>
-                            <td align="center" style="width: 150px; word-wrap: break-word;" class="border-dotted">{{ $tsjds[$i]->keterangan }}</td>
                             </tr>
                         @endfor
                     </tbody>  
-                    <td align="center" colspan="3">Total Debit :</td>
-                    <td align="center" colspan="3">Total Credit :</td>
-                    <td align="center" colspan="3">Grand Balance : {{ number_format($tsjh->grdtotal, 2, '.', ',') }}</td>
+                    <td align="center" colspan="6" class="border-dotted"></td>
+                    <td align="center" colspan="2" class="border-dotted">Grand Total : {{ number_format($tsjh->grdtotal, 2, '.', ',') }}</td>
                 </table>
             </center>
             <center>
                 <div class="container pt-5">
                     <div class="row">
                         <div class="col-3">
-                            <h5>Jakarta, Mei 2023</h5>
+                            <h5>Jakarta, {{ date("d-m-Y") }}</h5>
                             <br>
                             <br>
                             <br>
-                            <h5>Tri Haryanto</h5>
-                            <h5>Accounting</h5>
+                            <h5>{{ session('name'); }}</h5>
                             {{-- <hr style="border-top: dotted 0.3px;" /> --}}
                         </div>
                     </div>
