@@ -12,8 +12,7 @@
         $tpos_save = session('tpos_save');
     @endphp
     <div class="section-body">
-        <form action="" method="POST" id="thisform">
-            @csrf
+        <form action="" method="GET" id="thisform">
         <div class="row">
             <div class="col-12 col-md-4 col-lg-4">
                 <div class="card">
@@ -25,13 +24,13 @@
                             <div class="col-md-6">                    
                                 <div class="form-group">
                                     <label>Periode</label>
-                                    <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d") }}">
+                                    <input type="date" class="form-control" name="dtfr" value="@php if(request('dtfr')==NULL){ echo date('Y-m-d');} else{ echo $_GET['dtfr']; } @endphp">
                                 </div>                                
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>s/d</label>
-                                    <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d") }}">
+                                    <input type="date" class="form-control" name="dtto" value="@php if(request('dtto')==NULL){ echo date('Y-m-d');} else{ echo $_GET['dtto']; } @endphp">
                                 </div>
                             </div>
                         </div>
@@ -40,11 +39,22 @@
                                 <div class="form-group">
                                     <label>Counter</label>
                                     <select class="form-control select2" name="counter" id="counter">
+                                        @if(request('counter') == NULL)
                                         <option disabled selected>--Select Counter--</option>
-                                        {{-- @foreach($cabangs as $data => $cabang)
-                                        <option>{{ $cabang->name." - ".$cabang->address }}</option>
-                                        @endforeach --}}
+                                        @else
+                                        <option selected>@php echo $_GET['counter']; @endphp</option>
+                                        @endif
+                                        @foreach($counters as $data => $counter)
+                                        <option>{{ $counter->code }}</option>
+                                        @endforeach
                                     </select>
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 d-flex justify-content-end">                    
+                                <div class="form-group">
+                                    <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="/rstockoverviewsearch" onclick="show_loading()">View</button>
                                 </div>                                
                             </div>
                         </div>
@@ -61,8 +71,7 @@
                                         <th scope="col" class="border border-5">No</th>
                                         <th scope="col" class="border border-5">Kode</th>
                                         <th scope="col" class="border border-5">Nama Item</th>
-                                        <th scope="col" class="border border-5">Warna</th>
-                                        <th scope="col" class="border border-5">Quantity</th>
+                                        <th scope="col" class="border border-5">Satuan</th>
                                         <th scope="col" class="border border-5">Stock Awal</th>
                                         <th scope="col" class="border border-5">Stock In</th>
                                         <th scope="col" class="border border-5">Stock Out</th>
@@ -70,11 +79,27 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @isset($results)
+                                    @php $counter = 0 @endphp
+                                    @foreach($results as $data => $item)
+                                        @php $counter++ @endphp
+                                        <tr>
+                                            <th scope="row" class="border border-5">{{ $counter }}</th>
+                                            <td class="border border-5" style="text-align: center;">{{ $item->code }}</td>
+                                            <td class="border border-5" style="text-align: center;">{{ $item->name }}</td>
+                                            <td class="border border-5" style="text-align: center;">{{ $item->satuan }}</td>
+                                            <td class="border border-5" style="text-align: center;">{{ number_format($item->stock_awal) }}</td>
+                                            <td class="border border-5" style="text-align: center;">{{ number_format($item->stock_in) }}</td>
+                                            <td class="border border-5" style="text-align: center;">{{ number_format($item->stock_out) }}</td>
+                                            <td class="border border-5" style="text-align: center;">{{ number_format($item->stock_akhir) }}</td>
+                                        </tr>
+                                    @endforeach
+                                    @endisset
                                 </tbody>                            
                             </table>
                         </div>                                              
                     </div>      
-                    <div class="col-12 col-md-6 col-lg-6 align-self-end">
+                    {{-- <div class="col-12 col-md-6 col-lg-6 align-self-end">
                         <div class="row">
                             <div class="col-md-8">
                                 
@@ -86,14 +111,13 @@
                                 </div>
                             </div>
                         </div>
-                    </div>              
+                    </div>               --}}
                     <div class="card-footer text-right">
                         {{-- @if($tpos_save == 'Y')
                             <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}">Submit</button>
                         @elseif($tpos_save == 'N' || $tpos_save == null)
                             <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}" disabled>Submit</button>
                         @endif --}}
-                        <button class="btn btn-secondary" type="reset">Reset</button>
                     </div>
                 </div>
             </div>

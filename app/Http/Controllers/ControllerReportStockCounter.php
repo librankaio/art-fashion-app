@@ -10,27 +10,22 @@ class ControllerReportStockCounter extends Controller
 {
     public function index()
     {
-        return view('pages.Report.rlapstockpercounter');
+        $counters = Mcounter::select('id','code','name')->get();
+        return view('pages.Report.rlapstockpercounter',[
+            'counters' => $counters,
+        ]);
     }
 
     public function post(Request $request)
     {
-        // dd($request->all());
-
-        $dtfr = $request->input('dtfr');
-        $dtto = $request->input('dtto');
         $counter = $request->input('counter');
 
-        $results = DB::table('vomsetpercounter')->whereBetween('tgl', [$dtfr, $dtto])->where('counter','=',$counter)->paginate(100);
-        $totqty = DB::select('SELECT sum(totalqty) as totalqty FROM vomsetpercounter where counter = ?', [$counter]);
-        $grandtot = DB::select('SELECT sum(subtotal) as grandtotal FROM vomsetpercounter where counter = ?', [$counter]);
+        $results = DB::table('vstockpercounter')->where('name_mcounters','=',$counter)->get();
         $counters = Mcounter::select('id','code','name')->get();
 
         return view('pages.Report.rlapstockpercounter', [
             'results' => $results,
             'counters' => $counters,
-            'totqty' => $totqty,
-            'grandtot' => $grandtot,
         ]);
     }
 }

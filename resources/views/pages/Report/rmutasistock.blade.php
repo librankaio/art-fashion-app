@@ -12,8 +12,7 @@
         $tpos_save = session('tpos_save');
     @endphp
     <div class="section-body">
-        <form action="" method="POST" id="thisform">
-            @csrf
+        <form action="" method="GET" id="thisform">
         <div class="row">
             <div class="col-12 col-md-4 col-lg-4">
                 <div class="card">
@@ -25,13 +24,13 @@
                             <div class="col-md-6">                    
                                 <div class="form-group">
                                     <label>Periode</label>
-                                    <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d") }}">
+                                    <input type="date" class="form-control" name="dtfr" value="@php if(request('dtfr')==NULL){ echo date('Y-m-d');} else{ echo $_GET['dtfr']; } @endphp">
                                 </div>                                
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>s/d</label>
-                                    <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d") }}">
+                                    <input type="date" class="form-control" name="dtto" value="@php if(request('dtto')==NULL){ echo date('Y-m-d');} else{ echo $_GET['dtto']; } @endphp">
                                 </div>
                             </div>
                         </div>
@@ -40,10 +39,14 @@
                                 <div class="form-group">
                                     <label>Artikel</label>
                                     <select class="form-control select2" name="artikel" id="artikel">
+                                        @if(request('artikel') == NULL)
                                         <option disabled selected>--Select Artikel--</option>
-                                        {{-- @foreach($cabangs as $data => $cabang)
-                                        <option>{{ $cabang->name." - ".$cabang->address }}</option>
-                                        @endforeach --}}
+                                        @else
+                                        <option selected>@php echo $_GET['artikel']; @endphp</option>
+                                        @endif
+                                        @foreach($mitems as $data => $mitem)
+                                        <option>{{ $mitem->code }}</option>
+                                        @endforeach
                                     </select>
                                 </div>                                
                             </div>
@@ -51,7 +54,7 @@
                         <div class="row">
                             <div class="col-md-12 d-flex justify-content-end">                    
                                 <div class="form-group">
-                                    <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="">Search</button>
+                                    <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="/rmutasistocksearch" onclick="show_loading()">View</button>
                                 </div>                                
                             </div>
                         </div>
@@ -73,6 +76,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @isset($results)
+                                    @php $counter = 0 @endphp
+                                    @foreach($results as $data => $item)
+                                        @php $counter++ @endphp
+                                        <tr>
+                                            <th scope="row" class="border border-5">{{ $item->JenisTransaksi }}</th>
+                                            <td class="border border-5" style="text-align: center;">{{ $item->no }}</td>
+                                            <td class="border border-5" style="text-align: center;">{{ date("Y-m-d", strtotime($item->tgl)) }}</td>
+                                            <td class="border border-5" style="text-align: center;">{{ $item->counter }}</td>
+                                            <td class="border border-5" style="text-align: center;">{{ number_format($item->qty) }}</td>
+                                        </tr>
+                                    @endforeach
+                                    @endisset
                                 </tbody>                            
                             </table>
                         </div>                                              
@@ -85,7 +101,13 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Total</label>
-                                    <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" readonly>
+                                    @if(isset($totqty))
+                                    @foreach ($totqty as $qty)
+                                        <input type="text" class="form-control" form="thisform" value="{{ number_format($qty->totalqty) }}" readonly>
+                                        @endforeach
+                                    @else
+                                        <input type="text" class="form-control" form="thisform" readonly>
+                                    @endif
                                 </div>
                             </div>
                         </div>

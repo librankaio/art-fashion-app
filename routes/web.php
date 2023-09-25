@@ -127,6 +127,7 @@ Route::get('rlapstockpercounter', [ControllerReportStockCounter::class, 'index']
 Route::get('rlapstockpercountersearch', [ControllerReportStockCounter::class, 'post'])->name('rlapstockpercounterpost');
 
 Route::get('rstockoverview', [ControllerReportStockOverview::class, 'index'])->name('rstockoverview');
+Route::get('rstockoverviewsearch', [ControllerReportStockOverview::class, 'post'])->name('rstockoverviewpost');
 
 Route::get('mspg', [ControllerMasterSPG::class, 'index'])->name('mspg');
 Route::post('/mspgpost', [ControllerMasterSPG::class, 'post'])->name('mspgpost');

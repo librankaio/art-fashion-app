@@ -59,7 +59,6 @@
                                 <div class="form-group">
                                     <label>Jenis</label>
                                     <select class="form-control" name="jenis" id="jenis">
-                                        <option disabled selected>--Select Jenis--</option>
                                         <option>Normal</option>
                                         <option>Retur</option>
                                     </select>
