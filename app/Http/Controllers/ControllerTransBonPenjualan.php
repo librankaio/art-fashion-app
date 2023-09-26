@@ -20,7 +20,7 @@ class ControllerTransBonPenjualan extends Controller
         // $mitems = DB::select( DB::raw("SELECT * FROM some_table WHERE some_col = '$someVariable'") );
         $counter_name = session('counter');
         // $mitems = DB::select( DB::raw("SELECT DISTINCT p.code , p.name FROM mitems p JOIN mitems_counters s ON p.code = s.code_mitem WHERE s.name_mcounters = '$counter_name' "));
-        $mitems = DB::select( DB::raw("select code_mitem as code, name_mitem as name from mitems_counters where name_mcounters = '$counter_name'"));
+        $mitems = DB::select( DB::raw("select code_mitem as code, name_mitem as name from mitems_counters where name_mcounters = '$counter_name' and stock > 0"));
         $payments = Mjenispayment::select('id','code','name')->get();
         $notrans = DB::select("select fgetcode('tpenjualan') as codetrans");
         return view('pages.Transaksi.tbonpenjualan',[
@@ -154,7 +154,7 @@ class ControllerTransBonPenjualan extends Controller
         $counters = Mcounter::select('id','code','name')->get();
         // $mitems = Mitem::select('id','code','name')->get();
         $counter_name = session('counter');
-        $mitems = DB::select( DB::raw("select code_mitem as code, name_mitem as name from mitems_counters where name_mcounters = '$counter_name'"));
+        $mitems = DB::select( DB::raw("select code_mitem as code, name_mitem as name from mitems_counters where name_mcounters = '$counter_name' and stock > 0"));
         $payments = Mjenispayment::select('id','code','name')->get();
         $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','warna','qty','satuan','hrgjual','diskon','subtotal','disctot','note')->where('idh','=',$tpenjualanh->id)->get();
         return view('pages.Transaksi.tbonpenjualanedit',[

@@ -22,6 +22,7 @@ use App\Http\Controllers\ControllerTransSOB;
 use App\Http\Controllers\ControllerTransStockOpname;
 use App\Http\Controllers\ControllerTransSuratJalan;
 use App\Http\Controllers\ControllerUpload;
+use App\Http\Controllers\ControllerUploadMitemCounter;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,6 +52,9 @@ Route::get('/logout', [ControllerLogin::class, 'logout'])->name('logout');
 Route::get('home', [ControllerHome::class, 'index'])->name('home');
 Route::get('uploadsample', [ControllerUpload::class, 'index'])->name('uploadsample');
 Route::post('uploadpost', [ControllerUpload::class, 'uploadpost'])->name('uploadpost');
+
+Route::get('uploadmitemcounter', [ControllerUploadMitemCounter::class, 'index'])->name('uploadmitemcounter');
+Route::post('uploadmitemcounterpost', [ControllerUploadMitemCounter::class, 'post'])->name('uploadmitemcounterpost');
 
 Route::get('tsob', [ControllerTransSOB::class, 'index'])->name('tsob');
 Route::post('/tsobpost', [ControllerTransSOB::class, 'post'])->name('tsobpost');

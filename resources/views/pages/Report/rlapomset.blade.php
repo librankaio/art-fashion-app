@@ -152,7 +152,7 @@
         $('#datatable').DataTable({
         "ordering":false,
         "bInfo" : false,
-        "bPaginate": false,
+        // "bPaginate": false,
         // "searching": false
         });
     })

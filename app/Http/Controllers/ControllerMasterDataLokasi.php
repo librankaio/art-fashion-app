@@ -45,6 +45,10 @@ class ControllerMasterDataLokasi extends Controller
     }
 
     public function delete(Mcounter $mcounter){
+        // dd($mcounter);
+        if($mcounter->code == 'HO' || $mcounter->code == 'HO2'){
+            return redirect()->back()->with('error', 'HO / HO2 Tidak dapat dihapus!');
+        }
         Mcounter::find($mcounter->id)->delete();
         return redirect()->route('mlokasi');
     }

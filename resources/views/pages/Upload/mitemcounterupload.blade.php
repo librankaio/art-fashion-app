@@ -2,10 +2,10 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h1>Upload Data</h1>
+        <h1>Upload Data Mitem Counter</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item active"><a href="#">Upload Data</a></div>
-            <div class="breadcrumb-item"><a class="text-muted">Upload Data</a></div>
+            <div class="breadcrumb-item"><a class="text-muted">Upload Data Mitem Counter</a></div>
         </div>
     </div>
     @php

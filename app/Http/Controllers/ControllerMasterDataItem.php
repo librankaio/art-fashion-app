@@ -67,15 +67,15 @@ class ControllerMasterDataItem extends Controller
     }
 
     public function post(Request $request){
-        // dd($request->all());
+        dd($request->all());
         $availcode = Mitem::where('code', '=', $request->kode)->first();
         $counter = session('counter');
         $nik = session('nik');
         if($availcode != null){
             return redirect()->back()->with('error', 'Kode sudah terdaftar');
         }else{
-            DB::select( DB::raw("INSERT INTO mitems_counters (code_mitem, name_mitem, code_mcounters, name_mcounters)
-            (SELECT code, name, '$request->kode', '$counter' FROM mitems TA);") );
+            // DB::select( DB::raw("INSERT INTO mitems_counters (code_mitem, name_mitem, code_mcounters, name_mcounters)
+            // (SELECT code, name, '$request->kode', '$counter' FROM mitems TA);") );
             Mitem::create([  
                 'name' => $request->nama,
                 'code' => $request->kode,
@@ -89,6 +89,9 @@ class ControllerMasterDataItem extends Controller
                 'nett' => (float) str_replace(',', '', $request->price_nett),
                 'spcprice' => (float) str_replace(',', '', $request->price_special),
             ]);
+            DB::select( DB::raw("INSERT INTO mitems_counters (code_mitem, name_mitem, code_mcounters, name_mcounters, stock)
+            select '$request->kode', '$request->nama', code, name, 0
+            FROM mcounters"));
             return redirect()->back()->with('success', 'Data berhasil ditambahkan');
         }
     }
@@ -136,6 +139,7 @@ class ControllerMasterDataItem extends Controller
 
     public function delete(Mitem $mitem){
         Mitem::find($mitem->id)->delete();
+        DB::select( DB::raw("delete from mitems_counters where code_mitem = '$mitem->code' "));
         return redirect()->route('mitem');
     }
     

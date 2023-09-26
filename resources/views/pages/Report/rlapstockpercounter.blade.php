@@ -381,6 +381,12 @@
         }
         });
         
+        $('#datatable').DataTable({
+        "ordering":false,
+        "bInfo" : false,
+        // "bPaginate": false,
+        // "searching": false
+        });
     })
 
 </script>

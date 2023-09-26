@@ -609,10 +609,11 @@
         else if (nosob == 0){
             swal('WARNING', 'Please select Nomer SOB', 'warning');
             return false;
-        }else if (jenis == 0){
-            swal('WARNING', 'Please select Jenis', 'warning');
-            return false;
         }
+        // else if (jenis == 0){
+        //     swal('WARNING', 'Please select Jenis', 'warning');
+        //     return false;
+        // }
         });
 
         $(document).on('focusout', '.row_qty', function(event) 

@@ -561,9 +561,6 @@
         if (rowCount == 0){
             swal('WARNING', 'Silahkan Masukkan data detail terlebih dahulu!', 'warning');
             return false;
-        }else if (jenis == 0){
-            swal('WARNING', 'Please select Jenis', 'warning');
-            return false;
         }else if (no == ""){
             swal('WARNING', 'No Tidak boleh kosong!', 'warning');
             return false;
