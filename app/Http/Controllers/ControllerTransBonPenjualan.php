@@ -89,12 +89,12 @@ class ControllerTransBonPenjualan extends Controller
                 // $stock_mitem = Mitem::select('stock')->where('code', '=', strtok($request->kode_d[$i], " "))->first();
                 // dd($stock_mitem);
 
-                $stock_mitem = Mitem::select('stock')->where('code', '=', strtok($request->kode_d[$i], " "))->first();
+                // $stock_mitem = Mitem::select('stock')->where('code', '=', strtok($request->kode_d[$i], " "))->first();
                 // dd($stock_mitem);
-                $stock_min = $stock_mitem->stock - $request->quantity_d[$i];
-                Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
-                    'stock' => (int)$stock_min,
-                ]);
+                // $stock_min = $stock_mitem->stock - $request->quantity_d[$i];
+                // Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
+                //     'stock' => (int)$stock_min,
+                // ]);
                 $stock_mitem_counter = DB::table('mitems_counters')
                 ->selectRaw('stock')
                 ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
@@ -297,13 +297,32 @@ class ControllerTransBonPenjualan extends Controller
     }
 
     public function delete(Tpenjualan_h $tpenjualanh){
+        $penjualan_detail = Tpenjualan_d::where('idh','=',$tpenjualanh->id)->get();
+        foreach($penjualan_detail as $penjualan_old_item){
+            // Mins a value from the old stock in mitems_counters table
+            $stock_mitem_counter = DB::table('mitems_counters')
+            ->selectRaw('stock')
+            ->where('code_mitem', '=', strtok($penjualan_old_item->code, " "))
+            ->where('name_mcounters', '=', session('counter'))
+            ->first();
+            // dd($stock_mitem_counter);
+            $stock_mitem_counter_sum = $stock_mitem_counter->stock + (int)$penjualan_old_item->qty;
+            // dd($stock_mitem_counter_sum);
+            DB::table('mitems_counters')
+            ->selectRaw('stock')
+            ->where('code_mitem', '=', strtok($penjualan_old_item->code, " "))
+            ->where('name_mcounters', '=', session('counter'))
+            ->update([
+                'stock' => (int)$stock_mitem_counter_sum,
+            ]);
+        }
         Tpenjualan_h::find($tpenjualanh->id)->delete();
         Tpenjualan_d::where('idh','=',$tpenjualanh->id)->delete();
 
         return redirect()->route('tbonjuallist');
     }
 
-    public function print(Tpenjualan_h $tpenjualanh){
+    public function print(Tpenjualan_h $tpenjualanh){        
         $tpenjualands = Tpenjualan_d::where('idh','=',$tpenjualanh->id)->get();
         
         // dd($tpenjualands);

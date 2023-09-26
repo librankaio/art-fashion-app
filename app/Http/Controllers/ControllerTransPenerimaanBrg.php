@@ -262,6 +262,26 @@ class ControllerTransPenerimaanBrg extends Controller
     }
 
     public function delete(Tpenerimaan_h $tpenerimaanh){
+        $penerimaan_detail = Tpenerimaan_d::where('idh','=',$tpenerimaanh->id)->get();
+        foreach($penerimaan_detail as $penerimaan_old_item){
+            // Mins a value from the old stock in mitems_counters table
+            $stock_mitem_counter = DB::table('mitems_counters')
+            ->selectRaw('stock')
+            ->where('code_mitem', '=', strtok($penerimaan_old_item->code, " "))
+            ->where('name_mcounters', '=', session('counter'))
+            ->first();
+            // dd($stock_mitem_counter);
+            $stock_mitem_counter_min = $stock_mitem_counter->stock - (int)$penerimaan_old_item->qty;
+            // dd($stock_mitem_counter_min);
+            DB::table('mitems_counters')
+            ->selectRaw('stock')
+            ->where('code_mitem', '=', strtok($penerimaan_old_item->code, " "))
+            ->where('name_mcounters', '=', session('counter'))
+            ->update([
+                'stock' => (int)$stock_mitem_counter_min,
+            ]);
+        }
+
         $tpenerimaan = Tpenerimaan_h::where('id','=',$tpenerimaanh->id)->first();
         $tsjh = Tsj_h::where('no', '=', $tpenerimaan->no_sj)->first();
         Tsj_h::where('no', '=', $tpenerimaan->no_sj)->update([

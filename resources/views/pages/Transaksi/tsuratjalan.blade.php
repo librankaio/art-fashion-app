@@ -46,15 +46,15 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Counter</label>
-                                    @foreach($counters as $counter)
+                                    {{-- @foreach($counters as $counter)
                                     <input type="text" class="form-control" name="counter" id="counter" value="{{ $counter->name}}" readonly>
-                                    @endforeach
-                                    {{-- <select class="form-control select2" name="counter" id="counter">
-                                        <option disabled selected>--Select Counter--</option>
+                                    @endforeach --}}
+                                    <select class="form-control select2" name="counter" id="counter">
+                                        {{-- <option disabled selected>--Select Counter--</option> --}}
                                         @foreach($counters as $counter)
                                         <option>{{ $counter->name}}</option>
                                         @endforeach
-                                    </select> --}}
+                                    </select>
                                 </div>                  
                                 <div class="form-group">
                                     <label>Jenis</label>

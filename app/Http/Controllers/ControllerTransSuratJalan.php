@@ -290,6 +290,33 @@ class ControllerTransSuratJalan extends Controller
     }
 
     public function delete(Tsj_h $tsjh){
+        $suratjalan_detail = Tsj_d::where('idh','=',$tsjh->id)->get();
+        foreach($suratjalan_detail as $suratjalan_old_item){
+            // Mins a value from the old stock in mitems table
+            $stock_mitem = Mitem::select('stock')->where('code', '=',strtok($suratjalan_old_item->code, " "))->first();
+            $stock_mitem_sum = $stock_mitem->stock + (int)$suratjalan_old_item->qty;
+            
+            Mitem::where('code', '=', strtok($suratjalan_old_item->code, " "))->update([
+                'stock' => (int)$stock_mitem_sum,
+            ]);
+            // Mins a value from the old stock in mitems_counters table
+            $stock_mitem_counter = DB::table('mitems_counters')
+            ->selectRaw('stock')
+            ->where('code_mitem', '=', strtok($suratjalan_old_item->code, " "))
+            ->where('name_mcounters', '=', session('counter'))
+            ->first();
+            // dd($stock_mitem_counter);
+            $stock_mitem_counter_sum = $stock_mitem_counter->stock + (int)$suratjalan_old_item->qty;
+            // dd($stock_mitem_counter_sum);
+            DB::table('mitems_counters')
+            ->selectRaw('stock')
+            ->where('code_mitem', '=', strtok($suratjalan_old_item->code, " "))
+            ->where('name_mcounters', '=', session('counter'))
+            ->update([
+                'stock' => (int)$stock_mitem_counter_sum,
+            ]);
+        }
+
         $tsj = Tsj_h::where('id','=',$tsjh->id)->first();
         $sobh = Tsob_h::where('no', '=', $tsj->no_sob)->first();
         Tsob_h::where('no', '=', $tsj->no_sob)->update([
