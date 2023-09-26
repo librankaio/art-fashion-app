@@ -33,6 +33,11 @@ class ControllerMasterSPG extends Controller
                 'counter' => $request->counter,
                 'password' => $request->password,
             ]);
+            if ($request->jenis == 'ADMIN'){
+                User::where('nik', '=', $request->nik)->update([
+                    'privilage' => 'ADM',
+                ]);
+            }
             return redirect()->back()->with('success', 'Data berhasil ditambahkan');
         }
     }

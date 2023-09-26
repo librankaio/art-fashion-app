@@ -13,7 +13,12 @@ class ControllerTransReturPenjualan extends Controller
 {
     public function index()
     {
-        $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        $privilage = session('privilage');
+        if($privilage == 'ADM'){
+            $counters = Mcounter::select('id','code','name')->get();
+        }else if($privilage == null){
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }
         $mitems = Mitem::select('id','code','name')->get();
         $notrans = DB::select("select fgetcode('tretur') as codetrans");
         return view('pages.Transaksi.treturpenjualan',[
@@ -70,7 +75,12 @@ class ControllerTransReturPenjualan extends Controller
     }
 
     public function getedit(Tretur_h $treturh){
-        $counters = Mcounter::select('id','code','name')->get();
+        $privilage = session('privilage');
+        if($privilage == 'ADM'){
+            $counters = Mcounter::select('id','code','name')->get();
+        }else if($privilage == null){
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }
         $mitems = Mitem::select('id','code','name')->get();
         $treturds = Tretur_d::select('id','idh','no_retur','code','name','warna','qty','satuan',)->where('idh','=',$treturh->id)->get();
         return view('pages.Transaksi.treturpenjualanedit',[

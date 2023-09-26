@@ -15,7 +15,12 @@ class ControllerTransBonPenjualan extends Controller
 {
     public function index()
     {
-        $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        $privilage = session('privilage');
+        if($privilage == 'ADM'){
+            $counters = Mcounter::select('id','code','name')->get();
+        }else if($privilage == null){
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }
         $mitems = Mitem::select('id','code','name')->get();
         // $mitems = DB::select( DB::raw("SELECT * FROM some_table WHERE some_col = '$someVariable'") );
         $counter_name = session('counter');
@@ -151,7 +156,12 @@ class ControllerTransBonPenjualan extends Controller
     }
 
     public function getedit(Tpenjualan_h $tpenjualanh){
-        $counters = Mcounter::select('id','code','name')->get();
+        $privilage = session('privilage');
+        if($privilage == 'ADM'){
+            $counters = Mcounter::select('id','code','name')->get();
+        }else if($privilage == null){
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }
         // $mitems = Mitem::select('id','code','name')->get();
         $counter_name = session('counter');
         $mitems = DB::select( DB::raw("select code_mitem as code, name_mitem as name from mitems_counters where name_mcounters = '$counter_name' and stock > 0"));

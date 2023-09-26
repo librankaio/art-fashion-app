@@ -67,7 +67,6 @@ class ControllerMasterDataItem extends Controller
     }
 
     public function post(Request $request){
-        dd($request->all());
         $availcode = Mitem::where('code', '=', $request->kode)->first();
         $counter = session('counter');
         $nik = session('nik');

@@ -14,7 +14,12 @@ class ControllerTransAdjustmentStock extends Controller
 {
     public function index()
     {
-        $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        $privilage = session('privilage');
+        if($privilage == 'ADM'){
+            $counters = Mcounter::select('id','code','name')->get();
+        }else if($privilage == null){
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }
         $mitems = Mitem::select('id','code','name')->get();
         $notrans = DB::select("select fgetcode('tadj') as codetrans");
         return view('pages.Transaksi.tadjustmentstock',[
@@ -102,7 +107,12 @@ class ControllerTransAdjustmentStock extends Controller
     }
 
     public function getedit(Tadj_h $tadjh){
-        $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        $privilage = session('privilage');
+        if($privilage == 'ADM'){
+            $counters = Mcounter::select('id','code','name')->get();
+        }else if($privilage == null){
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }
         $mitems = Mitem::select('id','code','name')->get();
         $tadjs = Tadj_d::select('id','idh','no_adj','code','name','warna','qty','satuan',)->where('idh','=',$tadjh->id)->get();
         return view('pages.Transaksi.tadjustmentstockedit',[

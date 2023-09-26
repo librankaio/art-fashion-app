@@ -16,7 +16,12 @@ class ControllerTransPenerimaanBrg extends Controller
 {
     public function index()
     {
-        $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        $privilage = session('privilage');
+        if($privilage == 'ADM'){
+            $counters = Mcounter::select('id','code','name')->get();
+        }else if($privilage == null){
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }
         $mitems = Mitem::select('id','code','name')->get();
         $notsjs = Tsj_h::select('id','no','tgl','counter',)->whereNull('exist_penerimaan')->get();
         $notrans = DB::select("select fgetcode('tpenerimaan') as codetrans");
@@ -123,7 +128,12 @@ class ControllerTransPenerimaanBrg extends Controller
     }
 
     public function getedit(Tpenerimaan_h $tpenerimaanh){
-        $counters = Mcounter::select('id','code','name')->get();
+        $privilage = session('privilage');
+        if($privilage == 'ADM'){
+            $counters = Mcounter::select('id','code','name')->get();
+        }else if($privilage == null){
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }
         $mitems = Mitem::select('id','code','name')->get();
         $tpenerimaands = Tpenerimaan_d::select('id','idh','no_penerimaan','code','name','warna','qty','satuan','hrgjual','keterangan','subtotal',)->where('idh','=',$tpenerimaanh->id)->get();
         return view('pages.Transaksi.tpenerimaanbrgedit',[

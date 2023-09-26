@@ -13,7 +13,12 @@ class ControllerTransSOB extends Controller
 {
     public function index()
     {
-        $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        $privilage = session('privilage');
+        if($privilage == 'ADM'){
+            $counters = Mcounter::select('id','code','name')->get();
+        }else if($privilage == null){
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }
         $mitems = Mitem::select('id','code','name')->orderBy('code', 'asc')->get();
         $notrans = DB::select("select fgetcode('tsob') as codetrans");
         return view('pages.Transaksi.tsob',[
@@ -83,7 +88,12 @@ class ControllerTransSOB extends Controller
     }
 
     public function getedit(Tsob_h $tsobh){
-        $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        $privilage = session('privilage');
+        if($privilage == 'ADM'){
+            $counters = Mcounter::select('id','code','name')->get();
+        }else if($privilage == null){
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }
         $mitems = Mitem::select('id','code','name')->get();
         $tsobds = Tsob_d::select('id','idh','no_sob','code','name','warna','qty','satuan','hrgjual','subtotal',)->where('idh','=',$tsobh->id)->get();
         return view('pages.Transaksi.tsobedit',[

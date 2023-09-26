@@ -17,21 +17,15 @@ class MitemCountersImport implements ToModel
         // return new MitemCounters([
         //     //
         // ]);
-        $mitem = new MitemCounters([
-            //
-            "code" => $row['code'],
-            "name" => $row['name'],
-            "warna" => $row['warna'],
-            "kategori" => $row['kategori'],
-            "hrgjual" => $row['hrgjual'],
-            "size" => $row['size'],
-            "satuan" => $row['satuan'],
-            "material" => $row['material'],
-            "gross" => $row['gross'],
-            "nett" => $row['nett'],
-            "spcprice" => $row['spcprice'],
+        $mitem_counter = new MitemCounters([
+            "code_mitem" => $row['code_mitem'],
+            "name_mitem" => $row['name_mitem'],
+            "code_mcounters" => $row['code_mcounters'],
+            "name_mcounters" => $row['name_mcounters'],
+            "stock" => $row['stock'],
+            "datein" => $row['datein'],
         ]);
 
-        return $mitem;
+        return $mitem_counter;
     }
 }
