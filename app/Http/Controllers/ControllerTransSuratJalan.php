@@ -39,15 +39,15 @@ class ControllerTransSuratJalan extends Controller
 
         $checkexist = Tsj_h::select('id','no')->where('no','=', $request->no)->first();
         if($checkexist == null){
-            // Tsj_h::create([
-            //     'no' => $request->no,
-            //     'counter' => $request->counter,
-            //     'jenis' => $request->jenis,
-            //     'tgl' => $request->dt,
-            //     'note' => $request->note,
-            //     'no_sob' => $request->nosob,
-            //     'grdtotal' => (float) str_replace(',', '', $request->price_total),
-            // ]);
+            Tsj_h::create([
+                'no' => $request->no,
+                'counter' => $request->counter,
+                'jenis' => $request->jenis,
+                'tgl' => $request->dt,
+                'note' => $request->note,
+                'no_sob' => $request->nosob,
+                'grdtotal' => (float) str_replace(',', '', $request->price_total),
+            ]);
             $idh_loop = Tsj_h::select('id')->where('no','=',$request->no)->get();
             for($j=0; $j<sizeof($idh_loop); $j++){
                 $idh = $idh_loop[$j]->id;
@@ -150,34 +150,6 @@ class ControllerTransSuratJalan extends Controller
     }
 
     public function update(Tsj_h $tsjh){
-        // for($x=0;$x<sizeof(request('id_d'));$x++){
-        //     $getstock_old = Tsj_d::where('id', '=', request('id_d')[$x])->first();
-        //     // dd((int)$getstock_old->qty);
-        //     // dd($getstock_old->code);
-        //     $old_stock_mitem_counter = DB::table('mitems_counters')
-        //     ->selectRaw('stock')
-        //     ->where('code_mitem', '=', strtok($getstock_old->code, " "))
-        //     ->where('name_mcounters', '=', session('counter'))
-        //     ->first();
-        //     // dd($old_stock_mitem_counter->stock-(int)$getstock_old->qty);
-        //     // Make stock counter value is equal to old stock
-        //     $normalize_stock_counter = $old_stock_mitem_counter->stock-(int)$getstock_old->qty;
-        //     DB::table('mitems_counters')
-        //     ->selectRaw('stock')
-        //     ->where('code_mitem', '=', strtok($getstock_old->code, " "))
-        //     ->where('name_mcounters', '=', session('counter'))
-        //     ->update([
-        //         'stock' => (int)$normalize_stock_counter,
-        //     ]);
-
-        //     $stock_mitem_old = Mitem::select('stock')->where('code', '=', strtok($getstock_old->code, " "))->first();
-        //     // Make stock mitem value is equal to mitem old stock
-        //     // dd($stock_mitem_old->stock - (int)$getstock_old->qty);
-        //     $normalize_stock_mitem = $stock_mitem_old->stock - (int)$getstock_old->qty;
-        //     Mitem::where('code', '=', strtok($getstock_old->code, " "))->update([
-        //         'stock' => (int)$normalize_stock_mitem,
-        //     ]);
-        // }
         for($x=0;$x<sizeof(request('existdb_d'));$x++){
             $getstock_old = Tsj_d::where('id', '=', request('id_d')[$x])->first();
             if ($getstock_old != null){
