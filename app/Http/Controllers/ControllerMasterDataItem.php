@@ -88,9 +88,10 @@ class ControllerMasterDataItem extends Controller
                 'nett' => (float) str_replace(',', '', $request->price_nett),
                 'spcprice' => (float) str_replace(',', '', $request->price_special),
             ]);
-            DB::select( DB::raw("INSERT INTO mitems_counters (code_mitem, name_mitem, code_mcounters, name_mcounters, stock)
-            select '$request->kode', '$request->nama', code, name, 0
-            FROM mcounters"));
+            DB::insert( DB::raw("insert into mitems_counters (code_mitem, name_mitem, code_mcounters, name_mcounters, stock)
+            select '$request->kode', '$request->nama', code, name, 0 FROM mcounters"));
+            // DB::select( DB::raw("INSERT INTO mitems_counters (code_mitem, name_mitem, code_mcounters, name_mcounters, stock)
+            // select '$request->kode', '$request->nama', code, name, 0 FROM mcounters"));
             return redirect()->back()->with('success', 'Data berhasil ditambahkan');
         }
     }
@@ -133,7 +134,7 @@ class ControllerMasterDataItem extends Controller
             'spcprice' => (float) str_replace(',', '', request('price_special')),
         ]);
 
-        return redirect()->route('mitem');
+        return redirect()->route('mitem')->with('success', 'Data berhasil di update');
     }
 
     public function delete(Mitem $mitem){
