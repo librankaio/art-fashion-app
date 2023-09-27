@@ -45,7 +45,7 @@
                                         <option selected>@php echo $_GET['counter']; @endphp</option>
                                         @endif
                                         @foreach($counters as $data => $counter)
-                                        <option>{{ $counter->code }}</option>
+                                        <option>{{ $counter->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>                                

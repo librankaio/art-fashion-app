@@ -315,13 +315,15 @@ class ControllerTransSuratJalan extends Controller
     }
 
     public function print(Tsj_h $tsjh){
-        // dd($tsjh->id);
+        // dd($address);
         $tsjds = Tsj_d::where('idh','=',$tsjh->id)->get();
+        $address = Mcounter::select('alamat')->where('name','=',$tsjh->counter)->first();
         
         // dd($tsjds);
         return view('pages.Print.tsuratjalanprint',[
             'tsjh' => $tsjh,
-            'tsjds' => $tsjds
+            'tsjds' => $tsjds,
+            'address' => $address
         ]);
     }
 
