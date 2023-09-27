@@ -331,7 +331,7 @@ class ControllerTransSuratJalan extends Controller
         $items = Tsj_d::where('idh','=',$tsjh->id)->get();
         $datenow = date("Y-m-d");
         $customPaper = array(0,0,85.039,141.732);
-        $pdf = Pdf::loadView('pages.Print.tsuratjalanprintitem', array('items'=>$items))->setPaper($customPaper, 'landscape');
+        $pdf = Pdf::loadView('pages.Print.tsuratjalanprintitem', array('items'=>$items))->setPaper($customPaper, 'portrait');
         return $pdf->stream($datenow."_NOSJ/".$tsjh->no);
     }
 }
