@@ -39,15 +39,15 @@ class ControllerTransSuratJalan extends Controller
 
         $checkexist = Tsj_h::select('id','no')->where('no','=', $request->no)->first();
         if($checkexist == null){
-            Tsj_h::create([
-                'no' => $request->no,
-                'counter' => $request->counter,
-                'jenis' => $request->jenis,
-                'tgl' => $request->dt,
-                'note' => $request->note,
-                'no_sob' => $request->nosob,
-                'grdtotal' => (float) str_replace(',', '', $request->price_total),
-            ]);
+            // Tsj_h::create([
+            //     'no' => $request->no,
+            //     'counter' => $request->counter,
+            //     'jenis' => $request->jenis,
+            //     'tgl' => $request->dt,
+            //     'note' => $request->note,
+            //     'no_sob' => $request->nosob,
+            //     'grdtotal' => (float) str_replace(',', '', $request->price_total),
+            // ]);
             $idh_loop = Tsj_h::select('id')->where('no','=',$request->no)->get();
             for($j=0; $j<sizeof($idh_loop); $j++){
                 $idh = $idh_loop[$j]->id;
@@ -70,15 +70,17 @@ class ControllerTransSuratJalan extends Controller
                 $stock_mitem = Mitem::select('stock')->where('code', '=', strtok($request->kode_d[$i], " "))->first();
                 // dd($stock_mitem);
                 $stock_min = $stock_mitem->stock - $request->quantity_d[$i];
+                // dd($stock_min);
                 Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
                     'stock' => (int)$stock_min,
                 ]);
                 $stock_mitem_counter = DB::table('mitems_counters')
                 ->selectRaw('stock')
                 ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                ->where('name_mcounters', '=', session('counter'))
+                ->where('name_mcounters', '=', $request->counter)
                 ->first();
                 $stock_counter_min = $stock_mitem_counter->stock-$request->quantity_d[$i];
+                // dd($stock_counter_min);
                 DB::table('mitems_counters')
                 ->selectRaw('stock')
                 ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
@@ -185,7 +187,7 @@ class ControllerTransSuratJalan extends Controller
                 $old_stock_mitem_counter = DB::table('mitems_counters')
                 ->selectRaw('stock')
                 ->where('code_mitem', '=', strtok($getstock_old->code, " "))
-                ->where('name_mcounters', '=', session('counter'))
+                ->where('name_mcounters', '=', request('counter'))
                 ->first();
                 // dd($old_stock_mitem_counter->stock-(int)$getstock_old->qty);
                 // Make stock counter value is equal to old stock
@@ -195,7 +197,7 @@ class ControllerTransSuratJalan extends Controller
                 DB::table('mitems_counters')
                 ->selectRaw('stock')
                 ->where('code_mitem', '=', strtok($getstock_old->code, " "))
-                ->where('name_mcounters', '=', session('counter'))
+                ->where('name_mcounters', '=', request('counter'))
                 ->update([
                     'stock' => (int)$normalize_stock_counter,
                 ]);
@@ -303,7 +305,7 @@ class ControllerTransSuratJalan extends Controller
             $stock_mitem_counter = DB::table('mitems_counters')
             ->selectRaw('stock')
             ->where('code_mitem', '=', strtok($suratjalan_old_item->code, " "))
-            ->where('name_mcounters', '=', session('counter'))
+            ->where('name_mcounters', '=', request('counter'))
             ->first();
             // dd($stock_mitem_counter);
             $stock_mitem_counter_sum = $stock_mitem_counter->stock + (int)$suratjalan_old_item->qty;
@@ -311,7 +313,7 @@ class ControllerTransSuratJalan extends Controller
             DB::table('mitems_counters')
             ->selectRaw('stock')
             ->where('code_mitem', '=', strtok($suratjalan_old_item->code, " "))
-            ->where('name_mcounters', '=', session('counter'))
+            ->where('name_mcounters', '=', request('counter'))
             ->update([
                 'stock' => (int)$stock_mitem_counter_sum,
             ]);
