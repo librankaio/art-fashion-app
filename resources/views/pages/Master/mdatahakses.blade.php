@@ -561,6 +561,244 @@
                                                         </div>
                                                     </td>
                                                 </tr>
+                                                <tr>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='tbelibrg'></td>
+                                                    <td class="border border-5">Laporan Omset Per-Item</td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="create_romsetperitem" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="read_romsetperitem" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="update_romsetperitem" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="delete_romsetperitem" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="print_romsetperitem" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='tbelibrg'></td>
+                                                    <td class="border border-5">Laporan Omset Per-Counter</td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="create_romsetpercounter" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="read_romsetpercounter" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="update_romsetpercounter" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="delete_romsetpercounter" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="print_romsetpercounter" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='tbelibrg'></td>
+                                                    <td class="border border-5">Laporan Stock Per-Counter</td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="create_rstockpercounter" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="read_rstockpercounter" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="update_rstockpercounter" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="delete_rstockpercounter" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="print_rstockpercounter" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='tbelibrg'></td>
+                                                    <td class="border border-5">Laporan Mutasi Stock</td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="create_rmutasistock" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="read_rmutasistock" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="update_rmutasistock" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="delete_rmutasistock" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="print_rmutasistock" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='tbelibrg'></td>
+                                                    <td class="border border-5">Laporan Stock Overview</td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="create_rstockoverview" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="read_rstockoverview" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="update_rstockoverview" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="delete_rstockoverview" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="print_rstockoverview" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='tbelibrg'></td>
+                                                    <td class="border border-5">Upload Master Data Item</td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="create_umdataitem" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="read_umdataitem" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="update_umdataitem" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="delete_umdataitem" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="print_umdataitem" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='tbelibrg'></td>
+                                                    <td class="border border-5">Upload Master Data Item Counter</td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="create_umitemcounter" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="read_umitemcounter" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="update_umitemcounter" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="delete_umitemcounter" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input checkbox" type="checkbox" name="print_umitemcounter" value="Y" checked>
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
