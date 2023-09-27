@@ -75,14 +75,14 @@ class ControllerTransPenerimaanBrg extends Controller
                 $stock_mitem_counter = DB::table('mitems_counters')
                 ->selectRaw('stock')
                 ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                ->where('name_mcounters', '=', session('counter'))
+                ->where('name_mcounters', '=', $request->counter)
                 ->first();
                 // dd($stock_mitem_counter);
                 $stock_counter_sum = $stock_mitem_counter->stock+$request->quantity_d[$i];
                 DB::table('mitems_counters')
                 ->selectRaw('stock')
                 ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                ->where('name_mcounters', '=', session('counter'))
+                ->where('name_mcounters', '=', $request->counter)
                 ->update([
                     'stock' => (int)$stock_counter_sum,
                 ]);
@@ -156,7 +156,7 @@ class ControllerTransPenerimaanBrg extends Controller
                 $old_stock_mitem_counter = DB::table('mitems_counters')
                 ->selectRaw('stock')
                 ->where('code_mitem', '=', strtok($getstock_old->code, " "))
-                ->where('name_mcounters', '=', session('counter'))
+                ->where('name_mcounters', '=', request('counter'))
                 ->first();
                 // dd($old_stock_mitem_counter->stock-(int)$getstock_old->qty);
                 // Make stock counter value is equal to old stock
@@ -166,7 +166,7 @@ class ControllerTransPenerimaanBrg extends Controller
                 DB::table('mitems_counters')
                 ->selectRaw('stock')
                 ->where('code_mitem', '=', strtok($getstock_old->code, " "))
-                ->where('name_mcounters', '=', session('counter'))
+                ->where('name_mcounters', '=', request('counter'))
                 ->update([
                     'stock' => (int)$normalize_stock_counter,
                 ]);
@@ -223,10 +223,10 @@ class ControllerTransPenerimaanBrg extends Controller
                 $stock_mitem_counter = DB::table('mitems_counters')
                 ->selectRaw('stock')
                 ->where('code_mitem', '=', strtok(request('kode_d')[$i], " "))
-                ->where('name_mcounters', '=', session('counter'))
+                ->where('name_mcounters', '=', request('counter'))
                 ->first();
 
-                $mcounter = Mcounter::where('name', '=', session('counter'))->first();
+                $mcounter = Mcounter::where('name', '=', request('counter'))->first();
 
                 if ($stock_mitem_counter == null) {
                     $stock_mitem_counter = 0;
@@ -237,7 +237,7 @@ class ControllerTransPenerimaanBrg extends Controller
                         'code_mitem' => strtok(request('kode_d')[$i], " "),
                         'name_mitem' => request('nama_item_d')[$i],
                         'code_mcounters' => $mcounter->code,
-                        'name_mcounters' => session('counter'),
+                        'name_mcounters' => request('counter'),
                         'stock' => $stock_counter_sum,
                         'datein' => $datetime,
                     ]);
@@ -246,7 +246,7 @@ class ControllerTransPenerimaanBrg extends Controller
                     DB::table('mitems_counters')
                     ->selectRaw('stock')
                     ->where('code_mitem', '=', strtok(request('kode_d')[$i], " "))
-                    ->where('name_mcounters', '=', session('counter'))
+                    ->where('name_mcounters', '=', request('counter'))
                     ->update([
                         'stock' => (int)$stock_counter_sum,
                     ]);
@@ -268,7 +268,7 @@ class ControllerTransPenerimaanBrg extends Controller
             $stock_mitem_counter = DB::table('mitems_counters')
             ->selectRaw('stock')
             ->where('code_mitem', '=', strtok($penerimaan_old_item->code, " "))
-            ->where('name_mcounters', '=', session('counter'))
+            ->where('name_mcounters', '=', request('counter'))
             ->first();
             // dd($stock_mitem_counter);
             $stock_mitem_counter_min = $stock_mitem_counter->stock - (int)$penerimaan_old_item->qty;
@@ -276,7 +276,7 @@ class ControllerTransPenerimaanBrg extends Controller
             DB::table('mitems_counters')
             ->selectRaw('stock')
             ->where('code_mitem', '=', strtok($penerimaan_old_item->code, " "))
-            ->where('name_mcounters', '=', session('counter'))
+            ->where('name_mcounters', '=', request('counter'))
             ->update([
                 'stock' => (int)$stock_mitem_counter_min,
             ]);

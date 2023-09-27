@@ -36,7 +36,18 @@ class ControllerTransSuratJalan extends Controller
 
     public function post(Request $request){
         // dd($request->all());
-
+        for ($i=0;$i<sizeof($request->no_d);$i++){
+            $stock_mitem_counter = DB::table('mitems_counters')
+            ->selectRaw('stock')
+            ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
+            ->where('name_mcounters', '=', $request->counter)
+            ->first();
+            $stock_counter_min = $stock_mitem_counter->stock-$request->quantity_d[$i];
+            // dd($stock_counter_min);
+            if ($request->quantity_d[$i] >= $stock_mitem_counter->stock){
+                return redirect()->back()->with('error', 'Salah satu item stock counter kosong!');
+            }
+        }
         $checkexist = Tsj_h::select('id','no')->where('no','=', $request->no)->first();
         if($checkexist == null){
             Tsj_h::create([
