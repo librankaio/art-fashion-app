@@ -76,7 +76,7 @@
                                         <th scope="row" class="border border-5" style="text-align: center;">{{ $counter }}</th>
                                         <td class="border border-5" style="text-align: center;">{{ $item->no }}</td>
                                         <td class="border border-5" style="text-align: center;">{{ date("Y-m-d", strtotime($item->tgl)) }}</td>
-                                        <td class="border border-5" style="text-align: center;">{{ $item->counter }}</td>
+                                        <td class="border border-5" style="text-align: center;">{{ $item->supplier }}</td>
                                         <td class="border border-5" style="text-align: center;">{{ number_format($item->grdtotal, 2, '.', ',') }}</td>
                                         <td style="text-align: center;" class="d-flex justify-content-center">
                                             <a href="/tpembelianbarang/{{ $item->id }}/edit"

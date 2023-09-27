@@ -40,7 +40,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Price (Rp)</label>
-                                        <input type="text" class="form-control" name="price" id="price" value="{{ $mitem->hrgjual }}">
+                                        <input type="text" class="form-control" name="price" id="price" value="{{ number_format($mitem->hrgjual) }}">
                                     </div>
                                     <div class="form-group">
                                         <label>Satuan</label>
@@ -48,11 +48,11 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Harga Gross</label>
-                                        <input type="text" class="form-control" name="price_gross" id="price_gross" value="{{ $mitem->gross }}">
+                                        <input type="text" class="form-control" name="price_gross" id="price_gross" value="{{ number_format($mitem->gross) }}">
                                     </div>
                                     <div class="form-group">
                                         <label>Special Price</label>
-                                        <input type="text" class="form-control" name="price_special" id="price_special" value="{{ $mitem->spcprice }}">
+                                        <input type="text" class="form-control" name="price_special" id="price_special" value="{{ number_format($mitem->spcprice) }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -81,7 +81,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Harga Nett</label>
-                                        <input type="text" class="form-control" name="price_nett" id="price_nett" value="{{ $mitem->nett }}">
+                                        <input type="text" class="form-control" name="price_nett" id="price_nett" value="{{ number_format($mitem->nett) }}">
                                     </div>
                                 </div>
                             </div>

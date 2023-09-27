@@ -72,7 +72,8 @@
                 <li><a class="nav-link" href="{{ route('tadjustmentstock') }}">Adjustment Stock</a></li>
                 {{-- <li><a class="nav-link" href="{{ route('tadjlist') }}">Adjustment Stock List</a></li> --}}
             @endif
-            <li><a class="nav-link" href="{{ route('tstockopname') }}">Stock Opname</a></li>
+            {{-- <li><a class="nav-link" href="{{ route('tstockopname') }}">Stock Opname</a></li> --}}
+            <li><a class="nav-link" href="#">Stock Opname</a></li>
         </ul>
     </li>
     <li class="menu-header">Reports</li>
