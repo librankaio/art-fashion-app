@@ -82,7 +82,7 @@ class ControllerTransSuratJalan extends Controller
                 DB::table('mitems_counters')
                 ->selectRaw('stock')
                 ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                ->where('name_mcounters', '=', session('counter'))
+                ->where('name_mcounters', '=', $request->counter)
                 ->update([
                     'stock' => (int)$stock_counter_min,
                 ]);

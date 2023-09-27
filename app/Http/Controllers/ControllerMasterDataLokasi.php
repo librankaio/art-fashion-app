@@ -43,8 +43,11 @@ class ControllerMasterDataLokasi extends Controller
             'name' => request('name'),
             'alamat' => request('alamat'),
         ]);
+        $code = request('code');
+        $name = request('name'); 
+        DB::update( DB::raw("UPDATE mitems_counters set code_mcounters = '$code', name_mcounters = '$name' WHERE code_mcounters = '$mcounter->code'"));
 
-        return redirect()->route('mlokasi');
+        return redirect()->route('mlokasi')->with('success', 'Data berhasil di update');
     }
 
     public function delete(Mcounter $mcounter){
@@ -53,7 +56,7 @@ class ControllerMasterDataLokasi extends Controller
             return redirect()->back()->with('error', 'HO / HO2 Tidak dapat dihapus!');
         }
         Mcounter::find($mcounter->id)->delete();
-        return redirect()->route('mlokasi');
+        return redirect()->route('mlokasi')->with('success', 'Data berhasil di hapus');
     }
 
 }
