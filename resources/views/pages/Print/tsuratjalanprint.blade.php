@@ -15,9 +15,9 @@
             <div class="container pt-5">
                 <div class="row">
                     <div class="col-1">
-                        <img src="{{ asset('../assets/img/artfashion_logo.png') }}" alt="logo" width="100">
+                        <img src="{{ asset('../assets/img/artfashion_logo2.png') }}" alt="logo" width="200">
                     </div>                    
-                    <div class="col-5 pl-5">
+                    <div class="col-5" style="padding-left: 150px; padding-top: 30px">
                         <h5>Art Fashion Jewelry <br>Telp. (62 - 21) 645 0910/11<br>Fax. (62 - 21) 684288</h5>
                     </div>
                 </div>

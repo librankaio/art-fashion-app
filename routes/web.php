@@ -48,102 +48,6 @@ Route::get('/', [ControllerLogin::class, 'index'])->name('login');
 Route::post('/', [ControllerLogin::class, 'postLogin'])->name('postlogin');
 Route::get('/logout', [ControllerLogin::class, 'logout'])->name('logout');
 
-// ---Transaksi---
-Route::get('home', [ControllerHome::class, 'index'])->name('home');
-Route::get('uploadsample', [ControllerUpload::class, 'index'])->name('uploadsample');
-Route::post('uploadpost', [ControllerUpload::class, 'uploadpost'])->name('uploadpost');
-
-Route::get('uploadmitemcounter', [ControllerUploadMitemCounter::class, 'index'])->name('uploadmitemcounter');
-Route::post('uploadmitemcounterpost', [ControllerUploadMitemCounter::class, 'post'])->name('uploadmitemcounterpost');
-
-Route::get('tsob', [ControllerTransSOB::class, 'index'])->name('tsob');
-Route::post('/tsobpost', [ControllerTransSOB::class, 'post'])->name('tsobpost');
-Route::post('/getmitem', [ControllerTransSOB::class, 'getmitem'])->name('getmitem');
-Route::get('tsoblist', [ControllerTransSOB::class, 'list'])->name('tsoblist');
-Route::get('/tsob/{tsobh}/edit', [ControllerTransSOB::class, 'getedit'])->name('tsobedit');
-Route::post('/tsob/{tsobh}', [ControllerTransSOB::class, 'update'])->name('tsobupdate');
-Route::post('/tsob/delete/{tsobh}', [ControllerTransSOB::class, 'delete'])->name('tsobdelete');
-Route::get('/tsob/{tsobh}/print', [ControllerTransSOB::class, 'print'])->name('tsobprint');
-
-Route::get('tpenerimaanbrg', [ControllerTransPenerimaanBrg::class, 'index'])->name('tpenerimaanbrg');
-Route::post('/tpenerimaanbrgpost', [ControllerTransPenerimaanBrg::class, 'post'])->name('tpenerimaanbrgpost');
-Route::post('/getmitempenerimaan', [ControllerTransPenerimaanBrg::class, 'getmitem'])->name('getmitempenerimaan');
-Route::post('/getnosjd', [ControllerTransPenerimaanBrg::class, 'getnosj'])->name('getnosjd');
-Route::get('tpenerimaanbrglist', [ControllerTransPenerimaanBrg::class, 'list'])->name('tpenerimaanbrglist');
-Route::get('/tpenerimaanbrg/{tpenerimaanh}/edit', [ControllerTransPenerimaanBrg::class, 'getedit'])->name('tpenerimaanbrgedit');
-Route::post('/tpenerimaanbrg/{tpenerimaanh}', [ControllerTransPenerimaanBrg::class, 'update'])->name('tpenerimaanbrgupdate');
-Route::post('/tpenerimaanbrg/delete/{tpenerimaanh}', [ControllerTransPenerimaanBrg::class, 'delete'])->name('tpenerimaanbrgdelete');
-
-Route::get('treturjual', [ControllerTransReturPenjualan::class, 'index'])->name('treturjual');
-Route::post('/treturjualpost', [ControllerTransReturPenjualan::class, 'post'])->name('treturjualpost');
-Route::get('treturjuallist', [ControllerTransReturPenjualan::class, 'list'])->name('treturjuallist');
-Route::get('/treturjual/{treturh}/edit', [ControllerTransReturPenjualan::class, 'getedit'])->name('treturjualedit');
-Route::post('/treturjual/{treturh}', [ControllerTransReturPenjualan::class, 'update'])->name('treturjualupdate');
-Route::post('/treturjual/delete/{treturh}', [ControllerTransReturPenjualan::class, 'delete'])->name('treturjualdelete');
-
-Route::get('tadjustmentstock', [ControllerTransAdjustmentStock::class, 'index'])->name('tadjustmentstock');
-Route::post('/tadjpost', [ControllerTransAdjustmentStock::class, 'post'])->name('tadjpost');
-Route::get('tadjlist', [ControllerTransAdjustmentStock::class, 'list'])->name('tadjlist');
-Route::get('/tadj/{tadjh}/edit', [ControllerTransAdjustmentStock::class, 'getedit'])->name('tadjedit');
-Route::post('/tadj/{tadjh}', [ControllerTransAdjustmentStock::class, 'update'])->name('tadjupdate');
-Route::post('/tadj/delete/{tadjh}', [ControllerTransAdjustmentStock::class, 'delete'])->name('tadjdelete');
-
-Route::get('tbonjual', [ControllerTransBonPenjualan::class, 'index'])->name('tbonjual');
-Route::post('/tbonjualpost', [ControllerTransBonPenjualan::class, 'post'])->name('tbonjualpost');
-Route::get('tbonjuallist', [ControllerTransBonPenjualan::class, 'list'])->name('tbonjuallist');
-Route::get('/tbonjual/{tpenjualanh}/edit', [ControllerTransBonPenjualan::class, 'getedit'])->name('tbonjualedit');
-Route::post('/tbonjual/{tpenjualanh}', [ControllerTransBonPenjualan::class, 'update'])->name('tbonjualupdate');
-Route::post('/tbonjual/delete/{tpenjualanh}', [ControllerTransBonPenjualan::class, 'delete'])->name('tbonjualdelete');
-Route::get('/tbonjual/{tpenjualanh}/print', [ControllerTransBonPenjualan::class, 'print'])->name('tbonjualprint');
-
-Route::get('tsuratjalan', [ControllerTransSuratJalan::class, 'index'])->name('tsuratjalan');
-Route::post('/tsuratjalanpost', [ControllerTransSuratJalan::class, 'post'])->name('tsuratjalanpost');
-Route::post('/getnosobd', [ControllerTransSuratJalan::class, 'getnosob'])->name('getnosobd');
-Route::post('/getcounter', [ControllerTransSuratJalan::class, 'getcounter'])->name('getcounter');
-Route::get('tsuratjalanlist', [ControllerTransSuratJalan::class, 'list'])->name('tsuratjalanlist');
-Route::get('/tsuratjalan/{tsjh}/edit', [ControllerTransSuratJalan::class, 'getedit'])->name('tsuratjalanedit');
-Route::post('/tsuratjalan/{tsjh}', [ControllerTransSuratJalan::class, 'update'])->name('tsuratjalanupdate');
-Route::post('/tsuratjalan/delete/{tsjh}', [ControllerTransSuratJalan::class, 'delete'])->name('tsuratjalandelete');
-Route::get('/tsuratjalan/{tsjh}/print', [ControllerTransSuratJalan::class, 'print'])->name('tsuratjalanprint');
-Route::get('/tsuratjalan/{tsjh}/printitem', [ControllerTransSuratJalan::class, 'printItem'])->name('tsuratjalanprintitem');
-
-Route::get('tpembelianbarang', [ControllerTransPembelianBarang::class, 'index'])->name('tpembelianbarang');
-Route::post('/tpembelianbarangpost', [ControllerTransPembelianBarang::class, 'post'])->name('tpembelianbarangpost');
-Route::get('tpembelianbaranglist', [ControllerTransPembelianBarang::class, 'list'])->name('tpembelianbaranglist');
-Route::get('/tpembelianbarang/{tpembelianh}/edit', [ControllerTransPembelianBarang::class, 'getedit'])->name('tpembelianbarangedit');
-Route::post('/tpembelianbarang/{tpembelianh}', [ControllerTransPembelianBarang::class, 'update'])->name('tpembelianbarangupdate');
-Route::post('/tpembelianbarang/delete/{tpembelianh}', [ControllerTransPembelianBarang::class, 'delete'])->name('tpembelianbarangdelete');
-
-
-Route::get('tstockopname', [ControllerTransStockOpname::class, 'index'])->name('tstockopname');
-
-// ---Report---
-Route::get('romsetitem', [ControllerReportOmsetItem::class, 'index'])->name('romsetitem');
-Route::get('romsetitemsearch', [ControllerReportOmsetItem::class, 'post'])->name('romsetitempost');
-
-Route::get('romsetcounter', [ControllerReportOmsetPecounter::class, 'index'])->name('romsetcounter');
-Route::get('romsetcountersearch', [ControllerReportOmsetPecounter::class, 'post'])->name('romsetcounterpost');
-
-Route::get('rmutasistock', [ControllerReportMutasiStock::class, 'index'])->name('rmutasistock');
-Route::get('rmutasistocksearch', [ControllerReportMutasiStock::class, 'post'])->name('rmutasistockpost');
-
-Route::get('rlapstockpercounter', [ControllerReportStockCounter::class, 'index'])->name('rlapstockpercounter');
-Route::get('rlapstockpercountersearch', [ControllerReportStockCounter::class, 'post'])->name('rlapstockpercounterpost');
-
-Route::get('rstockoverview', [ControllerReportStockOverview::class, 'index'])->name('rstockoverview');
-Route::get('rstockoverviewsearch', [ControllerReportStockOverview::class, 'post'])->name('rstockoverviewpost');
-
-Route::get('mspg', [ControllerMasterSPG::class, 'index'])->name('mspg');
-Route::post('/mspgpost', [ControllerMasterSPG::class, 'post'])->name('mspgpost');
-Route::get('/mspg/{user}/edit', [ControllerMasterSPG::class, 'getedit'])->name('mspggetedit');
-Route::post('/mspg/{user}', [ControllerMasterSPG::class, 'update'])->name('mspgupdt');
-Route::post('/mspg/delete/{user}', [ControllerMasterSPG::class, 'delete'])->name('mspgdelete');
-
-Route::get('mlokasi', [ControllerMasterDataLokasi::class, 'index'])->name('mlokasi');
-Route::post('/mlokasipost', [ControllerMasterDataLokasi::class, 'post'])->name('mlokasipost');
-Route::get('/mlokasi/{mcounter}/edit', [ControllerMasterDataLokasi::class, 'getedit'])->name('mlokasigetedit');
-Route::post('/mlokasi/{mcounter}', [ControllerMasterDataLokasi::class, 'update'])->name('mlokasiupdt');
-Route::post('/mlokasi/delete/{mcounter}', [ControllerMasterDataLokasi::class, 'delete'])->name('mlokasidelete');
 
 Route::group(['middleware' => ['auth']], function () {
 
@@ -160,17 +64,17 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/mjenispayment/{mjenispayment}', [ControllerMasterJenisPayment::class, 'update'])->name('mjenispaymentupdt');
     Route::post('/mjenispayment/delete/{mjenispayment}', [ControllerMasterJenisPayment::class, 'delete'])->name('mjenispaymentdelete');
 
-    // Route::get('mspg', [ControllerMasterSPG::class, 'index'])->name('mspg');
-    // Route::post('/mspgpost', [ControllerMasterSPG::class, 'post'])->name('mspgpost');
-    // Route::get('/mspg/{user}/edit', [ControllerMasterSPG::class, 'getedit'])->name('mspggetedit');
-    // Route::post('/mspg/{user}', [ControllerMasterSPG::class, 'update'])->name('mspgupdt');
-    // Route::post('/mspg/delete/{user}', [ControllerMasterSPG::class, 'delete'])->name('mspgdelete');
+    Route::get('mspg', [ControllerMasterSPG::class, 'index'])->name('mspg');
+    Route::post('/mspgpost', [ControllerMasterSPG::class, 'post'])->name('mspgpost');
+    Route::get('/mspg/{user}/edit', [ControllerMasterSPG::class, 'getedit'])->name('mspggetedit');
+    Route::post('/mspg/{user}', [ControllerMasterSPG::class, 'update'])->name('mspgupdt');
+    Route::post('/mspg/delete/{user}', [ControllerMasterSPG::class, 'delete'])->name('mspgdelete');
 
-    // Route::get('mlokasi', [ControllerMasterDataLokasi::class, 'index'])->name('mlokasi');
-    // Route::post('/mlokasipost', [ControllerMasterDataLokasi::class, 'post'])->name('mlokasipost');
-    // Route::get('/mlokasi/{mcounter}/edit', [ControllerMasterDataLokasi::class, 'getedit'])->name('mlokasigetedit');
-    // Route::post('/mlokasi/{mcounter}', [ControllerMasterDataLokasi::class, 'update'])->name('mlokasiupdt');
-    // Route::post('/mlokasi/delete/{mcounter}', [ControllerMasterDataLokasi::class, 'delete'])->name('mlokasidelete');
+    Route::get('mlokasi', [ControllerMasterDataLokasi::class, 'index'])->name('mlokasi');
+    Route::post('/mlokasipost', [ControllerMasterDataLokasi::class, 'post'])->name('mlokasipost');
+    Route::get('/mlokasi/{mcounter}/edit', [ControllerMasterDataLokasi::class, 'getedit'])->name('mlokasigetedit');
+    Route::post('/mlokasi/{mcounter}', [ControllerMasterDataLokasi::class, 'update'])->name('mlokasiupdt');
+    Route::post('/mlokasi/delete/{mcounter}', [ControllerMasterDataLokasi::class, 'delete'])->name('mlokasidelete');
 
     Route::get('mitem', [ControllerMasterDataItem::class, 'index'])->name('mitem');
     Route::post('/mitempost', [ControllerMasterDataItem::class, 'post'])->name('mitempost');
@@ -187,4 +91,92 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/mhakses/{user}', [ControllerMasterHakAkses::class, 'update'])->name('mhaksesupdt');
     Route::post('/mhakses/delete/{user}', [ControllerMasterHakAkses::class, 'delete'])->name('mhaksesdelete');
 
+    // ---Transaksi---
+    Route::get('home', [ControllerHome::class, 'index'])->name('home');
+    Route::get('uploadsample', [ControllerUpload::class, 'index'])->name('uploadsample');
+    Route::post('uploadpost', [ControllerUpload::class, 'uploadpost'])->name('uploadpost');
+
+    Route::get('uploadmitemcounter', [ControllerUploadMitemCounter::class, 'index'])->name('uploadmitemcounter');
+    Route::post('uploadmitemcounterpost', [ControllerUploadMitemCounter::class, 'post'])->name('uploadmitemcounterpost');
+
+    Route::get('tsob', [ControllerTransSOB::class, 'index'])->name('tsob');
+    Route::post('/tsobpost', [ControllerTransSOB::class, 'post'])->name('tsobpost');
+    Route::post('/getmitem', [ControllerTransSOB::class, 'getmitem'])->name('getmitem');
+    Route::get('tsoblist', [ControllerTransSOB::class, 'list'])->name('tsoblist');
+    Route::get('/tsob/{tsobh}/edit', [ControllerTransSOB::class, 'getedit'])->name('tsobedit');
+    Route::post('/tsob/{tsobh}', [ControllerTransSOB::class, 'update'])->name('tsobupdate');
+    Route::post('/tsob/delete/{tsobh}', [ControllerTransSOB::class, 'delete'])->name('tsobdelete');
+    Route::get('/tsob/{tsobh}/print', [ControllerTransSOB::class, 'print'])->name('tsobprint');
+
+    Route::get('tpenerimaanbrg', [ControllerTransPenerimaanBrg::class, 'index'])->name('tpenerimaanbrg');
+    Route::post('/tpenerimaanbrgpost', [ControllerTransPenerimaanBrg::class, 'post'])->name('tpenerimaanbrgpost');
+    Route::post('/getmitempenerimaan', [ControllerTransPenerimaanBrg::class, 'getmitem'])->name('getmitempenerimaan');
+    Route::post('/getnosjd', [ControllerTransPenerimaanBrg::class, 'getnosj'])->name('getnosjd');
+    Route::get('tpenerimaanbrglist', [ControllerTransPenerimaanBrg::class, 'list'])->name('tpenerimaanbrglist');
+    Route::get('/tpenerimaanbrg/{tpenerimaanh}/edit', [ControllerTransPenerimaanBrg::class, 'getedit'])->name('tpenerimaanbrgedit');
+    Route::post('/tpenerimaanbrg/{tpenerimaanh}', [ControllerTransPenerimaanBrg::class, 'update'])->name('tpenerimaanbrgupdate');
+    Route::post('/tpenerimaanbrg/delete/{tpenerimaanh}', [ControllerTransPenerimaanBrg::class, 'delete'])->name('tpenerimaanbrgdelete');
+
+    Route::get('treturjual', [ControllerTransReturPenjualan::class, 'index'])->name('treturjual');
+    Route::post('/treturjualpost', [ControllerTransReturPenjualan::class, 'post'])->name('treturjualpost');
+    Route::get('treturjuallist', [ControllerTransReturPenjualan::class, 'list'])->name('treturjuallist');
+    Route::get('/treturjual/{treturh}/edit', [ControllerTransReturPenjualan::class, 'getedit'])->name('treturjualedit');
+    Route::post('/treturjual/{treturh}', [ControllerTransReturPenjualan::class, 'update'])->name('treturjualupdate');
+    Route::post('/treturjual/delete/{treturh}', [ControllerTransReturPenjualan::class, 'delete'])->name('treturjualdelete');
+
+    Route::get('tadjustmentstock', [ControllerTransAdjustmentStock::class, 'index'])->name('tadjustmentstock');
+    Route::post('/tadjpost', [ControllerTransAdjustmentStock::class, 'post'])->name('tadjpost');
+    Route::get('tadjlist', [ControllerTransAdjustmentStock::class, 'list'])->name('tadjlist');
+    Route::get('/tadj/{tadjh}/edit', [ControllerTransAdjustmentStock::class, 'getedit'])->name('tadjedit');
+    Route::post('/tadj/{tadjh}', [ControllerTransAdjustmentStock::class, 'update'])->name('tadjupdate');
+    Route::post('/tadj/delete/{tadjh}', [ControllerTransAdjustmentStock::class, 'delete'])->name('tadjdelete');
+
+    Route::get('tbonjual', [ControllerTransBonPenjualan::class, 'index'])->name('tbonjual');
+    Route::post('/tbonjualpost', [ControllerTransBonPenjualan::class, 'post'])->name('tbonjualpost');
+    Route::get('tbonjuallist', [ControllerTransBonPenjualan::class, 'list'])->name('tbonjuallist');
+    Route::get('/tbonjual/{tpenjualanh}/edit', [ControllerTransBonPenjualan::class, 'getedit'])->name('tbonjualedit');
+    Route::post('/tbonjual/{tpenjualanh}', [ControllerTransBonPenjualan::class, 'update'])->name('tbonjualupdate');
+    Route::post('/tbonjual/delete/{tpenjualanh}', [ControllerTransBonPenjualan::class, 'delete'])->name('tbonjualdelete');
+    Route::get('/tbonjual/{tpenjualanh}/print', [ControllerTransBonPenjualan::class, 'print'])->name('tbonjualprint');
+
+    Route::get('tsuratjalan', [ControllerTransSuratJalan::class, 'index'])->name('tsuratjalan');
+    Route::post('/tsuratjalanpost', [ControllerTransSuratJalan::class, 'post'])->name('tsuratjalanpost');
+    Route::post('/getnosobd', [ControllerTransSuratJalan::class, 'getnosob'])->name('getnosobd');
+    Route::post('/getcounter', [ControllerTransSuratJalan::class, 'getcounter'])->name('getcounter');
+    Route::get('tsuratjalanlist', [ControllerTransSuratJalan::class, 'list'])->name('tsuratjalanlist');
+    Route::get('/tsuratjalan/{tsjh}/edit', [ControllerTransSuratJalan::class, 'getedit'])->name('tsuratjalanedit');
+    Route::post('/tsuratjalan/{tsjh}', [ControllerTransSuratJalan::class, 'update'])->name('tsuratjalanupdate');
+    Route::post('/tsuratjalan/delete/{tsjh}', [ControllerTransSuratJalan::class, 'delete'])->name('tsuratjalandelete');
+    Route::get('/tsuratjalan/{tsjh}/print', [ControllerTransSuratJalan::class, 'print'])->name('tsuratjalanprint');
+    Route::get('/tsuratjalan/{tsjh}/printitem', [ControllerTransSuratJalan::class, 'printItem'])->name('tsuratjalanprintitem');
+
+    Route::get('tpembelianbarang', [ControllerTransPembelianBarang::class, 'index'])->name('tpembelianbarang');
+    Route::post('/tpembelianbarangpost', [ControllerTransPembelianBarang::class, 'post'])->name('tpembelianbarangpost');
+    Route::get('tpembelianbaranglist', [ControllerTransPembelianBarang::class, 'list'])->name('tpembelianbaranglist');
+    Route::get('/tpembelianbarang/{tpembelianh}/edit', [ControllerTransPembelianBarang::class, 'getedit'])->name('tpembelianbarangedit');
+    Route::post('/tpembelianbarang/{tpembelianh}', [ControllerTransPembelianBarang::class, 'update'])->name('tpembelianbarangupdate');
+    Route::post('/tpembelianbarang/delete/{tpembelianh}', [ControllerTransPembelianBarang::class, 'delete'])->name('tpembelianbarangdelete');
+
+    // ---Report---
+    Route::get('tstockopname', [ControllerTransStockOpname::class, 'index'])->name('tstockopname');
+
+    Route::get('romsetitem', [ControllerReportOmsetItem::class, 'index'])->name('romsetitem');
+    Route::get('romsetitemsearch', [ControllerReportOmsetItem::class, 'post'])->name('romsetitempost');
+    Route::get('romsetitemexcl', [ControllerReportOmsetItem::class, 'exportExcel'])->name('romsetitemexcel');
+
+    Route::get('romsetcounter', [ControllerReportOmsetPecounter::class, 'index'])->name('romsetcounter');
+    Route::get('romsetcountersearch', [ControllerReportOmsetPecounter::class, 'post'])->name('romsetcounterpost');
+    Route::get('romsetcounterexcl', [ControllerReportOmsetPecounter::class, 'exportExcel'])->name('romsetcounterexcl');
+
+    Route::get('rmutasistock', [ControllerReportMutasiStock::class, 'index'])->name('rmutasistock');
+    Route::get('rmutasistocksearch', [ControllerReportMutasiStock::class, 'post'])->name('rmutasistockpost');
+    Route::get('rmutasistockexcl', [ControllerReportMutasiStock::class, 'exportExcel'])->name('rmutasistockexcl');
+
+    Route::get('rlapstockpercounter', [ControllerReportStockCounter::class, 'index'])->name('rlapstockpercounter');
+    Route::get('rlapstockpercountersearch', [ControllerReportStockCounter::class, 'post'])->name('rlapstockpercounterpost');
+    Route::get('rlapstockpercounterexcl', [ControllerReportStockCounter::class, 'exportExcel'])->name('rlapstockpercounterexcl');
+
+    Route::get('rstockoverview', [ControllerReportStockOverview::class, 'index'])->name('rstockoverview');
+    Route::get('rstockoverviewsearch', [ControllerReportStockOverview::class, 'post'])->name('rstockoverviewpost');
+    Route::get('rstockoverviewexcl', [ControllerReportStockOverview::class, 'exportExcel'])->name('rstockoverviewexcl');
 });

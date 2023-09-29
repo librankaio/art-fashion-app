@@ -38,4 +38,19 @@ class ControllerReportOmsetItem extends Controller
             'grandtot' => $grandtot,
         ]);
     }
+
+    public function exportExcel(Request $request)
+    {
+        $dtfr = $request->input('dtfr');
+        $dtto = $request->input('dtto');
+        $counter = $request->input('counter');
+
+        $results = DB::select('CALL vomsetperitem (?,?,?)', [$dtfr, $dtto, $counter]);
+        $totqty = DB::select('SELECT sum(totalqty) as totalqty FROM vomsetperitem');
+        $grandtot = DB::select('SELECT sum(subtotal) as grandtotal FROM vomsetperitem');
+        $counters = Mcounter::select('id','code','name')->get();
+
+        // dd($results);
+        return view('pages.Print.Excel.rlapomsetexcl', compact('results','counter','dtfr', 'dtto',));
+    }
 }

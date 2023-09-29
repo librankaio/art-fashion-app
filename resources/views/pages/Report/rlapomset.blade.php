@@ -64,11 +64,19 @@
             <div class="col-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="card-body">
+                        <div class="row pb-3">
+                            <div class="col-6"></div>
+                            <div class="col-6 d-flex justify-content-end">
+                                <button type="submit" formaction="romsetitemexcl" formtarget="_blank" class="btn btn-success"><i
+                                    class="far fa-file-excel"></i><span> Export Excel</span></button>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-bordered" id="datatable">
                                 <thead>
                                     <tr>
                                         <th scope="col" class="border border-5" style="text-align: center;">No</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Tanggal</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Kode</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Nama Item</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Quantity</th>
@@ -82,6 +90,7 @@
                                         @php $counter++ @endphp
                                         <tr>
                                             <th scope="row" class="border border-5">{{ $counter }}</th>
+                                            <td class="border border-5" style="text-align: center;">{{ date("Y-m-d", strtotime($item->tgl)) }}</td>
                                             <td class="border border-5" style="text-align: center;">{{ $item->code }}</td>
                                             <td class="border border-5" style="text-align: center;">{{ $item->name }}</td>
                                             <td class="border border-5" style="text-align: center;">{{ $item->qty }}</td>

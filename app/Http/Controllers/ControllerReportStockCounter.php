@@ -28,4 +28,14 @@ class ControllerReportStockCounter extends Controller
             'counters' => $counters,
         ]);
     }
+
+    public function exportExcel(Request $request)
+    {
+        $counter = $request->input('counter');
+
+        $results = DB::table('vstockpercounter')->where('name_mcounters','=',$counter)->get();
+
+        // dd($results);
+        return view('pages.Print.Excel.rlapstockpercounterexcl', compact('results','counter'));
+    }
 }

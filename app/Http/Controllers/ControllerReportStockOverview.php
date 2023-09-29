@@ -39,4 +39,16 @@ class ControllerReportStockOverview extends Controller
             // 'grandtot' => $grandtot,
         ]);
     }
+
+    public function exportExcel(Request $request)
+    {
+        $dtfr = $request->input('dtfr');
+        $dtto = $request->input('dtto');
+        $counter = $request->input('counter');
+
+        $results = DB::select('CALL prStockOverview (?,?,?)', [$dtfr, $dtto,$counter]);
+
+        // dd($results);
+        return view('pages.Print.Excel.rstockoverviewexcl', compact('results','counter','dtfr','dtto'));
+    }
 }

@@ -33,4 +33,17 @@ class ControllerReportMutasiStock extends Controller
             'totqty' => $totqty,
         ]);
     }
+
+    public function exportExcel(Request $request)
+    {
+        $dtfr = $request->input('dtfr');
+        $dtto = $request->input('dtto');
+        $artikel = $request->input('artikel');
+
+        $results = DB::table('vmutasistock')->whereBetween('tgl', [$dtfr, $dtto])->where('code','=',$artikel)->get();
+        $totqty = DB::select('SELECT sum(qty) as totalqty FROM vmutasistock where code = ?', [$artikel]);
+        $mitems = Mitem::select('code','name')->get();
+
+        return view('pages.Print.Excel.rmutasistockexcl', compact('results','dtfr','dtto','artikel','totqty'));
+    }
 }

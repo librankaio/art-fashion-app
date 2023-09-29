@@ -40,4 +40,18 @@ class ControllerReportOmsetPecounter extends Controller
             'grandtot' => $grandtot,
         ]);
     }
+
+    public function exportExcel(Request $request)
+    {
+        $dtfr = $request->input('dtfr');
+        $dtto = $request->input('dtto');
+
+        $results = DB::select('CALL vomsetpercounter (?,?)', [$dtfr, $dtto]);
+        $totqty = DB::select('SELECT sum(qty) as totalqty FROM vomsetpercounter');
+        $grandtot = DB::select('SELECT sum(subtotal) as grandtotal FROM vomsetpercounter');
+        $counters = Mcounter::select('id','code','name')->get();
+
+        // dd($results);
+        return view('pages.Print.Excel.romsetcounterexcl', compact('results','dtfr', 'dtto',));
+    }
 }
