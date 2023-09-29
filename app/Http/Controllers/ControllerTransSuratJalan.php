@@ -49,7 +49,6 @@ class ControllerTransSuratJalan extends Controller
                 return redirect()->back()->with('error', 'Salah satu item stock counter kosong!');
             }
         }
-        dd("stock tidak kosong");
         $checkexist = Tsj_h::select('id','no')->where('no','=', $request->no)->first();
         if($checkexist == null){
             Tsj_h::create([
