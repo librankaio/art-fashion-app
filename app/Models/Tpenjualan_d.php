@@ -21,6 +21,8 @@ class Tpenjualan_d extends Model
         'diskon',
         'subtotal',
         'disctot',
+        'hrgsetdisc',
+        'subtotfinal',
         'note',
     ];
 }

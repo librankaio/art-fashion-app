@@ -149,6 +149,9 @@
                                         <th scope="col" class="border border-5">Satuan</th>
                                         <th scope="col" class="border border-5">Harga</th>
                                         <th scope="col" class="border border-5">Diskon</th>
+                                        <th scope="col" class="border border-5">Total Diskon</th>
+                                        <th scope="col" class="border border-5">Harga Sebelum Diskon</th>
+                                        <th scope="col" class="border border-5">Harga Setelah Diskon</th>
                                         <th scope="col" class="border border-5">Subtotal</th>
                                         <th scope="col" class="border border-5">Keterangan</th>
                                         <th scope="col" class="border border-5">Action</th>
@@ -166,10 +169,12 @@
                                         <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='{{ $tpenjualands[$i]->satuan }}' name='satuan_d[]'></td>
                                         <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='hrgjualclass form-control' id="hrgjual_d_{{ $counter }}" value='{{ number_format($tpenjualands[$i]->hrgjual, 2, '.', ',') }}' name='hrgjual_d[]'></td>
                                         <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='diskonclass form-control' value='{{ $tpenjualands[$i]->diskon }}' name='diskon_d[]' id='diskon_d_{{ $counter }}'></td>
+                                        <td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='totdiscclass form-control' value='{{ number_format($tpenjualands[$i]->disctot, 2, '.', ',') }}' name='totdisc_d[]' id='totdisc_d_{{ $counter }}'></td>
                                         <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='{{ number_format($tpenjualands[$i]->subtotal, 2, '.', ',') }}' name='subtot_d[]' id='subtot_d_{{ $counter }}'></td>
+                                        <td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='hrgsetdiscclass form-control' value='{{ number_format($tpenjualands[$i]->hrgsetdisc, 2, '.', ',') }}' name='hrgsetdisc_d[]' id='hrgsetdisc_d_"+counter+"'></td>
+                                        <td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotfinalclass form-control' value='{{ number_format($tpenjualands[$i]->subtotfinal, 2, '.', ',') }}' name='subtotfinal_d[]' id='subtotfinal_d_"+counter+"'></td>
                                         <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='keteranganclass form-control' value='{{ $tpenjualands[$i]->note }}' name='keterangan_d[]'></td>
                                         <td class="border border-5"><button title='Delete' class='delete btn btn-primary' value="{{ $counter }}"><i style='font-size:15pt;color:#ffff;' class='fa fa-trash'></i></button></td>
-                                        <td class='border border-5' hidden><input type='text' readonly form='thisform' style='width:100px;' class='totdiscclass form-control' value='{{ number_format($tpenjualands[$i]->disctot, 2, '.', ',') }}' name='totdisc_d[]' id='totdisc_d_{{ $counter }}'></td>
                                         <td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value=''></td>
                                         <td class="border border-5" hidden><input style='width:120px;' readonly form='thisform' class='idclass form-control' name='id_d[]' type='text' value='{{ $tpenjualands[$i]->id }}' id="tbl_detail_id_{{ $counter }}"></td>
                                         <td class="border border-5" hidden><input style='width:120px;' readonly form='thisform' class='delclass form-control' name='deleted_item_d[]' type='text' value='' id="deleted_d_{{ $counter }}"></td>

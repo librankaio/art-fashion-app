@@ -83,6 +83,8 @@ class ControllerTransBonPenjualan extends Controller
                     'subtotal' => (float) str_replace(',', '', $request->subtot_d[$i]),
                     'hrgjual' => (float) str_replace(',', '', $request->hrgjual_d[$i]),
                     'disctot' => (float) str_replace(',', '', $request->totdisc_d[$i]),
+                    'hrgsetdisc' => (float) str_replace(',', '', $request->hrgsetdisc_d[$i]),
+                    'subtotfinal' => (float) str_replace(',', '', $request->subtotfinal_d[$i]),
                     'note' => $request->keterangan_d[$i],
                 ]);
                 
@@ -166,7 +168,7 @@ class ControllerTransBonPenjualan extends Controller
         $counter_name = session('counter');
         $mitems = DB::select( DB::raw("select code_mitem as code, name_mitem as name from mitems_counters where name_mcounters = '$counter_name' and stock > 0"));
         $payments = Mjenispayment::select('id','code','name')->get();
-        $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','warna','qty','satuan','hrgjual','diskon','subtotal','disctot','note')->where('idh','=',$tpenjualanh->id)->get();
+        $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','warna','qty','satuan','hrgjual','diskon','subtotal','disctot','hrgsetdisc','subtotfinal','note')->where('idh','=',$tpenjualanh->id)->get();
         return view('pages.Transaksi.tbonpenjualanedit',[
             'counters' => $counters,
             'mitems' => $mitems,
