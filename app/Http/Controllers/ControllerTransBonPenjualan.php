@@ -311,7 +311,7 @@ class ControllerTransBonPenjualan extends Controller
             $stock_mitem_counter = DB::table('mitems_counters')
             ->selectRaw('stock')
             ->where('code_mitem', '=', strtok($penjualan_old_item->code, " "))
-            ->where('name_mcounters', '=', session('counter'))
+            ->where('name_mcounters', '=', $tpenjualanh->counter)
             ->first();
             // dd($stock_mitem_counter);
             $stock_mitem_counter_sum = $stock_mitem_counter->stock + (int)$penjualan_old_item->qty;
@@ -319,7 +319,7 @@ class ControllerTransBonPenjualan extends Controller
             DB::table('mitems_counters')
             ->selectRaw('stock')
             ->where('code_mitem', '=', strtok($penjualan_old_item->code, " "))
-            ->where('name_mcounters', '=', session('counter'))
+            ->where('name_mcounters', '=', $tpenjualanh->counter)
             ->update([
                 'stock' => (int)$stock_mitem_counter_sum,
             ]);

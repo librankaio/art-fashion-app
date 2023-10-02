@@ -293,7 +293,7 @@ class ControllerTransSuratJalan extends Controller
             $stock_mitem_counter = DB::table('mitems_counters')
             ->selectRaw('stock')
             ->where('code_mitem', '=', strtok($suratjalan_old_item->code, " "))
-            ->where('name_mcounters', '=', request('counter'))
+            ->where('name_mcounters', '=', $tsjh->counter)
             ->first();
             // dd($stock_mitem_counter);
             $stock_mitem_counter_sum = $stock_mitem_counter->stock + (int)$suratjalan_old_item->qty;
@@ -301,7 +301,7 @@ class ControllerTransSuratJalan extends Controller
             DB::table('mitems_counters')
             ->selectRaw('stock')
             ->where('code_mitem', '=', strtok($suratjalan_old_item->code, " "))
-            ->where('name_mcounters', '=', request('counter'))
+            ->where('name_mcounters', '=', $tsjh->counter)
             ->update([
                 'stock' => (int)$stock_mitem_counter_sum,
             ]);
