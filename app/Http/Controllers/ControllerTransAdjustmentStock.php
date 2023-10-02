@@ -62,14 +62,14 @@ class ControllerTransAdjustmentStock extends Controller
                     $stock_mitem_counter = DB::table('mitems_counters')
                     ->selectRaw('stock')
                     ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                    ->where('name_mcounters', '=', session('counter'))
+                    ->where('name_mcounters', '=', $request->counter)
                     ->first();
                     // dd($stock_mitem_counter);
                     $stock_counter_sum = $stock_mitem_counter->stock+$request->quantity_d[$i];
                     DB::table('mitems_counters')
                     ->selectRaw('stock')
                     ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                    ->where('name_mcounters', '=', session('counter'))
+                    ->where('name_mcounters', '=', $request->counter)
                     ->update([
                         'stock' => (int)$stock_counter_sum,
                     ]);
@@ -77,13 +77,13 @@ class ControllerTransAdjustmentStock extends Controller
                     $stock_mitem_counter = DB::table('mitems_counters')
                     ->selectRaw('stock')
                     ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                    ->where('name_mcounters', '=', session('counter'))
+                    ->where('name_mcounters', '=', $request->counter)
                     ->first();
                     $stock_counter_min = $stock_mitem_counter->stock-$request->quantity_d[$i];
                     DB::table('mitems_counters')
                     ->selectRaw('stock')
                     ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                    ->where('name_mcounters', '=', session('counter'))
+                    ->where('name_mcounters', '=', $request->counter)
                     ->update([
                         'stock' => (int)$stock_counter_min,
                     ]);
@@ -135,7 +135,7 @@ class ControllerTransAdjustmentStock extends Controller
                     $old_stock_mitem_counter = DB::table('mitems_counters')
                     ->selectRaw('stock')
                     ->where('code_mitem', '=', strtok($getstock_old->code, " "))
-                    ->where('name_mcounters', '=', session('counter'))
+                    ->where('name_mcounters', '=', request('counter'))
                     ->first();
                     // dd($old_stock_mitem_counter->stock-(int)$getstock_old->qty);
                     // Make stock counter value is equal to old stock
@@ -145,7 +145,7 @@ class ControllerTransAdjustmentStock extends Controller
                     DB::table('mitems_counters')
                     ->selectRaw('stock')
                     ->where('code_mitem', '=', strtok($getstock_old->code, " "))
-                    ->where('name_mcounters', '=', session('counter'))
+                    ->where('name_mcounters', '=', request('counter'))
                     ->update([
                         'stock' => (int)$normalize_stock_counter,
                     ]);
@@ -173,7 +173,7 @@ class ControllerTransAdjustmentStock extends Controller
                     $old_stock_mitem_counter = DB::table('mitems_counters')
                     ->selectRaw('stock')
                     ->where('code_mitem', '=', strtok($getstock_old->code, " "))
-                    ->where('name_mcounters', '=', session('counter'))
+                    ->where('name_mcounters', '=', request('counter'))
                     ->first();
                     // dd($old_stock_mitem_counter->stock-(int)$getstock_old->qty);
                     // Make stock counter value is equal to old stock
@@ -183,7 +183,7 @@ class ControllerTransAdjustmentStock extends Controller
                     DB::table('mitems_counters')
                     ->selectRaw('stock')
                     ->where('code_mitem', '=', strtok($getstock_old->code, " "))
-                    ->where('name_mcounters', '=', session('counter'))
+                    ->where('name_mcounters', '=', request('counter'))
                     ->update([
                         'stock' => (int)$normalize_stock_counter,
                     ]);
@@ -250,14 +250,14 @@ class ControllerTransAdjustmentStock extends Controller
                     $stock_mitem_counter = DB::table('mitems_counters')
                     ->selectRaw('stock')
                     ->where('code_mitem', '=', strtok(request('kode_d')[$i], " "))
-                    ->where('name_mcounters', '=', session('counter'))
+                    ->where('name_mcounters', '=', request('counter'))
                     ->first();
                     // dd($stock_mitem_counter);
                     $stock_counter_sum = $stock_mitem_counter->stock+request('quantity_d')[$i];
                     DB::table('mitems_counters')
                     ->selectRaw('stock')
                     ->where('code_mitem', '=', strtok(request('kode_d')[$i], " "))
-                    ->where('name_mcounters', '=', session('counter'))
+                    ->where('name_mcounters', '=', request('counter'))
                     ->update([
                         'stock' => (int)$stock_counter_sum,
                     ]); 
@@ -265,14 +265,14 @@ class ControllerTransAdjustmentStock extends Controller
                     $stock_mitem_counter = DB::table('mitems_counters')
                     ->selectRaw('stock')
                     ->where('code_mitem', '=', strtok(request('kode_d')[$i], " "))
-                    ->where('name_mcounters', '=', session('counter'))
+                    ->where('name_mcounters', '=', request('counter'))
                     ->first();
                     // dd($stock_mitem_counter);
                     $stock_counter_min = $stock_mitem_counter->stock-request('quantity_d')[$i];
                     DB::table('mitems_counters')
                     ->selectRaw('stock')
                     ->where('code_mitem', '=', strtok(request('kode_d')[$i], " "))
-                    ->where('name_mcounters', '=', session('counter'))
+                    ->where('name_mcounters', '=', request('counter'))
                     ->update([
                         'stock' => (int)$stock_counter_min,
                     ]); 
