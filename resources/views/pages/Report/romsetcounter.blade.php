@@ -106,10 +106,16 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Total Quantity</label>
-                                    @if(isset($totqty))
-                                        @foreach ($totqty as $qty)
-                                        <input type="text" class="form-control" form="thisform" value="{{ $qty->totalqty }}" readonly>
+                                    @if(isset($results))
+                                        @php $total_qty = 0; @endphp
+                                        @foreach($results as $item1)
+                                            @if($total_qty == 0)
+                                                @php $total_qty = $total_qty + $item1->qty @endphp
+                                            @else
+                                                @php $total_qty = $total_qty + $item1->qty @endphp
+                                            @endif
                                         @endforeach
+                                            <input type="text" class="form-control" form="thisform" value="{{ $total_qty }}" readonly>
                                     @else
                                         <input type="text" class="form-control" form="thisform" readonly>
                                     @endif
@@ -118,10 +124,16 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Total</label>
-                                    @if(isset($grandtot))
-                                        @foreach ($grandtot as $grdtot)
-                                        <input type="text" class="form-control" form="thisform" value="{{ number_format($grdtot->grandtotal, 2, '.', ',') }}" readonly>
+                                    @if(isset($results))
+                                        @php $total = 0; @endphp
+                                        @foreach($results as $item2)
+                                            @if($total == 0)
+                                                @php $total = $total + $item2->subtotal @endphp
+                                            @else
+                                                @php $total = $total + $item2->subtotal @endphp
+                                            @endif
                                         @endforeach
+                                            <input type="text" class="form-control" form="thisform" value="{{ number_format($total, 2, '.', ',') }}" readonly>
                                     @else
                                         <input type="text" class="form-control" form="thisform" readonly>
                                     @endif

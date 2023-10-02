@@ -26,9 +26,8 @@
                 <div class="col-5 pl-4">
                     <center>
                         <img src="{{ asset('../assets/img/cherry.jpg') }}" alt="logo" width="200">
-                        <h1>CHERRY BEKASI</h1>
-                        <h5>Metropolitan Mall Bekasi Lt.3 Jl.KH.Noer Ali</h5>
-                        <h5>Bekasi Selatan</h5>
+                        <h1>{{ strtoupper($tpenjualanh->counter) }}</h1>
+                        <h5>{{ $address->alamat }}</h5>
                         <h5>{{ $tpenjualanh->no }}</h5>
                     </center>
                 </div>

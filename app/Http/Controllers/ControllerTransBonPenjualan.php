@@ -332,11 +332,12 @@ class ControllerTransBonPenjualan extends Controller
 
     public function print(Tpenjualan_h $tpenjualanh){        
         $tpenjualands = Tpenjualan_d::where('idh','=',$tpenjualanh->id)->get();
-        
-        // dd($tpenjualands);
+        $address = Mcounter::select('alamat')->where('name','=',$tpenjualanh->counter)->first();
+
         return view('pages.Print.tbonjualprint',[
             'tpenjualanh' => $tpenjualanh,
-            'tpenjualands' => $tpenjualands
+            'tpenjualands' => $tpenjualands,
+            'address' => $address,
         ]);
     }
 }

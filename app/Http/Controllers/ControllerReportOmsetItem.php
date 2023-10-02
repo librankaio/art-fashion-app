@@ -30,7 +30,6 @@ class ControllerReportOmsetItem extends Controller
         $totqty = DB::select('SELECT sum(totalqty) as totalqty FROM vomsetperitem');
         $grandtot = DB::select('SELECT sum(subtotal) as grandtotal FROM vomsetperitem');
         $counters = Mcounter::select('id','code','name')->get();
-
         return view('pages.Report.rlapomset', [
             'results' => $results,
             'counters' => $counters,
