@@ -162,6 +162,76 @@ class ControllerLogin extends Controller
                 $request->session()->put('tbelibrg_dlt', $auth_tbelibrg->dlt);
                 $request->session()->put('tbelibrg_print', $auth_tbelibrg->print);
             }            
+
+            $auth_romsetperitem = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'romsetperitem')->first();
+
+            if($auth_romsetperitem != null){
+                $request->session()->put('romsetperitem_save', $auth_romsetperitem->save);
+                $request->session()->put('romsetperitem_open', $auth_romsetperitem->open);
+                $request->session()->put('romsetperitem_updt', $auth_romsetperitem->updt);
+                $request->session()->put('romsetperitem_dlt', $auth_romsetperitem->dlt);
+                $request->session()->put('romsetperitem_print', $auth_romsetperitem->print);
+            }            
+
+            $auth_romsetpercounter = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'romsetpercounter')->first();
+
+            if($auth_romsetpercounter != null){
+                $request->session()->put('romsetpercounter_save', $auth_romsetpercounter->save);
+                $request->session()->put('romsetpercounter_open', $auth_romsetpercounter->open);
+                $request->session()->put('romsetpercounter_updt', $auth_romsetpercounter->updt);
+                $request->session()->put('romsetpercounter_dlt', $auth_romsetpercounter->dlt);
+                $request->session()->put('romsetpercounter_print', $auth_romsetpercounter->print);
+            }         
+
+            $rstockpercounter = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'rstockpercounter')->first();
+
+            if($rstockpercounter != null){
+                $request->session()->put('romsetpercounter_save', $rstockpercounter->save);
+                $request->session()->put('romsetpercounter_open', $rstockpercounter->open);
+                $request->session()->put('romsetpercounter_updt', $rstockpercounter->updt);
+                $request->session()->put('romsetpercounter_dlt', $rstockpercounter->dlt);
+                $request->session()->put('romsetpercounter_print', $rstockpercounter->print);
+            }            
+
+            $rmutasistock = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'rmutasistock')->first();
+
+            if($rmutasistock != null){
+                $request->session()->put('romsetpercounter_save', $rmutasistock->save);
+                $request->session()->put('romsetpercounter_open', $rmutasistock->open);
+                $request->session()->put('romsetpercounter_updt', $rmutasistock->updt);
+                $request->session()->put('romsetpercounter_dlt', $rmutasistock->dlt);
+                $request->session()->put('romsetpercounter_print', $rmutasistock->print);
+            }         
+
+            $rstockoverview = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'rstockoverview')->first();
+
+            if($rstockoverview != null){
+                $request->session()->put('romsetpercounter_save', $rstockoverview->save);
+                $request->session()->put('romsetpercounter_open', $rstockoverview->open);
+                $request->session()->put('romsetpercounter_updt', $rstockoverview->updt);
+                $request->session()->put('romsetpercounter_dlt', $rstockoverview->dlt);
+                $request->session()->put('romsetpercounter_print', $rstockoverview->print);
+            }            
+
+            $umdataitem = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'umdataitem')->first();
+
+            if($umdataitem != null){
+                $request->session()->put('romsetpercounter_save', $umdataitem->save);
+                $request->session()->put('romsetpercounter_open', $umdataitem->open);
+                $request->session()->put('romsetpercounter_updt', $umdataitem->updt);
+                $request->session()->put('romsetpercounter_dlt', $umdataitem->dlt);
+                $request->session()->put('romsetpercounter_print', $umdataitem->print);
+            }
+
+            $umitemcounter = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'umitemcounter')->first();
+
+            if($umitemcounter != null){
+                $request->session()->put('romsetpercounter_save', $umitemcounter->save);
+                $request->session()->put('romsetpercounter_open', $umitemcounter->open);
+                $request->session()->put('romsetpercounter_updt', $umitemcounter->updt);
+                $request->session()->put('romsetpercounter_dlt', $umitemcounter->dlt);
+                $request->session()->put('romsetpercounter_print', $umitemcounter->print);
+            }            
             // dd(session()->all());
             return redirect()->intended('/home');
         }

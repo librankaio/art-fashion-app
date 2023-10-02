@@ -16,6 +16,7 @@ class ControllerTransBonPenjualan extends Controller
     public function index()
     {
         $privilage = session('privilage');
+        $counter_name = session('counter');
         if($privilage == 'ADM'){
             $counters = Mcounter::select('id','code','name')->get();
         }else if($privilage == null){
@@ -23,7 +24,7 @@ class ControllerTransBonPenjualan extends Controller
         }
         $mitems = Mitem::select('id','code','name')->get();
         // $mitems = DB::select( DB::raw("SELECT * FROM some_table WHERE some_col = '$someVariable'") );
-        $counter_name = session('counter');
+        
         // $mitems = DB::select( DB::raw("SELECT DISTINCT p.code , p.name FROM mitems p JOIN mitems_counters s ON p.code = s.code_mitem WHERE s.name_mcounters = '$counter_name' "));
         $mitems = DB::select( DB::raw("select code_mitem as code, name_mitem as name from mitems_counters where name_mcounters = '$counter_name' and stock > 0"));
         $payments = Mjenispayment::select('id','code','name')->get();
@@ -149,8 +150,13 @@ class ControllerTransBonPenjualan extends Controller
     }
 
     public function list(){
-        $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal',)->orderBy('created_at', 'asc')->get();
-        $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note',)->get();
+        if(session('privilage') == null){
+            $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal',)->where('counter','=',session('counter'))->orderBy('created_at', 'asc')->get();
+            $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note',)->get();
+        }else if (session('privilage') == 'ADM'){
+            $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal',)->orderBy('created_at', 'asc')->get();
+            $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note',)->get();
+        }
         return view('pages.Transaksi.tbonpenjualanlist',[
             'tpenjualanhs' => $tpenjualanhs,
             'tpenjualands' => $tpenjualands

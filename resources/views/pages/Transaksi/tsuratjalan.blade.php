@@ -14,7 +14,7 @@
     <div class="section-body">
         <div class="row">
             <div class="col-12 col-md-12 col-lg-12">
-                @include('layouts.flash-message')
+                @include('layouts.flash-message-sj')
             </div>
         </div>
         <form action="" method="POST" id="thisform">
@@ -356,7 +356,12 @@
                                 console.log(response);
                                 for (i=0; i < response.length; i++) {
                                     if(response[i].no == nosob){
-                                        $("#counter").val(response[i].counter);
+                                        // $("#counter").val(response[i].counter);
+                                        // select = document.getElementById("counter");
+                                        // select.appendChild(response[i].counter);
+
+                                        // select= document.querySelector('#select');
+                                        // select.options[select.selectedIndex].value = response[i].counter;
                                     }
                                 }
                             }

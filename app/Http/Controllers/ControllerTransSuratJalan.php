@@ -12,6 +12,7 @@ use App\Models\Tsob_h;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class ControllerTransSuratJalan extends Controller
 {
@@ -45,8 +46,11 @@ class ControllerTransSuratJalan extends Controller
             $stock_counter_min = $stock_mitem_counter->stock-$request->quantity_d[$i];
             // dd($stock_counter_min);
             if ($request->quantity_d[$i] >= $stock_mitem_counter->stock){
-                // dd("stock Kelebihan");
-                return redirect()->back()->with('error', 'Salah satu item stock counter kosong!');
+                $items = array();
+                array_push($items, strtok($request->kode_d[$i], " "));
+                Session::flash('items_error', $items);
+                Session::flash('counter_selected', $request->counter);
+                return redirect()->back()->with('error', 'Salah satu item stock counter kosong atau lebih dari stock counter!');
             }
         }
         $checkexist = Tsj_h::select('id','no')->where('no','=', $request->no)->first();

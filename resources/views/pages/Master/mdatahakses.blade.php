@@ -562,7 +562,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='tbelibrg'></td>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='romsetperitem'></td>
                                                     <td class="border border-5">Laporan Omset Per-Item</td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
@@ -596,7 +596,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='tbelibrg'></td>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='romsetpercounter'></td>
                                                     <td class="border border-5">Laporan Omset Per-Counter</td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
@@ -630,7 +630,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='tbelibrg'></td>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='rstockpercounter'></td>
                                                     <td class="border border-5">Laporan Stock Per-Counter</td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
@@ -664,7 +664,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='tbelibrg'></td>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='rmutasistock'></td>
                                                     <td class="border border-5">Laporan Mutasi Stock</td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
@@ -698,7 +698,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='tbelibrg'></td>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='rstockoverview'></td>
                                                     <td class="border border-5">Laporan Stock Overview</td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
@@ -732,7 +732,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='tbelibrg'></td>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='umdataitem'></td>
                                                     <td class="border border-5">Upload Master Data Item</td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
@@ -766,7 +766,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='tbelibrg'></td>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='umitemcounter'></td>
                                                     <td class="border border-5">Upload Master Data Item Counter</td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
