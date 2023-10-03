@@ -22,7 +22,7 @@ class ControllerTransBonPenjualan extends Controller
         }else if($privilage == null){
             $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         }
-        $mitems = Mitem::select('id','code','name')->get();
+        // $mitems = Mitem::select('id','code','name')->get();
         // $mitems = DB::select( DB::raw("SELECT * FROM some_table WHERE some_col = '$someVariable'") );
         
         // $mitems = DB::select( DB::raw("SELECT DISTINCT p.code , p.name FROM mitems p JOIN mitems_counters s ON p.code = s.code_mitem WHERE s.name_mcounters = '$counter_name' "));

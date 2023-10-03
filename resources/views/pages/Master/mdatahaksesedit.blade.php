@@ -757,238 +757,385 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='tbelibrg'></td>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='romsetperitem'></td>
                                                     <td class="border border-5">Laporan Omset Per-Item</td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="create_romsetperitem" value="Y" checked>
+                                                            @if($auth_romsetperitem->save == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="create_romsetperitem" value="Y" checked>
+                                                            @elseif($auth_romsetperitem->save == 'N' || $auth_romsetperitem->save == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="create_romsetperitem" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="read_romsetperitem" value="Y" checked>
+                                                            @if($auth_romsetperitem->open == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="read_romsetperitem" value="Y" checked>
+                                                            @elseif($auth_romsetperitem->open == 'N' || $auth_romsetperitem->open == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="read_romsetperitem" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="update_romsetperitem" value="Y" checked>
+                                                            @if($auth_romsetperitem->updt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_romsetperitem" value="Y" checked>
+                                                            @elseif($auth_romsetperitem->updt == 'N' || $auth_romsetperitem->updt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_romsetperitem" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="delete_romsetperitem" value="Y" checked>
+                                                            @if($auth_romsetperitem->dlt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_romsetperitem" value="Y" checked>
+                                                                @elseif($auth_romsetperitem->dlt == 'N' || $auth_romsetperitem->dlt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_romsetperitem" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="print_romsetperitem" value="Y" checked>
+                                                            @if($auth_romsetperitem->print == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_romsetperitem" value="Y" checked>
+                                                                @elseif($auth_romsetperitem->print == 'N' || $auth_romsetperitem->print == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_romsetperitem" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='tbelibrg'></td>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='romsetpercounter'></td>
                                                     <td class="border border-5">Laporan Omset Per-Counter</td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="create_romsetpercounter" value="Y" checked>
+                                                            @if($auth_romsetpercounter->save == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="create_romsetpercounter" value="Y" checked>
+                                                            @elseif($auth_romsetpercounter->save == 'N' || $auth_romsetpercounter->save == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="create_romsetpercounter" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="read_romsetpercounter" value="Y" checked>
+                                                            @if($auth_romsetpercounter->open == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="read_romsetpercounter" value="Y" checked>
+                                                            @elseif($auth_romsetpercounter->open == 'N' || $auth_romsetpercounter->open == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="read_romsetpercounter" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="update_romsetpercounter" value="Y" checked>
+                                                            @if($auth_romsetpercounter->updt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_romsetpercounter" value="Y" checked>
+                                                            @elseif($auth_romsetpercounter->updt == 'N' || $auth_romsetpercounter->updt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_romsetpercounter" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="delete_romsetpercounter" value="Y" checked>
+                                                            @if($auth_romsetpercounter->dlt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_romsetpercounter" value="Y" checked>
+                                                                @elseif($auth_romsetpercounter->dlt == 'N' || $auth_romsetpercounter->dlt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_romsetpercounter" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="print_romsetpercounter" value="Y" checked>
+                                                            @if($auth_romsetpercounter->print == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_romsetpercounter" value="Y" checked>
+                                                                @elseif($auth_romsetpercounter->print == 'N' || $auth_romsetpercounter->print == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_romsetpercounter" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='tbelibrg'></td>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='rstockpercounter'></td>
                                                     <td class="border border-5">Laporan Stock Per-Counter</td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="create_rstockpercounter" value="Y" checked>
+                                                            @if($auth_rstockpercounter->save == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="create_rstockpercounter" value="Y" checked>
+                                                            @elseif($auth_rstockpercounter->save == 'N' || $auth_rstockpercounter->save == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="create_rstockpercounter" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="read_rstockpercounter" value="Y" checked>
+                                                            @if($auth_rstockpercounter->open == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="read_rstockpercounter" value="Y" checked>
+                                                            @elseif($auth_rstockpercounter->open == 'N' || $auth_rstockpercounter->open == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="read_rstockpercounter" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="update_rstockpercounter" value="Y" checked>
+                                                            @if($auth_rstockpercounter->updt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_rstockpercounter" value="Y" checked>
+                                                            @elseif($auth_rstockpercounter->updt == 'N' || $auth_rstockpercounter->updt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_rstockpercounter" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="delete_rstockpercounter" value="Y" checked>
+                                                            @if($auth_rstockpercounter->dlt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_rstockpercounter" value="Y" checked>
+                                                                @elseif($auth_rstockpercounter->dlt == 'N' || $auth_rstockpercounter->dlt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_rstockpercounter" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="print_rstockpercounter" value="Y" checked>
+                                                            @if($auth_rstockpercounter->print == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_rstockpercounter" value="Y" checked>
+                                                                @elseif($auth_rstockpercounter->print == 'N' || $auth_rstockpercounter->print == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_rstockpercounter" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='tbelibrg'></td>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='rmutasistock'></td>
                                                     <td class="border border-5">Laporan Mutasi Stock</td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="create_rmutasistock" value="Y" checked>
+                                                            @if($auth_rmutasistock->save == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="create_rmutasistock" value="Y" checked>
+                                                            @elseif($auth_rmutasistock->save == 'N' || $auth_rmutasistock->save == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="create_rmutasistock" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="read_rmutasistock" value="Y" checked>
+                                                            @if($auth_rmutasistock->open == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="read_rmutasistock" value="Y" checked>
+                                                            @elseif($auth_rmutasistock->open == 'N' || $auth_rmutasistock->open == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="read_rmutasistock" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="update_rmutasistock" value="Y" checked>
+                                                            @if($auth_rmutasistock->updt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_rmutasistock" value="Y" checked>
+                                                            @elseif($auth_rmutasistock->updt == 'N' || $auth_rmutasistock->updt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_rmutasistock" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="delete_rmutasistock" value="Y" checked>
+                                                            @if($auth_rmutasistock->dlt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_rmutasistock" value="Y" checked>
+                                                                @elseif($auth_rmutasistock->dlt == 'N' || $auth_rmutasistock->dlt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_rmutasistock" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="print_rmutasistock" value="Y" checked>
+                                                            @if($auth_rmutasistock->print == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_rmutasistock" value="Y" checked>
+                                                                @elseif($auth_rmutasistock->print == 'N' || $auth_rmutasistock->print == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_rmutasistock" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='tbelibrg'></td>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='rstockoverview'></td>
                                                     <td class="border border-5">Laporan Stock Overview</td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="create_rstockoverview" value="Y" checked>
+                                                            @if($auth_rstockoverview->save == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="create_rstockoverview" value="Y" checked>
+                                                            @elseif($auth_rstockoverview->save == 'N' || $auth_rstockoverview->save == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="create_rstockoverview" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="read_rstockoverview" value="Y" checked>
+                                                            @if($auth_rstockoverview->open == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="read_rstockoverview" value="Y" checked>
+                                                            @elseif($auth_rstockoverview->open == 'N' || $auth_rstockoverview->open == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="read_rstockoverview" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="update_rstockoverview" value="Y" checked>
+                                                            @if($auth_rstockoverview->updt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_rstockoverview" value="Y" checked>
+                                                            @elseif($auth_rstockoverview->updt == 'N' || $auth_rstockoverview->updt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_rstockoverview" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="delete_rstockoverview" value="Y" checked>
+                                                            @if($auth_rstockoverview->dlt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_rstockoverview" value="Y" checked>
+                                                                @elseif($auth_rstockoverview->dlt == 'N' || $auth_rstockoverview->dlt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_rstockoverview" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="print_rstockoverview" value="Y" checked>
+                                                            @if($auth_rstockoverview->print == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_rstockoverview" value="Y" checked>
+                                                                @elseif($auth_rstockoverview->print == 'N' || $auth_rstockoverview->print == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_rstockoverview" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='tbelibrg'></td>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='umdataitem'></td>
                                                     <td class="border border-5">Upload Master Data Item</td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="create_umdataitem" value="Y" checked>
+                                                            @if($auth_umdataitem->save == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="create_umdataitem" value="Y" checked>
+                                                            @elseif($auth_umdataitem->save == 'N' || $auth_umdataitem->save == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="create_umdataitem" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="read_umdataitem" value="Y" checked>
+                                                            @if($auth_umdataitem->open == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="read_umdataitem" value="Y" checked>
+                                                            @elseif($auth_umdataitem->open == 'N' || $auth_umdataitem->open == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="read_umdataitem" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            <input class="form-check-input checkbox" type="checkbox" name="update_umdataitem" value="Y" checked>
+                                                            @if($auth_umdataitem->updt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_umdataitem" value="Y" checked>
+                                                            @elseif($auth_umdataitem->updt == 'N' || $auth_umdataitem->updt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_umdataitem" value="Y">
+                                                            @endif
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
+                                                            @if($auth_umdataitem->dlt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_umdataitem" value="Y" checked>
+                                                                @elseif($auth_umdataitem->dlt == 'N' || $auth_umdataitem->dlt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_umdataitem" value="Y">
+                                                            @endif
                                                             <input class="form-check-input checkbox" type="checkbox" name="delete_umdataitem" value="Y" checked>
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
+                                                            @if($auth_umdataitem->print == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_umdataitem" value="Y" checked>
+                                                                @elseif($auth_umdataitem->print == 'N' || $auth_umdataitem->print == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_umdataitem" value="Y">
+                                                            @endif
                                                             <input class="form-check-input checkbox" type="checkbox" name="print_umdataitem" value="Y" checked>
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='tbelibrg'></td>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='umitemcounter'></td>
                                                     <td class="border border-5">Upload Master Data Item Counter</td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
+                                                            @if($auth_umitemcounter->save == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="create_umitemcounter" value="Y" checked>
+                                                            @elseif($auth_umitemcounter->save == 'N' || $auth_umitemcounter->save == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="create_umitemcounter" value="Y">
+                                                            @endif
                                                             <input class="form-check-input checkbox" type="checkbox" name="create_umitemcounter" value="Y" checked>
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
+                                                            @if($auth_umitemcounter->open == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="read_umitemcounter" value="Y" checked>
+                                                            @elseif($auth_umitemcounter->open == 'N' || $auth_umitemcounter->open == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="read_umitemcounter" value="Y">
+                                                            @endif
                                                             <input class="form-check-input checkbox" type="checkbox" name="read_umitemcounter" value="Y" checked>
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
+                                                            @if($auth_umitemcounter->updt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_umitemcounter" value="Y" checked>
+                                                            @elseif($auth_umitemcounter->updt == 'N' || $auth_umitemcounter->updt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_umitemcounter" value="Y">
+                                                            @endif
                                                             <input class="form-check-input checkbox" type="checkbox" name="update_umitemcounter" value="Y" checked>
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
+                                                            @if($auth_umitemcounter->dlt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_umitemcounter" value="Y" checked>
+                                                                @elseif($auth_umitemcounter->dlt == 'N' || $auth_umitemcounter->dlt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_umitemcounter" value="Y">
+                                                            @endif
                                                             <input class="form-check-input checkbox" type="checkbox" name="delete_umitemcounter" value="Y" checked>
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
+                                                            @if($auth_umitemcounter->print == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_umitemcounter" value="Y" checked>
+                                                                @elseif($auth_umitemcounter->print == 'N' || $auth_umitemcounter->print == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_umitemcounter" value="Y">
+                                                            @endif
                                                             <input class="form-check-input checkbox" type="checkbox" name="print_umitemcounter" value="Y" checked>
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>

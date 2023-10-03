@@ -81,7 +81,9 @@
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-chart-bar"></i>
             <span>Reports</span></a>
         <ul class="dropdown-menu">
+            @if($tadjstock_open == 'Y' || $role == 'ADM')
             <li><a class="nav-link" href="{{ route('romsetitem') }}">Laporan Omset Per Item</a></li>
+            @endif
             <li><a class="nav-link" href="{{ route('romsetcounter') }}">Lap. Omset Per-Counter</a></li>
             <li><a class="nav-link" href="{{ route('rlapstockpercounter') }}">Laporan Stock Per-Counter</a></li>
             <li><a class="nav-link" href="{{ route('rmutasistock') }}">Laporan Mutasi Stock</a></li>
