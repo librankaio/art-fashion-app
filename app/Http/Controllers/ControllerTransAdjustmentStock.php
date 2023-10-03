@@ -125,6 +125,7 @@ class ControllerTransAdjustmentStock extends Controller
 
     public function update(Tadj_h $tadjh){
         // dd(request()->all());
+        dd(sizeof(request('id_d')));
         if (request('jenis') == 'Plus'){
             for($x=0;$x<sizeof(request('existdb_d'));$x++){
                 $getstock_old = Tadj_d::where('id', '=', request('id_d')[$x])->first();
@@ -288,8 +289,73 @@ class ControllerTransAdjustmentStock extends Controller
     }
 
     public function delete(Tadj_h $tadjh){
+        $tadj_length = Tadj_d::where('idh', '=', $tadjh->id)->get();
+        // dd(sizeof($tadj_length));
+        if ($tadjh->jenis == 'Plus'){
+            for($x=0;$x<sizeof($tadj_length);$x++){
+                // dd($tadj_length[$x]->id);
+                $getstock_old = Tadj_d::where('id', '=', $tadj_length[$x]->id)->first();
+                $old_stock_mitem_counter = DB::table('mitems_counters')
+                ->selectRaw('stock')
+                ->where('code_mitem', '=', strtok($tadj_length[$x]->code, " "))
+                ->where('name_mcounters', '=', $tadjh->counter)
+                ->first();
+                dd($old_stock_mitem_counter->stock-(int)$getstock_old->qty);
+                    // Make stock counter value is equal to old stock
+                    // $getstock_old->qty is pembelian_d stock value
+                $normalize_stock_counter = $old_stock_mitem_counter->stock - (int)$getstock_old->qty;
+                    // dd($normalize_stock_counter);
+                DB::table('mitems_counters')
+                ->selectRaw('stock')
+                ->where('code_mitem', '=', strtok($tadj_length[$x]->code, " "))
+                ->where('name_mcounters', '=', $tadjh->counter)
+                ->update([
+                    'stock' => (int)$normalize_stock_counter,
+                ]);
+    
+                $stock_mitem_old = Mitem::select('stock')->where('code', '=', strtok($getstock_old->code, " "))->first();
+                    // Make stock mitem value is equal to mitem old stock
+                    // dd($stock_mitem_old->stock - (int)$getstock_old->qty);
+                $normalize_stock_mitem = $stock_mitem_old->stock - (int)$getstock_old->qty;
+                Mitem::where('code', '=', strtok($getstock_old->code, " "))->update([
+                    'stock' => (int)$normalize_stock_mitem,
+                ]);
+            }
+        }else if($tadjh->jenis == 'Minus'){
+            for($x=0;$x<sizeof($tadj_length);$x++){
+                // dd($tadj_length[$x]->id);
+                $getstock_old = Tadj_d::where('id', '=', $tadj_length[$x]->id)->first();
+                $old_stock_mitem_counter = DB::table('mitems_counters')
+                ->selectRaw('stock')
+                ->where('code_mitem', '=', strtok($tadj_length[$x]->code, " "))
+                ->where('name_mcounters', '=', $tadjh->counter)
+                ->first();
+                // dd($old_stock_mitem_counter->stock-(int)$getstock_old->qty);
+                // Make stock counter value is equal to old stock
+                // $getstock_old->qty is pembelian_d stock value
+                $normalize_stock_counter = $old_stock_mitem_counter->stock + (int)$getstock_old->qty;
+                // dd($normalize_stock_counter);
+                DB::table('mitems_counters')
+                ->selectRaw('stock')
+                ->where('code_mitem', '=', strtok($tadj_length[$x]->code, " "))
+                ->where('name_mcounters', '=', $tadjh->counter)
+                ->update([
+                    'stock' => (int)$normalize_stock_counter,
+                ]);
+    
+                $stock_mitem_old = Mitem::select('stock')->where('code', '=', strtok($getstock_old->code, " "))->first();
+                // Make stock mitem value is equal to mitem old stock
+                // dd($stock_mitem_old->stock - (int)$getstock_old->qty);
+                $normalize_stock_mitem = $stock_mitem_old->stock + (int)$getstock_old->qty;
+                Mitem::where('code', '=', strtok($getstock_old->code, " "))->update([
+                    'stock' => (int)$normalize_stock_mitem,
+                ]);
+            }
+        }
+        
         Tadj_h::find($tadjh->id)->delete();
         Tadj_d::where('idh','=',$tadjh->id)->delete();
+
 
         return redirect()->route('tadjlist');
     }

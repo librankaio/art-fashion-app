@@ -148,7 +148,7 @@
                                         <th scope="col" class="border border-5">Quantity</th>
                                         <th scope="col" class="border border-5">Satuan</th>
                                         <th scope="col" class="border border-5">Harga</th>
-                                        <th scope="col" class="border border-5">Diskon</th>
+                                        <th scope="col" class="border border-5">Diskon %</th>
                                         <th scope="col" class="border border-5">Total Diskon</th>
                                         <th scope="col" class="border border-5">Harga Sebelum Diskon</th>
                                         <th scope="col" class="border border-5">Harga Setelah Diskon</th>
@@ -559,8 +559,12 @@
             this_row_totdisc = (this_row_sum * this_row_diskon)/100;
             this_row_total = this_row_subtot - this_row_old_diskon;
 
+            this_row_subtot = this_row_sum - this_row_totdisc
+
             console.log("this_row_total " + this_row_total)
 
+            $('#hrgsetdisc_d_'+row_id).val(thousands_separators(this_row_subtot.toFixed(2)));
+            $('#subtotfinal_d_'+row_id).val(thousands_separators(this_row_subtot.toFixed(2)));
             $('#subtot_d_'+row_id).val(thousands_separators(this_row_sum.toFixed(2)));
             console.log("this row price sum :"+ this_row_sum)
             console.log("this row price discounted :"+ this_row_totdisc)
