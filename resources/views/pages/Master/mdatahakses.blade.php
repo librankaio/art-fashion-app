@@ -824,6 +824,7 @@
                                     <tr>
                                         <th scope="col" class="border border-5" style="text-align: center;">No</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">NIK</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Nama</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Counter</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Privilage Status</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Action</th>
@@ -838,6 +839,7 @@
                                             <tr>
                                                 <th scope="row" class="border border-5" style="text-align: center;">{{ $no }}</th>
                                                 <td class="border border-5" style="text-align: center;">{{ $item->nik }}</td>
+                                                <td class="border border-5" style="text-align: center;">{{ $item->name }}</td>
                                                 <td class="border border-5" style="text-align: center;">{{ $item->counter }}</td>
                                                 @if ($item->acs_stat == null || $item->acs_stat == 'N')
                                                     <td class="border border-5" style="text-align: center;">Unregister</td>
