@@ -165,7 +165,7 @@ class ControllerTransPembelianBarang extends Controller
                 Mitem::where('code', '=', strtok($getstock_old->code, " "))->update([
                     'stock' => (int)$normalize_stock_mitem,
                 ]);
-
+                
                 if(request('deleted_item_d') == request('id_d')[$x]){
                     Tpembelian_d::where('id','=',request('id_d')[$x])->delete();
                 }
@@ -201,6 +201,11 @@ class ControllerTransPembelianBarang extends Controller
                     'hrgjual' => (float) str_replace(',', '', request('hrgjual_d')[$i]),
                     'subtotal' => (float) str_replace(',', '', request('subtot_d')[$i])
                 ]);
+
+                Mitem::where('code', '=', strtok(request('kode_d')[$i], " "))->update([
+                    'hrgjual' =>  (float) str_replace(',', '', request('hrgjual_d')[$i])
+                ]);
+
                 $stock_mitem = Mitem::select('stock')->where('code', '=', strtok(request('kode_d')[$i], " "))->first();
                 $stock_sum = $stock_mitem->stock+request('quantity_d')[$i];
                 Mitem::where('code', '=', strtok(request('kode_d')[$i], " "))->update([
@@ -228,7 +233,7 @@ class ControllerTransPembelianBarang extends Controller
                         'datein' => $datetime,
                     ]);
                 }else{
-                    $stock_counter_sum = $stock_mitem_counter->stock +request('quantity_d')[$i];
+                    $stock_counter_sum = $stock_mitem_counter->stock + request('quantity_d')[$i];
                     DB::table('mitems_counters')
                     ->selectRaw('stock')
                     ->where('code_mitem', '=', strtok(request('kode_d')[$i], " "))

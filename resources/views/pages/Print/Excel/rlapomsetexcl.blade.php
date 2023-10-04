@@ -39,17 +39,32 @@
                 
                 @if(count($results) > 0)
                     @php $counter = 0 @endphp
+                    @php $total_qty = 0; @endphp
+                    @php $total_subtotal = 0; @endphp
                     @foreach ($results as $key => $item)
-                    @php $counter++ @endphp
-                    <tr>
-                        <th scope="row" class="border border-5">{{ $counter }}</th>
-                        <td class="border border-5" style="text-align: center;">{{ date("Y-m-d", strtotime($item->tgl)) }}</td>
-                        <td class="border border-5" style="text-align: center;">{{ $item->code }}</td>
-                        <td class="border border-5" style="text-align: center;">{{ $item->name }}</td>
-                        <td class="border border-5" style="text-align: center;">{{ $item->qty }}</td>
-                        <td class="border border-5" style="text-align: center;">{{ number_format($item->subtotal, 2, '.', ',') }}</td>
-                    </tr>
-                    @endforeach
+                        @php $counter++ @endphp
+                        <tr>
+                            <th scope="row" class="border border-5">{{ $counter }}</th>
+                            <td class="border border-5" style="text-align: center;">{{ date("Y-m-d", strtotime($item->tgl)) }}</td>
+                            <td class="border border-5" style="text-align: center;">{{ $item->code }}</td>
+                            <td class="border border-5" style="text-align: center;">{{ $item->name }}</td>
+                            <td class="border border-5" style="text-align: center;">{{ $item->qty }}</td>
+                            <td class="border border-5" style="text-align: center;">{{ number_format($item->subtotal, 2, '.', ',') }}</td>
+                        </tr>                 
+                        @if($total_qty == 0)
+                            @php $total_qty = $total_qty + $item->qty @endphp
+                        @else
+                            @php $total_qty = $total_qty + $item->qty @endphp
+                        @endif
+                        @if($total_subtotal == 0)
+                            @php $total_subtotal = $total_subtotal + $item->subtotal @endphp
+                        @else
+                            @php $total_subtotal = $total_subtotal + $item->subtotal @endphp
+                        @endif
+                        @endforeach
+                        <td align="center" colspan="4"></td>   
+                        <td align="center" colspan="1">{{ $total_qty }}</td>
+                        <td align="center" colspan="1">{{ number_format($total_subtotal, 2, '.', ',') }}</td>
                 @elseif(count($results) == 0)
                     <td colspan="13" class="border-2">
                         <label for="noresult" class="form-label">NO DATA RESULTS...</label>

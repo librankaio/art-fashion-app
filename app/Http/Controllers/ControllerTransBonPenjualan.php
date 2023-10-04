@@ -253,9 +253,11 @@ class ControllerTransBonPenjualan extends Controller
                     'qty' => request('quantity_d')[$i],
                     'satuan' => request('satuan_d')[$i],
                     'diskon' => request('diskon_d')[$i],
-                    'hrgjual' => (float) str_replace(',', '', request('hrgjual_d')[$i]),
                     'subtotal' => (float) str_replace(',', '', request('subtot_d')[$i]),
+                    'hrgjual' => (float) str_replace(',', '', request('hrgjual_d')[$i]),
                     'disctot' => (float) str_replace(',', '', request('totdisc_d')[$i]),
+                    'hrgsetdisc' => (float) str_replace(',', '', request('hrgsetdisc_d')[$i]),
+                    'subtotfinal' => (float) str_replace(',', '', request('subtotfinal_d')[$i]),
                     'note' => request('keterangan_d')[$i],
                 ]);
                 $stock_mitem = Mitem::select('stock')->where('code', '=', strtok(request('kode_d')[$i], " "))->first();
