@@ -183,7 +183,7 @@
                     </div>              
                     <div class="card-footer text-right">
                         <a class="btn btn-warning mr-1" href="/tbonjuallist">List</a>
-                        <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('tbonjualpost') }}">Save</button>
+                        <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('tbonjualpost') }}" onclick="timeout_init()" formtarget="_blank">Save</button>
                         {{-- @if($tpos_save == 'Y')
                             <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}">Submit</button>
                         @elseif($tpos_save == 'N' || $tpos_save == null)
@@ -200,6 +200,13 @@
 @stop
 @section('botscripts')
 <script type="text/javascript">
+    function timeout_trigger() {
+        window.location.reload();
+    }
+
+    function timeout_init() {
+        setTimeout('timeout_trigger()', 10000);
+    }
     $(document).ready(function() {
         //CSRF TOKEN
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');

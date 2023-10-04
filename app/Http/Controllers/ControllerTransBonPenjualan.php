@@ -26,7 +26,7 @@ class ControllerTransBonPenjualan extends Controller
         // $mitems = DB::select( DB::raw("SELECT * FROM some_table WHERE some_col = '$someVariable'") );
         
         // $mitems = DB::select( DB::raw("SELECT DISTINCT p.code , p.name FROM mitems p JOIN mitems_counters s ON p.code = s.code_mitem WHERE s.name_mcounters = '$counter_name' "));
-        $mitems = DB::select( DB::raw("select code_mitem as code, name_mitem as name from mitems_counters where name_mcounters = '$counter_name' and stock > 0"));
+        $mitems = DB::select(DB::raw("select code_mitem as code, name_mitem as name from mitems_counters where name_mcounters = '$counter_name' and stock > 0"));
         $payments = Mjenispayment::select('id','code','name')->get();
         $notrans = DB::select("select fgetcode('tpenjualan') as codetrans");
         return view('pages.Transaksi.tbonpenjualan',[
@@ -38,18 +38,6 @@ class ControllerTransBonPenjualan extends Controller
     }
 
     public function post(Request $request){
-        // dd($request->all());
-        // for ($x=0;$x<sizeof($request->no_d);$x++){
-        //     $stock_mitem_counter = DB::table('mitems_counters')
-        //         ->selectRaw('stock')
-        //         ->where('code_mitem', '=', strtok($request->kode_d[$x], " "))
-        //         ->where('name_mcounters', '=', session('counter'))
-        //         ->first();
-        //     if ($stock_mitem_counter == null) {
-
-        //     }
-        // }
-
         $checkexist = Tpenjualan_h::select('id','no')->where('no','=', $request->no)->first();
         if($checkexist == null){
             Tpenjualan_h::create([
@@ -89,15 +77,6 @@ class ControllerTransBonPenjualan extends Controller
                     'note' => $request->keterangan_d[$i],
                 ]);
                 
-                // $stock_mitem = Mitem::select('stock')->where('code', '=', strtok($request->kode_d[$i], " "))->first();
-                // dd($stock_mitem);
-
-                // $stock_mitem = Mitem::select('stock')->where('code', '=', strtok($request->kode_d[$i], " "))->first();
-                // dd($stock_mitem);
-                // $stock_min = $stock_mitem->stock - $request->quantity_d[$i];
-                // Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
-                //     'stock' => (int)$stock_min,
-                // ]);
                 $stock_mitem_counter = DB::table('mitems_counters')
                 ->selectRaw('stock')
                 ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
@@ -118,22 +97,18 @@ class ControllerTransBonPenjualan extends Controller
                 ]);
                 $count++;
             }
-            // Mitem::where('id', '=', $mitem->id)->update([
-            //     'name' => request('nama'),
-            //     'code' => request('kode'),
-            //     'warna' => request('warna'),
-            //     'kategori' => request('kategori'),
-            //     'hrgjual' => (float) str_replace(',', '', request('price')),
-            //     'size' => request('size'),
-            //     'satuan' => request('satuan'),
-            //     'material' => request('material'),
-            //     'gross' => (float) str_replace(',', '', request('price_gross')),
-            //     'nett' => (float) str_replace(',', '', request('price_nett')),
-            //     'spcprice' => (float) str_replace(',', '', request('price_special')),
-            // ]);
             
             if($count == $countrows){
-                return redirect()->back();
+                $tpenjualanh = Tpenjualan_h::where('no','=', $request->no)->first();
+                $tpenjualands = Tpenjualan_d::where('no_penjualan','=', $tpenjualanh->no)->get();
+                $address = Mcounter::select('alamat')->where('name','=',$tpenjualanh->counter)->first();
+
+                return view('pages.Print.tbonjualprint',[
+                    'tpenjualanh' => $tpenjualanh,
+                    'tpenjualands' => $tpenjualands,
+                    'address' => $address,
+                ]);
+                // return redirect()->back();
             }
         }
         return redirect()->back();
@@ -223,7 +198,6 @@ class ControllerTransBonPenjualan extends Controller
                 }
             }
         }
-
 
         for($j=0;$j<sizeof(request('no_d'));$j++){
             $no_penjualan = request('no');
