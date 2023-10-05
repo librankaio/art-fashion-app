@@ -29,6 +29,7 @@
                 
                 @if(count($results) > 0)
                     @php $counter = 0 @endphp
+                    @php $total_stock = 0; @endphp
                     @foreach ($results as $key => $item)
                     @php $counter++ @endphp
                     <tr>
@@ -37,9 +38,16 @@
                         <td class="border border-5" style="text-align: center;">{{ $item->name_mcounters }}</td>
                         <td class="border border-5" style="text-align: center;">{{ $item->code_mitem }}</td>
                         <td class="border border-5" style="text-align: center;">{{ $item->name_mitem }}</td>
-                        <td class="border border-5" style="text-align: center;">{{ number_format($item->stock) }}</td>
+                        <td class="border border-5" style="text-align: center;">{{ number_format($item->stock) }}</td>>
                     </tr>
+                    @if($total_stock == 0)
+                        @php $total_stock = $total_stock + $item->stock @endphp
+                    @else
+                        @php $total_stock = $total_stock + $item->stock @endphp
+                    @endif
                     @endforeach
+                    <td align="center" colspan="5">Total Stock</td>
+                    <td align="center" colspan="1">{{ $total_stock }}</td>    
                 @elseif(count($results) == 0)
                     <td colspan="13" class="border-2">
                         <label for="noresult" class="form-label">NO DATA RESULTS...</label>

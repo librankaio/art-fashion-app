@@ -75,12 +75,12 @@
                             <table class="table table-bordered" id="datatable">
                                 <thead>
                                     <tr>
-                                        <th scope="col" class="border border-5">No</th>
-                                        <th scope="col" class="border border-5">Kode Counter</th>
-                                        <th scope="col" class="border border-5">Nama Counter</th>
-                                        <th scope="col" class="border border-5">Code Item</th>
-                                        <th scope="col" class="border border-5">Nama Item</th>
-                                        <th scope="col" class="border border-5">Stock</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">No</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Kode Counter</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Nama Counter</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Code Item</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Nama Item</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Stock</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -102,6 +102,30 @@
                             </table>
                         </div>                                              
                     </div>      
+                    <div class="col-12 col-md-6 col-lg-6 align-self-end">
+                        <div class="row">
+                            <div class="col-md-8">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Total Stock</label>
+                                    @if(isset($results))
+                                        @php $total_stock = 0; @endphp
+                                        @foreach($results as $item2)
+                                            @if($total_stock == 0)
+                                                @php $total_stock = $total_stock + $item2->stock @endphp
+                                            @else
+                                                @php $total_stock = $total_stock + $item2->stock @endphp
+                                            @endif
+                                        @endforeach
+                                            <input type="text" class="form-control" form="thisform" value="{{ number_format($total_stock) }}" readonly>
+                                    @else
+                                        <input type="text" class="form-control" form="thisform" readonly>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {{-- <div class="col-12 col-md-6 col-lg-6 align-self-end">
                         <div class="row">
                             <div class="col-md-3">
@@ -137,6 +161,7 @@
                             <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}" disabled>Submit</button>
                         @endif --}}
                         {{-- <button class="btn btn-secondary" type="reset">Reset</button> --}}
+                        
                     </div>
                 </div>
             </div>

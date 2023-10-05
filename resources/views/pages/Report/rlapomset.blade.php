@@ -52,6 +52,23 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-md-12">                    
+                                <div class="form-group">
+                                    <label>Payment Method</label>
+                                    <select class="form-control select2" name="payment_mthd" id="payment_mthd">
+                                        @if(request('payment_mthd') == NULL)
+                                        <option disabled selected>--Select Payment--</option>
+                                        @else
+                                        <option selected>@php echo $_GET['payment_mthd']; @endphp</option>
+                                        @endif
+                                        @foreach($payments as $payment)
+                                        <option>{{ $payment->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-12 d-flex justify-content-end">                    
                                 <div class="form-group">
                                     <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="/romsetitemsearch" onclick="show_loading()">View</button>

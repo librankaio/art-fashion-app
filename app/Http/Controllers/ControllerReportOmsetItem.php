@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mcounter;
+use App\Models\Mjenispayment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,8 +13,10 @@ class ControllerReportOmsetItem extends Controller
     public function index()
     {
         $counters = Mcounter::select('id','code','name')->get();
+        $payments = Mjenispayment::select('id','code','name')->get();
         return view('pages.Report.rlapomset',[
             'counters' => $counters,
+            'payments' => $payments,
         ]);
     }
 
@@ -24,17 +27,20 @@ class ControllerReportOmsetItem extends Controller
         $dtfr = $request->input('dtfr');
         $dtto = $request->input('dtto');
         $counter = $request->input('counter');
+        $payment_mthd = $request->input('payment_mthd');
 
         // $results = DB::table('vomsetperitem')->whereBetween('tgl', [$dtfr, $dtto])->where('counter','=',$counter)->paginate(100);
-        $results = DB::select('CALL vomsetperitem (?,?,?)', [$dtfr, $dtto, $counter]);
+        $results = DB::select('CALL vomsetperitem (?,?,?,?)', [$dtfr, $dtto, $counter, $payment_mthd]);
         $totqty = DB::select('SELECT sum(totalqty) as totalqty FROM vomsetperitem');
         $grandtot = DB::select('SELECT sum(subtotal) as grandtotal FROM vomsetperitem');
         $counters = Mcounter::select('id','code','name')->get();
+        $payments = Mjenispayment::select('id','code','name')->get();
         return view('pages.Report.rlapomset', [
             'results' => $results,
             'counters' => $counters,
             'totqty' => $totqty,
             'grandtot' => $grandtot,
+            'payments' => $payments,
         ]);
     }
 
@@ -43,8 +49,9 @@ class ControllerReportOmsetItem extends Controller
         $dtfr = $request->input('dtfr');
         $dtto = $request->input('dtto');
         $counter = $request->input('counter');
+        $payment_mthd = $request->input('payment_mthd');
 
-        $results = DB::select('CALL vomsetperitem (?,?,?)', [$dtfr, $dtto, $counter]);
+        $results = DB::select('CALL vomsetperitem (?,?,?)', [$dtfr, $dtto, $counter, $payment_mthd]);
         $totqty = DB::select('SELECT sum(totalqty) as totalqty FROM vomsetperitem');
         $grandtot = DB::select('SELECT sum(subtotal) as grandtotal FROM vomsetperitem');
         $counters = Mcounter::select('id','code','name')->get();
