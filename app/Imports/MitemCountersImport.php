@@ -3,28 +3,23 @@
 namespace App\Imports;
 
 use App\Models\MitemCounters;
-use Maatwebsite\Excel\Concerns\ToModel;
+use App\User;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class MitemCountersImport implements ToModel
+class MitemCountersImport implements ToCollection,WithHeadingRow
 {
-    /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
-    public function model(array $row)
+    public function collection(Collection $rows)
     {
-        // return new MitemCounters([
-        //     //
-        // ]);
-        $mitem_counter = new MitemCounters([
-            "code_mitem" => $row['code_mitem'],
-            "name_mitem" => $row['name_mitem'],
-            "code_mcounters" => $row['code_mcounters'],
-            "name_mcounters" => $row['name_mcounters'],
-            "stock" => $row['stock'],
-            "datein" => $row['datein'],
-        ]);
+        foreach ($rows as $row) 
+        {
+            $mitem_counter = MitemCounters::where('code_mitem', $row['code'])
+            ->where('code_mcounters', $row['kode_counter'])
+            ->update([
+                'stock' => $row['stock'],
+            ]);
+        }
 
         return $mitem_counter;
     }

@@ -26,9 +26,10 @@ class MitemsImport implements ToModel,withHeadingRow
             "satuan" => $row['satuan'],
             "material" => $row['material'],
             "gross" => $row['gross'],
+            "stock" => $row['stock'],
             "nett" => $row['nett'],
             "spcprice" => $row['spcprice'],
-        ]);
+        ]);       
 
         return $mitem;
     }

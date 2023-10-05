@@ -97,7 +97,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('uploadpost', [ControllerUpload::class, 'uploadpost'])->name('uploadpost');
 
     Route::get('uploadmitemcounter', [ControllerUploadMitemCounter::class, 'index'])->name('uploadmitemcounter');
-    Route::post('uploadmitemcounterpost', [ControllerUploadMitemCounter::class, 'post'])->name('uploadmitemcounterpost');
+    Route::post('uploadmitemcounterpost', [ControllerUploadMitemCounter::class, 'uploadpost'])->name('uploadmitemcounterpost');
 
     Route::get('tsob', [ControllerTransSOB::class, 'index'])->name('tsob');
     Route::post('/tsobpost', [ControllerTransSOB::class, 'post'])->name('tsobpost');

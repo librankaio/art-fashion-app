@@ -57,7 +57,7 @@
                                     <label>Payment Method</label>
                                     <select class="form-control select2" name="payment_mthd" id="payment_mthd">
                                         @if(request('payment_mthd') == NULL)
-                                        <option disabled selected>--Select Payment--</option>
+                                        <option selected>ALL</option>
                                         @else
                                         <option selected>@php echo $_GET['payment_mthd']; @endphp</option>
                                         @endif

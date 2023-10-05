@@ -16,6 +16,8 @@ class ControllerUploadMitemCounter extends Controller
         // dd($request->all());
         Excel::import(new MitemCountersImport, $request->file_upload);
 
-        return redirect()->route('uploadsample')->with('success', 'User Imported Successfully');
+        // Excel::toCollection(new MitemCountersImport, $request->file_upload);
+
+        return redirect()->route('uploadmitemcounter')->with('success', 'Mitem Counter Imported Successfully');
     }
 }

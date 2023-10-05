@@ -52,7 +52,7 @@
                         </div>
                         <div class="card-footer text-right">                            
                             <button class="btn btn-primary mr-1" type="submit" 
-                            formaction="{{ route('uploadpost') }}" id="confirm">Upload</button> 
+                            formaction="{{ route('uploadmitemcounterpost') }}" id="confirm">Upload</button> 
                         </div>
                     </form>
                 </div>
