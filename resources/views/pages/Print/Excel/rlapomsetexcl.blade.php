@@ -35,6 +35,7 @@
                     <th scope="col" class="border border-5" style="text-align: center;">Nama Item</th>
                     <th scope="col" class="border border-5" style="text-align: center;">Quantity</th>
                     <th scope="col" class="border border-5" style="text-align: center;">Subtotal</th>
+                    <th scope="col" class="border border-5" style="text-align: center;">Jenis Pembayaran</th>
                 </tr>
                 
                 @if(count($results) > 0)
@@ -50,6 +51,7 @@
                             <td class="border border-5" style="text-align: center;">{{ $item->name }}</td>
                             <td class="border border-5" style="text-align: center;">{{ $item->qty }}</td>
                             <td class="border border-5" style="text-align: center;">{{ number_format($item->subtotal, 2, '.', ',') }}</td>
+                            <td class="border border-5" style="text-align: center;">{{ $item->payment_mthd }}</td>
                         </tr>                 
                         @if($total_qty == 0)
                             @php $total_qty = $total_qty + $item->qty @endphp
