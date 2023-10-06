@@ -40,7 +40,16 @@
                                     </select>
                                 </div>       
                                 <div class="form-group">
-                                    <label>Counter</label>
+                                    <label>Counter From</label>
+                                    <select class="form-control select2" name="counter_from" id="counter_from">
+                                        <option selected>{{ $tsjh->counter_from }}</option>
+                                        @foreach($counters as $counter)
+                                        <option>{{ $counter->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Counter To</label>
                                     <select class="form-control select2" name="counter" id="counter">
                                         <option selected>{{ $tsjh->counter }}</option>
                                         @foreach($counters as $counter)

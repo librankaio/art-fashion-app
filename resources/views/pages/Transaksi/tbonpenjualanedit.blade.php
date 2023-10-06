@@ -187,16 +187,25 @@
                     </div>      
                     <div class="col-12 col-md-6 col-lg-6 align-self-end">
                         <div class="row">
-                            <div class="col-md-4">
-
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Total Pembayaran</label>
+                                    <input type="text" class="form-control" name="totbayar" form="thisform" id="totbayar" value="{{ number_format($tpenjualanh->totbayar, 2, '.', ',') }}">
+                                </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Total Kembali</label>
+                                    <input type="text" class="form-control" name="totkembali" form="thisform" id="totkembali" value="{{ number_format($tpenjualanh->totkembali, 2, '.', ',') }}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Total Diskon</label>
                                     <input type="text" class="form-control" name="price_disc" form="thisform" id="price_disc" value="{{ number_format($tpenjualanh->diskon, 2, '.', ',') }}" readonly>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Total</label>
                                     <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" value="{{ number_format($tpenjualanh->grdtotal, 2, '.', ',') }}" readonly>
@@ -492,6 +501,27 @@
                 }
             });
 
+            $(document).on("change", "#totbayar", function(e) {
+                if($('#totbayar').val() == 0){
+                    $('#totbayar').val();
+                }else if($('#totbayar').val() == ''){
+                    $('#totbayar').val(0);
+                }
+
+                grandtot = $('#price_total').val();
+                if (/\D/g.test(grandtot))
+                {
+                    // Filter comma
+                    grandtot = grandtot.replace(/\,/g,"");
+                    grandtot = Number(Math.trunc(grandtot))
+                }
+                kembali = this.value - grandtot;
+
+                parse_totbayar = this.value;
+                $("#totbayar").val(thousands_separators(parse_totbayar));
+                $("#totkembali").val(thousands_separators(kembali));
+            });
+
             $(document).on("change", "#quantity", function(e) {
                 if($('#quantity').val() == ''){
                     $('#quantity').val(0);
@@ -537,6 +567,24 @@
             }
         });
 
+        $(document).on("click", "#hrgjual", function(e) {
+            if (/\D/g.test(this.value))
+            {
+                // Filter comma
+                this.value = this.value.replace(/\,/g,"");
+                this.value = Number(Math.trunc(this.value))
+            }
+        });
+
+        $(document).on("click", "#totbayar", function(e) {
+            if (/\D/g.test(this.value))
+            {
+                // Filter comma
+                this.value = this.value.replace(/\,/g,"");
+                this.value = Number(Math.trunc(this.value))
+            }
+        });
+        
         $(document).on("click","#confirm",function(e){
         // Validate ifnull
         no = $("#no").val();

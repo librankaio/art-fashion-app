@@ -161,6 +161,16 @@
                             <h3>TOTAL : RP.{{ number_format($tpenjualanh->grdtotal) }}</h3>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-end align-items-end">
+                            <h3>BAYAR : RP.{{ number_format($tpenjualanh->totbayar) }}</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-end align-items-end">
+                            <h3>KEMBALI : RP.{{ number_format($tpenjualanh->totkembali) }}</h3>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">

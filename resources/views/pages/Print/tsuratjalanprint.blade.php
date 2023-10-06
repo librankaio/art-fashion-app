@@ -31,6 +31,9 @@
                         <table id="mytable" border="1px">
                             <thead>
                                 <tr>
+                                    <td class="p-2" style="width: 300px; word-wrap: break-word;">From : {{ $tsjh->counter_from }}<br> </td>
+                                </tr>
+                                <tr>
                                     <td class="p-2" style="width: 300px; word-wrap: break-word;">To : {{ $tsjh->counter }}<br> </td>
                                 </tr>  
                                 <tr>

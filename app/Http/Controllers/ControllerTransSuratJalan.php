@@ -36,12 +36,11 @@ class ControllerTransSuratJalan extends Controller
     }
 
     public function post(Request $request){
-        // dd($request->all());
         for ($i=0;$i<sizeof($request->no_d);$i++){
             $stock_mitem_counter = DB::table('mitems_counters')
             ->selectRaw('stock')
             ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-            ->where('name_mcounters', '=', $request->counter)
+            ->where('name_mcounters', '=', $request->counter_from)
             ->first();
             $stock_counter_min = $stock_mitem_counter->stock-$request->quantity_d[$i];
             // dd($stock_mitem_counter);
@@ -49,7 +48,7 @@ class ControllerTransSuratJalan extends Controller
                 $items = array();
                 array_push($items, strtok($request->kode_d[$i], " "));
                 Session::flash('items_error', $items);
-                Session::flash('counter_selected', $request->counter);
+                Session::flash('counter_selected', $request->counter_from);
                 return redirect()->back()->with('error', 'Salah satu item stock counter kosong atau lebih dari stock counter!');
             }
         }
@@ -58,6 +57,7 @@ class ControllerTransSuratJalan extends Controller
             Tsj_h::create([
                 'no' => $request->no,
                 'counter' => $request->counter,
+                'counter_from' => $request->counter_from,
                 'jenis' => $request->jenis,
                 'tgl' => $request->dt,
                 'note' => $request->note,
@@ -93,14 +93,14 @@ class ControllerTransSuratJalan extends Controller
                 $stock_mitem_counter = DB::table('mitems_counters')
                 ->selectRaw('stock')
                 ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                ->where('name_mcounters', '=', $request->counter)
+                ->where('name_mcounters', '=', $request->counter_from)
                 ->first();
                 $stock_counter_min = $stock_mitem_counter->stock-$request->quantity_d[$i];
                 // dd($stock_counter_min);
                 DB::table('mitems_counters')
                 ->selectRaw('stock')
                 ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                ->where('name_mcounters', '=', $request->counter)
+                ->where('name_mcounters', '=', $request->counter_from)
                 ->update([
                     'stock' => (int)$stock_counter_min,
                 ]);
@@ -175,7 +175,7 @@ class ControllerTransSuratJalan extends Controller
                 $old_stock_mitem_counter = DB::table('mitems_counters')
                 ->selectRaw('stock')
                 ->where('code_mitem', '=', strtok($getstock_old->code, " "))
-                ->where('name_mcounters', '=', request('counter'))
+                ->where('name_mcounters', '=', request('counter_from'))
                 ->first();
                 // dd($old_stock_mitem_counter->stock-(int)$getstock_old->qty);
                 // Make stock counter value is equal to old stock
@@ -185,7 +185,7 @@ class ControllerTransSuratJalan extends Controller
                 DB::table('mitems_counters')
                 ->selectRaw('stock')
                 ->where('code_mitem', '=', strtok($getstock_old->code, " "))
-                ->where('name_mcounters', '=', request('counter'))
+                ->where('name_mcounters', '=', request('counter_from'))
                 ->update([
                     'stock' => (int)$normalize_stock_counter,
                 ]);
@@ -210,6 +210,7 @@ class ControllerTransSuratJalan extends Controller
         DB::delete('delete from tsj_ds where no_sj = ?', [$no_sjh] );
         Tsj_h::where('id', '=', $tsjh->id)->update([
             'no' => request('no'),
+            'counter_from' => request('counter_from'),
             'counter' => request('counter'),
             'jenis' => request('jenis'),
             'tgl' => request('dt'),
@@ -241,10 +242,10 @@ class ControllerTransSuratJalan extends Controller
                 $stock_mitem_counter = DB::table('mitems_counters')
                 ->selectRaw('stock')
                 ->where('code_mitem', '=', strtok(request('kode_d')[$i], " "))
-                ->where('name_mcounters', '=', request('counter'))
+                ->where('name_mcounters', '=', request('counter_from'))
                 ->first();
 
-                $mcounter = Mcounter::where('name', '=', request('counter'))->first();
+                $mcounter = Mcounter::where('name', '=', request('counter_from'))->first();
 
                 if ($stock_mitem_counter == null) {
                     $stock_mitem_counter = 0;
@@ -255,7 +256,7 @@ class ControllerTransSuratJalan extends Controller
                         'code_mitem' => strtok(request('kode_d')[$i], " "),
                         'name_mitem' => request('nama_item_d')[$i],
                         'code_mcounters' => $mcounter->code,
-                        'name_mcounters' => request('counter'),
+                        'name_mcounters' => request('counter_from'),
                         'stock' => $stock_counter_min,
                         'datein' => $datetime,
                     ]);
@@ -264,7 +265,7 @@ class ControllerTransSuratJalan extends Controller
                     DB::table('mitems_counters')
                     ->selectRaw('stock')
                     ->where('code_mitem', '=', strtok(request('kode_d')[$i], " "))
-                    ->where('name_mcounters', '=', request('counter'))
+                    ->where('name_mcounters', '=', request('counter_from'))
                     ->update([
                         'stock' => (int)$stock_counter_min,
                     ]);

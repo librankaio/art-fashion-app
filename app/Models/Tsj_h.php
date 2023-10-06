@@ -12,6 +12,7 @@ class Tsj_h extends Model
     protected $fillable = [
         'no',
         'tgl',
+        'counter_from',
         'counter',
         'jenis',
         'no_sob',

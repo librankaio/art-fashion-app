@@ -50,6 +50,8 @@ class ControllerTransBonPenjualan extends Controller
                 'noreff' => $request->noreff,
                 'diskon' =>  (float) str_replace(',', '', $request->price_disc),
                 'grdtotal' => (float) str_replace(',', '', $request->price_total),
+                'totbayar' => (float) str_replace(',', '', $request->totbayar),
+                'totkembali' => (float) str_replace(',', '', $request->totkembali),
             ]);
             $idh_loop = Tpenjualan_h::select('id')->where('no','=',$request->no)->get();
             for($j=0; $j<sizeof($idh_loop); $j++){
@@ -212,7 +214,9 @@ class ControllerTransBonPenjualan extends Controller
             'payment_mthd' => request('payment_mthd'),
             'noreff' => request('noreff'),
             'diskon' =>  (float) str_replace(',', '', request('price_disc')),
-            'grdtotal' =>  (float) str_replace(',', '', request('price_total'))
+            'grdtotal' =>  (float) str_replace(',', '', request('price_total')),
+            'totbayar' =>  (float) str_replace(',', '', request('totbayar')),
+            'totkembali' =>  (float) str_replace(',', '', request('totkembali')),
         ]);
         $count=0;
         $countrows = sizeof(request('no_d'));        

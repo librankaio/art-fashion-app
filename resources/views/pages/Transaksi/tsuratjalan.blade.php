@@ -45,7 +45,16 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>Counter</label>
+                                    <label>Counter From</label>
+                                    <select class="form-control select2" name="counter_from" id="counter_from">
+                                        {{-- <option disabled selected>--Select Counter--</option> --}}
+                                        @foreach($counters as $counter)
+                                        <option>{{ $counter->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>                  
+                                <div class="form-group">
+                                    <label>Counter To</label>
                                     {{-- @foreach($counters as $counter)
                                     <input type="text" class="form-control" name="counter" id="counter" value="{{ $counter->name}}" readonly>
                                     @endforeach --}}
@@ -354,19 +363,21 @@
                             dataType: 'json', 
                             success: function(response) {
                                 console.log(response);
+                                show_loading()
                                 for (i=0; i < response.length; i++) {
                                     if(response[i].no == nosob){
                                         // $("#counter").val(response[i].counter);
                                         // select = document.getElementById("counter");
                                         // select.appendChild(response[i].counter);
-
-                                        // select= document.querySelector('#select');
-                                        // select.options[select.selectedIndex].value = response[i].counter;
+                                        $("#counter").select2();
+                                        $("#counter").val(response[i].counter).trigger("change");
+                                        // $("#counter").val(response[i].counter).attr('selected','selected');
                                     }
                                 }
+                                hide_loading()
                             }
                         });
-                        hide_loading()
+                        // hide_loading()
                     }
                 });                
             });

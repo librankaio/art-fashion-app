@@ -19,6 +19,8 @@ class Tpenjualan_h extends Model
         'payment_mthd',
         'noreff',
         'grdtotal',
+        'totbayar',
+        'totkembali',
         'user',
     ];
 }
