@@ -32,14 +32,14 @@
                     @php $total_stock = 0; @endphp
                     @foreach ($results as $key => $item)
                     @php $counter++ @endphp
-                    {{-- <tr>
+                    <tr>
                         <th scope="row" class="border border-5">{{ $counter }}</th>
                         <td class="border border-5" style="text-align: center;">{{ $item->code_mcounters }}</td>
                         <td class="border border-5" style="text-align: center;">{{ $item->name_mcounters }}</td>
                         <td class="border border-5" style="text-align: center;">{{ $item->code_mitem }}</td>
                         <td class="border border-5" style="text-align: center;">{{ $item->name_mitem }}</td>
                         <td class="border border-5" style="text-align: center;">{{ number_format($item->stock) }}</td>>
-                    </tr> --}}
+                    </tr>
                     @if($total_stock == 0)
                         @php $total_stock = $total_stock + $item->stock @endphp
                     @else
