@@ -12,8 +12,14 @@ class ControllerUpload extends Controller
         return view('pages.Upload.sampleupload');
     }
 
+    // public function uploadpost(Request $request){
+    //     // dd($request->all());
+    //     Excel::import(new MitemsImport, $request->file_upload);
+
+    //     return redirect()->route('uploadsample')->with('success', 'User Imported Successfully');
+    // }
+
     public function uploadpost(Request $request){
-        // dd($request->all());
         Excel::import(new MitemsImport, $request->file_upload);
 
         return redirect()->route('uploadsample')->with('success', 'User Imported Successfully');
