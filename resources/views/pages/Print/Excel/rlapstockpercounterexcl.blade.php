@@ -38,7 +38,7 @@
                         <td class="border border-5" style="text-align: center;">{{ $item->name_mcounters }}</td>
                         <td class="border border-5" style="text-align: center;">{{ $item->code_mitem }}</td>
                         <td class="border border-5" style="text-align: center;">{{ $item->name_mitem }}</td>
-                        <td class="border border-5" style="text-align: center;">{{ number_format($item->stock) }}</td>>
+                        <td class="border border-5" style="text-align: center;">{{ number_format($item->stock) }}</td>
                     </tr>
                     @if($total_stock == 0)
                         @php $total_stock = $total_stock + $item->stock @endphp
