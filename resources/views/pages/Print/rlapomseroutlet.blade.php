@@ -52,27 +52,25 @@
                     <hr style="border-top: dotted 0.3px;" />
                 </div>
             </div>
+            @php $total_trans = 0; @endphp
+            @php $total_pendapatan = 0; @endphp
              @for($i = 0; $i < sizeof($results); $i++) @php $counter++; @endphp 
              <tr>
                 <div class="row">
                     <div class="col-5">
                         <h5>{{ $results[$i]->payment_mthd}}</h5>
                         <div class="row">
-                            @php $total_trans = 0; @endphp
                             @if($total_trans == 0)
                                 @php $total_trans = $total_trans + $results[$i]->jmltransaksi @endphp
                             @else
                                 @php $total_trans = $total_trans + $results[$i]->jmltransaksi @endphp
-                            @endif
-                            @php $total_pendapatan = 0; @endphp
+                            @endif                            
                             @if($total_trans == 0)
                                 @php $total_pendapatan = $total_pendapatan + $results[$i]->total @endphp
                             @else
                                 @php $total_pendapatan = $total_pendapatan + $results[$i]->total @endphp
                             @endif
                             <div class="col-6">
-                                @php $total_qty = number_format($results[$i]->jmltransaksi, 0, '.', '') @endphp
-                                @php $qty = $total_qty @endphp
                                 <h5>{{ number_format($results[$i]->jmltransaksi, 0, '.', '')." x Penerimaan"}}</h5>
                             </div>  
                             <div class="col-6 d-flex justify-content-end align-items-end">

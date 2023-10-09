@@ -520,6 +520,13 @@
                 parse_totbayar = this.value;
                 $("#totbayar").val(thousands_separators(parse_totbayar));
                 $("#totkembali").val(thousands_separators(kembali));
+
+                if(kembali < 0){
+                    swal('WARNING', 'Pembayaran tidak boleh kurang!', 'warning');
+                    $("#totbayar").val(0);
+                    $("#totkembali").val(0);
+                    return false;
+                }
             });
 
             $(document).on("change", "#quantity", function(e) {
@@ -584,7 +591,6 @@
                 this.value = Number(Math.trunc(this.value))
             }
         });
-        
         $(document).on("click","#confirm",function(e){
         // Validate ifnull
         no = $("#no").val();
