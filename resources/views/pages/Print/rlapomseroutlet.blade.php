@@ -71,10 +71,10 @@
                                 @php $total_pendapatan = $total_pendapatan + $results[$i]->total @endphp
                             @endif
                             <div class="col-6">
-                                <h5>{{ number_format($results[$i]->jmltransaksi, 0, '.', '')." x Penerimaan"}}</h5>
+                                <h5>{{ number_format($results[$i]->jmltransaksi, 2, '.', '')." x Penerimaan"}}</h5>
                             </div>  
                             <div class="col-6 d-flex justify-content-end align-items-end">
-                                <h5>{{ 'Rp.'.number_format($results[$i]->total, 2, '.', '') }}</h5>
+                                <h5>{{ 'Rp.'.number_format($results[$i]->total, 2, '.', ',') }}</h5>
                             </div>  
                         </div>
                     </div>
@@ -105,7 +105,7 @@
                             <h5>Total Pendapatan : </h5>
                         </div>
                         <div class="col-6 d-flex justify-content-end align-items-end">
-                            <h5>{{'Rp. '.number_format($total_pendapatan, 2, '.', '') }}</h5>
+                            <h5>{{'Rp. '.number_format($total_pendapatan, 2, '.', ',') }}</h5>
                         </div>
                     </div>
                 </div>

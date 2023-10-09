@@ -2,10 +2,10 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h1>Laporan Omset Per Item</h1>
+        <h1>Laporan Pendapatan Peroutlet</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item active"><a href="#">Report</a></div>
-            <div class="breadcrumb-item"><a class="text-muted">Laporan Omset Per Item</a></div>
+            <div class="breadcrumb-item"><a class="text-muted">Laporan Pendapatan Peroutlet</a></div>
         </div>
     </div>
     @php
