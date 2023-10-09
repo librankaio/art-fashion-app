@@ -36,14 +36,10 @@ class ControllerReportPerOutlet extends Controller
         $dtfr = $request->input('dtfr');
         $dtto = $request->input('dtto');
         $counter = $request->input('counter');
-        $payment_mthd = $request->input('payment_mthd');
 
-        $results = DB::select('CALL vomsetperitem (?,?,?,?)', [$dtfr, $dtto, $counter, $payment_mthd]);
-        $totqty = DB::select('SELECT sum(totalqty) as totalqty FROM vomsetperitem');
-        $grandtot = DB::select('SELECT sum(subtotal) as grandtotal FROM vomsetperitem');
-        $counters = Mcounter::select('id','code','name')->get();
+        $results = DB::select('CALL vpendapatanoutlet (?,?,?)', [$dtfr, $dtto,$counter]);
 
         // dd($results);
-        return view('pages.Print.Excel.rlapomsetexcl', compact('results','counter','dtfr', 'dtto',));
+        return view('pages.Print.rlapomseroutlet', compact('results','counter','dtfr', 'dtto',));
     }
 }

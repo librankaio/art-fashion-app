@@ -67,7 +67,7 @@
                         <div class="row pb-3">
                             <div class="col-6"></div>
                             <div class="col-6 d-flex justify-content-end">
-                                <button type="submit" formaction="romsetitemexcl" formtarget="_blank" class="btn btn-success"><i
+                                <button type="submit" formaction="rlaperoutletprint" formtarget="_blank" class="btn btn-success"><i
                                     class="far fa-print"></i><span> Print</span></button>
                                     {{-- <a href="/tsuratjalan/{{ $item->id }}/print"
                                         class="btn btn-icon icon-left btn-success" target="_blank"><i class="far fa-print">
