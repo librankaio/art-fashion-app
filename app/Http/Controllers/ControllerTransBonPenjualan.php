@@ -10,6 +10,7 @@ use App\Models\Tpenjualan_d;
 use App\Models\Tpenjualan_h;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class ControllerTransBonPenjualan extends Controller
 {
@@ -26,7 +27,8 @@ class ControllerTransBonPenjualan extends Controller
         // $mitems = DB::select( DB::raw("SELECT * FROM some_table WHERE some_col = '$someVariable'") );
         
         // $mitems = DB::select( DB::raw("SELECT DISTINCT p.code , p.name FROM mitems p JOIN mitems_counters s ON p.code = s.code_mitem WHERE s.name_mcounters = '$counter_name' "));
-        $mitems = DB::select(DB::raw("select code_mitem as code, name_mitem as name from mitems_counters where name_mcounters = '$counter_name' and stock > 0"));
+        // $mitems = DB::select(DB::raw("select code_mitem as code, name_mitem as name from mitems_counters where name_mcounters = '$counter_name' and stock > 0"));
+        $mitems = Mitem::select('id','code','name')->get();
         $payments = Mjenispayment::select('id','code','name')->get();
         $notrans = DB::select("select fgetcode('tpenjualan') as codetrans");
         return view('pages.Transaksi.tbonpenjualan',[
@@ -38,6 +40,22 @@ class ControllerTransBonPenjualan extends Controller
     }
 
     public function post(Request $request){
+        for ($i=0;$i<sizeof($request->no_d);$i++){
+            $stock_mitem_counter = DB::table('mitems_counters')
+            ->selectRaw('stock')
+            ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
+            ->where('name_mcounters', '=', $request->counter)
+            ->first();
+            $stock_counter_min = $stock_mitem_counter->stock-$request->quantity_d[$i];
+            // dd($stock_mitem_counter);
+            if ($request->quantity_d[$i] >= $stock_mitem_counter->stock){
+                $items = array();
+                array_push($items, strtok($request->kode_d[$i], " "));
+                Session::flash('items_error', $items);
+                Session::flash('counter_selected', $request->counter);
+                return redirect()->back()->with('error', 'Salah satu item stock counter kosong atau lebih dari stock counter!');
+            }
+        }
         $checkexist = Tpenjualan_h::select('id','no')->where('no','=', $request->no)->first();
         if($checkexist == null){
             Tpenjualan_h::create([
@@ -149,7 +167,8 @@ class ControllerTransBonPenjualan extends Controller
         }
         // $mitems = Mitem::select('id','code','name')->get();
         $counter_name = session('counter');
-        $mitems = DB::select( DB::raw("select code_mitem as code, name_mitem as name from mitems_counters where name_mcounters = '$counter_name' and stock > 0"));
+        // $mitems = DB::select( DB::raw("select code_mitem as code, name_mitem as name from mitems_counters where name_mcounters = '$counter_name' and stock > 0"));
+        $mitems = Mitem::select('id','code','name')->get();
         $payments = Mjenispayment::select('id','code','name')->get();
         $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','warna','qty','satuan','hrgjual','diskon','subtotal','disctot','hrgsetdisc','subtotfinal','note')->where('idh','=',$tpenjualanh->id)->get();
         return view('pages.Transaksi.tbonpenjualanedit',[
