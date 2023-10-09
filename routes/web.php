@@ -11,10 +11,12 @@ use App\Http\Controllers\ControllerMasterWarna;
 use App\Http\Controllers\ControllerReportMutasiStock;
 use App\Http\Controllers\ControllerReportOmsetItem;
 use App\Http\Controllers\ControllerReportOmsetPecounter;
+use App\Http\Controllers\ControllerReportPerOutlet;
 use App\Http\Controllers\ControllerReportStockCounter;
 use App\Http\Controllers\ControllerReportStockOverview;
 use App\Http\Controllers\ControllerTransAdjustmentStock;
 use App\Http\Controllers\ControllerTransBonPenjualan;
+use App\Http\Controllers\ControllerTransExpense;
 use App\Http\Controllers\ControllerTransPembelianBarang;
 use App\Http\Controllers\ControllerTransPenerimaanBrg;
 use App\Http\Controllers\ControllerTransReturPenjualan;
@@ -157,8 +159,17 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/tpembelianbarang/{tpembelianh}', [ControllerTransPembelianBarang::class, 'update'])->name('tpembelianbarangupdate');
     Route::post('/tpembelianbarang/delete/{tpembelianh}', [ControllerTransPembelianBarang::class, 'delete'])->name('tpembelianbarangdelete');
 
+    Route::get('texpense', [ControllerTransExpense::class, 'index'])->name('texpense');
+    Route::post('texpensepost', [ControllerTransExpense::class, 'post'])->name('texpensepost');
+    Route::get('texpense/{texpenseh}/edit', [ControllerTransExpense::class, 'getedit'])->name('texpenseedit');
+    Route::post('texpense/{texpenseh}', [ControllerTransExpense::class, 'update'])->name('texpenseupdate');
+    Route::post('texpense/delete/{texpenseh}', [ControllerTransExpense::class, 'delete'])->name('texpensedelete');
     // ---Report---
     Route::get('tstockopname', [ControllerTransStockOpname::class, 'index'])->name('tstockopname');
+
+    Route::get('rlaperoutlet', [ControllerReportPerOutlet::class, 'index'])->name('rlaperoutlet');
+    Route::get('rlaperoutletsearch', [ControllerReportPerOutlet::class, 'post'])->name('rlaperoutletpost');
+    Route::get('rlaperoutletprint', [ControllerReportPerOutlet::class, 'print'])->name('rlaperoutletprint');
 
     Route::get('romsetitem', [ControllerReportOmsetItem::class, 'index'])->name('romsetitem');
     Route::get('romsetitemsearch', [ControllerReportOmsetItem::class, 'post'])->name('romsetitempost');
