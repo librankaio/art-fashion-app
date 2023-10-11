@@ -40,7 +40,6 @@ class ControllerTransBonPenjualan extends Controller
     }
 
     public function post(Request $request){
-        dd($request->all());
         for ($i=0;$i<sizeof($request->no_d);$i++){
             $stock_mitem_counter = DB::table('mitems_counters')
             ->selectRaw('stock')

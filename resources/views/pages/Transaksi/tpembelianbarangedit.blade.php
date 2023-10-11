@@ -58,10 +58,10 @@
                                 <div class="form-group">
                                     <label>Kode</label>
                                     <select class="form-control select2" id="kode">
-                                        <option disabled selected>--Select Kode--</option>
-                                        @foreach($mitems as $data => $item)                                        
+                                        <option></option>
+                                        {{-- @foreach($mitems as $data => $item)                                        
                                         <option value="{{ $item->code }}">{{ $item->code." - ".$item->name }}</option>
-                                        @endforeach
+                                        @endforeach --}}
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -188,7 +188,28 @@
         //CSRF TOKEN
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $(document).ready(function() {
-            $('.select2').select2({});
+            $("#kode").select2({
+                placeholder : 'Select Kode',
+                ajax: {
+                    url: "{{ route('getmitemv2') }}",
+                    type: "post",
+                    dataType: "json",
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            _token: CSRF_TOKEN,
+                            search : params.term, //search term
+                        };
+                    },
+                    processResults: function (response) {
+                        console.log(response)                  
+                        return {
+                            results: response,          
+                        };
+                    },
+                    cache: true,
+                }
+            });
             $("#kode").on('select2:select', function(e) {
                 var kode = $(this).val();
                 show_loading()

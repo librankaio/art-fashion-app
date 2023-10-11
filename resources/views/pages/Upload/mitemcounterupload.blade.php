@@ -63,11 +63,6 @@
 @stop
 @section('botscripts')
 <script type="text/javascript">
-    $('#datatable').DataTable({
-        // "ordering":false,
-        "bInfo" : false
-    });
-
     $(".alert button.close").click(function (e) {
         $(this).parent().fadeOut(2000);
     });
