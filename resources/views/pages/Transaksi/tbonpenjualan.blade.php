@@ -51,16 +51,7 @@
                                         <option selected>Diskon</option>
                                         <option>Special Price</option>
                                     </select>
-                                </div>    
-                                <div class="form-group">
-                                    <label>Payment Method</label>
-                                    <select class="form-control select2" name="payment_mthd" id="payment_mthd">
-                                        <option disabled selected>--Select Payment--</option>
-                                        @foreach($payments as $payment)
-                                        <option>{{ $payment->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>                       
+                                </div>             
                                 <div class="form-group">
                                     <label>No. Kartu</label>
                                     <input type="text" class="form-control" name="noreff" id="noreff">
@@ -168,31 +159,71 @@
                             </table>
                         </div>                                              
                     </div>      
-                    <div class="col-12 col-md-6 col-lg-6 align-self-end">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Total Pembayaran</label>
-                                    <input type="text" class="form-control" name="totbayar" form="thisform" id="totbayar" value="0">
+                    <div class="col-12 col-md-12 col-lg-12 align-self-center">
+                        <div class="row px-2">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Payment Method</label>
+                                            <select class="form-control select2" name="payment_mthd" id="payment_mthd">
+                                                <option disabled selected>--Select Payment--</option>
+                                                @foreach($payments as $payment)
+                                                <option>{{ $payment->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Payment Method 2</label>
+                                            <select class="form-control select2" name="payment_mthd_2" id="payment_mthd_2">
+                                                <option disabled selected>--Select Payment--</option>
+                                                @foreach($payments as $payment)
+                                                <option>{{ $payment->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
+                                 
+                                {{-- <div class="form-group">
+                                    <label>Payment Method 2</label>
+                                    <select class="form-control select2" name="payment_mthd_2" id="payment_mthd_2">
+                                        <option disabled selected>--Select Payment--</option>
+                                        @foreach($payments as $payment)
+                                        <option>{{ $payment->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>  --}}
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Total Kembali</label>
-                                    <input type="text" class="form-control" name="totkembali" form="thisform" id="totkembali" value="0" readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Total Diskon</label>
-                                    <input type="text" class="form-control" name="price_disc" form="thisform" id="price_disc" value="0" readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Total</label>
-                                    <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" value="0" readonly>
-                                </div>
+                            <div class="col-md-6">
+                               <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Total Pembayaran</label>
+                                            <input type="text" class="form-control" name="totbayar" form="thisform" id="totbayar" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Total Kembali</label>
+                                            <input type="text" class="form-control" name="totkembali" form="thisform" id="totkembali" value="0" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Total Diskon</label>
+                                            <input type="text" class="form-control" name="price_disc" form="thisform" id="price_disc" value="0" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Total</label>
+                                            <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" value="0" readonly>
+                                        </div>
+                                    </div>
+                               </div>
                             </div>
                         </div>
                     </div>              

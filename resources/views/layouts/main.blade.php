@@ -38,8 +38,8 @@
     <link rel="stylesheet" href="{{ asset('../assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('../assets/css/components.css') }}">
     <link rel="stylesheet" href="{{ asset('../assets/css/custom.css') }}">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
 </head>
 
 <body onload="hide_loading()">
