@@ -28,7 +28,7 @@ class ControllerTransBonPenjualan extends Controller
         
         // $mitems = DB::select( DB::raw("SELECT DISTINCT p.code , p.name FROM mitems p JOIN mitems_counters s ON p.code = s.code_mitem WHERE s.name_mcounters = '$counter_name' "));
         // $mitems = DB::select(DB::raw("select code_mitem as code, name_mitem as name from mitems_counters where name_mcounters = '$counter_name' and stock > 0"));
-        $mitems = Mitem::select('id','code','name')->get();
+        $mitems = Mitem::select('id','code','name')->limit(10)->get();
         $payments = Mjenispayment::select('id','code','name')->get();
         $notrans = DB::select("select fgetcode('tpenjualan') as codetrans");
         return view('pages.Transaksi.tbonpenjualan',[
@@ -40,6 +40,7 @@ class ControllerTransBonPenjualan extends Controller
     }
 
     public function post(Request $request){
+        dd($request->all());
         for ($i=0;$i<sizeof($request->no_d);$i++){
             $stock_mitem_counter = DB::table('mitems_counters')
             ->selectRaw('stock')

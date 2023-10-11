@@ -96,23 +96,42 @@ class ControllerMasterDataItem extends Controller
         }
     }
 
-    public function  getmitem(Request $request){
-        // $datas = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice')->get();
+    // public function  getmitem(Request $request){
+    //     // $datas = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice')->get();
 
-        if ($request->ajax()) {
-            $data = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice')->get();
-            return datatables()->of($data)->toJson();
-            // return datatables()->of($data)
-            //     ->addIndexColumn()
-            //     ->addColumn('action', function($row){
-            //         $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
-            //         return $actionBtn;
-            //     })
-            //     ->rawColumns(['action'])
-            //     ->make(true)
-            //     ->toJson();
+    //     if ($request->ajax()) {
+    //         $data = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice')->get();
+    //         return datatables()->of($data)->toJson();
+    //         // return datatables()->of($data)
+    //         //     ->addIndexColumn()
+    //         //     ->addColumn('action', function($row){
+    //         //         $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+    //         //         return $actionBtn;
+    //         //     })
+    //         //     ->rawColumns(['action'])
+    //         //     ->make(true)
+    //         //     ->toJson();
+    //     }
+    //     // return json_encode($datas);
+    // }
+    public function  getmitem(Request $request){
+        $search = $request->search;
+
+        if($search == ''){
+            $mitems = Mitem::orderby('name','asc')->select('id','name','code')->limit(10)->get();
+        }else{
+            $mitems = Mitem::orderby('name','asc')->select('id','name','code')->where('name','LIKE','%'.$search.'%')->limit(10)->get();
         }
-        // return json_encode($datas);
+        
+        $response = array();
+        foreach($mitems as $mitem){
+            $response[] = array(
+                "id"=>$mitem->code,
+                "text"=>$mitem->code." - ".$mitem->name
+            );
+        }
+
+      return response()->json($response);
     }
 
     public function getedit(Mitem $mitem){

@@ -86,6 +86,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/dtablegetmitem', [ControllerMasterDataItem::class, 'getmitem'])->name('dtablegetmitem');
     Route::get('/mitem/{mitem}/print', [ControllerMasterDataItem::class, 'print'])->name('mitemprint');
     Route::get('/mitempdf', [ControllerMasterDataItem::class, 'exportpdf'])->name('mitempdf');
+    Route::post('/getmitemv2', [ControllerMasterDataItem::class, 'getmitem'])->name('getmitemv2');
 
     Route::get('mhakses', [ControllerMasterHakAkses::class, 'index'])->name('mhakses');
     Route::post('mhaksespost', [ControllerMasterHakAkses::class, 'post'])->name('mhaksespost');
