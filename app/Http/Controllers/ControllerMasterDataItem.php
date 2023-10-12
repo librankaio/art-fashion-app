@@ -120,7 +120,7 @@ class ControllerMasterDataItem extends Controller
         if($search == ''){
             $mitems = Mitem::orderby('name','asc')->select('id','name','code')->limit(10)->get();
         }else{
-            $mitems = Mitem::orderby('name','asc')->select('id','name','code')->where('name','LIKE','%'.$search.'%')->limit(10)->get();
+            $mitems = Mitem::orderby('name','asc')->select('id','name','code')->where('code','LIKE','%'.$search.'%')->limit(10)->get();
         }
         
         $response = array();
