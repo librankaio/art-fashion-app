@@ -170,7 +170,7 @@
         });
 
         $('#datatable').DataTable({
-        "ordering":false,
+        // "ordering":false,
         "bInfo" : false,
         // "bPaginate": false,
         // "searching": false

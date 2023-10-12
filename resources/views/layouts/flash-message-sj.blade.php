@@ -17,7 +17,9 @@
               <h4>(Click For Details) Error Item : </h4>
             </div>
             <div class="accordion-body collapse show" id="panel-body-1" data-parent="#accordion">
-              <p class="mb-0">- Item Code: {{ Session::get('items_error')[0] }}</p>
+              @for ($i = 0; $i <count(session('items_error')); $i++)
+                  <p class="mb-0">- Item Code: {{ Session::get('items_error')[$i] }}</p>
+              @endfor
             </div>
           </div>
         </div>

@@ -36,6 +36,7 @@ class ControllerTransSuratJalan extends Controller
     }
 
     public function post(Request $request){
+        $items = array();
         for ($i=0;$i<sizeof($request->no_d);$i++){
             $stock_mitem_counter = DB::table('mitems_counters')
             ->selectRaw('stock')
@@ -46,7 +47,6 @@ class ControllerTransSuratJalan extends Controller
             // dd($stock_mitem_counter);
             $is_stocknotvalid = 0;
             if ($request->quantity_d[$i] >= $stock_mitem_counter->stock){
-                $items = array();
                 array_push($items, strtok($request->kode_d[$i], " "));
                 Session::flash('items_error', $items);
                 Session::flash('counter_selected', $request->counter_from);
@@ -54,6 +54,7 @@ class ControllerTransSuratJalan extends Controller
             }            
         }
         if ($is_stocknotvalid != 0){
+            // dd(count(session('items_error')));
             return redirect()->back()->with('error', 'Salah satu item stock counter kosong atau lebih dari stock counter!');
         }
         $checkexist = Tsj_h::select('id','no')->where('no','=', $request->no)->first();

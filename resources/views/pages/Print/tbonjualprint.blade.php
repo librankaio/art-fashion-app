@@ -154,23 +154,66 @@
             </div>
             <div class="row">
                 <div class="col-5">
-                    <div class="row">
-                        {{-- <div class="col-6 d-flex justify-content-end align-items-end">
-                        </div> --}}
-                        <div class="col-12 d-flex justify-content-end align-items-end">
-                            <h3>TOTAL : RP.{{ number_format($tpenjualanh->grdtotal) }}</h3>
+                    @if ($tpenjualanh->payment_mthd_2 != null)
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-end align-items-end">
+                                <h3>PEMBAYARAN SPLIT PAYMENT</h3>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 d-flex justify-content-end align-items-end">
-                            <h3>BAYAR : RP.{{ number_format($tpenjualanh->totbayar) }}</h3>
+                        <div class="row">
+                            {{-- <div class="col-6 d-flex justify-content-end align-items-end">
+                            </div> --}}
+                            <div class="col-12 d-flex justify-content-end align-items-end">
+                                <h3>TOTAL : RP.{{ number_format($tpenjualanh->grdtotal) }}</h3>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 d-flex justify-content-end align-items-end">
-                            <h3>KEMBALI : RP.{{ number_format($tpenjualanh->totkembali) }}</h3>
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-end align-items-end">
+                                <h3>METODE PEMBAYARAN 1 : {{ $tpenjualanh->payment_mthd }}</h3>
+                            </div>
                         </div>
-                    </div>
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-end align-items-end">
+                                <h3>BAYAR PAYMENT 1 : RP.{{ number_format($tpenjualanh->totbayar) }}</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-end align-items-end">
+                                <h3>METODE PEMBAYARAN 2 : {{ $tpenjualanh->payment_mthd_2 }}</h3>
+                            </div>
+                        </div>    
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-end align-items-end">
+                                <h3>BAYAR PAYMENT 2 : RP.{{ number_format($tpenjualanh->totbayar_2) }}</h3>
+                            </div>
+                        </div>    
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-end align-items-end">
+                                <h3>KEMBALI : RP.{{ number_format($tpenjualanh->totkembali) }}</h3>
+                            </div>
+                        </div>
+                    @else
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-end align-items-end">
+                                <h3>TOTAL : RP.{{ number_format($tpenjualanh->grdtotal) }}</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-end align-items-end">
+                                <h3>METODE PEMBAYARAN : {{ $tpenjualanh->payment_mthd }}</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-end align-items-end">
+                                <h3>BAYAR PAYMENT : RP.{{ number_format($tpenjualanh->totbayar) }}</h3>
+                            </div>
+                        </div> 
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-end align-items-end">
+                                <h3>KEMBALI : RP.{{ number_format($tpenjualanh->totkembali) }}</h3>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="row">
