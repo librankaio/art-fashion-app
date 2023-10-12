@@ -17,9 +17,11 @@ class Tpenjualan_h extends Model
         'note',
         'diskon',
         'payment_mthd',
+        'payment_mthd_2',
         'noreff',
         'grdtotal',
         'totbayar',
+        'totbayar_2',
         'totkembali',
         'user',
     ];

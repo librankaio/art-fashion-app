@@ -40,6 +40,7 @@ class ControllerTransBonPenjualan extends Controller
     }
 
     public function post(Request $request){
+        // dd($request->all());
         for ($i=0;$i<sizeof($request->no_d);$i++){
             $stock_mitem_counter = DB::table('mitems_counters')
             ->selectRaw('stock')
@@ -70,6 +71,7 @@ class ControllerTransBonPenjualan extends Controller
                 'diskon' =>  (float) str_replace(',', '', $request->price_disc),
                 'grdtotal' => (float) str_replace(',', '', $request->price_total),
                 'totbayar' => (float) str_replace(',', '', $request->totbayar),
+                'totbayar_2' => (float) str_replace(',', '', $request->totbayar_2),
                 'totkembali' => (float) str_replace(',', '', $request->totkembali),
             ]);
             $idh_loop = Tpenjualan_h::select('id')->where('no','=',$request->no)->get();
@@ -226,7 +228,7 @@ class ControllerTransBonPenjualan extends Controller
         }
         DB::delete('delete from tpenjualan_ds where no_penjualan = ?', [$no_penjualan] );
         Tpenjualan_h::where('id', '=', $tpenjualanh->id)->update([
-            'no' => request('no'),
+            'no' => request('no'), 
             'counter' => request('counter'),
             'jenis_promosi' => request('jenis_promosi'),
             'tgl' => request('dt'),
@@ -237,6 +239,7 @@ class ControllerTransBonPenjualan extends Controller
             'diskon' =>  (float) str_replace(',', '', request('price_disc')),
             'grdtotal' =>  (float) str_replace(',', '', request('price_total')),
             'totbayar' =>  (float) str_replace(',', '', request('totbayar')),
+            'totbayar_2' =>  (float) str_replace(',', '', request('totbayar_2')),
             'totkembali' =>  (float) str_replace(',', '', request('totkembali')),
         ]);
         $count=0;

@@ -207,6 +207,12 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
+                                            <label>Total Pembayaran 2</label>
+                                            <input type="text" class="form-control" name="totbayar_2" form="thisform" id="totbayar_2" value="0" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
                                             <label>Total Kembali</label>
                                             <input type="text" class="form-control" name="totkembali" form="thisform" id="totkembali" value="0" readonly>
                                         </div>
@@ -370,6 +376,26 @@
 
                     grandtot = total;
 
+                    totbayar_1 = $('#totbayar').val();
+                    if (/\D/g.test(totbayar_1))
+                    {
+                        // Filter comma
+                        totbayar_1 = totbayar_1.replace(/\,/g,"");
+                        totbayar_1 = Number(Math.trunc(totbayar_1))
+                    }
+                    totbayar_2 = $('#totbayar_2').val();
+                    if (/\D/g.test(totbayar_2))
+                    {
+                        // Filter comma
+                        totbayar_2 = totbayar_2.replace(/\,/g,"");
+                        totbayar_2 = Number(Math.trunc(totbayar_2))
+                    }
+
+                    grandtotal_bayar = parseFloat(totbayar_1) + parseFloat(totbayar_2);
+
+                    kembali = grandtotal_bayar - grandtot;
+                    
+                    $("#totkembali").val(thousands_separators(kembali));
                     $("#price_disc").val(thousands_separators(disc));
                     $("#price_total").val(thousands_separators(grandtot.toFixed(2)));
                 }else{
@@ -405,6 +431,26 @@
                     total =  (subtot - disc);
                     subtot_new = old_grandtot + total;
 
+                    totbayar_1 = $('#totbayar').val();
+                    if (/\D/g.test(totbayar_1))
+                    {
+                        // Filter comma
+                        totbayar_1 = totbayar_1.replace(/\,/g,"");
+                        totbayar_1 = Number(Math.trunc(totbayar_1))
+                    }
+                    totbayar_2 = $('#totbayar_2').val();
+                    if (/\D/g.test(totbayar_2))
+                    {
+                        // Filter comma
+                        totbayar_2 = totbayar_2.replace(/\,/g,"");
+                        totbayar_2 = Number(Math.trunc(totbayar_2))
+                    }
+
+                    grandtotal_bayar = parseFloat(totbayar_1) + parseFloat(totbayar_2);
+
+                    kembali = grandtotal_bayar - subtot_new;
+                    
+                    $("#totkembali").val(thousands_separators(kembali));
                     $("#price_disc").val(thousands_separators(disc_new));
                     $("#price_total").val(thousands_separators(subtot_new.toFixed(2)));
                 }
@@ -518,7 +564,16 @@
                     grandtot = grandtot.replace(/\,/g,"");
                     grandtot = Number(Math.trunc(grandtot))
                 }
-                kembali = this.value - grandtot;
+                totbayar_2 = $('#totbayar_2').val();
+                if (/\D/g.test(totbayar_2))
+                {
+                    // Filter comma
+                    totbayar_2 = totbayar_2.replace(/\,/g,"");
+                    totbayar_2 = Number(Math.trunc(totbayar_2))
+                }
+
+                total_bayar = parseFloat(this.value) + parseFloat(totbayar_2);
+                kembali = total_bayar - grandtot;
 
                 parse_totbayar = this.value;
                 $("#totbayar").val(thousands_separators(parse_totbayar));
@@ -526,8 +581,56 @@
                                 
                 if(kembali < 0){
                     swal('WARNING', 'Pembayaran tidak boleh kurang!', 'warning');
-                    $("#totbayar").val(0);
-                    $("#totkembali").val(0);
+                    // $("#totbayar").val(0);
+                    // $("#totkembali").val(0);
+                    return false;
+                }
+            });
+
+            $(document).on("change", "#payment_mthd_2", function(e) {
+                payment_method_2 = $("#payment_mthd_2").prop('selectedIndex');
+                console.log(payment_method_2);
+                if(payment_method_2 >= 0){
+                    $("#totbayar_2").val(0);
+                    $("#totbayar_2").prop('readonly', false); 
+                }else{
+                    $("#totbayar_2").prop('readonly', true);
+                }
+            });
+
+            $(document).on("change", "#totbayar_2", function(e) {
+                if($('#totbayar_2').val() == 0){
+                    $('#totbayar_2').val();
+                }else if($('#totbayar_2').val() == ''){
+                    $('#totbayar_2').val(0);
+                }
+
+                grandtot = $('#price_total').val();
+                if (/\D/g.test(grandtot))
+                {
+                    // Filter comma
+                    grandtot = grandtot.replace(/\,/g,"");
+                    grandtot = Number(Math.trunc(grandtot))
+                }
+                totbayar_1 = $('#totbayar').val();
+                if (/\D/g.test(totbayar_1))
+                {
+                    // Filter comma
+                    totbayar_1 = totbayar_1.replace(/\,/g,"");
+                    totbayar_1 = Number(Math.trunc(totbayar_1))
+                }
+
+                total_bayar = parseFloat(this.value) + parseFloat(totbayar_1);
+                kembali = total_bayar - grandtot;
+
+                parse_totbayar = this.value;
+                $("#totbayar_2").val(thousands_separators(parse_totbayar));
+                $("#totkembali").val(thousands_separators(kembali));
+                                
+                if(kembali < 0){
+                    swal('WARNING', 'Pembayaran tidak boleh kurang!', 'warning');
+                    // $("#totbayar").val(0);
+                    // $("#totkembali").val(0);
                     return false;
                 }
             });
@@ -559,7 +662,7 @@
                 var total = Number(hrg) * Number(qty);
                 console.log(total);
             
-            $("#subtot").val(thousands_separators(total.toFixed(2)));
+                $("#subtot").val(thousands_separators(total.toFixed(2)));
             });
         });
         // VALIDATE TRIGGER
@@ -581,6 +684,12 @@
                 this.value = this.value.replace(/\D/g, '');
             }
         });
+        $("#totbayar_2").keyup(function(e){
+            if (/\D/g.test(this.value)){
+                // Filter non-digits from input value.
+                this.value = this.value.replace(/\D/g, '');
+            }
+        });
 
         $(document).on("click", "#hrgjual", function(e) {
             if (/\D/g.test(this.value))
@@ -592,6 +701,14 @@
         });
 
         $(document).on("click", "#totbayar", function(e) {
+            if (/\D/g.test(this.value))
+            {
+                // Filter comma
+                this.value = this.value.replace(/\,/g,"");
+                this.value = Number(Math.trunc(this.value))
+            }
+        });
+        $(document).on("click", "#totbayar_2", function(e) {
             if (/\D/g.test(this.value))
             {
                 // Filter comma

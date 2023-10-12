@@ -185,7 +185,7 @@
                             </table>
                         </div>                                              
                     </div>      
-                    <div class="col-12 col-md-6 col-lg-6 align-self-end">
+                    {{-- <div class="col-12 col-md-6 col-lg-6 align-self-end">
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -212,7 +212,77 @@
                                 </div>
                             </div>
                         </div>
-                    </div>              
+                    </div>    --}}
+                    <div class="col-12 col-md-12 col-lg-12 align-self-center">
+                        <div class="row px-2">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Payment Method</label>
+                                            <select class="form-control select2" name="payment_mthd" id="payment_mthd">
+                                                {{-- <option disabled selected>--Select Payment--</option> --}}
+                                                <option selected>{{ $tpenjualanh->payment_mthd }}</option>
+                                                @foreach($payments as $payment)
+                                                <option>{{ $payment->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Payment Method 2</label>
+                                            <select class="form-control select2" name="payment_mthd_2" id="payment_mthd_2">
+                                                {{-- <option disabled selected>--Select Payment--</option> --}}
+                                                @if ($tpenjualanh->payment_mthd_2 == null)
+                                                    <option disabled selected>--Select Payment--</option>
+                                                @else
+                                                    <option selected>{{ $tpenjualanh->payment_mthd_2 }}</option>
+                                                @endif
+                                                @foreach($payments as $payment)
+                                                <option>{{ $payment->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                               <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Total Pembayaran</label>
+                                            <input type="text" class="form-control" name="totbayar" form="thisform" id="totbayar" value="{{ number_format($tpenjualanh->totbayar, 2, '.', ',') }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Total Pembayaran 2</label>
+                                            <input type="text" class="form-control" name="totbayar_2" form="thisform" id="totbayar_2" value="{{ number_format($tpenjualanh->totbayar_2, 2, '.', ',') }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Total Kembali</label>
+                                            <input type="text" class="form-control" name="totkembali" form="thisform" id="totkembali" value="{{ number_format($tpenjualanh->totkembali, 2, '.', ',') }}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Total Diskon</label>
+                                            <input type="text" class="form-control" name="price_disc" form="thisform" id="price_disc" value="{{ number_format($tpenjualanh->diskon, 2, '.', ',') }}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Total</label>
+                                            <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" value="{{ number_format($tpenjualanh->grdtotal, 2, '.', ',') }}" readonly>
+                                        </div>
+                                    </div>
+                               </div>
+                            </div>
+                        </div>
+                    </div>             
                     <div class="card-footer text-right">
                         <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="/tbonjual/{{ $tpenjualanh->id }}">Update</button>
                         {{-- @if($tpos_save == 'Y')
@@ -537,7 +607,16 @@
                     grandtot = grandtot.replace(/\,/g,"");
                     grandtot = Number(Math.trunc(grandtot))
                 }
-                kembali = this.value - grandtot;
+                totbayar_2 = $('#totbayar_2').val();
+                if (/\D/g.test(totbayar_2))
+                {
+                    // Filter comma
+                    totbayar_2 = totbayar_2.replace(/\,/g,"");
+                    totbayar_2 = Number(Math.trunc(totbayar_2))
+                }
+
+                total_bayar = parseFloat(this.value) + parseFloat(totbayar_2);
+                kembali = total_bayar - grandtot;
 
                 parse_totbayar = this.value;
                 $("#totbayar").val(thousands_separators(parse_totbayar));
@@ -545,8 +624,8 @@
 
                 if(kembali < 0){
                     swal('WARNING', 'Pembayaran tidak boleh kurang!', 'warning');
-                    $("#totbayar").val(0);
-                    $("#totkembali").val(0);
+                    // $("#totbayar").val(0);
+                    // $("#totkembali").val(0);
                     return false;
                 }
             });
@@ -566,6 +645,54 @@
                 var qty = this.value
                 var total = parseInt(hrg) * parseInt(qty);               
                 $("#subtot").val(thousands_separators(total.toFixed(2)));
+            });
+
+            $(document).on("change", "#payment_mthd_2", function(e) {
+                payment_method_2 = $("#payment_mthd_2").prop('selectedIndex');
+                console.log(payment_method_2);
+                if(payment_method_2 >= 0){
+                    $("#totbayar_2").val(0);
+                    $("#totbayar_2").prop('readonly', false); 
+                }else{
+                    $("#totbayar_2").prop('readonly', true);
+                }
+            });
+
+            $(document).on("change", "#totbayar_2", function(e) {
+                if($('#totbayar_2').val() == 0){
+                    $('#totbayar_2').val();
+                }else if($('#totbayar_2').val() == ''){
+                    $('#totbayar_2').val(0);
+                }
+
+                grandtot = $('#price_total').val();
+                if (/\D/g.test(grandtot))
+                {
+                    // Filter comma
+                    grandtot = grandtot.replace(/\,/g,"");
+                    grandtot = Number(Math.trunc(grandtot))
+                }
+                totbayar_1 = $('#totbayar').val();
+                if (/\D/g.test(totbayar_1))
+                {
+                    // Filter comma
+                    totbayar_1 = totbayar_1.replace(/\,/g,"");
+                    totbayar_1 = Number(Math.trunc(totbayar_1))
+                }
+
+                total_bayar = parseFloat(this.value) + parseFloat(totbayar_1);
+                kembali = total_bayar - grandtot;
+
+                parse_totbayar = this.value;
+                $("#totbayar_2").val(thousands_separators(parse_totbayar));
+                $("#totkembali").val(thousands_separators(kembali));
+                                
+                if(kembali < 0){
+                    swal('WARNING', 'Pembayaran tidak boleh kurang!', 'warning');
+                    // $("#totbayar").val(0);
+                    // $("#totkembali").val(0);
+                    return false;
+                }
             });
 
             $(document).on("change", "#hrgjual", function(e) {
@@ -613,18 +740,26 @@
                 this.value = Number(Math.trunc(this.value))
             }
         });
+        $(document).on("click", "#totbayar_2", function(e) {
+            if (/\D/g.test(this.value))
+            {
+                // Filter comma
+                this.value = this.value.replace(/\,/g,"");
+                this.value = Number(Math.trunc(this.value))
+            }
+        });
         $(document).on("click","#confirm",function(e){
-        // Validate ifnull
-        no = $("#no").val();
-        code_cust = $("#code_cust").prop('selectedIndex');
-        payment_method = $("#payment_mthd").prop('selectedIndex');
-        if (no == ""){
-            swal('WARNING', 'No Tidak boleh kosong!', 'warning');
-            return false;
-        }else if (code_cust == 0){
-            swal('WARNING', 'Please select Code Cust', 'warning');
-            return false;
-        }
+            // Validate ifnull
+            no = $("#no").val();
+            code_cust = $("#code_cust").prop('selectedIndex');
+            payment_method = $("#payment_mthd").prop('selectedIndex');
+            if (no == ""){
+                swal('WARNING', 'No Tidak boleh kosong!', 'warning');
+                return false;
+            }else if (code_cust == 0){
+                swal('WARNING', 'Please select Code Cust', 'warning');
+                return false;
+            }
         });
         
         $(document).on('keyup', '.row_qty', function(event) 
