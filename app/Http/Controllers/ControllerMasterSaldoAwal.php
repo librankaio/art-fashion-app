@@ -21,6 +21,7 @@ class ControllerMasterSaldoAwal extends Controller
     }
 
     public function post(Request $request){
+        dd($request->all());
         MsaldoAwal::create([
             'tgl' => $request->dt,
             'saldo' => (float) str_replace(',', '', $request->saldo),

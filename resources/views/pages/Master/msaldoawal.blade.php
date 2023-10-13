@@ -38,7 +38,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Saldo</label>
-                                        <input type="text" class="form-control" name="saldo" id="saldo" value="{{  number_format(500000) }}">
+                                        <input type="text" class="form-control" name="saldo" id="saldo" value="{{ number_format(500000) }}">
                                     </div>
                                 </div>
                             </div>

@@ -66,7 +66,7 @@
                     </thead>
                     <tbody>
                         @php $counter = 0; @endphp
-                        @php $init_qty = 0; @endphp
+                        @php $qty_sum = 0; @endphp
                         @for($i = 0; $i < sizeof($tsjds); $i++) @php $counter++; @endphp <tr>
                             <td align="center" style="width: 150px; word-wrap: break-word;" class="border-dotted">{{ $counter }}</td>
                             <td align="center" style="width: 150px; word-wrap: break-word;" class="border-dotted">{{ $tsjds[$i]->code }}</td>
@@ -76,7 +76,11 @@
                             <td align="center" style="width: 150px; word-wrap: break-word;" class="border-dotted">{{ number_format($tsjds[$i]->hrgjual, 2, '.', ',') }}</td>
                             <td align="center" style="width: 150px; word-wrap: break-word;" class="border-dotted">{{ number_format($tsjds[$i]->subtotal, 2, '.', ',') }}</td>
                             </tr>
-                            @php $qtysum = $init_qty + number_format($tsjds[$i]->qty, 0, '.', '')@endphp
+                            @if($total_trans == 0)
+                                @php $qty_sum = $qty_sum + number_format($tsjds[$i]->qty, 0, '.', '')@endphp
+                            @else
+                                @php $qty_sum = $qty_sum + number_format($tsjds[$i]->qty, 0, '.', '')@endphp
+                            @endif 
                         @endfor
                     </tbody>  
                     <td align="center" colspan="3" class="border-dotted">Total Quantity</td>
