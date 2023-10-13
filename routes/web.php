@@ -6,6 +6,7 @@ use App\Http\Controllers\ControllerMasterDataItem;
 use App\Http\Controllers\ControllerMasterDataLokasi;
 use App\Http\Controllers\ControllerMasterHakAkses;
 use App\Http\Controllers\ControllerMasterJenisPayment;
+use App\Http\Controllers\ControllerMasterSaldoAwal;
 use App\Http\Controllers\ControllerMasterSPG;
 use App\Http\Controllers\ControllerMasterWarna;
 use App\Http\Controllers\ControllerReportMutasiStock;
@@ -87,6 +88,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/mitem/{mitem}/print', [ControllerMasterDataItem::class, 'print'])->name('mitemprint');
     Route::get('/mitempdf', [ControllerMasterDataItem::class, 'exportpdf'])->name('mitempdf');
     Route::post('/getmitemv2', [ControllerMasterDataItem::class, 'getmitem'])->name('getmitemv2');
+
+    Route::get('msaldoawal', [ControllerMasterSaldoAwal::class, 'index'])->name('msaldoawal');
 
     Route::get('mhakses', [ControllerMasterHakAkses::class, 'index'])->name('mhakses');
     Route::post('mhaksespost', [ControllerMasterHakAkses::class, 'post'])->name('mhaksespost');
