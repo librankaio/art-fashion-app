@@ -127,7 +127,7 @@
     @yield('pluginjs')
     <!-- Template JS File -->
     <script src="{{ asset('assets/js/scripts.js') }}"></script>
-    <script src="{{ asset('assets/js/custom.js') }}"></script>
+    <script src="{{ asset('assets/js/custom.js') }}"></script>    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.0.1/chart.min.js"></script>
 
     {{-- Bottom Javascript --}}

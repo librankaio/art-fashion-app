@@ -90,6 +90,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/getmitemv2', [ControllerMasterDataItem::class, 'getmitem'])->name('getmitemv2');
 
     Route::get('msaldoawal', [ControllerMasterSaldoAwal::class, 'index'])->name('msaldoawal');
+    Route::get('modalmsaldoawal', [ControllerMasterSaldoAwal::class, 'modal'])->name('modalmsaldoawal');
+    Route::post('msaldoawalpost', [ControllerMasterSaldoAwal::class, 'post'])->name('msaldoawalpost');
 
     Route::get('mhakses', [ControllerMasterHakAkses::class, 'index'])->name('mhakses');
     Route::post('mhaksespost', [ControllerMasterHakAkses::class, 'post'])->name('mhaksespost');

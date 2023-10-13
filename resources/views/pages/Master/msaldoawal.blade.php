@@ -38,14 +38,14 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Saldo</label>
-                                        <input type="text" class="form-control" name="saldo" id="saldo">
+                                        <input type="text" class="form-control" name="saldo" id="saldo" value="{{  number_format(500000) }}">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="card-footer text-right">                            
                             <button class="btn btn-primary mr-1" type="submit" 
-                            formaction="{{ route('mwarnapost') }}" id="confirm">Save</button>                                
+                            formaction="{{ route('msaldoawalpost') }}" id="confirm">Save</button>                                
                             <button class="btn btn-secondary" type="reset">Cancel</button>
                         </div>
                     </form>
@@ -67,13 +67,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @php $counter = 0 @endphp
+                                    @php $counter = 0 @endphp
                                     @foreach($datas as $data => $item)
                                     @php $counter++ @endphp
                                     <tr>
                                         <th scope="row" class="border border-5" style="text-align: center;">{{ $counter }}</th>
-                                        <td class="border border-5" style="text-align: center;">{{ $item->code }}</td>
-                                        <td class="border border-5" style="text-align: center;">{{ $item->name }}</td>
+                                        <td class="border border-5" style="text-align: center;">{{ date("Y-m-d", strtotime($item->tgl)) }}</td>
+                                        <td class="border border-5" style="text-align: center;">{{ number_format($item->saldo, 2, '.', ',') }}</td>
                                         <td style="text-align: center;" class="d-flex justify-content-center">
                                             <a href="/mwarna/{{ $item->id }}/edit"
                                                 class="btn btn-icon icon-left btn-primary"><i class="far fa-edit">
@@ -90,7 +90,7 @@
                                             </form>
                                         </td>
                                     </tr>
-                                    @endforeach --}}
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

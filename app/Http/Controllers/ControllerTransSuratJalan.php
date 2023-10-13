@@ -46,7 +46,7 @@ class ControllerTransSuratJalan extends Controller
             ->first();
             $stock_counter_min = $stock_mitem_counter->stock-$request->quantity_d[$i];
             // dd($stock_mitem_counter);
-            if ($request->quantity_d[$i] >= $stock_mitem_counter->stock){
+            if ($request->quantity_d[$i] > $stock_mitem_counter->stock){
                 array_push($items, strtok($request->kode_d[$i], " "));
                 Session::flash('items_error', $items);
                 Session::flash('counter_selected', $request->counter_from);
@@ -299,7 +299,7 @@ class ControllerTransSuratJalan extends Controller
             $stock_mitem_counter = DB::table('mitems_counters')
             ->selectRaw('stock')
             ->where('code_mitem', '=', strtok($suratjalan_old_item->code, " "))
-            ->where('name_mcounters', '=', $tsjh->counter)
+            ->where('name_mcounters', '=', $tsjh->counter_from)
             ->first();
             // dd($stock_mitem_counter);
             $stock_mitem_counter_sum = $stock_mitem_counter->stock + (int)$suratjalan_old_item->qty;
@@ -307,7 +307,7 @@ class ControllerTransSuratJalan extends Controller
             DB::table('mitems_counters')
             ->selectRaw('stock')
             ->where('code_mitem', '=', strtok($suratjalan_old_item->code, " "))
-            ->where('name_mcounters', '=', $tsjh->counter)
+            ->where('name_mcounters', '=', $tsjh->counter_from)
             ->update([
                 'stock' => (int)$stock_mitem_counter_sum,
             ]);
