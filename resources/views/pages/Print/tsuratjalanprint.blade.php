@@ -84,7 +84,7 @@
                         @endfor
                     </tbody>  
                     <td align="center" colspan="3" class="border-dotted">Total Quantity</td>
-                    <td align="center" class="border-dotted">{{ $qtysum }}</td>
+                    <td align="center" class="border-dotted">{{ $qty_sum }}</td>
                     <td align="center" colspan="2" class="border-dotted"></td>
                     <td align="center" colspan="2" class="border-dotted">Grand Total : {{ number_format($tsjh->grdtotal, 2, '.', ',') }}</td>
                 </table>
