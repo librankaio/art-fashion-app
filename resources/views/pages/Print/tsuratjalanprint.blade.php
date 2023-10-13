@@ -76,7 +76,7 @@
                             <td align="center" style="width: 150px; word-wrap: break-word;" class="border-dotted">{{ number_format($tsjds[$i]->hrgjual, 2, '.', ',') }}</td>
                             <td align="center" style="width: 150px; word-wrap: break-word;" class="border-dotted">{{ number_format($tsjds[$i]->subtotal, 2, '.', ',') }}</td>
                             </tr>
-                            @if($total_trans == 0)
+                            @if($qty_sum == 0)
                                 @php $qty_sum = $qty_sum + number_format($tsjds[$i]->qty, 0, '.', '')@endphp
                             @else
                                 @php $qty_sum = $qty_sum + number_format($tsjds[$i]->qty, 0, '.', '')@endphp
