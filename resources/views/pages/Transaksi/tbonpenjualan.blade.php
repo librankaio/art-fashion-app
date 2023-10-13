@@ -229,6 +229,18 @@
                                             <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" value="0" readonly>
                                         </div>
                                     </div>
+                                    <div class="col-md-3" hidden>
+                                        <div class="form-group">
+                                            <label>Today Saldo</label>
+                                            <input type="text" class="form-control" name="today_saldo" form="thisform" id="today_saldo" value="{{ $today_saldo }}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" hidden>
+                                        <div class="form-group">
+                                            <label>SPG ACCESS</label>
+                                            <input type="text" class="form-control" name="spg_access" form="thisform" id="spg_access" value="{{ session('privilage') }}" readonly>
+                                        </div>
+                                    </div>
                                </div>
                             </div>
                         </div>
@@ -249,6 +261,46 @@
     </form>
     </div>
 </section>
+<!-- MODAL -->
+<div class="modal" tabindex="-1" id="mymodal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">INPUT SALDO AWAL</h5>
+          {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> --}}
+        </div>
+        <form action="{{ route('msaldoawalpost') }}" method="POST">
+            @csrf
+            <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Tanggal</label>
+                                <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d") }}">
+                            </div>
+                        </div>  
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Saldo</label>
+                                <input type="text" class="form-control" name="saldo" id="saldo" value="{{  number_format(500000) }}">
+                            </div>
+                        </div>
+                    </div>            
+            </div>
+            <div class="modal-footer">
+            {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
+            <button class="btn btn-primary mr-1" type="submit" id="confirm_modal" onclick="submitForm();">Save</button> 
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{{-- END MODAL --}}
+@stop
+@section('pluginjs')
+<script src="{{ asset('assets/js/page/bootstrap-modal.js') }}"></script>
 @stop
 @section('botscripts')
 <script type="text/javascript">
@@ -260,6 +312,21 @@
         setTimeout('timeout_trigger()', 10000);
     }
     $(document).ready(function() {
+        var today_saldo = $('#today_saldo').val();
+        
+        if(today_saldo != 'Y' && spg_access == 'SPG SR'){
+            $('#mymodal').modal({
+                backdrop: 'static',
+                keyboard: true, 
+                show: true
+            });
+        }
+
+        function submitForm(){
+            // alert('Form has been submitted');
+            $('#confirm_modal').submit()
+        }
+
         //CSRF TOKEN
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $(document).ready(function() {         

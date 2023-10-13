@@ -92,6 +92,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('msaldoawal', [ControllerMasterSaldoAwal::class, 'index'])->name('msaldoawal');
     Route::get('modalmsaldoawal', [ControllerMasterSaldoAwal::class, 'modal'])->name('modalmsaldoawal');
     Route::post('msaldoawalpost', [ControllerMasterSaldoAwal::class, 'post'])->name('msaldoawalpost');
+    Route::get('/msaldoawal/{msaldoAwal}/edit', [ControllerMasterSaldoAwal::class, 'getedit'])->name('msaldoawaledit');
+    Route::post('/msaldoawal/delete/{msaldoAwal}', [ControllerMasterSaldoAwal::class, 'delete'])->name('msaldoawaldelete');
 
     Route::get('mhakses', [ControllerMasterHakAkses::class, 'index'])->name('mhakses');
     Route::post('mhaksespost', [ControllerMasterHakAkses::class, 'post'])->name('mhaksespost');

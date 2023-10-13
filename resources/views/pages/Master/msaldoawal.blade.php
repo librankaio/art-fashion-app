@@ -75,10 +75,10 @@
                                         <td class="border border-5" style="text-align: center;">{{ date("Y-m-d", strtotime($item->tgl)) }}</td>
                                         <td class="border border-5" style="text-align: center;">{{ number_format($item->saldo, 2, '.', ',') }}</td>
                                         <td style="text-align: center;" class="d-flex justify-content-center">
-                                            <a href="/mwarna/{{ $item->id }}/edit"
+                                            <a href="/msaldoawal/{{ $item->id }}/edit"
                                                 class="btn btn-icon icon-left btn-primary"><i class="far fa-edit">
                                                     Edit</i></a>
-                                            <form action="/mwarna/delete/{{ $item->id }}" id="del-{{ $item->id }}"
+                                            <form action="/msaldoawal/delete/{{ $item->id }}" id="del-{{ $item->id }}"
                                                 method="POST" class="px-2">
                                                 @csrf
                                                 <button class="btn btn-icon icon-left btn-danger"

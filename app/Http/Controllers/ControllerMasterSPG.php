@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mcounter;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ControllerMasterSPG extends Controller
 {
@@ -37,7 +38,13 @@ class ControllerMasterSPG extends Controller
                 User::where('nik', '=', $request->nik)->update([
                     'privilage' => 'ADM',
                 ]);
+            }else if ($request->jenis == 'SPG SR') {
+                User::where('nik', '=', $request->nik)->update([
+                    'privilage' => 'SPG SR',
+                ]);
             }
+            $user = Mcounter::select('id','code','name')->where('nik','=',$request->nik)->first();
+            DB::insert( DB::raw("insert into mhakakses (id_user, nik, counter, feature, save, open, updt, print, dlt) select '$user->id', '$request->nik', '$request->counter', code, 'Y', 'Y', 'Y', 'Y', 'Y' FROM app"));
             return redirect()->back()->with('success', 'Data berhasil ditambahkan');
         }
     }
@@ -57,6 +64,15 @@ class ControllerMasterSPG extends Controller
                 'jenis' => request('jenis'),
                 'counter' => request('counter'),
             ]);
+            if (request('jenis') == 'ADMIN'){
+                User::where('nik', '=', request('nik'))->update([
+                    'privilage' => 'ADM',
+                ]);
+            }else if (request('jenis') == 'SPG SR') {
+                User::where('nik', '=', request('nik'))->update([
+                    'privilage' => 'SPG SR',
+                ]);
+            }
             return redirect()->route('mspg');
         }
         $password = bcrypt(request('password'));
@@ -68,6 +84,15 @@ class ControllerMasterSPG extends Controller
             'counter' => request('counter'),
             'password' => $password        
         ]);
+        if (request('jenis') == 'ADMIN'){
+            User::where('nik', '=', request('nik'))->update([
+                'privilage' => 'ADM',
+            ]);
+        }else if (request('jenis') == 'SPG SR') {
+            User::where('nik', '=', request('nik'))->update([
+                'privilage' => 'SPG SR',
+            ]);
+        }
         return redirect()->route('mspg');
     }
 

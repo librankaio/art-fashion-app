@@ -6,6 +6,7 @@ use App\Models\Mcounter;
 use App\Models\Mitem;
 use App\Models\MitemCounters;
 use App\Models\Mjenispayment;
+use App\Models\MsaldoAwal;
 use App\Models\Tpenjualan_d;
 use App\Models\Tpenjualan_h;
 use Illuminate\Http\Request;
@@ -23,6 +24,14 @@ class ControllerTransBonPenjualan extends Controller
         }else if($privilage == null){
             $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         }
+        date_default_timezone_set('Asia/Jakarta');
+        $today_saldo = MsaldoAwal::select('tgl','saldo','counter')->where('counter','=',session('counter'))->where('tgl','=',date("Y-m-d"))->first();
+        if ($today_saldo == null){
+            $today_saldo = "N";
+        }else{
+            $today_saldo = "Y";
+        }
+        // dd($today_saldo);
         // $mitems = Mitem::select('id','code','name')->get();
         // $mitems = DB::select( DB::raw("SELECT * FROM some_table WHERE some_col = '$someVariable'") );
         
@@ -36,6 +45,7 @@ class ControllerTransBonPenjualan extends Controller
             'mitems' => $mitems,
             'payments' => $payments,
             'notrans' => $notrans,
+            'today_saldo' => $today_saldo,
         ]);
     }
 

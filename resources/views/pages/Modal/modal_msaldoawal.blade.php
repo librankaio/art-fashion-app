@@ -31,42 +31,43 @@
         </div>
     </div>
 </section>
-<!-- Modal -->
+<!-- MODAL -->
   <div class="modal" tabindex="-1" id="mymodal">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <h5 class="modal-title">INPUT SALDO AWAL</h5>
+          {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
-          </button>
+          </button> --}}
         </div>
-        <div class="modal-body">
-            <form action="" method="POST">
-                @csrf
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Tanggal</label>
-                            <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d") }}">
+        <form action="{{ route('msaldoawalpost') }}" method="POST">
+            @csrf
+            <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Tanggal</label>
+                                <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d") }}">
+                            </div>
+                        </div>  
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Saldo</label>
+                                <input type="text" class="form-control" name="saldo" id="saldo" value="{{  number_format(500000) }}">
+                            </div>
                         </div>
-                    </div>  
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Saldo</label>
-                            <input type="text" class="form-control" name="saldo" id="saldo" value="{{  number_format(500000) }}">
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button class="btn btn-primary mr-1" type="submit" formaction="{{ route('msaldoawalpost') }}" id="confirm" onclick="submitForm();">Save</button> 
-        </div>
+                    </div>            
+            </div>
+            <div class="modal-footer">
+            {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
+            <button class="btn btn-primary mr-1" type="submit" id="confirm" onclick="submitForm();">Save</button> 
+            </div>
+        </form>
       </div>
     </div>
   </div>
+{{-- END MODAL --}}
 @stop
 @section('pluginjs')
 <script src="{{ asset('assets/js/page/bootstrap-modal.js') }}"></script>
@@ -75,19 +76,11 @@
 <script type="text/javascript">
     $(document).ready(function() {
         // $('#modal-3').modal('show');
-        $("#modal-4").fireModal({
-        footerClass: 'bg-whitesmoke',
-        body: 'Add the <code>bg-whitesmoke</code> class to the <code>footerClass</code> option.',
-        buttons: [
-            {
-            text: 'No Action!',
-            class: 'btn btn-primary btn-shadow',
-            handler: function(modal) {
-            }
-            }
-        ]
-        });
-        $('#mymodal').modal('show');
+        $('#mymodal').modal({
+                        backdrop: 'static',
+                        keyboard: true, 
+                        show: true
+                });
     });
     $('#datatable').DataTable({
         // "ordering":false,
@@ -103,8 +96,7 @@
     }
     function submitForm(){
         // alert('Form has been submitted');
-        document.getElementById('confirm').submit();
-        // $('#confirm').submit()
+        $('#confirm').submit()
     }
     $(document).on("click","#confirm",function(e){
         // Validate ifnull
