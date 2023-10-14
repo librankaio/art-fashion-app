@@ -23,6 +23,8 @@ class ControllerTransBonPenjualan extends Controller
             $counters = Mcounter::select('id','code','name')->get();
         }else if($privilage == null){
             $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }else{
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         }
         date_default_timezone_set('Asia/Jakarta');
         $today_saldo = MsaldoAwal::select('tgl','saldo','counter')->where('counter','=',session('counter'))->where('tgl','=',date("Y-m-d"))->first();
