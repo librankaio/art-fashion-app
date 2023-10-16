@@ -316,7 +316,7 @@
     }
     $(document).ready(function() {
         var today_saldo = $('#today_saldo').val();
-        
+        console.log(spg_access);
         if(today_saldo != 'Y' && spg_access == 'SPG SR'){
             $('#mymodal').modal({
                 backdrop: 'static',

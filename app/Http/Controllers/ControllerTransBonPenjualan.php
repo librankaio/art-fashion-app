@@ -28,6 +28,7 @@ class ControllerTransBonPenjualan extends Controller
         }
         date_default_timezone_set('Asia/Jakarta');
         $today_saldo = MsaldoAwal::select('tgl','saldo','counter')->where('counter','=',session('counter'))->where('tgl','=',date("Y-m-d"))->first();
+        // dd($today_saldo);
         if ($today_saldo == null){
             $today_saldo = "N";
         }else{
