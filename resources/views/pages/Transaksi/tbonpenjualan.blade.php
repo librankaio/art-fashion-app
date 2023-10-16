@@ -20,55 +20,6 @@
         <form action="" method="POST" id="thisform">
             @csrf
         <div class="row">
-            <div class="col-12 col-md-4 col-lg-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Header Information</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>No Trans</label>
-                                    @foreach($notrans as $key => $code)
-                                        @php $codetrans = $code->codetrans @endphp
-                                    @endforeach
-                                    <input type="text" class="form-control" name="no" id="no" value="{{ $code->codetrans }}" readonly>
-                                </div>       
-                                <div class="form-group">
-                                    <label>Counter</label>
-                                    <select class="form-control select2" name="counter" id="counter">
-                                        {{-- <option disabled selected>--Select Counter--</option> --}}
-                                        @foreach($counters as $counter)
-                                        <option>{{ $counter->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>                         
-                                <div class="form-group">
-                                    <label>Jenis Promosi</label>
-                                    <select class="form-control select2" name="jenis_promosi" id="jenis_promosi">
-                                        {{-- <option disabled selected>--Select Jenis Promosi--</option> --}}
-                                        <option selected>Diskon</option>
-                                        <option>Special Price</option>
-                                    </select>
-                                </div>             
-                                <div class="form-group">
-                                    <label>No. Kartu</label>
-                                    <input type="text" class="form-control" name="noreff" id="noreff">
-                                </div>                       
-                                <div class="form-group">
-                                    <label>Tanggal</label>
-                                    <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d") }}">
-                                </div>
-                                <div class="form-group">
-                                    <label>Catatan</label>
-                                    <textarea class="form-control" style="height:100px" name="note"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="col-12 col-md-6 col-lg-6">
                 <div class="card" style="border: 1px solid lightblue">
                     <div class="card-header">
@@ -131,6 +82,55 @@
                     </div>
                 </div>
             </div>
+            <div class="col-12 col-md-4 col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Header Information</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>No Trans</label>
+                                    @foreach($notrans as $key => $code)
+                                        @php $codetrans = $code->codetrans @endphp
+                                    @endforeach
+                                    <input type="text" class="form-control" name="no" id="no" value="{{ $code->codetrans }}" readonly>
+                                </div>       
+                                <div class="form-group">
+                                    <label>Counter</label>
+                                    <select class="form-control select2" name="counter" id="counter">
+                                        {{-- <option disabled selected>--Select Counter--</option> --}}
+                                        @foreach($counters as $counter)
+                                        <option>{{ $counter->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>                         
+                                <div class="form-group">
+                                    <label>Jenis Promosi</label>
+                                    <select class="form-control select2" name="jenis_promosi" id="jenis_promosi">
+                                        {{-- <option disabled selected>--Select Jenis Promosi--</option> --}}
+                                        <option selected>Diskon</option>
+                                        <option>Special Price</option>
+                                    </select>
+                                </div>             
+                                <div class="form-group">
+                                    <label>No. Kartu</label>
+                                    <input type="text" class="form-control" name="noreff" id="noreff">
+                                </div>                       
+                                <div class="form-group">
+                                    <label>Tanggal</label>
+                                    <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d") }}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Catatan</label>
+                                    <textarea class="form-control" style="height:100px" name="note"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
             <div class="col-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="card-body">
