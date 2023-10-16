@@ -171,6 +171,9 @@ class ControllerTransBonPenjualan extends Controller
         }else if (session('privilage') == 'ADM'){
             $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal',)->orderBy('created_at', 'asc')->get();
             $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note',)->get();
+        }else{
+            $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal',)->where('counter','=',session('counter'))->orderBy('created_at', 'asc')->get();
+            $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note',)->get();
         }
         return view('pages.Transaksi.tbonpenjualanlist',[
             'tpenjualanhs' => $tpenjualanhs,
