@@ -104,7 +104,7 @@
                     <div class="col-12 col-md-6 col-lg-6 align-self-end">
                         <div class="row">
                             <div class="col-md-4">
-                                
+
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -118,7 +118,7 @@
                                                 @php $total_trans = $total_trans + $item1->jmltransaksi @endphp
                                             @endif
                                         @endforeach
-                                            <input type="text" class="form-control" form="thisform" value="{{ $total_trans }}" readonly>
+                                            <input type="text" class="form-control" form="thisform" value="{{ number_format($total_trans) }}" readonly>
                                     @else
                                         <input type="text" class="form-control" form="thisform" readonly>
                                     @endif
@@ -136,7 +136,7 @@
                                                 @php $total = $total + $item2->total @endphp
                                             @endif
                                         @endforeach
-                                            <input type="text" class="form-control" form="thisform" value="{{ number_format($total, 2, '.', ',') }}" readonly>
+                                            <input type="text" class="form-control" form="thisform" value="{{ number_format($total) }}" readonly>
                                     @else
                                         <input type="text" class="form-control" form="thisform" readonly>
                                     @endif

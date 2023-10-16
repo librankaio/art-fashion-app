@@ -23,11 +23,13 @@ class ControllerReportPerOutlet extends Controller
         $counter = $request->input('counter');
 
         $results = DB::select('CALL vpendapatanoutlet (?,?,?)', [$dtfr, $dtto,$counter]);
-        $counters = Mcounter::select('id','code','name')->get();
+        $counters = Mcounter::select('id','code','name')->get(); 
+        $saldo_awals = DB::select('select saldo from sldawaltoko where tgl = ?', [$dtfr]);
+        $biayas = DB::select('select sum(total) as total from texpense_hs where tgl BETWEEN ? AND ?', [$dtfr,$dtto]);       
 
         return view('pages.Report.rlapperoutlet', [
             'results' => $results,
-            'counters' => $counters,
+            'counters' => $counters,            
         ]);
     }
 
@@ -38,8 +40,10 @@ class ControllerReportPerOutlet extends Controller
         $counter = $request->input('counter');
 
         $results = DB::select('CALL vpendapatanoutlet (?,?,?)', [$dtfr, $dtto,$counter]);
+        $saldo_awals = DB::select('select saldo from sldawaltoko where tgl = ?', [$dtfr]);
+        $biayas = DB::select('select sum(total) as total from texpense_hs where tgl BETWEEN ? AND ?', [$dtfr,$dtto]);
 
-        // dd($results);
-        return view('pages.Print.rlapomseroutlet', compact('results','counter','dtfr', 'dtto',));
+        // dd($saldo_awals);
+        return view('pages.Print.rlapomseroutlet', compact('results','counter','dtfr', 'dtto','saldo_awals', 'biayas'));
     }
 }

@@ -71,10 +71,10 @@
                                 @php $total_pendapatan = $total_pendapatan + $results[$i]->total @endphp
                             @endif
                             <div class="col-6">
-                                <h5>{{ number_format($results[$i]->jmltransaksi, 2, '.', '')." x Penerimaan"}}</h5>
+                                <h5>{{ number_format($results[$i]->jmltransaksi)." x Penerimaan"}}</h5>
                             </div>  
                             <div class="col-6 d-flex justify-content-end align-items-end">
-                                <h5>{{ 'Rp.'.number_format($results[$i]->total, 2, '.', ',') }}</h5>
+                                <h5>{{ 'Rp.'.number_format($results[$i]->total) }}</h5>
                             </div>  
                         </div>
                     </div>
@@ -84,6 +84,36 @@
             <div class="row">
                 <div class="col-5">
                     <hr style="border-top: dotted 0.3px;" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-5">
+                    <div class="row">
+                        <div class="col-6">
+                            <h5>Saldo Awal : </h5>
+                        </div>
+                        <div class="col-6 d-flex justify-content-end align-items-end">
+                            @for($i = 0; $i < sizeof($saldo_awals); $i++) @php $counter++; @endphp 
+                                <h5>{{ 'Rp.'.number_format($saldo_awals[$i]->saldo) }}</h5>
+                                @php $saldo_awal = $saldo_awals[$i]->saldo; @endphp
+                            @endfor
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-5">
+                    <div class="row">
+                        <div class="col-6">
+                            <h5>Total Biaya : </h5>
+                        </div>
+                        <div class="col-6 d-flex justify-content-end align-items-end">
+                            @for($i = 0; $i < sizeof($biayas); $i++) @php $counter++; @endphp 
+                                <h5>{{ 'Rp.'.number_format($biayas[$i]->total) }}</h5>
+                                @php $biaya = $biayas[$i]->total; @endphp
+                            @endfor
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -105,7 +135,20 @@
                             <h5>Total Pendapatan : </h5>
                         </div>
                         <div class="col-6 d-flex justify-content-end align-items-end">
-                            <h5>{{'Rp. '.number_format($total_pendapatan, 2, '.', ',') }}</h5>
+                            <h5>{{'Rp. '.number_format($total_pendapatan) }}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @php $nett_pendapatan = ($total_pendapatan + $saldo_awal) - $biaya @endphp
+            <div class="row">
+                <div class="col-5">
+                    <div class="row">
+                        <div class="col-6">
+                            <h5>Nett Pendapatan : </h5>
+                        </div>
+                        <div class="col-6 d-flex justify-content-end align-items-end">
+                            <h5>{{'Rp. '.number_format($nett_pendapatan) }}</h5>
                         </div>
                     </div>
                 </div>

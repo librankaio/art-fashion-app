@@ -50,11 +50,6 @@
                                     <label>Diskon (rate)</label>
                                     <input type="text" class="form-control" id="disc" value="0">
                                 </div>    
-                                <div class="form-group">
-                                    <a href="" id="addItem">
-                                        <i class="fa fa-plus" style="font-size:18pt"></i>
-                                    </a>
-                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -76,6 +71,11 @@
                                 <div class="form-group">
                                     <label>Keterangan</label>
                                     <textarea class="form-control" style="height:70px" id="keterangan"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <a href="" id="addItem">
+                                        <i class="fa fa-plus" style="font-size:18pt"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
