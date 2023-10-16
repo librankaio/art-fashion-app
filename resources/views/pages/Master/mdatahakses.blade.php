@@ -829,7 +829,7 @@
                                         <th scope="col" class="border border-5" style="text-align: center;">NIK</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Nama</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Counter</th>
-                                        <th scope="col" class="border border-5" style="text-align: center;">Privilage Status</th>
+                                        {{-- <th scope="col" class="border border-5" style="text-align: center;">Privilage Status</th> --}}
                                         <th scope="col" class="border border-5" style="text-align: center;">Action</th>
                                     </tr>
                                 </thead>
@@ -844,17 +844,17 @@
                                                 <td class="border border-5" style="text-align: center;">{{ $item->nik }}</td>
                                                 <td class="border border-5" style="text-align: center;">{{ $item->name }}</td>
                                                 <td class="border border-5" style="text-align: center;">{{ $item->counter }}</td>
-                                                @if ($item->acs_stat == null || $item->acs_stat == 'N')
+                                                {{-- @if ($item->acs_stat == null || $item->acs_stat == 'N')
                                                     <td class="border border-5" style="text-align: center;">Unregister</td>
                                                 @elseif($item->acs_stat == 'Y')
                                                     <td class="border border-5" style="text-align: center;">Registred</td>
-                                                @endif
+                                                @endif --}}
                                                 <td style="text-align: center;" class="d-flex justify-content-center">
                                                     @if ($item->acs_stat == null || $item->acs_stat == 'N')
                                                     <a href="/mhakses/{{ $item->id }}/edit"
                                                         class="btn btn-icon icon-left btn-primary" style="cursor: not-allowed; opacity: 0.5; pointer-events: none;" disabled><i class="far fa-edit">
                                                             Edit</i></a>
-                                                    <form action="/mhakses/delete/{{ $item->id }}" id="del-{{ $item->id }}"
+                                                    {{-- <form action="/mhakses/delete/{{ $item->id }}" id="del-{{ $item->id }}"
                                                         method="POST" class="px-2">
                                                         @csrf
                                                         <button disabled class="btn btn-icon icon-left btn-danger" style="cursor: not-allowed; opacity: 0.5;"
@@ -863,12 +863,12 @@
                                                             data-confirm-yes="submitDel({{ $item->id }})"><i
                                                                 class="fa fa-trash">
                                                                 Delete</i></button>
-                                                    </form>
+                                                    </form> --}}
                                                     @elseif($item->acs_stat == 'Y')
                                                     <a href="/mhakses/{{ $item->id }}/edit"
                                                         class="btn btn-icon icon-left btn-primary"><i class="far fa-edit">
                                                             Edit</i></a>
-                                                    <form action="/mhakses/delete/{{ $item->id }}" id="del-{{ $item->id }}"
+                                                    {{-- <form action="/mhakses/delete/{{ $item->id }}" id="del-{{ $item->id }}"
                                                         method="POST" class="px-2">
                                                         @csrf
                                                         <button class="btn btn-icon icon-left btn-danger"
@@ -877,7 +877,7 @@
                                                             data-confirm-yes="submitDel({{ $item->id }})"><i
                                                                 class="fa fa-trash">
                                                                 Delete</i></button>
-                                                    </form>
+                                                    </form> --}}
                                                     @endif
                                                 </td>
                                             </tr>
