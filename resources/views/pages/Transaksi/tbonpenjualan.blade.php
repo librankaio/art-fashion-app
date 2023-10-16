@@ -398,30 +398,30 @@
                     alert('Quantity tidak boleh 0');
                     return false;
                 }
-                $.ajax({
-                    url: '{{ route('getmitem') }}', 
-                    method: 'post', 
-                    data: {'kode': kode, 'counter': counter}, 
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
-                    dataType: 'json', 
-                    success: function(response) {
-                        // console.log(kode);
-                        console.log(response);
-                        for (i=0; i < response.length; i++) {
-                            if(response[i].code == kode){
-                                $("#nama_item").val(response[i].name)
-                                hrg = Number(response[i].hrgjual);
-                                $("#satuan").val(response[i].satuan);
-                                $("#warna").val(response[i].warna);
-                                subtotal = Number(hrg).toFixed(2) * $('#quantity').val()
-                                $("#subtot").val(thousands_separators(subtotal.toFixed(2)));
-                                $("#hrgjual").val(thousands_separators(hrg.toFixed(2)));
-                            }
-                        }
-                        hide_loading()
-                    }
-                });
+                // $.ajax({
+                //     url: '{{ route('getmitem') }}', 
+                //     method: 'post', 
+                //     data: {'kode': kode, 'counter': counter}, 
+                //     headers: {
+                //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
+                //     dataType: 'json', 
+                //     success: function(response) {
+                //         // console.log(kode);
+                //         console.log(response);
+                //         for (i=0; i < response.length; i++) {
+                //             if(response[i].code == kode){
+                //                 $("#nama_item").val(response[i].name)
+                //                 hrg = Number(response[i].hrgjual);
+                //                 $("#satuan").val(response[i].satuan);
+                //                 $("#warna").val(response[i].warna);
+                //                 subtotal = Number(hrg).toFixed(2) * $('#quantity').val()
+                //                 $("#subtot").val(thousands_separators(subtotal.toFixed(2)));
+                //                 $("#hrgjual").val(thousands_separators(hrg.toFixed(2)));
+                //             }
+                //         }
+                //         hide_loading()
+                //     }
+                // });
 
                 kode = $("#select2-kode-container").text();
                 kode_id = $("#kode").val();
