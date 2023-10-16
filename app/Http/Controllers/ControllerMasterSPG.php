@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mcounter;
+use App\Models\Mhakakses;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -45,6 +46,9 @@ class ControllerMasterSPG extends Controller
             }
             $user = User::select('id','nik','name')->where('nik','=',$request->nik)->first();
             DB::insert( DB::raw("insert into mhakakses (id_user, nik, counter, feature, save, open, updt, print, dlt) select '$user->id', '$request->nik', '$request->counter', code, 'Y', 'Y', 'Y', 'Y', 'Y' FROM app"));
+            User::where('id', '=', $user->id)->update([
+                'acs_stat' => 'Y',
+            ]);
             return redirect()->back()->with('success', 'Data berhasil ditambahkan');
         }
     }
@@ -98,6 +102,7 @@ class ControllerMasterSPG extends Controller
 
     public function delete(User $user){
         User::find($user->id)->delete();
+        Mhakakses::where('id_user',$user->id)->delete(); 
         return redirect()->route('mspg');
     }
 }

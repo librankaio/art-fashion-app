@@ -155,6 +155,13 @@ class ControllerMasterHakAkses extends Controller
         $auth_tsuratjalan = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'tsuratjalan')->first();
         $auth_tstopname = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'tstopname')->first();
         $auth_tbelibrg = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'tbelibrg')->first();
+        $auth_romsetperitem = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'romsetperitem')->first();
+        $auth_romsetpercounter = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'romsetpercounter')->first();
+        $auth_rstockpercounter = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'rstockpercounter')->first();
+        $auth_rmutasistock = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'rmutasistock')->first();
+        $auth_rstockoverview = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'rstockoverview')->first();
+        $auth_umdataitem = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'umdataitem')->first();
+        $auth_umitemcounter = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'umitemcounter')->first();
         // dd($auth_mitem);
         return view('pages.Master.mdatahaksesedit',[ 
             'hakakses_user' => $hakakses_user, 
@@ -175,6 +182,13 @@ class ControllerMasterHakAkses extends Controller
             'auth_tsuratjalan' => $auth_tsuratjalan,
             'auth_tstopname' => $auth_tstopname,
             'auth_tbelibrg' => $auth_tbelibrg,
+            'auth_romsetperitem' => $auth_romsetperitem,
+            'auth_romsetpercounter' => $auth_romsetpercounter,
+            'auth_rstockpercounter' => $auth_rstockpercounter,
+            'auth_rmutasistock' => $auth_rmutasistock,
+            'auth_rstockoverview' => $auth_rstockoverview,
+            'auth_umdataitem' => $auth_umdataitem,
+            'auth_umitemcounter' => $auth_umitemcounter,
         ]);
     }
 
@@ -274,12 +288,61 @@ class ControllerMasterHakAkses extends Controller
             'dlt' => request('delete_tbelibrg'),
             'print' => request('print_tbelibrg')
         ]);
+        Mhakakses::where('id_user', '=', $user_akses->id_user)->where('feature', '=', 'romsetperitem')->update([
+            'save' => request('create_romsetperitem'),
+            'open' => request('read_romsetperitem'),
+            'updt' => request('update_romsetperitem'),
+            'dlt' => request('delete_romsetperitem'),
+            'print' => request('print_romsetperitem')
+        ]);
+        Mhakakses::where('id_user', '=', $user_akses->id_user)->where('feature', '=', 'romsetpercounter')->update([
+            'save' => request('create_romsetpercounter'),
+            'open' => request('read_romsetpercounter'),
+            'updt' => request('update_romsetpercounter'),
+            'dlt' => request('delete_romsetpercounter'),
+            'print' => request('print_romsetpercounter')
+        ]);
+        Mhakakses::where('id_user', '=', $user_akses->id_user)->where('feature', '=', 'rstockpercounter')->update([
+            'save' => request('create_rstockpercounter'),
+            'open' => request('read_rstockpercounter'),
+            'updt' => request('update_rstockpercounter'),
+            'dlt' => request('delete_rstockpercounter'),
+            'print' => request('print_rstockpercounter')
+        ]);
+        Mhakakses::where('id_user', '=', $user_akses->id_user)->where('feature', '=', 'rmutasistock')->update([
+            'save' => request('create_rmutasistock'),
+            'open' => request('read_rmutasistock'),
+            'updt' => request('update_rmutasistock'),
+            'dlt' => request('delete_rmutasistock'),
+            'print' => request('print_rmutasistock')
+        ]);
+        Mhakakses::where('id_user', '=', $user_akses->id_user)->where('feature', '=', 'rstockoverview')->update([
+            'save' => request('create_rstockoverview'),
+            'open' => request('read_rstockoverview'),
+            'updt' => request('update_rstockoverview'),
+            'dlt' => request('delete_rstockoverview'),
+            'print' => request('print_rstockoverview')
+        ]);
+        Mhakakses::where('id_user', '=', $user_akses->id_user)->where('feature', '=', 'umdataitem')->update([
+            'save' => request('create_umdataitem'),
+            'open' => request('read_umdataitem'),
+            'updt' => request('update_umdataitem'),
+            'dlt' => request('delete_umdataitem'),
+            'print' => request('print_umdataitem')
+        ]);
+        Mhakakses::where('id_user', '=', $user_akses->id_user)->where('feature', '=', 'umitemcounter')->update([
+            'save' => request('create_umitemcounter'),
+            'open' => request('read_umitemcounter'),
+            'updt' => request('update_umitemcounter'),
+            'dlt' => request('delete_umitemcounter'),
+            'print' => request('print_umitemcounter')
+        ]);
 
         return redirect()->route('mhakses');
     }
 
     public function delete(User $user){
-        Mhakakses::where('id_user',$user->id)->delete();
+        Mhakakses::where('id_user',$user->id)->delete();        
         User::where('id',$user->id)->update([
             'acs_stat' => null,
         ]);
