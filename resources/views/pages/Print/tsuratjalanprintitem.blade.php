@@ -123,7 +123,7 @@
     <h1 style="margin: 0px auto; text-align: center; font-size: 8px;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h1>
   </div>
   <div class="container" style="padding-bottom: 7px;">
-    <h5 style="margin: 0px auto; font-size: 8px;" id="title">{{ $item->name }}</h5>
+    <h5 style="margin: 0px auto; font-size: 8px;" id="title">{{ $item->name." - ".$item->warna }}</h5>
     <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($item->code , 'C128') }}" alt="barcode" width="100" height="20" id="bgimg"/> <br>
     <h1 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left;" id="text_code">{{ $item->code }} <span><h1 style="margin: 0px auto; font-size: 6px; float:right;">{{date("mY")}}</h1></span></h1>
     <h1 style="margin: 0px auto; text-align: center; font-size: 8px;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h1>

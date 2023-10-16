@@ -83,6 +83,16 @@ class ControllerLogin extends Controller
                 $request->session()->put('mhakses_print', $auth_mhakses->print);
             }     
 
+            $auth_sldawaltoko = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'sldawaltoko')->first();
+
+            if($auth_sldawaltoko != null){
+                $request->session()->put('sldawaltoko_save', $auth_sldawaltoko->save);
+                $request->session()->put('sldawaltoko_open', $auth_sldawaltoko->open);
+                $request->session()->put('sldawaltoko_updt', $auth_sldawaltoko->updt);
+                $request->session()->put('sldawaltoko_dlt', $auth_sldawaltoko->dlt);
+                $request->session()->put('sldawaltoko_print', $auth_sldawaltoko->print);
+            }     
+
             $auth_tsob = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'tsob')->first();
 
             if($auth_tsob != null){

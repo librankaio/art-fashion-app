@@ -42,7 +42,7 @@
                     <div class="timezone" hidden>{{ date_default_timezone_set('Asia/Jakarta') }}</div>
                     {{-- <div class="timezone" hidden>{{ setlocale (LC_TIME, 'id_ID'); }}</div> --}}
                     <h5>Pelanggan : {{ $tpenjualanh->counter }}</h5>
-                    <h5>TRANSAKSI : {{ strftime( "%A, %d %B %Y %H:%M", time()); }}</h5>
+                    <h5>TRANSAKSI : {{ date("Y-m-d", strtotime($tpenjualanh->tgl)) }}</h5>
                     <h5>KARYAWAN : {{ session('name') }}</h5>
                 </div>
             </div>

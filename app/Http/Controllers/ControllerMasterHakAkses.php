@@ -162,6 +162,7 @@ class ControllerMasterHakAkses extends Controller
         $auth_rstockoverview = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'rstockoverview')->first();
         $auth_umdataitem = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'umdataitem')->first();
         $auth_umitemcounter = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'umitemcounter')->first();
+        $auth_sldawaltoko = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'sldawaltoko')->first();
         // dd($auth_mitem);
         return view('pages.Master.mdatahaksesedit',[ 
             'hakakses_user' => $hakakses_user, 
@@ -189,6 +190,7 @@ class ControllerMasterHakAkses extends Controller
             'auth_rstockoverview' => $auth_rstockoverview,
             'auth_umdataitem' => $auth_umdataitem,
             'auth_umitemcounter' => $auth_umitemcounter,
+            'auth_sldawaltoko' => $auth_sldawaltoko,
         ]);
     }
 
@@ -231,6 +233,13 @@ class ControllerMasterHakAkses extends Controller
             'updt' => request('update_mhakses'),
             'dlt' => request('delete_mhakses'),
             'print' => request('print_mhakses')
+        ]);
+        Mhakakses::where('id_user', '=', $user_akses->id_user)->where('feature', '=', 'sldawaltoko')->update([
+            'save' => request('create_sldawaltoko'),
+            'open' => request('read_sldawaltoko'),
+            'updt' => request('update_sldawaltoko'),
+            'dlt' => request('delete_sldawaltoko'),
+            'print' => request('print_sldawaltoko')
         ]);
         Mhakakses::where('id_user', '=', $user_akses->id_user)->where('feature', '=', 'tsob')->update([
             'save' => request('create_tsob'),

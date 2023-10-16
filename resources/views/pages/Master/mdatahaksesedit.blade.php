@@ -33,15 +33,16 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>NIK</label>
-                                    <select class="form-control select2" name="nik" id="nik">
-                                        <option disabled selected value="{{ $hakakses_user->nik }}">{{ $hakakses_user->nik }}</option>
+                                    <input type="text" class="form-control" name="nik" id="nik" value="{{ $user->nik." - ".$user->name }}" readonly>
+                                    {{-- <select class="form-control select2" name="nik" id="nik">
+                                        <option selected value="{{ $hakakses_user->nik }}">{{ $user->nik." - ".$user->name }}</option>
                                         @foreach($users as $user)
                                         <option value="{{ $user->nik }}">{{ $user->nik." - ".$user->name }}</option>                                            
                                         @endforeach
-                                    </select>
+                                    </select> --}}
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Counter</label>
                                     <select class="form-control select2" name="counter" id="counter">
@@ -51,7 +52,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         {{-- <div class="row">
                             <div class="col-md-6">
@@ -333,6 +334,55 @@
                                                                 <input class="form-check-input checkbox" type="checkbox" name="read_mhakses" value="Y" checked>
                                                             @elseif($auth_mhakses->open == 'N' || $auth_mhakses->open == null)
                                                                 <input class="form-check-input checkbox" type="checkbox" name="read_mhakses" value="Y">
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            @if($auth_mhakses->updt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_mhakses" value="Y" checked>
+                                                            @elseif($auth_mhakses->updt == 'N' || $auth_mhakses->updt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_mhakses" value="Y">
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            @if($auth_mhakses->dlt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_mhakses" value="Y" checked>
+                                                                @elseif($auth_mhakses->dlt == 'N' || $auth_mhakses->dlt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_mhakses" value="Y">
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            @if($auth_mhakses->print == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_mhakses" value="Y" checked>
+                                                                @elseif($auth_mhakses->print == 'N' || $auth_mhakses->print == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_mhakses" value="Y">
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='sldawaltoko'></td>
+                                                    <td class="border border-5">Master Saldo Awal</td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            @if($auth_sldawaltoko->save == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="create_sldawaltoko" value="Y" checked>
+                                                            @elseif($auth_sldawaltoko->save == 'N' || $auth_sldawaltoko->save == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="create_sldawaltoko" value="Y">
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            @if($auth_sldawaltoko->open == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="read_sldawaltoko" value="Y" checked>
+                                                            @elseif($auth_sldawaltoko->open == 'N' || $auth_sldawaltoko->open == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="read_sldawaltoko" value="Y">
                                                             @endif
                                                         </div>
                                                     </td>

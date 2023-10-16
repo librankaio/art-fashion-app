@@ -134,6 +134,16 @@ class ControllerMasterDataItem extends Controller
       return response()->json($response);
     }
 
+    public function getstock(Request $request){
+        $kode = $request->kode;
+        if($kode == ''){
+            $mitems = Mitem::select('id','code','name','warna','satuan','hrgjual')->orderBy('code', 'asc')->limit(20)->get();
+        }else{
+            $mitems = Mitem::select('id','code','name','warna','satuan','hrgjual')->where('code','=',$kode)->limit(20)->get();
+        }
+        return json_encode($mitems);
+    }
+
     public function getedit(Mitem $mitem){
         return view('pages.Master.mdataitemedit',[ 'mitem' => $mitem]);
     }
