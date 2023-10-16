@@ -43,7 +43,7 @@ class ControllerMasterSPG extends Controller
                     'privilage' => 'SPG SR',
                 ]);
             }
-            $user = User::select('id','code','name')->where('nik','=',$request->nik)->first();
+            $user = User::select('id','nik','name')->where('nik','=',$request->nik)->first();
             DB::insert( DB::raw("insert into mhakakses (id_user, nik, counter, feature, save, open, updt, print, dlt) select '$user->id', '$request->nik', '$request->counter', code, 'Y', 'Y', 'Y', 'Y', 'Y' FROM app"));
             return redirect()->back()->with('success', 'Data berhasil ditambahkan');
         }
