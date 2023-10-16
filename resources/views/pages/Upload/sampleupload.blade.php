@@ -67,6 +67,10 @@
         $(this).parent().fadeOut(2000);
     });
 
+    if ($('#videoUploadFile').get(0).files.length === 0) {
+    console.log("No files selected.");
+    }
+
     function submitDel(id){
         $('#del-'+id).submit()
     }
@@ -74,11 +78,15 @@
         // Validate ifnull
         kode = $("#kode").val();
         nama = $("#nama").val();
+        file_upload = $("#customFile").val();
         if (kode == ""){
             swal('WARNING', 'Kode Tidak boleh kosong!', 'warning');
             return false;
         }else if (nama == ""){
             swal('WARNING', 'Nama Tidak boleh kosong!', 'warning');
+            return false;
+        }else if(file_upload == ''){
+            swal('WARNING', 'File upload kosong!', 'warning');
             return false;
         }
     });

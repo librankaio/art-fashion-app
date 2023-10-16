@@ -18,6 +18,8 @@ class ControllerTransSOB extends Controller
             $counters = Mcounter::select('id','code','name')->get();
         }else if($privilage == null){
             $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }else{
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         }
         $mitems = Mitem::select('id','code','name')->orderBy('code', 'asc')->get();
         $notrans = DB::select("select fgetcode('tsob') as codetrans");
@@ -92,6 +94,8 @@ class ControllerTransSOB extends Controller
         if($privilage == 'ADM'){
             $counters = Mcounter::select('id','code','name')->get();
         }else if($privilage == null){
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }else{
             $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         }
         $mitems = Mitem::select('id','code','name')->get();

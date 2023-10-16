@@ -183,6 +183,8 @@ class ControllerTransBonPenjualan extends Controller
             $counters = Mcounter::select('id','code','name')->get();
         }else if($privilage == null){
             $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }else{
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         }
         // $mitems = Mitem::select('id','code','name')->get();
         $counter_name = session('counter');

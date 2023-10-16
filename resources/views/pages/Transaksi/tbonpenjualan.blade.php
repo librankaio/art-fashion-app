@@ -155,6 +155,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {{-- @if ($message = Session::get('error'))
+                                    
+                                    @endif --}}
                                 </tbody>                            
                             </table>
                         </div>                                              

@@ -21,6 +21,8 @@ class ControllerTransPenerimaanBrg extends Controller
             $counters = Mcounter::select('id','code','name')->get();
         }else if($privilage == null){
             $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }else{
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         }
         $mitems = Mitem::select('id','code','name')->get();
         $notsjs = Tsj_h::select('id','no','tgl','counter',)->whereNull('exist_penerimaan')->get();
@@ -132,6 +134,8 @@ class ControllerTransPenerimaanBrg extends Controller
         if($privilage == 'ADM'){
             $counters = Mcounter::select('id','code','name')->get();
         }else if($privilage == null){
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }else{
             $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         }
         $mitems = Mitem::select('id','code','name')->get();
