@@ -198,21 +198,27 @@
                                 <h3 style="font-weight: bold;">TOTAL : RP.{{ number_format($tpenjualanh->grdtotal) }}</h3>
                             </div>
                         </div>
+                        @if(session('privilage') != 'ADM')
                         <div class="row">
                             <div class="col-12 d-flex justify-content-end align-items-end">
                                 <h5>METODE PEMBAYARAN : {{ $tpenjualanh->payment_mthd }}</h5>
                             </div>
                         </div>
+                        @endif
+                        @if(session('privilage') != 'ADM')
                         <div class="row">
                             <div class="col-12 d-flex justify-content-end align-items-end">
                                 <h5>BAYAR PAYMENT : RP.{{ number_format($tpenjualanh->totbayar) }}</h5>
                             </div>
                         </div> 
+                        @endif
+                        @if(session('privilage') != 'ADM')
                         <div class="row">
                             <div class="col-12 d-flex justify-content-end align-items-end">
                                 <h5>KEMBALI : RP.{{ number_format($tpenjualanh->totkembali) }}</h5>
                             </div>
                         </div>
+                        @endif
                     @endif
                 </div>
             </div>

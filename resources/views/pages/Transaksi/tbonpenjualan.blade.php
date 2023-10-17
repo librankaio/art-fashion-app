@@ -113,11 +113,13 @@
                                         <option selected>Diskon</option>
                                         <option>Special Price</option>
                                     </select>
-                                </div>             
-                                <div class="form-group">
-                                    <label>No. Kartu</label>
-                                    <input type="text" class="form-control" name="noreff" id="noreff">
-                                </div>                       
+                                </div>        
+                                @if(session('privilage') != 'ADM')
+                                    <div class="form-group">
+                                        <label>No. Kartu</label>
+                                        <input type="text" class="form-control" name="noreff" id="noreff">
+                                    </div>                       
+                                @endif  
                                 <div class="form-group">
                                     <label>Tanggal</label>
                                     <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d") }}">
@@ -162,11 +164,16 @@
                             </table>
                         </div>                                              
                     </div>      
-                    <div class="col-12 col-md-12 col-lg-12 align-self-center">
+                    @if(session('privilage') != 'ADM')
+                        <div class="col-12 col-md-12 col-lg-12 align-self-center">
+                    @else
+                        <div class="col-12 col-md-12 col-lg-12 d-flex justify-content-end">
+                    @endif
                         <div class="row px-2">
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-6">
+                                        @if(session('privilage') != 'ADM')
                                         <div class="form-group">
                                             <label>Payment Method</label>
                                             <select class="form-control select2" name="payment_mthd" id="payment_mthd">
@@ -176,8 +183,10 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                        @endif
                                     </div>
                                     <div class="col-md-6">
+                                        @if(session('privilage') != 'ADM')
                                         <div class="form-group">
                                             <label>Payment Method 2</label>
                                             <select class="form-control select2" name="payment_mthd_2" id="payment_mthd_2">
@@ -187,6 +196,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                                  
@@ -201,6 +211,7 @@
                                 </div>  --}}
                             </div>
                             <div class="col-md-6">
+                                @if(session('privilage') != 'ADM')
                                <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
@@ -245,6 +256,52 @@
                                         </div>
                                     </div>
                                </div>
+                               @else
+                               <div class="row">
+                                    <div class="col-md-3" hidden>
+                                        <div class="form-group">
+                                            <label>Total Pembayaran</label>
+                                            <input type="text" class="form-control" name="totbayar" form="thisform" id="totbayar" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" hidden>
+                                        <div class="form-group">
+                                            <label>Total Pembayaran 2</label>
+                                            <input type="text" class="form-control" name="totbayar_2" form="thisform" id="totbayar_2" value="0" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" hidden>
+                                        <div class="form-group">
+                                            <label>Total Kembali</label>
+                                            <input type="text" class="form-control" name="totkembali" form="thisform" id="totkembali" value="0" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Total Diskon</label>
+                                            <input type="text" class="form-control" name="price_disc" form="thisform" id="price_disc" value="0" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Total</label>
+                                            <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" value="0" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" hidden>
+                                        <div class="form-group">
+                                            <label>Today Saldo</label>
+                                            <input type="text" class="form-control" name="today_saldo" form="thisform" id="today_saldo" value="{{ $today_saldo }}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" hidden>
+                                        <div class="form-group">
+                                            <label>SPG ACCESS</label>
+                                            <input type="text" class="form-control" name="spg_access" form="thisform" id="spg_access" value="{{ session('privilage') }}" readonly>
+                                        </div>
+                                    </div>
+                               </div>
+                               @endif
                             </div>
                         </div>
                     </div>              
@@ -817,16 +874,19 @@
         no = $("#no").val();
         code_cust = $("#code_cust").prop('selectedIndex');
         payment_method = $("#payment_mthd").prop('selectedIndex');
-        if (no == ""){
+        if (spg_access != 'ADM'){
+            if (no == ""){
             swal('WARNING', 'No Tidak boleh kosong!', 'warning');
             return false;
-        }else if (code_cust == 0){
-            swal('WARNING', 'Please select Code Cust', 'warning');
-            return false;
-        }else if (payment_method == 0){
-            swal('WARNING', 'Please select Jenis Payment', 'warning');
-            return false;
+            }else if (code_cust == 0){
+                swal('WARNING', 'Please select Code Cust', 'warning');
+                return false;
+            }else if (payment_method == 0){
+                swal('WARNING', 'Please select Jenis Payment', 'warning');
+                return false;
+            }
         }
+        
         });
 
         $(document).on('keyup', '.row_qty', function(event) 
