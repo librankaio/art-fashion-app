@@ -22,12 +22,16 @@ class ControllerMasterSaldoAwal extends Controller
 
     public function post(Request $request){
         // dd($request->all());
-        MsaldoAwal::create([
-            'tgl' => $request->dt,
-            'saldo' => (float) str_replace(',', '', $request->saldo),
-            'counter' => session('counter'),
-        ]);
-        return redirect()->back()->with('success', 'Data berhasil ditambahkan');
+        $checkexist = MsaldoAwal::select('tgl','saldo')->where('tgl','=', $request->dt)->first();
+        if($checkexist == null){
+            MsaldoAwal::create([
+                'tgl' => $request->dt,
+                'saldo' => (float) str_replace(',', '', $request->saldo),
+                'counter' => session('counter'),
+            ]);
+            return redirect()->back()->with('success', 'Data berhasil ditambahkan');
+        }
+        return redirect()->back()->with('warning', 'Saldo hari ini sudah ada!');
     }
 
     public function getedit(MsaldoAwal $msaldoAwal){
