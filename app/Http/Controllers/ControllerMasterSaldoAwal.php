@@ -22,7 +22,7 @@ class ControllerMasterSaldoAwal extends Controller
 
     public function post(Request $request){
         // dd($request->all());
-        $checkexist = MsaldoAwal::select('tgl','saldo')->where('tgl','=', $request->dt)->first();
+        $checkexist = MsaldoAwal::select('tgl','saldo')->where('tgl','=', $request->dt)->where('counter','=', session('counter'))->first();
         if($checkexist == null){
             MsaldoAwal::create([
                 'tgl' => $request->dt,
