@@ -27,7 +27,7 @@ class MitemsImport implements ToCollection,WithHeadingRow
                     'satuan' => $row['satuan'],
                     'material' => $row['material'],
                     'gross' => $row['gross'],
-                    'stock' => $row['stock'],
+                    // 'stock' => $row['stock'],
                     'nett' => $row['nett'],
                     'spcprice' => $row['spcprice'],
                 ]);
