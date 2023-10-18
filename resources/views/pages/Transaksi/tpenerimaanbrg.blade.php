@@ -129,7 +129,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <div class="form-group">
+                            <div class="form-group" hidden>
                                 {{-- <label>counter</label> --}}
                                 <input type="text" class="form-control" id="number_counter" value="0" readonly>
                             </div>

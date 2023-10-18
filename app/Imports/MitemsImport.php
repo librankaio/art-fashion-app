@@ -15,20 +15,23 @@ class MitemsImport implements ToCollection,WithHeadingRow
     {
         foreach ($rows as $row) 
         {
-            $mitem = Mitem::create([  
-                'name' => $row['name'],
-                'code' => $row['code'],
-                'warna' => $row['warna'],
-                'kategori' => $row['kategori'],
-                'hrgjual' => $row['hrgjual'],
-                'size' => $row['size'],
-                'satuan' => $row['satuan'],
-                'material' => $row['material'],
-                'gross' => $row['gross'],
-                'stock' => $row['stock'],
-                'nett' => $row['nett'],
-                'spcprice' => $row['spcprice'],
-            ]);
+            $availcode = Mitem::where('code', '=', $row['code'])->first();
+            if($availcode == null){
+                $mitem = Mitem::create([  
+                    'name' => $row['name'],
+                    'code' => $row['code'],
+                    'warna' => $row['warna'],
+                    'kategori' => $row['kategori'],
+                    'hrgjual' => $row['hrgjual'],
+                    'size' => $row['size'],
+                    'satuan' => $row['satuan'],
+                    'material' => $row['material'],
+                    'gross' => $row['gross'],
+                    'stock' => $row['stock'],
+                    'nett' => $row['nett'],
+                    'spcprice' => $row['spcprice'],
+                ]);
+            }
             $code = $row['code'];
             $name = $row['name'];
             DB::insert( DB::raw("insert into mitems_counters (code_mitem, name_mitem, code_mcounters, name_mcounters, stock)
