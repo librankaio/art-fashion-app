@@ -20,6 +20,7 @@ class Tpenjualan_h extends Model
         'payment_mthd_2',
         'noreff',
         'grdtotal',
+        'hrgsblmdisc',
         'totbayar',
         'totbayar_2',
         'totkembali',

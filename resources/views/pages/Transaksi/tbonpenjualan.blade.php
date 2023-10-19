@@ -251,6 +251,12 @@
                                     </div>
                                     <div class="col-md-3" hidden>
                                         <div class="form-group">
+                                            <label>Total Sebelum Diskon</label>
+                                            <input type="text" class="form-control" name="price_sebelumdisc" form="thisform" id="price_sebelumdisc" value="0" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" hidden>
+                                        <div class="form-group">
                                             <label>SPG ACCESS</label>
                                             <input type="text" class="form-control" name="spg_access" form="thisform" id="spg_access" value="{{ session('privilage') }}" readonly>
                                         </div>
@@ -276,13 +282,19 @@
                                             <input type="text" class="form-control" name="totkembali" form="thisform" id="totkembali" value="0" readonly>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Total Sebelum Diskon</label>
+                                            <input type="text" class="form-control" name="price_sebelumdisc" form="thisform" id="price_sebelumdisc" value="0" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Total Diskon</label>
                                             <input type="text" class="form-control" name="price_disc" form="thisform" id="price_disc" value="0" readonly>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Total</label>
                                             <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" value="0" readonly>
@@ -528,6 +540,9 @@
 
                     grandtot = total;
 
+                    total_sebelum_disc = grandtot + disc;
+                    $('#price_sebelumdisc').val(thousands_separators(total_sebelum_disc.toFixed(2)));
+
                     totbayar_1 = $('#totbayar').val();
                     if (/\D/g.test(totbayar_1))
                     {
@@ -582,6 +597,9 @@
                     console.log("Disc New : ",disc_new);
                     total =  (subtot - disc);
                     subtot_new = old_grandtot + total;
+
+                    total_sebelum_disc = subtot_new + disc_new;
+                    $('#price_sebelumdisc').val(thousands_separators(total_sebelum_disc.toFixed(2)));
 
                     totbayar_1 = $('#totbayar').val();
                     if (/\D/g.test(totbayar_1))
@@ -660,6 +678,17 @@
                     }
                     new_disc = old_disc - discrow;
                     total_row = subtot - discrow;
+
+                    price_totsebelumdisc = $("#price_sebelumdisc").val();
+                    if (/\D/g.test(price_totsebelumdisc))
+                    {
+                        // Filter comma
+                        price_totsebelumdisc = price_totsebelumdisc.replace(/\,/g,"");
+                        price_totsebelumdisc = Number(Math.trunc(price_totsebelumdisc))
+                    }
+
+                    totsebelumdisc_new = price_totsebelumdisc - subtot;
+                    $('#price_sebelumdisc').val(thousands_separators(totsebelumdisc_new.toFixed(2)));
 
                     new_grantot = old_grandtot - total_row
                     // disc = subtot * ( / 100);

@@ -218,6 +218,7 @@
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-6">
+                                        @if(session('privilage') != 'ADM')
                                         <div class="form-group">
                                             <label>Payment Method</label>
                                             <select class="form-control select2" name="payment_mthd" id="payment_mthd">
@@ -228,8 +229,10 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                        @endif
                                     </div>
                                     <div class="col-md-6">
+                                        @if(session('privilage') != 'ADM')
                                         <div class="form-group">
                                             <label>Payment Method 2</label>
                                             <select class="form-control select2" name="payment_mthd_2" id="payment_mthd_2">
@@ -244,44 +247,105 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                               <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Total Pembayaran</label>
-                                            <input type="text" class="form-control" name="totbayar" form="thisform" id="totbayar" value="{{ number_format($tpenjualanh->totbayar, 2, '.', ',') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Total Pembayaran 2</label>
-                                            <input type="text" class="form-control" name="totbayar_2" form="thisform" id="totbayar_2" value="{{ number_format($tpenjualanh->totbayar_2, 2, '.', ',') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Total Kembali</label>
-                                            <input type="text" class="form-control" name="totkembali" form="thisform" id="totkembali" value="{{ number_format($tpenjualanh->totkembali, 2, '.', ',') }}" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Total Diskon</label>
-                                            <input type="text" class="form-control" name="price_disc" form="thisform" id="price_disc" value="{{ number_format($tpenjualanh->diskon, 2, '.', ',') }}" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Total</label>
-                                            <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" value="{{ number_format($tpenjualanh->grdtotal, 2, '.', ',') }}" readonly>
-                                        </div>
-                                    </div>
-                               </div>
-                            </div>
+                                @if(session('privilage') != 'ADM')
+                                 <div class="row">
+                                         <div class="col-md-3">
+                                             <div class="form-group">
+                                                 <label>Total Pembayaran</label>
+                                                 <input type="text" class="form-control" name="totbayar" form="thisform" id="totbayar" value="{{ number_format($tpenjualanh->totbayar, 2, '.', ',') }}">
+                                             </div>
+                                         </div>
+                                         <div class="col-md-3">
+                                             <div class="form-group">
+                                                 <label>Total Pembayaran 2</label>
+                                                 <input type="text" class="form-control" name="totbayar_2" form="thisform" id="totbayar_2" value="{{ number_format($tpenjualanh->totbayar_2, 2, '.', ',') }}" readonly>
+                                             </div>
+                                         </div>
+                                         <div class="col-md-3">
+                                             <div class="form-group">
+                                                 <label>Total Kembali</label>
+                                                 <input type="text" class="form-control" name="totkembali" form="thisform" id="totkembali" value="{{ number_format($tpenjualanh->totkembali, 2, '.', ',') }}" readonly>
+                                             </div>
+                                         </div>
+                                         <div class="col-md-3">
+                                             <div class="form-group">
+                                                 <label>Total Diskon</label>
+                                                 <input type="text" class="form-control" name="price_disc" form="thisform" id="price_disc" value="{{ number_format($tpenjualanh->diskon, 2, '.', ',') }}" readonly>
+                                             </div>
+                                         </div>
+                                         <div class="col-md-3">
+                                             <div class="form-group">
+                                                 <label>Total</label>
+                                                 <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" value="{{ number_format($tpenjualanh->grdtotal, 2, '.', ',') }}" readonly>
+                                             </div>
+                                         </div>
+                                         <div class="col-md-3" hidden>
+                                             <div class="form-group">
+                                                 <label>Total Sebelum Diskon</label>
+                                                 <input type="text" class="form-control" name="price_sebelumdisc" form="thisform" id="price_sebelumdisc" value="{{ number_format($tpenjualanh->hrgsblmdisc, 2, '.', ',') }}" readonly>
+                                             </div>
+                                         </div>
+                                         <div class="col-md-3" hidden>
+                                             <div class="form-group">
+                                                 <label>SPG ACCESS</label>
+                                                 <input type="text" class="form-control" name="spg_access" form="thisform" id="spg_access" value="{{ session('privilage') }}" readonly>
+                                             </div>
+                                         </div>
+                                 </div>
+                                @else
+                                 <div class="row">
+                                     <div class="col-md-3" hidden>
+                                         <div class="form-group">
+                                             <label>Total Pembayaran</label>
+                                             <input type="text" class="form-control" name="totbayar" form="thisform" id="totbayar" value="{{ number_format($tpenjualanh->totbayar, 2, '.', ',') }}">
+                                         </div>
+                                     </div>
+                                     <div class="col-md-3" hidden>
+                                         <div class="form-group">
+                                             <label>Total Pembayaran 2</label>
+                                             <input type="text" class="form-control" name="totbayar_2" form="thisform" id="totbayar_2" value="{{ number_format($tpenjualanh->totbayar_2, 2, '.', ',') }}" readonly>
+                                         </div>
+                                     </div>
+                                     <div class="col-md-3" hidden>
+                                         <div class="form-group">
+                                             <label>Total Kembali</label>
+                                             <input type="text" class="form-control" name="totkembali" form="thisform" id="totkembali" value="{{ number_format($tpenjualanh->totkembali, 2, '.', ',') }}" readonly>
+                                         </div>
+                                     </div>
+                                     <div class="col-md-4">
+                                         <div class="form-group">
+                                             <label>Total Sebelum Diskon</label>
+                                             <input type="text" class="form-control" name="price_sebelumdisc" form="thisform" id="price_sebelumdisc" value="{{ number_format($tpenjualanh->hrgsblmdisc, 2, '.', ',') }}" readonly>
+                                         </div>
+                                     </div>
+                                     <div class="col-md-4">
+                                         <div class="form-group">
+                                             <label>Total Diskon</label>
+                                             <input type="text" class="form-control" name="price_disc" form="thisform" id="price_disc" value="{{ number_format($tpenjualanh->diskon, 2, '.', ',') }}" readonly>
+                                         </div>
+                                     </div>
+                                     <div class="col-md-4">
+                                         <div class="form-group">
+                                             <label>Total</label>
+                                             <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" value="{{ number_format($tpenjualanh->grdtotal, 2, '.', ',') }}" readonly>
+                                         </div>
+                                     </div>
+                                     <div class="col-md-3" hidden>
+                                         <div class="form-group">
+                                             <label>SPG ACCESS</label>
+                                             <input type="text" class="form-control" name="spg_access" form="thisform" id="spg_access" value="{{ session('privilage') }}" readonly>
+                                         </div>
+                                     </div>
+                                 </div>
+                                @endif
+                             </div>
                         </div>
+                    </div>
                     </div>             
                     <div class="card-footer text-right">
                         <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="/tbonjual/{{ $tpenjualanh->id }}">Update</button>
@@ -753,12 +817,17 @@
             no = $("#no").val();
             code_cust = $("#code_cust").prop('selectedIndex');
             payment_method = $("#payment_mthd").prop('selectedIndex');
-            if (no == ""){
+            if (spg_access != 'ADM'){
+                if (no == ""){
                 swal('WARNING', 'No Tidak boleh kosong!', 'warning');
                 return false;
-            }else if (code_cust == 0){
-                swal('WARNING', 'Please select Code Cust', 'warning');
-                return false;
+                }else if (code_cust == 0){
+                    swal('WARNING', 'Please select Code Cust', 'warning');
+                    return false;
+                }else if (payment_method == 0){
+                    swal('WARNING', 'Please select Jenis Payment', 'warning');
+                    return false;
+                }
             }
         });
         
