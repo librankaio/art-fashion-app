@@ -476,9 +476,18 @@
                     }
 
                     disc = Number(subtot).toFixed(2) * ($("#disc").val() / 100);
-
                     grandtot = subtot;
                     
+                    price_sebelumdisc = $('#price_sebelumdisc').val();
+                    if (/\D/g.test(price_sebelumdisc))
+                    {
+                        // Filter comma
+                        price_sebelumdisc = price_sebelumdisc.replace(/\,/g,"");
+                        price_sebelumdisc = Number(Math.trunc(price_sebelumdisc))
+                    }
+                    
+                    total_sebelum_disc = grandtot + price_sebelumdisc;
+                    $('#price_sebelumdisc').val(thousands_separators(total_sebelum_disc.toFixed(2)));
                     $("#price_disc").val(thousands_separators(disc.toFixed(2)));
                     $("#price_total").val(thousands_separators(grandtot.toFixed(2)));
                 }else{
@@ -488,6 +497,16 @@
                         subtot = subtot.replace(/\,/g,"");
                         subtot = Number(Math.trunc(subtot))
                     }
+                    price_sebelumdisc = $('#price_sebelumdisc').val();
+                    if (/\D/g.test(price_sebelumdisc))
+                    {
+                        // Filter comma
+                        price_sebelumdisc = price_sebelumdisc.replace(/\,/g,"");
+                        price_sebelumdisc = Number(Math.trunc(price_sebelumdisc))
+                    }
+                    
+                    total_sebelum_disc = subtot + price_sebelumdisc;
+                    $('#price_sebelumdisc').val(thousands_separators(total_sebelum_disc.toFixed(2)));
 
                     old_grandtot = $("#price_total").val();
                     if (/\D/g.test(old_grandtot))
@@ -565,6 +584,17 @@
                         new_disc = old_disc - discrow;
                         total_row = subtot - discrow;
 
+                        price_totsebelumdisc = $("#price_sebelumdisc").val();
+                        if (/\D/g.test(price_totsebelumdisc))
+                        {
+                            // Filter comma
+                            price_totsebelumdisc = price_totsebelumdisc.replace(/\,/g,"");
+                            price_totsebelumdisc = Number(Math.trunc(price_totsebelumdisc))
+                        }
+
+                        totsebelumdisc_new = price_totsebelumdisc - subtot;
+                        $('#price_sebelumdisc').val(thousands_separators(totsebelumdisc_new.toFixed(2)));
+                        
                         new_grantot = old_grandtot - total_row
 
                         $("#price_disc").val(thousands_separators(new_disc));
@@ -642,6 +672,17 @@
                         }
                         new_disc = old_disc - discrow;
                         total_row = subtot - discrow;
+
+                        price_totsebelumdisc = $("#price_sebelumdisc").val();
+                        if (/\D/g.test(price_totsebelumdisc))
+                        {
+                            // Filter comma
+                            price_totsebelumdisc = price_totsebelumdisc.replace(/\,/g,"");
+                            price_totsebelumdisc = Number(Math.trunc(price_totsebelumdisc))
+                        }
+
+                        totsebelumdisc_new = price_totsebelumdisc - subtot;
+                        $('#price_sebelumdisc').val(thousands_separators(totsebelumdisc_new.toFixed(2)));
 
                         new_grantot = old_grandtot - total_row
 
