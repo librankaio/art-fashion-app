@@ -83,6 +83,16 @@ class ControllerLogin extends Controller
                 $request->session()->put('mhakses_print', $auth_mhakses->print);
             }     
 
+            $auth_mjenisbayar = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'mjenisbayar')->first();
+
+            if($auth_mjenisbayar != null){
+                $request->session()->put('mjenisbayar_save', $auth_mjenisbayar->save);
+                $request->session()->put('mjenisbayar_open', $auth_mjenisbayar->open);
+                $request->session()->put('mjenisbayar_updt', $auth_mjenisbayar->updt);
+                $request->session()->put('mjenisbayar_dlt', $auth_mjenisbayar->dlt);
+                $request->session()->put('mjenisbayar_print', $auth_mjenisbayar->print);
+            }     
+
             $auth_sldawaltoko = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'sldawaltoko')->first();
 
             if($auth_sldawaltoko != null){
@@ -141,6 +151,16 @@ class ControllerLogin extends Controller
                 $request->session()->put('tadjstock_updt', $auth_tadjstock->updt);
                 $request->session()->put('tadjstock_dlt', $auth_tadjstock->dlt);
                 $request->session()->put('tadjstock_print', $auth_tadjstock->print);
+            }     
+               
+            $auth_texpense = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'texpense')->first();
+
+            if($auth_texpense != null){
+                $request->session()->put('texpense_save', $auth_texpense->save);
+                $request->session()->put('texpense_open', $auth_texpense->open);
+                $request->session()->put('texpense_updt', $auth_texpense->updt);
+                $request->session()->put('texpense_dlt', $auth_texpense->dlt);
+                $request->session()->put('texpense_print', $auth_texpense->print);
             }        
 
             $auth_tsuratjalan = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'tsuratjalan')->first();
@@ -196,51 +216,61 @@ class ControllerLogin extends Controller
             $auth_rstockpercounter = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'rstockpercounter')->first();
 
             if($auth_rstockpercounter != null){
-                $request->session()->put('romsetpercounter_save', $auth_rstockpercounter->save);
-                $request->session()->put('romsetpercounter_open', $auth_rstockpercounter->open);
-                $request->session()->put('romsetpercounter_updt', $auth_rstockpercounter->updt);
-                $request->session()->put('romsetpercounter_dlt', $auth_rstockpercounter->dlt);
-                $request->session()->put('romsetpercounter_print', $auth_rstockpercounter->print);
+                $request->session()->put('rstockpercounter_save', $auth_rstockpercounter->save);
+                $request->session()->put('rstockpercounter_open', $auth_rstockpercounter->open);
+                $request->session()->put('rstockpercounter_updt', $auth_rstockpercounter->updt);
+                $request->session()->put('rstockpercounter_dlt', $auth_rstockpercounter->dlt);
+                $request->session()->put('rstockpercounter_print', $auth_rstockpercounter->print);
             }            
 
             $auth_rmutasistock = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'rmutasistock')->first();
 
             if($auth_rmutasistock != null){
-                $request->session()->put('romsetpercounter_save', $auth_rmutasistock->save);
-                $request->session()->put('romsetpercounter_open', $auth_rmutasistock->open);
-                $request->session()->put('romsetpercounter_updt', $auth_rmutasistock->updt);
-                $request->session()->put('romsetpercounter_dlt', $auth_rmutasistock->dlt);
-                $request->session()->put('romsetpercounter_print', $auth_rmutasistock->print);
+                $request->session()->put('rmutasistock_save', $auth_rmutasistock->save);
+                $request->session()->put('rmutasistock_open', $auth_rmutasistock->open);
+                $request->session()->put('rmutasistock_updt', $auth_rmutasistock->updt);
+                $request->session()->put('rmutasistock_dlt', $auth_rmutasistock->dlt);
+                $request->session()->put('rmutasistock_print', $auth_rmutasistock->print);
             }         
 
             $auth_rstockoverview = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'rstockoverview')->first();
 
             if($auth_rstockoverview != null){
-                $request->session()->put('romsetpercounter_save', $auth_rstockoverview->save);
-                $request->session()->put('romsetpercounter_open', $auth_rstockoverview->open);
-                $request->session()->put('romsetpercounter_updt', $auth_rstockoverview->updt);
-                $request->session()->put('romsetpercounter_dlt', $auth_rstockoverview->dlt);
-                $request->session()->put('romsetpercounter_print', $auth_rstockoverview->print);
+                $request->session()->put('rstockoverview_save', $auth_rstockoverview->save);
+                $request->session()->put('rstockoverview_open', $auth_rstockoverview->open);
+                $request->session()->put('rstockoverview_updt', $auth_rstockoverview->updt);
+                $request->session()->put('rstockoverview_dlt', $auth_rstockoverview->dlt);
+                $request->session()->put('rstockoverview_print', $auth_rstockoverview->print);
+            }    
+
+            $auth_rlapoutlet = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'rlapoutlet')->first();
+
+            if($auth_rlapoutlet != null){
+                $request->session()->put('rlapoutlet_save', $auth_rlapoutlet->save);
+                $request->session()->put('rlapoutlet_open', $auth_rlapoutlet->open);
+                $request->session()->put('rlapoutlet_updt', $auth_rlapoutlet->updt);
+                $request->session()->put('rlapoutlet_dlt', $auth_rlapoutlet->dlt);
+                $request->session()->put('rlapoutlet_print', $auth_rlapoutlet->print);
             }            
 
             $auth_umdataitem = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'umdataitem')->first();
 
             if($auth_umdataitem != null){
-                $request->session()->put('romsetpercounter_save', $auth_umdataitem->save);
-                $request->session()->put('romsetpercounter_open', $auth_umdataitem->open);
-                $request->session()->put('romsetpercounter_updt', $auth_umdataitem->updt);
-                $request->session()->put('romsetpercounter_dlt', $auth_umdataitem->dlt);
-                $request->session()->put('romsetpercounter_print', $auth_umdataitem->print);
+                $request->session()->put('umdataitem_save', $auth_umdataitem->save);
+                $request->session()->put('umdataitem_open', $auth_umdataitem->open);
+                $request->session()->put('umdataitem_updt', $auth_umdataitem->updt);
+                $request->session()->put('umdataitem_dlt', $auth_umdataitem->dlt);
+                $request->session()->put('umdataitem_print', $auth_umdataitem->print);
             }
 
             $auth_umitemcounter = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'umitemcounter')->first();
 
             if($auth_umitemcounter != null){
-                $request->session()->put('romsetpercounter_save', $auth_umitemcounter->save);
-                $request->session()->put('romsetpercounter_open', $auth_umitemcounter->open);
-                $request->session()->put('romsetpercounter_updt', $auth_umitemcounter->updt);
-                $request->session()->put('romsetpercounter_dlt', $auth_umitemcounter->dlt);
-                $request->session()->put('romsetpercounter_print', $auth_umitemcounter->print);
+                $request->session()->put('umitemcounter_save', $auth_umitemcounter->save);
+                $request->session()->put('umitemcounter_open', $auth_umitemcounter->open);
+                $request->session()->put('umitemcounter_updt', $auth_umitemcounter->updt);
+                $request->session()->put('umitemcounter_dlt', $auth_umitemcounter->dlt);
+                $request->session()->put('umitemcounter_print', $auth_umitemcounter->print);
             }            
             // dd(session()->all());
             return redirect()->intended('/home');

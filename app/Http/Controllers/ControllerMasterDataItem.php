@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mitem;
+use App\Models\MitemCounters;
 use App\Models\Mwarna;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -134,21 +135,14 @@ class ControllerMasterDataItem extends Controller
       return response()->json($response);
     }
 
-    // public function getstock(Request $request){
-    //     $kode = $request->kode;
-    //     $counter = $request->counter;
-    //     if($kode == ''){
-    //         $mitems = Mitem::select('id','code','name','warna','satuan','hrgjual')->orderBy('code', 'asc')->limit(20)->get();
-    //         $stock_mitem_counter = DB::table('mitems_counters')
-    //         ->selectRaw('stock')
-    //         ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-    //         ->where('name_mcounters', '=', $request->counter)
-    //         ->first();
-    //     }else{
-    //         $mitems = Mitem::select('id','code','name','warna','satuan','hrgjual')->where('code','=',$kode)->limit(20)->get();
-    //     }
-    //     return json_encode($mitems);
-    // }
+    public function getstock(Request $request){
+        $kode = $request->kode;
+        $counter_asal = $request->counter_asal;
+        if($kode != '' && $counter_asal != ''){
+            $stock = MitemCounters::select('stock')->where('code_mitem','=',$kode)->where('name_mcounters','=',$counter_asal)->first();
+        }
+        return json_encode($stock);
+    }
 
     public function getedit(Mitem $mitem){
         return view('pages.Master.mdataitemedit',[ 'mitem' => $mitem]);

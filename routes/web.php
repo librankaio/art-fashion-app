@@ -88,6 +88,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/mitem/{mitem}/print', [ControllerMasterDataItem::class, 'print'])->name('mitemprint');
     Route::get('/mitempdf', [ControllerMasterDataItem::class, 'exportpdf'])->name('mitempdf');
     Route::post('/getmitemv2', [ControllerMasterDataItem::class, 'getmitem'])->name('getmitemv2');
+    Route::post('/getstock', [ControllerMasterDataItem::class, 'getstock'])->name('getstock');
 
     Route::get('msaldoawal', [ControllerMasterSaldoAwal::class, 'index'])->name('msaldoawal');
     Route::get('modalmsaldoawal', [ControllerMasterSaldoAwal::class, 'modal'])->name('modalmsaldoawal');

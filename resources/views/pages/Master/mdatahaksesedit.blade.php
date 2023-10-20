@@ -366,6 +366,55 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='mjenisbayar'></td>
+                                                    <td class="border border-5">Master Jenis Pembayaran</td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            @if($auth_mjenisbayar->save == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="create_mjenisbayar" value="Y" checked>
+                                                            @elseif($auth_mjenisbayar->save == 'N' || $auth_mjenisbayar->save == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="create_mjenisbayar" value="Y">
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            @if($auth_mjenisbayar->open == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="read_mjenisbayar" value="Y" checked>
+                                                            @elseif($auth_mjenisbayar->open == 'N' || $auth_mjenisbayar->open == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="read_mjenisbayar" value="Y">
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            @if($auth_mjenisbayar->updt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_mjenisbayar" value="Y" checked>
+                                                            @elseif($auth_mjenisbayar->updt == 'N' || $auth_mjenisbayar->updt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_mjenisbayar" value="Y">
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            @if($auth_mjenisbayar->dlt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_mjenisbayar" value="Y" checked>
+                                                                @elseif($auth_mjenisbayar->dlt == 'N' || $auth_mjenisbayar->dlt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_mjenisbayar" value="Y">
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            @if($auth_mjenisbayar->print == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_mjenisbayar" value="Y" checked>
+                                                                @elseif($auth_mjenisbayar->print == 'N' || $auth_mjenisbayar->print == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_mjenisbayar" value="Y">
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='sldawaltoko'></td>
                                                     <td class="border border-5">Master Saldo Awal</td>
                                                     <td class="border border-5 text-center pb-3">
@@ -388,28 +437,28 @@
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            @if($auth_mhakses->updt == 'Y')
-                                                                <input class="form-check-input checkbox" type="checkbox" name="update_mhakses" value="Y" checked>
-                                                            @elseif($auth_mhakses->updt == 'N' || $auth_mhakses->updt == null)
-                                                                <input class="form-check-input checkbox" type="checkbox" name="update_mhakses" value="Y">
+                                                            @if($auth_sldawaltoko->updt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_sldawaltoko" value="Y" checked>
+                                                            @elseif($auth_sldawaltoko->updt == 'N' || $auth_sldawaltoko->updt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_sldawaltoko" value="Y">
                                                             @endif
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            @if($auth_mhakses->dlt == 'Y')
-                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_mhakses" value="Y" checked>
-                                                                @elseif($auth_mhakses->dlt == 'N' || $auth_mhakses->dlt == null)
-                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_mhakses" value="Y">
+                                                            @if($auth_sldawaltoko->dlt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_sldawaltoko" value="Y" checked>
+                                                                @elseif($auth_sldawaltoko->dlt == 'N' || $auth_sldawaltoko->dlt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_sldawaltoko" value="Y">
                                                             @endif
                                                         </div>
                                                     </td>
                                                     <td class="border border-5 text-center pb-3">
                                                         <div class="form-check">
-                                                            @if($auth_mhakses->print == 'Y')
-                                                                <input class="form-check-input checkbox" type="checkbox" name="print_mhakses" value="Y" checked>
-                                                                @elseif($auth_mhakses->print == 'N' || $auth_mhakses->print == null)
-                                                                <input class="form-check-input checkbox" type="checkbox" name="print_mhakses" value="Y">
+                                                            @if($auth_sldawaltoko->print == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_sldawaltoko" value="Y" checked>
+                                                                @elseif($auth_sldawaltoko->print == 'N' || $auth_sldawaltoko->print == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_sldawaltoko" value="Y">
                                                             @endif
                                                         </div>
                                                     </td>
@@ -646,6 +695,55 @@
                                                                 <input class="form-check-input checkbox" type="checkbox" name="delete_tadjstock" value="Y" checked>
                                                                 @elseif($auth_tadjstock->dlt == 'N' || $auth_tadjstock->dlt == null)
                                                                 <input class="form-check-input checkbox" type="checkbox" name="delete_tadjstock" value="Y">
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            @if($auth_tadjstock->print == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_tadjstock" value="Y" checked>
+                                                                @elseif($auth_tadjstock->print == 'N' || $auth_tadjstock->print == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_tadjstock" value="Y">
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='texpense'></td>
+                                                    <td class="border border-5">Trans Biaya Operasional</td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            @if($auth_texpense->save == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="create_texpense" value="Y" checked>
+                                                            @elseif($auth_texpense->save == 'N' || $auth_texpense->save == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="create_texpense" value="Y">
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            @if($auth_texpense->open == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="read_texpense" value="Y" checked>
+                                                            @elseif($auth_texpense->open == 'N' || $auth_texpense->open == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="read_texpense" value="Y">
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            @if($auth_texpense->updt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_texpense" value="Y" checked>
+                                                            @elseif($auth_texpense->updt == 'N' || $auth_texpense->updt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_texpense" value="Y">
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            @if($auth_texpense->dlt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_texpense" value="Y" checked>
+                                                                @elseif($auth_texpense->dlt == 'N' || $auth_texpense->dlt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_texpense" value="Y">
                                                             @endif
                                                         </div>
                                                     </td>
@@ -1077,6 +1175,60 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='rlapoutlet'></td>
+                                                    <td class="border border-5">Laporan PerOutlet</td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            @if($auth_rlapoutlet->save == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="create_rlapoutlet" value="Y" checked>
+                                                            @elseif($auth_rlapoutlet->save == 'N' || $auth_rlapoutlet->save == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="create_rlapoutlet" value="Y">
+                                                            @endif
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            @if($auth_rlapoutlet->open == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="read_rlapoutlet" value="Y" checked>
+                                                            @elseif($auth_rlapoutlet->open == 'N' || $auth_rlapoutlet->open == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="read_rlapoutlet" value="Y">
+                                                            @endif
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            @if($auth_rlapoutlet->updt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_rlapoutlet" value="Y" checked>
+                                                            @elseif($auth_rlapoutlet->updt == 'N' || $auth_rlapoutlet->updt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="update_rlapoutlet" value="Y">
+                                                            @endif
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            @if($auth_rlapoutlet->dlt == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_rlapoutlet" value="Y" checked>
+                                                                @elseif($auth_rlapoutlet->dlt == 'N' || $auth_rlapoutlet->dlt == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="delete_rlapoutlet" value="Y">
+                                                            @endif
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="border border-5 text-center pb-3">
+                                                        <div class="form-check">
+                                                            @if($auth_rlapoutlet->print == 'Y')
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_rlapoutlet" value="Y" checked>
+                                                                @elseif($auth_rlapoutlet->print == 'N' || $auth_rlapoutlet->print == null)
+                                                                <input class="form-check-input checkbox" type="checkbox" name="print_rlapoutlet" value="Y">
+                                                            @endif
+                                                            {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td hidden><input style='width:120px;' readonly class='noteclass form-control' name='features[]' type='text' value='umdataitem'></td>
                                                     <td class="border border-5">Upload Master Data Item</td>
                                                     <td class="border border-5 text-center pb-3">
@@ -1116,7 +1268,6 @@
                                                                 @elseif($auth_umdataitem->dlt == 'N' || $auth_umdataitem->dlt == null)
                                                                 <input class="form-check-input checkbox" type="checkbox" name="delete_umdataitem" value="Y">
                                                             @endif
-                                                            <input class="form-check-input checkbox" type="checkbox" name="delete_umdataitem" value="Y" checked>
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
@@ -1127,7 +1278,6 @@
                                                                 @elseif($auth_umdataitem->print == 'N' || $auth_umdataitem->print == null)
                                                                 <input class="form-check-input checkbox" type="checkbox" name="print_umdataitem" value="Y">
                                                             @endif
-                                                            <input class="form-check-input checkbox" type="checkbox" name="print_umdataitem" value="Y" checked>
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
@@ -1142,7 +1292,6 @@
                                                             @elseif($auth_umitemcounter->save == 'N' || $auth_umitemcounter->save == null)
                                                                 <input class="form-check-input checkbox" type="checkbox" name="create_umitemcounter" value="Y">
                                                             @endif
-                                                            <input class="form-check-input checkbox" type="checkbox" name="create_umitemcounter" value="Y" checked>
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
@@ -1153,7 +1302,6 @@
                                                             @elseif($auth_umitemcounter->open == 'N' || $auth_umitemcounter->open == null)
                                                                 <input class="form-check-input checkbox" type="checkbox" name="read_umitemcounter" value="Y">
                                                             @endif
-                                                            <input class="form-check-input checkbox" type="checkbox" name="read_umitemcounter" value="Y" checked>
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
@@ -1164,7 +1312,6 @@
                                                             @elseif($auth_umitemcounter->updt == 'N' || $auth_umitemcounter->updt == null)
                                                                 <input class="form-check-input checkbox" type="checkbox" name="update_umitemcounter" value="Y">
                                                             @endif
-                                                            <input class="form-check-input checkbox" type="checkbox" name="update_umitemcounter" value="Y" checked>
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
@@ -1172,10 +1319,9 @@
                                                         <div class="form-check">
                                                             @if($auth_umitemcounter->dlt == 'Y')
                                                                 <input class="form-check-input checkbox" type="checkbox" name="delete_umitemcounter" value="Y" checked>
-                                                                @elseif($auth_umitemcounter->dlt == 'N' || $auth_umitemcounter->dlt == null)
+                                                            @elseif($auth_umitemcounter->dlt == 'N' || $auth_umitemcounter->dlt == null)
                                                                 <input class="form-check-input checkbox" type="checkbox" name="delete_umitemcounter" value="Y">
                                                             @endif
-                                                            <input class="form-check-input checkbox" type="checkbox" name="delete_umitemcounter" value="Y" checked>
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>
@@ -1183,10 +1329,9 @@
                                                         <div class="form-check">
                                                             @if($auth_umitemcounter->print == 'Y')
                                                                 <input class="form-check-input checkbox" type="checkbox" name="print_umitemcounter" value="Y" checked>
-                                                                @elseif($auth_umitemcounter->print == 'N' || $auth_umitemcounter->print == null)
+                                                            @elseif($auth_umitemcounter->print == 'N' || $auth_umitemcounter->print == null)
                                                                 <input class="form-check-input checkbox" type="checkbox" name="print_umitemcounter" value="Y">
                                                             @endif
-                                                            <input class="form-check-input checkbox" type="checkbox" name="print_umitemcounter" value="Y" checked>
                                                             {{-- <label class="form-check-label" for="flexCheckDefault">Create</label> --}}
                                                         </div>
                                                     </td>

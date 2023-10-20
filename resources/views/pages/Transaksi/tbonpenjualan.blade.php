@@ -464,30 +464,36 @@
             $(document).on("click", "#addItem", function(e) {
                 e.preventDefault();
                 if($('#quantity').val() == 0){
-                    alert('Quantity tidak boleh 0');
+                    swal('WARNING', 'Quantity tidak boleh 0!', 'warning');
+                    return false;
+                }
+                kode = $("#kode").val();
+                counter_asal = $("#counter").val();
+                if($("#counter").val() == 0 || $("#counter").val() == ''){
+                    swal('WARNING', 'Silahkan pilih counter terlebih dahulu!', 'warning');
                     return false;
                 }
                 // $.ajax({
-                //     url: '{{ route('getmitem') }}', 
+                //     url: '{{ route('getstock') }}', 
                 //     method: 'post', 
-                //     data: {'kode': kode, 'counter': counter}, 
+                //     data: {'kode': kode, 'counter_asal': counter_asal}, 
                 //     headers: {
                 //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
                 //     dataType: 'json', 
                 //     success: function(response) {
                 //         // console.log(kode);
                 //         console.log(response);
-                //         for (i=0; i < response.length; i++) {
-                //             if(response[i].code == kode){
-                //                 $("#nama_item").val(response[i].name)
-                //                 hrg = Number(response[i].hrgjual);
-                //                 $("#satuan").val(response[i].satuan);
-                //                 $("#warna").val(response[i].warna);
-                //                 subtotal = Number(hrg).toFixed(2) * $('#quantity').val()
-                //                 $("#subtot").val(thousands_separators(subtotal.toFixed(2)));
-                //                 $("#hrgjual").val(thousands_separators(hrg.toFixed(2)));
-                //             }
-                //         }
+                //         // for (i=0; i < response.length; i++) {
+                //         //     if(response[i].code == kode){
+                //         //         $("#nama_item").val(response[i].name)
+                //         //         hrg = Number(response[i].hrgjual);
+                //         //         $("#satuan").val(response[i].satuan);
+                //         //         $("#warna").val(response[i].warna);
+                //         //         subtotal = Number(hrg).toFixed(2) * $('#quantity').val()
+                //         //         $("#subtot").val(thousands_separators(subtotal.toFixed(2)));
+                //         //         $("#hrgjual").val(thousands_separators(hrg.toFixed(2)));
+                //         //     }
+                //         // }
                 //         hide_loading()
                 //     }
                 // });
@@ -541,7 +547,7 @@
                     grandtot = total;
 
                     total_sebelum_disc = grandtot + disc;
-                    $('#price_sebelumdisc').val(thousands_separators(total_sebelum_disc.toFixed(2)));
+                    $('#price_sebelumdisc').val(thousands_separators(total_sebelum_disc));
 
                     totbayar_1 = $('#totbayar').val();
                     if (/\D/g.test(totbayar_1))
