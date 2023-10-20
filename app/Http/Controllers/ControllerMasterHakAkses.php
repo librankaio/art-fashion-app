@@ -147,6 +147,7 @@ class ControllerMasterHakAkses extends Controller
         $auth_mwarna = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'mwarna')->first();
         $auth_mcounter = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'mcounter')->first();
         $auth_mhakses = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'mhakses')->first();
+        $auth_mjenisbayar = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'mjenisbayar')->first();
         $auth_tsob = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'tsob')->first();
         $auth_tpenerimaan = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'tpenerimaan')->first();
         $auth_tretur = Mhakakses::where('id_user', '=', $user->id)->where('feature', '=', 'tretur')->first();
@@ -177,6 +178,7 @@ class ControllerMasterHakAkses extends Controller
             'auth_mwarna' => $auth_mwarna,
             'auth_mcounter' => $auth_mcounter,
             'auth_mhakses' => $auth_mhakses,
+            'auth_mjenisbayar' => $auth_mjenisbayar,
             'auth_tsob' => $auth_tsob,
             'auth_tpenerimaan' => $auth_tpenerimaan,
             'auth_tretur' => $auth_tretur,
@@ -237,6 +239,13 @@ class ControllerMasterHakAkses extends Controller
             'updt' => request('update_mhakses'),
             'dlt' => request('delete_mhakses'),
             'print' => request('print_mhakses')
+        ]);
+        Mhakakses::where('id_user', '=', $user_akses->id_user)->where('feature', '=', 'mjenisbayar')->update([
+            'save' => request('create_mjenisbayar'),
+            'open' => request('read_mjenisbayar'),
+            'updt' => request('update_mjenisbayar'),
+            'dlt' => request('delete_mjenisbayar'),
+            'print' => request('print_mjenisbayar')
         ]);
         Mhakakses::where('id_user', '=', $user_akses->id_user)->where('feature', '=', 'sldawaltoko')->update([
             'save' => request('create_sldawaltoko'),
