@@ -10,7 +10,15 @@ class ControllerReportPerOutlet extends Controller
 {
     public function index()
     {
-        $counters = Mcounter::select('id','code','name')->get();
+        // $counters = Mcounter::select('id','code','name')->get();
+        $privilage = session('privilage');
+        if($privilage == 'ADM'){
+            $counters = Mcounter::select('id','code','name')->get();
+        }else if($privilage == null){
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }else{
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }
         return view('pages.Report.rlapperoutlet',[
             'counters' => $counters,
         ]);
