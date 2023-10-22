@@ -80,6 +80,7 @@
                                         <th scope="col" class="border border-5" style="text-align: center;">Nama Counter</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Code Item</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Nama Item</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Harga Jual</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Stock</th>
                                     </tr>
                                 </thead>
@@ -94,6 +95,7 @@
                                             <td class="border border-5" style="text-align: center;">{{ $item->name_mcounters }}</td>
                                             <td class="border border-5" style="text-align: center;">{{ $item->code_mitem }}</td>
                                             <td class="border border-5" style="text-align: center;">{{ $item->name_mitem }}</td>
+                                            <td class="border border-5" style="text-align: center;">{{ number_format($item->hrgjual, 2, '.', ',') }}</td>
                                             <td class="border border-5" style="text-align: center;">{{ number_format($item->stock) }}</td>
                                         </tr>
                                     @endforeach
