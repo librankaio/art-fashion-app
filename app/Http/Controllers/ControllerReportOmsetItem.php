@@ -41,7 +41,15 @@ class ControllerReportOmsetItem extends Controller
         $results = DB::select('CALL vomsetperitem (?,?,?,?)', [$dtfr, $dtto, $counter, $payment_mthd]);
         $totqty = DB::select('SELECT sum(totalqty) as totalqty FROM vomsetperitem');
         $grandtot = DB::select('SELECT sum(subtotal) as grandtotal FROM vomsetperitem');
-        $counters = Mcounter::select('id','code','name')->get();
+        // $counters = Mcounter::select('id','code','name')->get();
+        $privilage = session('privilage');
+        if($privilage == 'ADM'){
+            $counters = Mcounter::select('id','code','name')->get();
+        }else if($privilage == null){
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }else{
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }
         $payments = Mjenispayment::select('id','code','name')->get();
         return view('pages.Report.rlapomset', [
             'results' => $results,

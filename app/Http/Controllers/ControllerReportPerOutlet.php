@@ -31,7 +31,15 @@ class ControllerReportPerOutlet extends Controller
         $counter = $request->input('counter');
 
         $results = DB::select('CALL vpendapatanoutlet (?,?,?)', [$dtfr, $dtto,$counter]);
-        $counters = Mcounter::select('id','code','name')->get(); 
+        // $counters = Mcounter::select('id','code','name')->get(); 
+        $privilage = session('privilage');
+        if($privilage == 'ADM'){
+            $counters = Mcounter::select('id','code','name')->get();
+        }else if($privilage == null){
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }else{
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }
         $saldo_awals = DB::select('select saldo from sldawaltoko where tgl = ?', [$dtfr]);
         $biayas = DB::select('select sum(total) as total from texpense_hs where tgl BETWEEN ? AND ?', [$dtfr,$dtto]);       
 
