@@ -12,7 +12,15 @@ class ControllerReportOmsetItem extends Controller
 {
     public function index()
     {
-        $counters = Mcounter::select('id','code','name')->get();
+        $privilage = session('privilage');
+        if($privilage == 'ADM'){
+            $counters = Mcounter::select('id','code','name')->get();
+        }else if($privilage == null){
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }else{
+            $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
+        }
+        // $counters = Mcounter::select('id','code','name')->get();
         $payments = Mjenispayment::select('id','code','name')->get();
         return view('pages.Report.rlapomset',[
             'counters' => $counters,
