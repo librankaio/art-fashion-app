@@ -27,7 +27,7 @@ class ControllerReportStockOverview extends Controller
 
         // $results = DB::table('vomsetpercounter')->whereBetween('tgl', [$dtfr, $dtto])->paginate(100);
         // $results = 
-        DB::select('CALL prStockOverview (?,?,?)', [$dtfr, $dtto,$counter]);
+        DB::select('CALL prStockOverviewTEMP (?,?,?)', [$dtfr, $dtto,$counter]);
         $results = DB::table('stockoverview')
         ->select('code', 'name', 'satuan', 'stock_awal', 'stock_in', 'stock_out', 'stock_akhir')
         ->paginate(100);
