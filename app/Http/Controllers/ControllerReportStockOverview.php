@@ -73,7 +73,11 @@ class ControllerReportStockOverview extends Controller
         $dtto = $request->input('dtto');
         $counter = $request->input('counter');
 
-        $results = DB::select('CALL prStockOverview (?,?,?)', [$dtfr, $dtto,$counter]);
+        // $results = DB::select('CALL prStockOverview (?,?,?)', [$dtfr, $dtto,$counter]);
+        DB::select('CALL prStockOverviewTEMP (?,?,?)', [$dtfr, $dtto,$counter]);
+        
+        $results = DB::table('stockoverview')
+        ->select('code', 'name', 'satuan', 'stock_awal', 'stock_in', 'stock_out', 'stock_akhir');
 
         // dd($results);
         return view('pages.Print.Excel.rstockoverviewexcl', compact('results','counter','dtfr','dtto'));
