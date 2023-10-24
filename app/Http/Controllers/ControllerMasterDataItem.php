@@ -49,14 +49,14 @@ class ControllerMasterDataItem extends Controller
 
         if (isset($request->search)) {
             $warnas = Mwarna::select('code','name')->get();
-            $datas = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice','exist_trans')->where('code','LIKE','%'.$request->search.'%')->paginate(50);
+            $datas = Mitem::select('id','code','name','name_lbl','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice','exist_trans')->where('code','LIKE','%'.$request->search.'%')->paginate(50);
             return view('pages.Master.mdataitem',[
                 'datas' => $datas,
                 'warnas' => $warnas
             ]);
         }
             $warnas = Mwarna::select('code','name')->get();
-            $datas = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice','exist_trans')->paginate(50);
+            $datas = Mitem::select('id','code','name','name_lbl','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice','exist_trans')->paginate(50);
             return view('pages.Master.mdataitem',[
                 'datas' => $datas,
                 'warnas' => $warnas
@@ -78,6 +78,7 @@ class ControllerMasterDataItem extends Controller
             // (SELECT code, name, '$request->kode', '$counter' FROM mitems TA);") );
             Mitem::create([  
                 'name' => $request->nama,
+                'name_lbl' => $request->name_lbl,
                 'code' => $request->kode,
                 'warna' => $request->warna,
                 'kategori' => $request->kategori,
@@ -145,12 +146,13 @@ class ControllerMasterDataItem extends Controller
     }
 
     public function getedit(Mitem $mitem){
-        return view('pages.Master.mdataitemedit',[ 'mitem' => $mitem]);
+        return view('pages.Master.mdataitemedit',['mitem' => $mitem]);
     }
 
     public function update(Mitem $mitem){
         Mitem::where('id', '=', $mitem->id)->update([
             'name' => request('nama'),
+            'name_lbl' => request('name_lbl'),
             'code' => request('kode'),
             'warna' => request('warna'),
             'kategori' => request('kategori'),

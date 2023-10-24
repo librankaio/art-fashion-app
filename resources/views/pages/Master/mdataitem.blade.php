@@ -35,6 +35,10 @@
                                         <input type="text" class="form-control" name="nama" id="nama">
                                     </div>
                                     <div class="form-group">
+                                        <label>Nama Label</label>
+                                        <input type="text" class="form-control" name="name_lbl" id="name_lbl">
+                                    </div>
+                                    <div class="form-group">
                                         <label>Warna</label>
                                         <select class="form-control select2" id="warna" name="warna">
                                             <option disabled selected>--Select Warna--</option>
@@ -253,7 +257,7 @@
         "bPaginate": false,
         "searching": false
     });
-
+    
     $(".alert button.close").click(function (e) {
         $(this).parent().fadeOut(2000);
     });
@@ -305,6 +309,13 @@
             return false;
         }
         // End Validate ifnull
+    });
+
+    $("#name_lbl").keyup(function(e){
+        if (this.value.length > 10) {
+            swal('WARNING', 'Nama label Tidak boleh lebih dari 10 karakter!', 'warning');
+            this.value = this.value.slice(0, 10);
+        }     
     });
 
     $("#price").keyup(function(e){

@@ -12,6 +12,7 @@ class Mitem extends Model
     protected $fillable = [
         'code',
         'name',
+        'name_lbl',
         'warna',
         'kategori',
         'hrgjual',

@@ -35,6 +35,10 @@
                                         <input type="text" class="form-control" name="nama" id="nama" value="{{ $mitem->name }}">
                                     </div>
                                     <div class="form-group">
+                                        <label>Nama Label</label>
+                                        <input type="text" class="form-control" name="name_lbl" id="name_lbl" value="{{ $mitem->name_lbl }}">
+                                    </div>
+                                    <div class="form-group">
                                         <label>Warna</label>
                                         <textarea class="form-control" style="height:90px" name="warna">{{ $mitem->warna }}</textarea>
                                     </div>
@@ -123,6 +127,13 @@
             swal('WARNING', 'Nama Tidak boleh kosong!', 'warning');
             return false;
         }
+    });
+
+    $("#name_lbl").keyup(function(e){
+        if (this.value.length > 10) {
+            swal('WARNING', 'Nama label Tidak boleh lebih dari 10 karakter!', 'warning');
+            this.value = this.value.slice(0, 10);
+        }     
     });
 </script>
 @endsection
