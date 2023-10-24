@@ -125,7 +125,9 @@
                         @elseif($tpos_save == 'N' || $tpos_save == null)
                             <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}" disabled>Submit</button>
                         @endif --}}
+                        @isset($results)
                         {{ $results->links() }}
+                        @endisset
                     </div>
                 </div>
             </div>
