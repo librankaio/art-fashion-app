@@ -66,9 +66,9 @@
                                                 <label>Kode / Artikel</label>
                                                 <input type="text" class="form-control" name="kode" id="kode" value="{{ $mitem->code }}">
                                             </div>
-                                            <div class="col-md-6 align-self-end">
+                                            {{-- <div class="col-md-6 align-self-end">
                                                 <button class="btn btn-success mr-1" type="button" id="">Print</button>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                     <div class="form-group">
