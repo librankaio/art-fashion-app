@@ -130,9 +130,9 @@
     });
 
     $("#name_lbl").keyup(function(e){
-        if (this.value.length > 10) {
-            swal('WARNING', 'Nama label Tidak boleh lebih dari 10 karakter!', 'warning');
-            this.value = this.value.slice(0, 10);
+        if (this.value.length > 8) {
+            swal('WARNING', 'Nama label Tidak boleh lebih dari 8 karakter!', 'warning');
+            this.value = this.value.slice(0, 8);
         }     
     });
 </script>

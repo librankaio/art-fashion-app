@@ -27,6 +27,28 @@ class ControllerReportStockOverview extends Controller
 
         // $results = DB::table('vomsetpercounter')->whereBetween('tgl', [$dtfr, $dtto])->paginate(100);
         $results = DB::select('CALL prStockOverview (?,?,?)', [$dtfr, $dtto,$counter]);
+        // $results = DB::select( DB::raw("SELECT A.*, (A.stock_awal+A.stock_in)-A.stock_out 'stock_akhir' FROM (
+		
+        //     SELECT 
+        //             TA.code
+        //             , TA.name
+        //             , TA.satuan
+        //             , 	(IFNULL((SELECT SUM(qty) FROM vpembelian WHERE code = TA.`code` AND tgl < idatefrom and counter = 'HO'),0) + IFNULL((SELECT SUM(qty) FROM vpenerimaan WHERE code = TA.`code` AND tgl < idatefrom and counter = icounter),0)) -
+        //                 (IFNULL((SELECT SUM(qty) FROM vpenjualan WHERE code = TA.`code` AND tgl < idatefrom and counter = icounter),0)+IFNULL((SELECT SUM(qty) FROM vsj WHERE code = TA.`code` AND tgl < idatefrom and counter = icounter),0))	
+        //                 AS 'stock_awal'
+                        
+        //             , IFNULL((SELECT SUM(qty) FROM vpembelian WHERE code = TA.`code` AND tgl BETWEEN idatefrom AND idateto and counter = 'HO'),0) + IFNULL((SELECT SUM(qty) FROM vpenerimaan WHERE code = TA.`code` AND tgl BETWEEN idatefrom AND idateto and counter = icounter),0) AS 'stock_in'
+                    
+        //             , IFNULL((SELECT SUM(qty) FROM vpenjualan WHERE code = TA.`code` AND tgl BETWEEN idatefrom AND idateto and counter = icounter),0)+IFNULL((SELECT SUM(qty) FROM vsj WHERE code = TA.`code` AND tgl BETWEEN idatefrom AND idateto and counter = icounter),0) AS 'stock_out'
+                    
+        //             , TA.hrgjual
+        //         FROM
+        //             mitems TA
+        //         WHERE 1=1
+                    
+        
+        //             ) A
+        //             ORDER BY A.code"));
         // $totqty = DB::select('SELECT sum(qty) as totalqty FROM vomsetpercounter');
         // $grandtot = DB::select('SELECT sum(subtotal) as grandtotal FROM vomsetpercounter');
         $counters = Mcounter::select('id','code','name')->get();
