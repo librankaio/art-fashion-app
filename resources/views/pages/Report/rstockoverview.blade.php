@@ -125,6 +125,7 @@
                         @elseif($tpos_save == 'N' || $tpos_save == null)
                             <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}" disabled>Submit</button>
                         @endif --}}
+                        {{ $results->links() }}
                     </div>
                 </div>
             </div>
@@ -379,8 +380,8 @@
         $('#datatable').DataTable({
         // "ordering":false,
         "bInfo" : false,
-        // "bPaginate": false,
-        // "searching": false
+        "bPaginate": false,
+        "searching": false
         });
         
     })
