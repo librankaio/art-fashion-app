@@ -120,7 +120,7 @@ class ControllerTransReturPenjualan extends Controller
                 $count++;
             }
             if($count == $countrows){
-                return redirect()->back();
+                return redirect()->back()->with('success', 'Data berhasil ditambahkan');
             }
         }
         return redirect()->back();
@@ -282,7 +282,7 @@ class ControllerTransReturPenjualan extends Controller
         }
         
         if($count == $countrows){
-            return redirect()->route('treturjuallist');
+            return redirect()->route('treturjuallist')->with('success', 'Data berhasil diupdate');
         }
     }
 
@@ -332,6 +332,6 @@ class ControllerTransReturPenjualan extends Controller
         Tretur_h::where('id','=',$treturh->id)->delete();
         Tretur_d::where('idh','=',$treturh->id)->delete();
 
-        return redirect()->route('treturjuallist');
+        return redirect()->route('treturjuallist')->with('success', 'Data berhasil dihapus');
     }
 }

@@ -283,7 +283,7 @@ class ControllerTransSuratJalan extends Controller
                 $count++;
             }
         }
-        return redirect()->route('tsuratjalanlist');
+        return redirect()->route('tsuratjalanlist')->with('success', 'Data berhasil diupdate');
         // if($count == $countrows){
         //     return redirect()->route('tsuratjalanlist');
         // }
@@ -326,7 +326,7 @@ class ControllerTransSuratJalan extends Controller
         Tsj_h::where('id','=',$tsjh->id)->delete();
         Tsj_d::where('idh','=',$tsjh->id)->delete();
 
-        return redirect()->route('tsuratjalanlist');
+        return redirect()->route('tsuratjalanlist')->with('success', 'Data berhasil dihapus');
     }
 
     public function print(Tsj_h $tsjh){
