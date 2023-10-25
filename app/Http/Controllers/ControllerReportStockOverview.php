@@ -24,7 +24,8 @@ class ControllerReportStockOverview extends Controller
         // $datefrForm = Carbon::createFromFormat('d/m/Y', $dtfr)->format('Y-m-d');
         // $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
         $counter = $request->input('counter');
-
+        ini_set('memory_limit', '3000M');
+        ini_set('max_execution_time', '0');
         // $results = DB::table('vomsetpercounter')->whereBetween('tgl', [$dtfr, $dtto])->paginate(100);
         // $results = 
         DB::select('CALL prStockOverviewTEMP (?,?,?)', [$dtfr, $dtto,$counter]);
