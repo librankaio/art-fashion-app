@@ -29,9 +29,19 @@
                                         @php $codetrans = $code->codetrans @endphp
                                     @endforeach --}}
                                     <input type="text" class="form-control" name="no" id="no" value="{{ $treturh->no }}" readonly>
-                                </div>  
+                                </div>
                                 <div class="form-group">
-                                    <label>Counter</label>
+                                    <label>Counter From</label>
+                                    <select class="form-control select2" name="counter_from" id="counter_from">
+                                        {{-- <option disabled selected>--Select Counter--</option> --}}
+                                        <option selected>{{ $treturh->counter_from }}</option>
+                                        @foreach($counters as $counter)
+                                        <option>{{ $counter->name}}</option>
+                                        @endforeach
+                                    </select>                                    
+                                </div>     
+                                <div class="form-group">
+                                    <label>Counter To</label>
                                     <select class="form-control select2" name="counter" id="counter">
                                         <option selected>{{ $treturh->counter }}</option>
                                         @foreach($counters as $counter)
@@ -115,7 +125,8 @@
                                 </thead>
                                 <tbody>
                                     @php $counter = 0; @endphp
-                                    @for($i = 0; $i < sizeof($treturds); $i++) @php $counter++; @endphp <tr>
+                                    @for($i = 0; $i < sizeof($treturds); $i++) @php $counter++; @endphp 
+                                    <tr row_id="{{ $counter }}" id='row_id_{{$counter}}'>
                                         <th class="id-header border border-5" style='readonly:true;' headers="{{ $counter }}">{{ $counter }}</th>
                                         <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='{{ $treturds[$i]->code }}'></td>
                                         <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='nama_item_d[]' type='text' value='{{ $treturds[$i]->name }}'></td>
@@ -124,7 +135,10 @@
                                         <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='{{ $treturds[$i]->satuan }}' name='satuan_d[]'></td>
                                         <td class="border border-5"><button title='Delete' class='delete btn btn-primary' value="{{ $counter }}"><i style='font-size:15pt;color:#ffff;' class='fa fa-trash'></i></button></td>
                                         <td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value=''></td>
-                                        </tr>
+                                        <td class="border border-5" hidden><input style='width:120px;' readonly form='thisform' class='idclass form-control' name='id_d[]' type='text' value='{{ $treturds[$i]->id }}' id="tbl_detail_id_{{ $counter }}"></td>
+                                        <td class="border border-5" hidden><input style='width:120px;' readonly form='thisform' class='delclass form-control' name='deleted_item_d[]' type='text' value='' id="deleted_d_{{ $counter }}"></td>
+                                        <td class="border border-5" hidden><input style='width:120px;' readonly form='thisform' class='existdbclass form-control' name='existdb_d[]' type='text' value='{{ $treturds[$i]->id }}' id="existdb_{{ $counter }}"></td>
+                                    </tr>
                                     @endfor
                                 </tbody>                            
                             </table>
@@ -216,7 +230,7 @@
                 satuan = $("#satuan").val();
 
 
-                tablerow = "<tr><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='nama_item_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td><td class='border border-5'><input type='text' style='width:100px;' form='thisform' class='quantityclass form-control' name='quantity_d[]' value='" + quantity + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='" + satuan + "' name='satuan_d[]'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
+                tablerow = "<tr row_id="+ counter +"><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='nama_item_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td><td class='border border-5'><input type='text' style='width:100px;' form='thisform' class='quantityclass form-control' name='quantity_d[]' value='" + quantity + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='" + satuan + "' name='satuan_d[]'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td><td class='border border-5' hidden><input style='width:120px;' readonly form='thisform' class='idclass form-control' name='id_d[]' type='text' value='new_item' id='tbl_detail_id_'"+ counter +"></td><td class='border border-5' hidden><input style='width:120px;' readonly form='thisform' class='delclass form-control' name='deleted_item_d[]' type='text' id='deleted_d_'"+ counter +"></td></tr>";
                 
                 $("#datatable tbody").append(tablerow);
                 if(counter == 1){
@@ -242,10 +256,24 @@
 
             $(document).on("click", ".delete", function(e) {
                 e.preventDefault();
+                counter_id = $(this).val();
                 var r = confirm("Delete Transaksi ?");
                 if (r == true) {
-                    counter_id = $(this).closest('tr').text();
-                    $(this).closest('tr').remove();
+                    if(counter_id != 0){
+                        // $(this).closest('tr').remove();
+                        id_detail = $("#tbl_detail_id_"+counter_id).val()
+                        $("#deleted_d_" + counter_id).val(id_detail);
+                        $(this).closest('tr').hide();
+
+                        counter_id = 0;
+                    }else{
+                        counter_id = $(this).closest('tr').text();
+                        // $(this).closest('tr').remove();
+
+                        id_detail = $("#tbl_detail_id_"+counter_id).val()
+                        $("#deleted_d_" + counter_id).val(id_detail);
+                        $(this).closest('tr').hide();
+                    }  
                 } else {
                     return false;
                 }

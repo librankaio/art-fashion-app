@@ -75,6 +75,8 @@ class ControllerReportStockOverview extends Controller
         $counter = $request->input('counter');
 
         // $results = DB::select('CALL prStockOverview (?,?,?)', [$dtfr, $dtto,$counter]);
+        ini_set('memory_limit', '3000M');
+        ini_set('max_execution_time', '0');
         DB::select('CALL prStockOverviewTEMP (?,?,?)', [$dtfr, $dtto,$counter]);
         
         $results = DB::table('stockoverview')

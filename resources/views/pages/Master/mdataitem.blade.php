@@ -185,9 +185,9 @@
                                                         Delete</i></button>
                                             </form>
                                             @endif
-                                            {{-- <a href="/mitem/{{ $item->id }}/print"
+                                            <a href="/mitem/{{ $item->id }}/print"
                                                 class="btn btn-icon icon-left btn-success" target="_blank"><i class="far fa-print">
-                                                    Print</i></a> --}}
+                                                    Print</i></a>
                                         </td>
                                     </tr>
                                     @endforeach

@@ -1,85 +1,134 @@
 <html>
-<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
-	<title>Print - Barcode</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    {{-- <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto:wght@700&display=swap" rel="stylesheet"> --}}
-    {{-- <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet"> --}}
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;900&family=Open+Sans&family=Roboto:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <style>
+    @font-face {
+        font-family: 'Open Sans';
+        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-Bold.ttf") }}) format("truetype");
+        font-weight: 700;
+        font-style: normal;
+    }
+    
+    @font-face {
+        font-family: 'Open Sans';
+        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-BoldItalic.ttf") }}) format("truetype");
+        font-weight: 700;
+        font-style: italic;
+    }
+    
+    @font-face {
+        font-family: 'Open Sans';
+        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-ExtraBold.ttf") }}) format("truetype");
+        font-weight: 800;
+        font-style: normal;
+    }
+    
+    @font-face {
+        font-family: 'Open Sans';
+        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-ExtraBoldItalic.ttf") }}) format("truetype");
+        font-weight: 800;
+        font-style: italic;
+    }
+    
+    @font-face {
+        font-family: 'Open Sans';
+        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-Light.ttf") }}) format("truetype");
+        font-weight: 300;
+        font-style: normal;
+    }
+    
+    @font-face {
+        font-family: 'Open Sans';
+        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-LightItalic.ttf") }}) format("truetype");
+        font-weight: 300;
+        font-style: italic;
+    }
+    
+    @font-face {
+        font-family: 'Open Sans';
+        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-Medium.ttf") }}) format("truetype");
+        font-weight: 500;
+        font-style: normal;
+    }
+    
+    @font-face {
+        font-family: 'Open Sans';
+        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-MediumItalic.ttf") }}) format("truetype");
+        font-weight: 500;
+        font-style: italic;
+    }
+    
+    @font-face {
+        font-family: 'Open Sans';
+        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-Regular.ttf") }}) format("truetype");
+        font-weight: 400;
+        font-style: normal;
+    }
+    
+    @font-face {
+        font-family: 'Open Sans';
+        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-SemiBold.ttf") }}) format("truetype");
+        font-weight: 600;
+        font-style: normal;
+    }
+    
+    @font-face {
+        font-family: 'Open Sans';
+        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-SemiBoldItalic.ttf") }}) format("truetype");
+        font-weight: 600;
+        font-style: italic;
+    }
+    
+    @font-face {
+        font-family: 'Open Sans';
+        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-Italic.ttf") }}) format("truetype");
+        font-weight: 400;
+        font-style: italic;
+    }
+    @page {
+      size: 30mm 33mm;
+      margin: -1px auto;
+      /* margin-top: 5px auto; */
+    }
+    .container{
+      position: static;
+      margin-left: 7px;
+    }
+    .split-para{ 
+      display:block;
+      /* margin:10px; */
+      margin:0px;
+    }
+    /* .split-para span { 
+      display:block; float:right ;width:50%; margin-left:10px; margin-right: 20px;
+    } */
+    .split-para span { 
+      /* display:block; float:right; padding-right:7px; padding-top:2px; */
+      display:block; float:right; padding-right:7px; padding-top:0px;
+    }
+    body {
+        font-family: 'Open Sans', sans-serif;
+    }
+    p  
+    { 
+      word-wrap: break-word
+    } 
+  </style>
 </head>
-<body class="idr" onload="window.print()">
-    <div style="margin-left: 0%; margin-right: 0%; margin-top: 0%;">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-2">
-                    <center>
-                    <p style="margin: 0px auto; font-size: 10px;">{{$mitem->name}}</p>
-                    <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code, 'C128') }}" alt="barcode" width="158" height="25"/> <br>
-                    {{-- {{$mitem->code ." ".date("mY")}}<br> --}}
-                    <div class="row">
-                        <div class="col-6" style="height: 14;">
-                            <p style="font-size: 14px;">{{ $mitem->code }}</p>
-                        </div>
-                        <div class="col-6 pl-5" style="height: 14">
-                            <p style="font-weight: bold; font-size: 10px; " class="text-right">
-                                {{date("mY")}}
-                            </p>
-                        </div>
-                    </div>
-                    {{-- <div class="row" style="padding: 0 !important;
-                    margin: 0 !important;">
-                        <p class="p" style="margin: 0px auto; font-size: 11px;">Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}}</p>
-                    </div> --}}
-                    Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}} <br>
-                    </center>
-                </div>
-            </div>
-        </div>
-        
-    </div>
-    <div style="margin-left: 0%; margin-right: 0%; margin-top: 0%;">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-2">
-                    <center>
-                    <p style="margin: 0px auto; font-size: 10px;">{{$mitem->name}}</p>
-                    <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code, 'C128') }}" alt="barcode" width="158" height="25"/> <br>
-                    {{-- {{$mitem->code ." ".date("mY")}}<br> --}}
-                    <div class="row">
-                        <div class="col-6" style="height: 14;">
-                            <p style="font-size: 14px;">{{ $mitem->code }}</p>
-                        </div>
-                        <div class="col-6 pl-5" style="height: 14">
-                            <p style="font-weight: bold; font-size: 10px; " class="text-right">
-                                {{date("mY")}}
-                            </p>
-                        </div>
-                    </div>
-                    {{-- <div class="row" style="padding: 0 !important;
-                    margin: 0 !important;">
-                        <p class="p" style="margin: 0px auto; font-size: 11px;">Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}}</p>
-                    </div> --}}
-                    Rp. {{ number_format( $mitem->hrgjual, 2, '.', ',')}} <br>
-                    </center>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
 </html>
-
-<style type="text/css" media="print">
-  @page { size: landscape; margin: 0px auto; }
-  body {
-  font-weight: bold;
-  font-size: 14px;
-  }
-  p {
-    font-size: 10px;
-  }
-</style>
-
-
+<body>
+  <div class="container" style="padding-bottom: 7px;">
+    {{-- <h5 style="margin: 0px auto; font-size: 8px;" id="title">{{ $item->name." - ".$item->warna }}</h5> --}}
+    <h5 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left;" id="text_code">{{$mitem->name_lbl}} <span><h5 style="margin: 0px auto; font-size: 6px; float:right; margin-top:1.5px">{{ $mitem->warna }}</h5></span></h5>
+    <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code , 'C128') }}" alt="barcode" width="100" height="20" id="bgimg"/> <br>
+    <h1 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left;" id="text_code">{{ $mitem->code }} <span><h1 style="margin: 0px auto; font-size: 6px; float:right;">{{date("mY")}}</h1></span></h1>
+    <h1 style="margin: 0px auto; text-align: center; font-size: 8px;">RP. {{ number_format($mitem->hrgjual, 2, '.', ',') }},-</h1>
+  </div>
+  <div class="container" style="padding-bottom: 7px;">
+    {{-- <h5 style="margin: 0px auto; font-size: 8px;" id="title">{{ $mitem->name." - ".$mitem->warna}}</h5> --}}
+    <h5 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left;" id="text_code">{{ $mitem->name_lbl }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right; margin-top:1.5px">{{ $mitem->warna }}</h5></span></h5>
+    <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code , 'C128') }}" alt="barcode" width="100" height="20" id="bgimg"/> <br>
+    <h1 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left;" id="text_code">{{ $mitem->code }} <span><h1 style="margin: 0px auto; font-size: 6px; float:right;">{{date("mY")}}</h1></span></h1>
+    <h1 style="margin: 0px auto; text-align: center; font-size: 8px;">RP. {{ number_format($mitem->hrgjual, 2, '.', ',') }},-</h1>
+  </div>
+</body>

@@ -11,6 +11,7 @@ class Tretur_h extends Model
 
     protected $fillable = [
         'no',
+        'counter_from',
         'counter',
         'tgl',
         'note',

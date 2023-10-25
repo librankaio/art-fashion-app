@@ -13,6 +13,7 @@ class Tretur_d extends Model
         'idh',
         'no_retur',
         'code',
+        'warna',
         'name',
         'qty',
         'satuan',

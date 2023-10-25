@@ -176,9 +176,16 @@ class ControllerMasterDataItem extends Controller
     
     public function print(Mitem $mitem){
         // dd($mitem);
-        return view('pages.Print.mitemprint',[
-            'mitem' => $mitem
-        ]);
+        // return view('pages.Print.mitemprint',[
+        //     'mitem' => $mitem
+        // ]);
+
+        $datenow = date("Y-m-d");
+        $customPaper = array(0,0,85.039,141.732);
+        $pdf = Pdf::loadView('pages.Print.mitemprint', [
+            'mitem'=>$mitem
+        ])->setPaper($customPaper, 'portrait');
+        return $pdf->stream($datenow."_ITEM/".$mitem->code);
     }
 
     public function exportpdf(){

@@ -31,7 +31,16 @@
                                     <input type="text" class="form-control" name="no" id="no" value="{{ $code->codetrans }}" readonly>
                                 </div>  
                                 <div class="form-group">
-                                    <label>Counter</label>
+                                    <label>Counter From</label>
+                                    <select class="form-control select2" name="counter_from" id="counter_from">
+                                        {{-- <option disabled selected>--Select Counter--</option> --}}
+                                        @foreach($counters as $counter)
+                                        <option>{{ $counter->name}}</option>
+                                        @endforeach
+                                    </select>                                    
+                                </div>                         
+                                <div class="form-group">
+                                    <label>Counter To</label>
                                     <select class="form-control select2" name="counter" id="counter">
                                         {{-- <option disabled selected>--Select Counter--</option> --}}
                                         @foreach($counters as $counter)
