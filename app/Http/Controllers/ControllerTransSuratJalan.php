@@ -121,7 +121,7 @@ class ControllerTransSuratJalan extends Controller
                 return redirect()->back()->with('success', 'Data berhasil ditambahkan');
             }
         }
-        return redirect()->back();
+        return redirect()->back()->with('error', 'Nomor transaksi sudah ada!');
     }
 
     public function getnosob(Request $request){
