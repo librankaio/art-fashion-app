@@ -201,4 +201,11 @@ class ControllerMasterDataItem extends Controller
         // $pdf->loadHTML('<h1>Test</h1>');
         return $pdf->stream();
     }
+
+    public function exportExcel(Request $request)
+    {
+        $results = Mitem::select('id','code','name','name_lbl','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice','exist_trans')->get();
+        // dd($results);
+        return view('pages.Print.Excel.mitemexcl', compact('results'));
+    }
 }

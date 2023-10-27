@@ -330,7 +330,6 @@ class ControllerTransSuratJalan extends Controller
     }
 
     public function print(Tsj_h $tsjh){
-        // dd($address);
         $tsjds = Tsj_d::where('idh','=',$tsjh->id)->get();
         $address = Mcounter::select('alamat')->where('name','=',$tsjh->counter)->first();
         
