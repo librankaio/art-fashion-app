@@ -19,6 +19,7 @@ class MitemsImport implements ToCollection,WithHeadingRow
             if($availcode == null){
                 $mitem = Mitem::create([  
                     'name' => $row['name'],
+                    'name_lbl' => $row['name_lbl'],
                     'code' => $row['code'],
                     'warna' => $row['warna'],
                     'kategori' => $row['kategori'],
