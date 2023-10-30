@@ -128,7 +128,7 @@ class ControllerTransAdjustmentStock extends Controller
     }
 
     public function update(Tadj_h $tadjh){
-        dd(request()->all());
+        // dd(request()->all());
         // dd(sizeof(request('id_d')));
         if (request('jenis') == 'Plus'){
             for($x=0;$x<sizeof(request('existdb_d'));$x++){
