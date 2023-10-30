@@ -156,33 +156,28 @@
 <style type="text/css" media="print">
     @font-face {
         font-family: 'Open Sans';
-        /* src: url({{ storage_path("fonts/static/OpenSans/OpenSans-Bold.ttf") }}) format("truetype"); */
-        src: url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap') format("truetype");
+        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-Bold.ttf") }}) format("truetype");
         font-weight: 700;
         font-style: normal;
     }
     
     @font-face {
         font-family: 'Open Sans';
-        /* src: url({{ storage_path("fonts/static/OpenSans/OpenSans-BoldItalic.ttf") }}) format("truetype"); */
-        src: url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@1,700&display=swap') format("truetype");
+        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-BoldItalic.ttf") }}) format("truetype");
         font-weight: 700;
         font-style: italic;
     }
     
     @font-face {
         font-family: 'Open Sans';
-        /* src: url({{ storage_path("fonts/static/OpenSans/OpenSans-ExtraBold.ttf") }}) format("truetype"); */
-        src: url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap') format("truetype");
-        src: url('') format("truetype");
+        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-ExtraBold.ttf") }}) format("truetype");
         font-weight: 800;
         font-style: normal;
     }
     
     @font-face {
         font-family: 'Open Sans';
-        /* src: url({{ storage_path("fonts/static/OpenSans/OpenSans-ExtraBoldItalic.ttf") }}) format("truetype"); */
-        src: url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@1,800&display=swap') format("truetype");
+        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-ExtraBoldItalic.ttf") }}) format("truetype");
         font-weight: 800;
         font-style: italic;
     }
@@ -217,24 +212,21 @@
     
     @font-face {
         font-family: 'Open Sans';
-        /* src: url({{ storage_path("fonts/static/OpenSans/OpenSans-Regular.ttf") }}) format("truetype"); */
-        src: url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap') format("truetype");
+        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-Regular.ttf") }}) format("truetype");
         font-weight: 400;
         font-style: normal;
     }
     
     @font-face {
         font-family: 'Open Sans';
-        /* src: url({{ storage_path("fonts/static/OpenSans/OpenSans-SemiBold.ttf") }}) format("truetype"); */
-        src: url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap') format("truetype");
+        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-SemiBold.ttf") }}) format("truetype");
         font-weight: 600;
         font-style: normal;
     }
     
     @font-face {
         font-family: 'Open Sans';
-        /* src: url({{ storage_path("fonts/static/OpenSans/OpenSans-SemiBoldItalic.ttf") }}) format("truetype"); */
-        src: url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@1,600&display=swap') format("truetype");
+        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-SemiBoldItalic.ttf") }}) format("truetype");
         font-weight: 600;
         font-style: italic;
     }
