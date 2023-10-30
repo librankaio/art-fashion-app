@@ -156,84 +156,84 @@
 <style type="text/css" media="print">
     @font-face {
         font-family: 'Open Sans';
-        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-Bold.ttf") }}) format("truetype");
+        src: url({{ storage_path("fonts/OpenSans/OpenSans-Bold.ttf") }}) format("truetype");
         font-weight: 700;
         font-style: normal;
     }
     
     @font-face {
         font-family: 'Open Sans';
-        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-BoldItalic.ttf") }}) format("truetype");
+        src: url({{ storage_path("fonts/OpenSans/OpenSans-BoldItalic.ttf") }}) format("truetype");
         font-weight: 700;
         font-style: italic;
     }
     
     @font-face {
         font-family: 'Open Sans';
-        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-ExtraBold.ttf") }}) format("truetype");
+        src: url({{ storage_path("fonts/OpenSans/OpenSans-ExtraBold.ttf") }}) format("truetype");
         font-weight: 800;
         font-style: normal;
     }
     
     @font-face {
         font-family: 'Open Sans';
-        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-ExtraBoldItalic.ttf") }}) format("truetype");
+        src: url({{ storage_path("fonts/OpenSans/OpenSans-ExtraBoldItalic.ttf") }}) format("truetype");
         font-weight: 800;
         font-style: italic;
     }
     
     @font-face {
         font-family: 'Open Sans';
-        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-Light.ttf") }}) format("truetype");
+        src: url({{ storage_path("fonts/OpenSans/OpenSans-Light.ttf") }}) format("truetype");
         font-weight: 300;
         font-style: normal;
     }
     
     @font-face {
         font-family: 'Open Sans';
-        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-LightItalic.ttf") }}) format("truetype");
+        src: url({{ storage_path("fonts/OpenSans/OpenSans-LightItalic.ttf") }}) format("truetype");
         font-weight: 300;
         font-style: italic;
     }
     
     @font-face {
         font-family: 'Open Sans';
-        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-Medium.ttf") }}) format("truetype");
+        src: url({{ storage_path("fonts/OpenSans/OpenSans-Medium.ttf") }}) format("truetype");
         font-weight: 500;
         font-style: normal;
     }
     
     @font-face {
         font-family: 'Open Sans';
-        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-MediumItalic.ttf") }}) format("truetype");
+        src: url({{ storage_path("fonts/OpenSans/OpenSans-MediumItalic.ttf") }}) format("truetype");
         font-weight: 500;
         font-style: italic;
     }
     
     @font-face {
         font-family: 'Open Sans';
-        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-Regular.ttf") }}) format("truetype");
+        src: url({{ storage_path("fonts/OpenSans/OpenSans-Regular.ttf") }}) format("truetype");
         font-weight: 400;
         font-style: normal;
     }
     
     @font-face {
         font-family: 'Open Sans';
-        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-SemiBold.ttf") }}) format("truetype");
+        src: url({{ storage_path("fonts/OpenSans/OpenSans-SemiBold.ttf") }}) format("truetype");
         font-weight: 600;
         font-style: normal;
     }
     
     @font-face {
         font-family: 'Open Sans';
-        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-SemiBoldItalic.ttf") }}) format("truetype");
+        src: url({{ storage_path("fonts/OpenSans/OpenSans-SemiBoldItalic.ttf") }}) format("truetype");
         font-weight: 600;
         font-style: italic;
     }
     
     @font-face {
         font-family: 'Open Sans';
-        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-Italic.ttf") }}) format("truetype");
+        src: url({{ storage_path("fonts/OpenSans/OpenSans-Italic.ttf") }}) format("truetype");
         font-weight: 400;
         font-style: italic;
     }
