@@ -245,7 +245,6 @@ class ControllerTransAdjustmentStock extends Controller
                     'warna' => request('warna_d')[$i],
                     'qty' => request('quantity_d')[$i],
                     'satuan' => request('satuan_d')[$i],
-                    'note' => request('keterangan_d')[$i],
                 ]);
                 if (request('jenis') == 'Plus'){
                     $stock_mitem_counter = DB::table('mitems_counters')
