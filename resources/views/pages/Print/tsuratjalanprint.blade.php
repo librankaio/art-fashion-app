@@ -21,7 +21,7 @@
                         <img src="{{ asset('../assets/img/artfashion_logo2.png') }}" alt="logo" width="200">
                     </div>                    
                     <div class="col-5" style="padding-left: 150px; padding-top: 30px">
-                        <h5>Art Fashion Jewelry <br>Telp. (62 - 21) 645 0910/11<br>Fax. (62 - 21) 684288</h5>
+                        <h5>Art Fashion Jewelry <br>Telp. (021) 6403172/6401336<br>Fax. 021.6401336</h5>
                     </div>
                 </div>
                 <center>
