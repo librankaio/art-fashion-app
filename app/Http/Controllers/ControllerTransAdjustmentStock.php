@@ -219,33 +219,20 @@ class ControllerTransAdjustmentStock extends Controller
             'jenis' => request('jenis'),
             'note' => request('note'),
         ]);
-        $count=0;
-        $countrows = sizeof(request('no_d'));
-        for ($i=0;$i<sizeof(request('no_d'));$i++){
-            Tadj_d::create([
-                'idh' => $tadjh->id,
-                'no_adj' => request('no'),
-                'code' =>  request('kode_d')[$i],
-                'name' =>  request('nama_item_d')[$i],
-                'warna' => request('warna_d')[$i],
-                'qty' =>  request('quantity_d')[$i],
-                'satuan' => request('satuan_d')[$i],
-            ]);
-            
-            $count++;
-        }
-        
+        $count=0;      
+        $counting_item = 0;  
         for ($i=0;$i<sizeof(request('no_d'));$i++){
             if(request('deleted_item_d')[$i] != request('id_d')[$i]){
                 Tadj_d::create([
                     'idh' => $tadjh->id,
-                    'no_penjualan' => request('no'),
+                    'no_adj' => request('no'),
                     'code' => request('kode_d')[$i],
                     'name' => request('nama_item_d')[$i],
                     'warna' => request('warna_d')[$i],
                     'qty' => request('quantity_d')[$i],
                     'satuan' => request('satuan_d')[$i],
                 ]);
+                $counting_item++;
                 if (request('jenis') == 'Plus'){
                     $stock_mitem_counter = DB::table('mitems_counters')
                     ->selectRaw('stock')
@@ -281,6 +268,7 @@ class ControllerTransAdjustmentStock extends Controller
                 $count++;
             }
         }
+        // dd($counting_item);
         return redirect()->route('tadjlist');
         // if($count == $countrows){
         //     return redirect()->route('tadjlist');

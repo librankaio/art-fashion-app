@@ -207,7 +207,7 @@ class ControllerTransBonPenjualan extends Controller
     }
 
     public function update(Tpenjualan_h $tpenjualanh){
-        // dd(request()->all());
+        dd(request()->all());
         for($x=0;$x<sizeof(request('existdb_d'));$x++){
             $getstock_old = Tpenjualan_d::where('id', '=', request('id_d')[$x])->first();
             if ($getstock_old != null){
