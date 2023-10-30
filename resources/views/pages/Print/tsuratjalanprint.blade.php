@@ -3,8 +3,8 @@
 
 	<title>Print - Surat Jalan</title>
     {{-- <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> --}}
-    {{-- <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet"> --}}
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet"> --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@
                         <img src="{{ asset('../assets/img/artfashion_logo2.png') }}" alt="logo" width="200">
                     </div>                    
                     <div class="col-5" style="padding-left: 150px; padding-top: 30px">
-                        <h5>Art Fashion Jewelry <br>Telp. (021) 6403172/6401336<br>Fax. 021.6401336</h5>
+                        <h5>Art Fashion Jewelry <br>Telp.(021) 6403172 / 6401336<br>Fax. 021.6401336</h5>
                     </div>
                 </div>
                 <center>
@@ -156,28 +156,33 @@
 <style type="text/css" media="print">
     @font-face {
         font-family: 'Open Sans';
-        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-Bold.ttf") }}) format("truetype");
+        /* src: url({{ storage_path("fonts/static/OpenSans/OpenSans-Bold.ttf") }}) format("truetype"); */
+        src: url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap') format("truetype");
         font-weight: 700;
         font-style: normal;
     }
     
     @font-face {
         font-family: 'Open Sans';
-        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-BoldItalic.ttf") }}) format("truetype");
+        /* src: url({{ storage_path("fonts/static/OpenSans/OpenSans-BoldItalic.ttf") }}) format("truetype"); */
+        src: url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@1,700&display=swap') format("truetype");
         font-weight: 700;
         font-style: italic;
     }
     
     @font-face {
         font-family: 'Open Sans';
-        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-ExtraBold.ttf") }}) format("truetype");
+        /* src: url({{ storage_path("fonts/static/OpenSans/OpenSans-ExtraBold.ttf") }}) format("truetype"); */
+        src: url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap') format("truetype");
+        src: url('') format("truetype");
         font-weight: 800;
         font-style: normal;
     }
     
     @font-face {
         font-family: 'Open Sans';
-        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-ExtraBoldItalic.ttf") }}) format("truetype");
+        /* src: url({{ storage_path("fonts/static/OpenSans/OpenSans-ExtraBoldItalic.ttf") }}) format("truetype"); */
+        src: url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@1,800&display=swap') format("truetype");
         font-weight: 800;
         font-style: italic;
     }
@@ -212,21 +217,24 @@
     
     @font-face {
         font-family: 'Open Sans';
-        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-Regular.ttf") }}) format("truetype");
+        /* src: url({{ storage_path("fonts/static/OpenSans/OpenSans-Regular.ttf") }}) format("truetype"); */
+        src: url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap') format("truetype");
         font-weight: 400;
         font-style: normal;
     }
     
     @font-face {
         font-family: 'Open Sans';
-        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-SemiBold.ttf") }}) format("truetype");
+        /* src: url({{ storage_path("fonts/static/OpenSans/OpenSans-SemiBold.ttf") }}) format("truetype"); */
+        src: url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap') format("truetype");
         font-weight: 600;
         font-style: normal;
     }
     
     @font-face {
         font-family: 'Open Sans';
-        src: url({{ storage_path("fonts/static/OpenSans/OpenSans-SemiBoldItalic.ttf") }}) format("truetype");
+        /* src: url({{ storage_path("fonts/static/OpenSans/OpenSans-SemiBoldItalic.ttf") }}) format("truetype"); */
+        src: url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@1,600&display=swap') format("truetype");
         font-weight: 600;
         font-style: italic;
     }
