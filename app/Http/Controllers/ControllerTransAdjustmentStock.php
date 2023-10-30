@@ -129,7 +129,7 @@ class ControllerTransAdjustmentStock extends Controller
 
     public function update(Tadj_h $tadjh){
         // dd(request()->all());
-        dd(sizeof(request('id_d')));
+        // dd(sizeof(request('id_d')));
         if (request('jenis') == 'Plus'){
             for($x=0;$x<sizeof(request('existdb_d'));$x++){
                 $getstock_old = Tadj_d::where('id', '=', request('id_d')[$x])->first();
