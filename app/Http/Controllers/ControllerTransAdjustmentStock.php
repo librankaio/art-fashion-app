@@ -128,7 +128,7 @@ class ControllerTransAdjustmentStock extends Controller
     }
 
     public function update(Tadj_h $tadjh){
-        // dd(request()->all());
+        dd(request()->all());
         // dd(sizeof(request('id_d')));
         if (request('jenis') == 'Plus'){
             for($x=0;$x<sizeof(request('existdb_d'));$x++){
@@ -245,10 +245,6 @@ class ControllerTransAdjustmentStock extends Controller
                     'warna' => request('warna_d')[$i],
                     'qty' => request('quantity_d')[$i],
                     'satuan' => request('satuan_d')[$i],
-                    'diskon' => request('diskon_d')[$i],
-                    'hrgjual' => (float) str_replace(',', '', request('hrgjual_d')[$i]),
-                    'subtotal' => (float) str_replace(',', '', request('subtot_d')[$i]),
-                    'disctot' => (float) str_replace(',', '', request('totdisc_d')[$i]),
                     'note' => request('keterangan_d')[$i],
                 ]);
                 if (request('jenis') == 'Plus'){
@@ -304,7 +300,7 @@ class ControllerTransAdjustmentStock extends Controller
                 ->where('code_mitem', '=', strtok($tadj_length[$x]->code, " "))
                 ->where('name_mcounters', '=', $tadjh->counter)
                 ->first();
-                dd($old_stock_mitem_counter->stock-(int)$getstock_old->qty);
+                // dd($old_stock_mitem_counter->stock-(int)$getstock_old->qty);
                     // Make stock counter value is equal to old stock
                     // $getstock_old->qty is pembelian_d stock value
                 $normalize_stock_counter = $old_stock_mitem_counter->stock - (int)$getstock_old->qty;
