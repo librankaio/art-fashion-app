@@ -93,10 +93,10 @@ class ControllerTransAdjustmentStock extends Controller
                 $count++;
             }
             if($count == $countrows){
-                return redirect()->back();
+                return redirect()->back()->with('success', 'Data berhasil disimpan');
             }
         }
-        return redirect()->back()->with('success', 'Data berhasil ditambahkan');
+        return redirect()->back()->with('error', 'Nomer Transaksi sudah ada!');
     }
 
     public function list(){
