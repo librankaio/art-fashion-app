@@ -96,11 +96,11 @@ class ControllerTransAdjustmentStock extends Controller
                 return redirect()->back();
             }
         }
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Data berhasil ditambahkan');
     }
 
     public function list(){
-        $tadjhs = Tadj_h::select('id','no','tgl','note',)->orderBy('created_at', 'asc')->get();
+        $tadjhs = Tadj_h::select('id','no','tgl','note','counter')->orderBy('created_at', 'asc')->get();
         $tadjds = Tadj_d::select('id','idh','no_adj','code','name','qty','satuan')->get();
         return view('pages.Transaksi.tadjustmentstocklist',[
             'tadjhs' => $tadjhs,
@@ -269,7 +269,7 @@ class ControllerTransAdjustmentStock extends Controller
             }
         }
         // dd($counting_item);
-        return redirect()->route('tadjlist');
+        return redirect()->route('tadjlist')->with('success', 'Data berhasil di update');
         // if($count == $countrows){
         //     return redirect()->route('tadjlist');
         // }
@@ -344,6 +344,6 @@ class ControllerTransAdjustmentStock extends Controller
         Tadj_d::where('idh','=',$tadjh->id)->delete();
 
 
-        return redirect()->route('tadjlist');
+        return redirect()->route('tadjlist')->with('success', 'Data berhasil di hapus');
     }
 }

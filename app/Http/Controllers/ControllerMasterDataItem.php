@@ -171,7 +171,7 @@ class ControllerMasterDataItem extends Controller
     public function delete(Mitem $mitem){
         Mitem::find($mitem->id)->delete();
         DB::select( DB::raw("delete from mitems_counters where code_mitem = '$mitem->code' "));
-        return redirect()->route('mitem');
+        return redirect()->route('mitem')->with('success', 'Data berhasil di hapus');
     }
     
     public function print(Mitem $mitem){
