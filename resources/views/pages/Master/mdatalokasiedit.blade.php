@@ -42,7 +42,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Nama</label>
-                                        <input type="text" class="form-control" name="name" id="name" value="{{ $mcounter->name }}">
+                                        <input type="text" class="form-control" name="name" id="name" value="{{ $mcounter->name }}" readonly>
                                     </div>
                                 </div>
                             </div>
