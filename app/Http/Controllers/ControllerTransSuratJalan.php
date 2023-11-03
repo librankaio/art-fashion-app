@@ -359,7 +359,7 @@ class ControllerTransSuratJalan extends Controller
             // $items->put('name_lbl', $name_lbl->name_lbl);
             $item['name_lbl'] = $name_lbl->name_lbl;
         }
-        dd($items);
+        // dd($items);
         $datenow = date("Y-m-d");
         $customPaper = array(0,0,85.039,141.732);
         $pdf = Pdf::loadView('pages.Print.tsuratjalanprintitem', [
