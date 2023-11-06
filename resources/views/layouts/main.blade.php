@@ -10,6 +10,13 @@
     <title>Art Fashion Inventory Apps</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    {{-- Bootstrap icon --}}
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    {{-- End Bootstrap icon --}}
+
     {{-- Fontawesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">

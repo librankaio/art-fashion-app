@@ -30,6 +30,15 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
+                                    <a class="text-decoration-none"
+                                          href="{{ asset('../assets/template/mitem_template.xlsx') }}">
+                                          Download Template Upload Master Item
+                                          <i class="bi bi-cloud-download"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <div class="section-title">File Browser</div>
                                         <div class="custom-file">

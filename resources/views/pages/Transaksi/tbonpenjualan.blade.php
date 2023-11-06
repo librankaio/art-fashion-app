@@ -114,7 +114,7 @@
                                         <option>Special Price</option>
                                     </select>
                                 </div>        
-                                @if(session('privilage') != 'ADM')
+                                @if(session('privilage') != 'ADM' || session('privilage') != 'SPG DS')
                                     <div class="form-group">
                                         <label>No. Kartu</label>
                                         <input type="text" class="form-control" name="noreff" id="noreff">
@@ -173,7 +173,7 @@
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        @if(session('privilage') != 'ADM')
+                                        @if(session('privilage') != 'ADM' || session('privilage') != 'SPG DS')
                                         <div class="form-group">
                                             <label>Payment Method</label>
                                             <select class="form-control select2" name="payment_mthd" id="payment_mthd">
@@ -186,7 +186,7 @@
                                         @endif
                                     </div>
                                     <div class="col-md-6">
-                                        @if(session('privilage') != 'ADM')
+                                        @if(session('privilage') != 'ADM' || session('privilage') != 'SPG DS')
                                         <div class="form-group">
                                             <label>Payment Method 2</label>
                                             <select class="form-control select2" name="payment_mthd_2" id="payment_mthd_2">
@@ -211,7 +211,7 @@
                                 </div>  --}}
                             </div>
                             <div class="col-md-6">
-                                @if(session('privilage') != 'ADM')
+                                @if(session('privilage') != 'ADM' || session('privilage') != 'SPG DS')
                                <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
@@ -319,7 +319,11 @@
                     </div>              
                     <div class="card-footer text-right">
                         <a class="btn btn-warning mr-1" href="/tbonjuallist">List</a>
-                        <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('tbonjualpost') }}" onclick="timeout_init()" formtarget="_blank">Save</button>
+                        @if(session('privilage') != 'ADM' || session('privilage') != 'SPG DS')
+                            <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('tbonjualpost') }}" onclick="timeout_init()" formtarget="_blank">Save</button>
+                        @else
+                            <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('tbonjualpost') }}">Save</button>
+                        @endif
                         {{-- @if($tpos_save == 'Y')
                             <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}">Submit</button>
                         @elseif($tpos_save == 'N' || $tpos_save == null)
