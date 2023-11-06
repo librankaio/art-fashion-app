@@ -31,7 +31,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <a class="text-decoration-none"
-                                          href="{{ asset('../assets/template/mitem_template.xlsx') }}">
+                                          href="{{ asset('../assets/template/mitem_counter_upload.xlsx') }}">
                                           Download Template Upload Master Item Counters
                                           <i class="bi bi-cloud-download"></i>
                                     </a>
