@@ -117,7 +117,7 @@
                                         @endforeach
                                     </select>
                                 </div>                  
-                                @if(session('privilage') != 'ADM' || session('privilage') != 'SPG DS')
+                                @if(session('privilage') != 'ADM' && session('privilage') != 'SPG DS')
                                     <div class="form-group">
                                         <label>No. Kartu</label>
                                         <input type="text" class="form-control" name="noreff" id="noreff" value="{{ $tpenjualanh->noreff }}">
@@ -220,7 +220,7 @@
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        @if(session('privilage') != 'ADM' || session('privilage') != 'SPG DS')
+                                        @if(session('privilage') != 'ADM' && session('privilage') != 'SPG DS')
                                         <div class="form-group">
                                             <label>Payment Method</label>
                                             <select class="form-control select2" name="payment_mthd" id="payment_mthd">
@@ -234,7 +234,7 @@
                                         @endif
                                     </div>
                                     <div class="col-md-6">
-                                        @if(session('privilage') != 'ADM' || session('privilage') != 'SPG DS')
+                                        @if(session('privilage') != 'ADM' && session('privilage') != 'SPG DS')
                                         <div class="form-group">
                                             <label>Payment Method 2</label>
                                             <select class="form-control select2" name="payment_mthd_2" id="payment_mthd_2">
@@ -254,7 +254,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                @if(session('privilage') != 'ADM' || session('privilage') != 'SPG DS')
+                                @if(session('privilage') != 'ADM' && session('privilage') != 'SPG DS')
                                  <div class="row">
                                          <div class="col-md-3">
                                              <div class="form-group">
