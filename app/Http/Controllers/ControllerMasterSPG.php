@@ -43,6 +43,10 @@ class ControllerMasterSPG extends Controller
                 User::where('nik', '=', $request->nik)->update([
                     'privilage' => 'SPG SR',
                 ]);
+            }else if ($request->jenis == 'SPG DS') {
+                User::where('nik', '=', $request->nik)->update([
+                    'privilage' => 'SPG DS',
+                ]);
             }
             $user = User::select('id','nik','name')->where('nik','=',$request->nik)->first();
             DB::insert( DB::raw("insert into mhakakses (id_user, nik, counter, feature, save, open, updt, print, dlt) select '$user->id', '$request->nik', '$request->counter', code, 'Y', 'Y', 'Y', 'Y', 'Y' FROM app"));
@@ -75,6 +79,10 @@ class ControllerMasterSPG extends Controller
             }else if (request('jenis') == 'SPG SR') {
                 User::where('nik', '=', request('nik'))->update([
                     'privilage' => 'SPG SR',
+                ]);
+            }else if (request('jenis') == 'SPG DS') {
+                User::where('nik', '=', request('jenis'))->update([
+                    'privilage' => 'SPG DS',
                 ]);
             }
             return redirect()->route('mspg');
