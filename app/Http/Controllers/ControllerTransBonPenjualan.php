@@ -140,15 +140,19 @@ class ControllerTransBonPenjualan extends Controller
             }
             
             if($count == $countrows){
-                $tpenjualanh = Tpenjualan_h::where('no','=', $request->no)->first();
-                $tpenjualands = Tpenjualan_d::where('no_penjualan','=', $tpenjualanh->no)->get();
-                $address = Mcounter::select('alamat')->where('name','=',$tpenjualanh->counter)->first();
+                if(session('privilage') == 'ADM' || session('privilage') == 'SPG DS'){
+                    return redirect()->back()->with('success', 'Data berhasil di update');
+                }else{
+                    $tpenjualanh = Tpenjualan_h::where('no','=', $request->no)->first();
+                    $tpenjualands = Tpenjualan_d::where('no_penjualan','=', $tpenjualanh->no)->get();
+                    $address = Mcounter::select('alamat')->where('name','=',$tpenjualanh->counter)->first();
 
-                return view('pages.Print.tbonjualprint',[
-                    'tpenjualanh' => $tpenjualanh,
-                    'tpenjualands' => $tpenjualands,
-                    'address' => $address,
-                ]);
+                    return view('pages.Print.tbonjualprint',[
+                        'tpenjualanh' => $tpenjualanh,
+                        'tpenjualands' => $tpenjualands,
+                        'address' => $address,
+                    ]);
+                }                
                 // return redirect()->back();
             }
         }
