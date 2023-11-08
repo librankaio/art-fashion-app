@@ -171,13 +171,13 @@ class ControllerTransBonPenjualan extends Controller
 
     public function list(){
         if(session('privilage') == null){
-            $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal',)->where('counter','=',session('counter'))->orderBy('created_at', 'asc')->get();
+            $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal','hrgsblmdisc','diskon')->where('counter','=',session('counter'))->orderBy('created_at', 'asc')->get();
             $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note',)->get();
         }else if (session('privilage') == 'ADM'){
-            $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal',)->orderBy('created_at', 'asc')->get();
+            $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal','hrgsblmdisc','diskon')->orderBy('created_at', 'asc')->get();
             $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note',)->get();
         }else{
-            $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal',)->where('counter','=',session('counter'))->orderBy('created_at', 'asc')->get();
+            $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal','hrgsblmdisc','diskon')->where('counter','=',session('counter'))->orderBy('created_at', 'asc')->get();
             $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note',)->get();
         }
         return view('pages.Transaksi.tbonpenjualanlist',[
