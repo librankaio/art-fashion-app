@@ -131,6 +131,9 @@
             @if($umitemcounter_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('uploadmitemcounter') }}">Upload M.Item Counter</a></li>
             @endif
+            @if($umitemcounter_open == 'Y' || $role == 'ADM')
+                <li><a class="nav-link" href="{{ route('uploadtbhstock') }}">Upload Tambah Stock</a></li>
+            @endif
         </ul>
     </li>
     {{-- <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank Page</span></a></li>

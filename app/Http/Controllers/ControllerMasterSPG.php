@@ -104,6 +104,10 @@ class ControllerMasterSPG extends Controller
             User::where('nik', '=', request('nik'))->update([
                 'privilage' => 'SPG SR',
             ]);
+        }else if (request('jenis') == 'SPG DS') {
+            User::where('nik', '=', request('jenis'))->update([
+                'privilage' => 'SPG DS',
+            ]);
         }
         return redirect()->route('mspg');
     }

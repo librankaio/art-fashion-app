@@ -26,6 +26,7 @@ use App\Http\Controllers\ControllerTransStockOpname;
 use App\Http\Controllers\ControllerTransSuratJalan;
 use App\Http\Controllers\ControllerUpload;
 use App\Http\Controllers\ControllerUploadMitemCounter;
+use App\Http\Controllers\ControllerUploadTbhStockMitem;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -110,6 +111,9 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('uploadmitemcounter', [ControllerUploadMitemCounter::class, 'index'])->name('uploadmitemcounter');
     Route::post('uploadmitemcounterpost', [ControllerUploadMitemCounter::class, 'uploadpost'])->name('uploadmitemcounterpost');
+    
+    Route::get('uploadtbhstock', [ControllerUploadTbhStockMitem::class, 'index'])->name('uploadtbhstock');
+    Route::post('uploadtbhstockpost', [ControllerUploadTbhStockMitem::class, 'uploadpost'])->name('uploadtbhstockpost');
 
     Route::get('tsob', [ControllerTransSOB::class, 'index'])->name('tsob');
     Route::post('/tsobpost', [ControllerTransSOB::class, 'post'])->name('tsobpost');
