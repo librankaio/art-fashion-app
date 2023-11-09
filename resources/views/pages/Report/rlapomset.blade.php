@@ -97,6 +97,8 @@
                                         <th scope="col" class="border border-5" style="text-align: center;">Kode</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Nama Item</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Quantity</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Discount</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Harga Sebelum Discount</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Subtotal</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Jenis Pembayaran</th>
                                     </tr>
@@ -115,6 +117,8 @@
                                             <td class="border border-5" style="text-align: center;">{{ $item->code }}</td>
                                             <td class="border border-5" style="text-align: center;">{{ $item->name }}</td>
                                             <td class="border border-5" style="text-align: center;">{{ $item->qty }}</td>
+                                            <td class="border border-5" style="text-align: center;">{{ number_format($item->disctot, 2, '.', ',') }}</td>
+                                            <td class="border border-5" style="text-align: center;">{{ number_format($item->subtotalbef, 2, '.', ',') }}</td>
                                             <td class="border border-5" style="text-align: center;">{{ number_format($item->subtotal, 2, '.', ',') }}</td>
                                             <td class="border border-5" style="text-align: center;">{{ $item->payment_mthd }}</td>
                                         </tr>
