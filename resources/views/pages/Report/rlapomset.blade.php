@@ -127,6 +127,7 @@
                                     @php $counter = 0 @endphp
                                     @php $total = 0; @endphp
                                     @php $notrans = ""; @endphp
+                                    
                                     @foreach($results as $data => $item)
                                         @php $counter++ @endphp
                                         @php $total_item = (float) $item->subtotal @endphp
@@ -158,6 +159,8 @@
                                                 <td class="border border-5" style="text-align: center;">{{ $item->payment_mthd }}</td>
                                             @endif                                            
                                         </tr>
+                                        
+                                        @php $tot_sblmdisc = $item->no; @endphp
                                         @php $notrans = $item->no; @endphp
                                     @endforeach
                                     @endisset
@@ -168,7 +171,29 @@
                     <div class="col-12 col-md-6 col-lg-6 align-self-end">
                         <div class="row">
                             <div class="col-md-4">
-                                
+                                <div class="form-group">
+                                    <label>Grand Total Sebelum Disc</label>
+                                    @if(isset($results))
+                                    @php $old_sumtot_sblmdisc = 0; @endphp
+                                    @php $old_sumtot_sblmdisc_2 = 0; @endphp
+                                    @php $tot_sblmdisc = 0; @endphp
+                                    @foreach($results as $data => $item)
+                                    @if($tot_sblmdisc == 0)
+                                        @php $tot_sblmdisc = number_format($item->subtotalbef, 2, '.', '') @endphp
+                                    @else
+                                        @if ($old_sumtot_sblmdisc == 0)
+                                            @php $old_sumtot_sblmdisc = $tot_sblmdisc + number_format($item->subtotalbef, 2, '.', '') @endphp
+                                        @else
+                                            @php $old_sumtot_sblmdisc_2 = $old_sumtot_sblmdisc + number_format($item->subtotalbef, 2, '.', '') @endphp
+                                            @php $old_sumtot_sblmdisc = $old_sumtot_sblmdisc_2 @endphp
+                                        @endif
+                                    @endif
+                                    @endforeach                                   
+                                        <input type="text" class="form-control" form="thisform" value="{{ number_format($old_sumtot_sblmdisc, 2, '.', ',')}}" readonly>
+                                    @else
+                                        <input type="text" class="form-control" form="thisform" readonly>
+                                    @endif
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">

@@ -372,4 +372,14 @@ class ControllerTransBonPenjualan extends Controller
             'address' => $address,
         ]);
     }
+    public function printmatrix(Tpenjualan_h $tpenjualanh){        
+        $tpenjualands = Tpenjualan_d::where('idh','=',$tpenjualanh->id)->get();
+        $address = Mcounter::select('alamat')->where('name','=',$tpenjualanh->counter)->first();
+
+        return view('pages.Print.bonpenjualdotmatrix',[
+            'tpenjualanh' => $tpenjualanh,
+            'tpenjualands' => $tpenjualands,
+            'address' => $address,
+        ]);
+    }
 }

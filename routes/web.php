@@ -154,6 +154,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/tbonjual/{tpenjualanh}', [ControllerTransBonPenjualan::class, 'update'])->name('tbonjualupdate');
     Route::post('/tbonjual/delete/{tpenjualanh}', [ControllerTransBonPenjualan::class, 'delete'])->name('tbonjualdelete');
     Route::get('/tbonjual/{tpenjualanh}/print', [ControllerTransBonPenjualan::class, 'print'])->name('tbonjualprint');
+    Route::get('/tbonjual/{tpenjualanh}/printmatrix', [ControllerTransBonPenjualan::class, 'printmatrix'])->name('tbonjualprintmatrix');
 
     Route::get('tsuratjalan', [ControllerTransSuratJalan::class, 'index'])->name('tsuratjalan');
     Route::post('/tsuratjalanpost', [ControllerTransSuratJalan::class, 'post'])->name('tsuratjalanpost');
