@@ -139,8 +139,8 @@
                                                 <td class="border border-5" style="text-align: center;">{{ $item->code }}</td>
                                                 <td class="border border-5" style="text-align: center;">{{ $item->name }}</td>
                                                 <td class="border border-5" style="text-align: center;">{{ $item->qty }}</td>
-                                                <td class="border border-5" style="text-align: center;">{{ number_format($item->discount, 0, '.', '') }}</td>
-                                                <td class="border border-5" style="text-align: center;">{{ number_format($item->diskon, 2, '.', ',') }}</td>
+                                                <td class="border border-5" style="text-align: center;">{{ number_format($item->diskon, 0, '.', '') }}</td>
+                                                <td class="border border-5" style="text-align: center;">{{ number_format($item->disctot, 2, '.', ',') }}</td>
                                                 <td class="border border-5" style="text-align: center;">{{ number_format($item->subtotalbef, 2, '.', ',') }}</td>
                                                 <td class="border border-5" style="text-align: center;">{{ number_format($item->subtotal, 2, '.', ',') }}</td>
                                                 <td class="border border-5" style="text-align: center;">{{ $item->payment_mthd }}</td>
@@ -151,8 +151,8 @@
                                                 <td class="border border-5" style="text-align: center;">{{ $item->code }}</td>
                                                 <td class="border border-5" style="text-align: center;">{{ $item->name }}</td>
                                                 <td class="border border-5" style="text-align: center;">{{ $item->qty }}</td>
-                                                <td class="border border-5" style="text-align: center;">{{ number_format($item->discount, 0, '.', '') }}</td>
-                                                <td class="border border-5" style="text-align: center;">{{ number_format($item->diskon, 2, '.', ',') }}</td>
+                                                <td class="border border-5" style="text-align: center;">{{ number_format($item->diskon, 0, '.', '') }}</td>
+                                                <td class="border border-5" style="text-align: center;">{{ number_format($item->disctot, 2, '.', ',') }}</td>
                                                 <td class="border border-5" style="text-align: center;">{{ number_format($item->subtotalbef, 2, '.', ',') }}</td>
                                                 <td class="border border-5" style="text-align: center;">{{ number_format($item->subtotal, 2, '.', ',') }}</td>
                                                 <td class="border border-5" style="text-align: center;">{{ $item->payment_mthd }}</td>
