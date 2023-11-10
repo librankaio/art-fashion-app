@@ -69,6 +69,23 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-md-12">                    
+                                <div class="form-group">
+                                    <label>Nomor Penjualan</label>
+                                    <select class="form-control select2" name="no_tpenjualan" id="no_tpenjualan">
+                                        @if(request('no_tpenjualan') == NULL)
+                                        <option disabled selected>--Select Counter--</option>
+                                        @else
+                                        <option selected>@php echo $_GET['no_tpenjualan']; @endphp</option>
+                                        @endif
+                                        @foreach($tpenjualans as $tpenjualan)
+                                        <option>{{ $tpenjualan->no}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-12 d-flex justify-content-end">                    
                                 <div class="form-group">
                                     <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="/romsetitemsearch" onclick="show_loading()">View</button>
@@ -93,12 +110,14 @@
                                 <thead>
                                     <tr>
                                         <th scope="col" class="border border-5" style="text-align: center;">No</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">No Transaksi</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Tanggal</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Kode</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Nama Item</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Quantity</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Discount</th>
-                                        <th scope="col" class="border border-5" style="text-align: center;">Harga Sebelum Discount</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Discount (%)</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Subtotal Sebelum Discount</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Subtotal</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Jenis Pembayaran</th>
                                     </tr>
@@ -107,21 +126,39 @@
                                     @isset($results)
                                     @php $counter = 0 @endphp
                                     @php $total = 0; @endphp
+                                    @php $notrans = ""; @endphp
                                     @foreach($results as $data => $item)
                                         @php $counter++ @endphp
                                         @php $total_item = (float) $item->subtotal @endphp
                                         @php $subtotal = $total + $total_item   @endphp
                                         <tr>
-                                            <th scope="row" class="border border-5">{{ $counter }}</th>
-                                            <td class="border border-5" style="text-align: center;">{{ date("Y-m-d", strtotime($item->tgl)) }}</td>
-                                            <td class="border border-5" style="text-align: center;">{{ $item->code }}</td>
-                                            <td class="border border-5" style="text-align: center;">{{ $item->name }}</td>
-                                            <td class="border border-5" style="text-align: center;">{{ $item->qty }}</td>
-                                            <td class="border border-5" style="text-align: center;">{{ number_format($item->disctot, 2, '.', ',') }}</td>
-                                            <td class="border border-5" style="text-align: center;">{{ number_format($item->subtotalbef, 2, '.', ',') }}</td>
-                                            <td class="border border-5" style="text-align: center;">{{ number_format($item->subtotal, 2, '.', ',') }}</td>
-                                            <td class="border border-5" style="text-align: center;">{{ $item->payment_mthd }}</td>
+                                            @if( $item->no == $notrans )
+                                                <th scope="row" class="border border-5">{{ $counter }}</th>
+                                                <td class="border border-5" style="text-align: center;"></td>
+                                                <td class="border border-5" style="text-align: center;">{{ date("Y-m-d", strtotime($item->tgl)) }}</td>
+                                                <td class="border border-5" style="text-align: center;">{{ $item->code }}</td>
+                                                <td class="border border-5" style="text-align: center;">{{ $item->name }}</td>
+                                                <td class="border border-5" style="text-align: center;">{{ $item->qty }}</td>
+                                                <td class="border border-5" style="text-align: center;">{{ number_format($item->discount, 0, '.', '') }}</td>
+                                                <td class="border border-5" style="text-align: center;">{{ number_format($item->diskon, 2, '.', ',') }}</td>
+                                                <td class="border border-5" style="text-align: center;">{{ number_format($item->subtotalbef, 2, '.', ',') }}</td>
+                                                <td class="border border-5" style="text-align: center;">{{ number_format($item->subtotal, 2, '.', ',') }}</td>
+                                                <td class="border border-5" style="text-align: center;">{{ $item->payment_mthd }}</td>
+                                            @else
+                                                <th scope="row" class="border border-5">{{ $counter }}</th>
+                                                <td class="border border-5" style="text-align: center;">{{ $item->no }}</td>
+                                                <td class="border border-5" style="text-align: center;">{{ date("Y-m-d", strtotime($item->tgl)) }}</td>
+                                                <td class="border border-5" style="text-align: center;">{{ $item->code }}</td>
+                                                <td class="border border-5" style="text-align: center;">{{ $item->name }}</td>
+                                                <td class="border border-5" style="text-align: center;">{{ $item->qty }}</td>
+                                                <td class="border border-5" style="text-align: center;">{{ number_format($item->discount, 0, '.', '') }}</td>
+                                                <td class="border border-5" style="text-align: center;">{{ number_format($item->diskon, 2, '.', ',') }}</td>
+                                                <td class="border border-5" style="text-align: center;">{{ number_format($item->subtotalbef, 2, '.', ',') }}</td>
+                                                <td class="border border-5" style="text-align: center;">{{ number_format($item->subtotal, 2, '.', ',') }}</td>
+                                                <td class="border border-5" style="text-align: center;">{{ $item->payment_mthd }}</td>
+                                            @endif                                            
                                         </tr>
+                                        @php $notrans = $item->no; @endphp
                                     @endforeach
                                     @endisset
                                 </tbody>                            

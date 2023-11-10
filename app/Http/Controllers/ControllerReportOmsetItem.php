@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Mcounter;
 use App\Models\Mjenispayment;
+use App\Models\Tpenjualan_h;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,9 +23,11 @@ class ControllerReportOmsetItem extends Controller
         }
         // $counters = Mcounter::select('id','code','name')->get();
         $payments = Mjenispayment::select('id','code','name')->get();
+        $tpenjualans = Tpenjualan_h::select('id','no')->get();
         return view('pages.Report.rlapomset',[
             'counters' => $counters,
             'payments' => $payments,
+            'tpenjualans' => $tpenjualans,
         ]);
     }
 
@@ -51,12 +54,14 @@ class ControllerReportOmsetItem extends Controller
             $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         }
         $payments = Mjenispayment::select('id','code','name')->get();
+        $tpenjualans = Tpenjualan_h::select('id','no')->get();
         return view('pages.Report.rlapomset', [
             'results' => $results,
             'counters' => $counters,
             'totqty' => $totqty,
             'grandtot' => $grandtot,
             'payments' => $payments,
+            'tpenjualans' => $tpenjualans,
         ]);
     }
 
