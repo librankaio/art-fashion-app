@@ -116,7 +116,9 @@
     }
 
     @page {
-      size: 21.59cm 13.97cm;
+        size: auto;  
+        margin: 0mm; 
+        size: 75mm 65mm;
     }
 
     .logo {
