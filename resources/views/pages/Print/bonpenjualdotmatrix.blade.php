@@ -108,32 +108,21 @@
 </html>
 
 <style type="text/css" media="print">
-    body {
-        /* font-family: 'Roboto';font-size: 16px; */
-        font-family: 'Open Sans', sans-serif;
-    }
-    h1,h2,h3,h4,h5,h6 {
-        font-family: 'Open Sans', sans-serif;
-    }
-  /* @page { size: landscape; margin: 0px auto; } */
-  @page {
-  page-orientation: upright; 
-  margin: 0px auto;
-}
-
-@page upright {
-  size: portrait;
-  page-orientation: upright;
-}
-
 @media print {
-  .upright {
-    page: upright;
-  }
-}
+    html, body {
+        display: block; 
+        font-family: "Calibri";
+        margin: 0;
+    }
 
-.border-dotted{
-    border-style: dotted;
+    @page {
+      size: 21.59cm 13.97cm;
+    }
+
+    .logo {
+      width: 30%;
+    }
+
 }
 </style>
 
