@@ -112,7 +112,7 @@
 <style type="text/css" media="print">
 @media print {
     html, body {
-        display: block; 
+        /* display: block;  */
         font-family: "Calibri";
         margin: 0;
     }
