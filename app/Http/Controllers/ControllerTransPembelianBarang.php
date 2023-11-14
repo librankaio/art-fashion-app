@@ -54,7 +54,7 @@ class ControllerTransPembelianBarang extends Controller
                     'qty' => $request->quantity_d[$i],
                     'satuan' => $request->satuan_d[$i],
                     'hrgbeli' => (float) str_replace(',', '', $request->hrgbeli_d[$i]),
-                    'hrgjual' => (float) str_replace(',', '', $request->subtot_d[$i]),
+                    'hrgjual' => (float) str_replace(',', '', $request->hrgjual_d[$i]),
                     'subtotal' => (float) str_replace(',', '', $request->subtot_d[$i]),
                 ]);
                 $stock_mitem = Mitem::select('stock')->where('code', '=', strtok($request->kode_d[$i], " "))->first();
