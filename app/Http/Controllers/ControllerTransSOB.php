@@ -32,11 +32,15 @@ class ControllerTransSOB extends Controller
 
     public function post(Request $request){
         // dd($request->all());
-
+        $notrans = DB::select("select fgetcode('tsob') as codetrans");
+        foreach($notrans as $notran){
+            $no = $notran->codetrans;
+        }
+        dd($no);
         $checkexist = Tsob_h::select('id','no')->where('no','=', $request->no)->first();
         if($checkexist == null){
             Tsob_h::create([
-                'no' => $request->no,
+                'no' => $no,
                 'tgl' => $request->dt,
                 'counter' => $request->counter,
                 'note' => $request->note,
@@ -52,7 +56,7 @@ class ControllerTransSOB extends Controller
             for ($i=0;$i<sizeof($request->no_d);$i++){
                 Tsob_d::create([
                     'idh' => $idh,
-                    'no_sob' => $request->no,
+                    'no_sob' => $no,
                     'code' => $request->kode_d[$i],
                     'name' => $request->namaitem_d[$i],
                     'warna' => $request->warna_d[$i],

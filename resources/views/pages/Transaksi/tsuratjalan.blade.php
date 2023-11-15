@@ -634,7 +634,7 @@
         no = $("#no").val();
         counter = $("#counter").val();
         code_cust = $("#code_cust").prop('selectedIndex');
-        nosob = $("#nosob").prop('selectedIndex');
+        // nosob = $("#nosob").prop('selectedIndex');
         jenis = $("#jenis").prop('selectedIndex');
         if (no == ""){
             swal('WARNING', 'No Tidak boleh kosong!', 'warning');
@@ -643,10 +643,10 @@
             swal('WARNING', 'Please select Code Cust', 'warning');
             return false;
         }
-        else if (nosob == 0){
-            swal('WARNING', 'Please select Nomer SOB', 'warning');
-            return false;
-        }
+        // else if (nosob == 0){
+        //     swal('WARNING', 'Please select Nomer SOB', 'warning');
+        //     return false;
+        // }
         // else if (jenis == 0){
         //     swal('WARNING', 'Please select Jenis', 'warning');
         //     return false;
