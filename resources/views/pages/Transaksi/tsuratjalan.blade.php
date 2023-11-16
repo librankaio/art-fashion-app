@@ -86,7 +86,8 @@
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-6">
-                <div class="card" id="card_items" style="border: 1px solid lightblue; display:none;">
+                <div class="card" id="card_items" style="border: 1px solid lightblue;">
+                {{-- <div class="card" id="card_items" style="border: 1px solid lightblue; display:none;"> --}}
                     <div class="card-header">
                         <h4>Add Items</h4>
                     </div>
@@ -313,12 +314,12 @@
                                     
                                 }
                             }
-                            var x = document.getElementById("card_items");
-                            if (x.style.display === "none") {
-                                x.style.display = "block";
-                            } else {
-                                x.style.display = "none";
-                            }
+                            // var x = document.getElementById("card_items");
+                            // if (x.style.display === "none") {
+                            //     x.style.display = "block";
+                            // } else {
+                            //     x.style.display = "none";
+                            // }
                         }else if($('#number_counter').val() >= 0){
                             console.log('masuk222');
 

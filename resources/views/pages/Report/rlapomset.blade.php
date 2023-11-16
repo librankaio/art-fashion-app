@@ -115,8 +115,8 @@
                                         <th scope="col" class="border border-5" style="text-align: center;">Kode</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Nama Item</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Quantity</th>
-                                        <th scope="col" class="border border-5" style="text-align: center;">Discount</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Discount (%)</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Discount</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Subtotal Sebelum Discount</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Subtotal</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Jenis Pembayaran</th>
