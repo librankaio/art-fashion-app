@@ -158,6 +158,7 @@ class ControllerMasterDataItem extends Controller
     }
 
     public function update(Mitem $mitem){
+        // dd(request()->all());
         Mitem::where('id', '=', $mitem->id)->update([
             'name' => request('nama'),
             'name_lbl' => request('name_lbl'),
@@ -172,6 +173,11 @@ class ControllerMasterDataItem extends Controller
             'nett' => (float) str_replace(',', '', request('price_nett')),
             'spcprice' => (float) str_replace(',', '', request('price_special')),
         ]);
+        $kode = request('kode');
+        $nama = request('nama');
+        $old_kode = request('old_kode');
+        DB::update( DB::raw("update mitems_counters set code_mitem = '$kode', name_mitem = '$nama'
+        where code_mitem = '$old_kode'"));
 
         return redirect()->route('mitem')->with('success', 'Data berhasil di update');
     }
