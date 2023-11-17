@@ -34,6 +34,7 @@ class ControllerTransPembelianBarang extends Controller
                 'no' => $request->no,
                 'tgl' => $request->dt,
                 'supplier' => $request->supplier,
+                'counter' => session('counter'),
                 'note' => $request->note,
                 'grdtotal' => (float) str_replace(',', '', $request->price_total),
             ]);
@@ -111,7 +112,7 @@ class ControllerTransPembelianBarang extends Controller
     }
 
     public function list(){
-        $tpembelianhs = Tpembelian_h::select('id','no','tgl','supplier','note','grdtotal',)->orderBy('created_at', 'asc')->get();
+        $tpembelianhs = Tpembelian_h::select('id','no','tgl','supplier','note','grdtotal',)->where('counter','=', session('counter'))->orderBy('created_at', 'asc')->get();
         $toembeliands = Tpembelian_d::select('id','idh','no_pembelian','code','name','warna','qty','satuan','hrgbeli','hrgjual','subtotal')->get();
         return view('pages.Transaksi.tpembelianbaranglist',[
             'tpembelianhs' => $tpembelianhs,
@@ -181,6 +182,7 @@ class ControllerTransPembelianBarang extends Controller
             'no' => request('no'),
             'tgl' => request('dt'),
             'supplier' => request('supplier'),
+            'counter' => session('counter'),
             'note' => request('note'),
             'grdtotal' =>  (float) str_replace(',', '', request('price_total'))
         ]);
@@ -266,7 +268,7 @@ class ControllerTransPembelianBarang extends Controller
             $stock_mitem_counter = DB::table('mitems_counters')
             ->selectRaw('stock')
             ->where('code_mitem', '=', strtok($pembelian_old_item->code, " "))
-            ->where('name_mcounters', '=', $tpembelianh->counter)
+            ->where('name_mcounters', '=', session('counter'))
             ->first();
             // dd($stock_mitem_counter);
             $stock_mitem_counter_min = $stock_mitem_counter->stock - (int)$pembelian_old_item->qty;
@@ -274,7 +276,7 @@ class ControllerTransPembelianBarang extends Controller
             DB::table('mitems_counters')
             ->selectRaw('stock')
             ->where('code_mitem', '=', strtok($pembelian_old_item->code, " "))
-            ->where('name_mcounters', '=', $tpembelianh->counter)
+            ->where('name_mcounters', '=', session('counter'))
             ->update([
                 'stock' => (int)$stock_mitem_counter_min,
             ]);

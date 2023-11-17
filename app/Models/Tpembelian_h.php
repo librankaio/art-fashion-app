@@ -13,6 +13,7 @@ class Tpembelian_h extends Model
         'no',
         'tgl',
         'supplier',
+        'counter',
         'note',
         'grdtotal',
         'user',
