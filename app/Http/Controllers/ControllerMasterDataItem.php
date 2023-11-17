@@ -145,6 +145,14 @@ class ControllerMasterDataItem extends Controller
         return json_encode($stock);
     }
 
+    public function getpriceitem(Request $request){
+        $kode = $request->kode;
+        if($kode != ''){
+            $stock = Mitem::select('hrgjual')->where('code','=',$kode)->first();
+        }
+        return json_encode($stock);
+    }
+
     public function getedit(Mitem $mitem){
         return view('pages.Master.mdataitemedit',['mitem' => $mitem]);
     }

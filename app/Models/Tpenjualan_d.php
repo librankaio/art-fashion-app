@@ -17,6 +17,7 @@ class Tpenjualan_d extends Model
         'warna',
         'qty',
         'satuan',
+        'harga_awal',
         'hrgjual',
         'diskon',
         'subtotal',

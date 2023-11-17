@@ -36,7 +36,6 @@ class ControllerTransSOB extends Controller
         foreach($notrans as $notran){
             $no = $notran->codetrans;
         }
-        dd($no);
         $checkexist = Tsob_h::select('id','no')->where('no','=', $request->no)->first();
         if($checkexist == null){
             Tsob_h::create([

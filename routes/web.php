@@ -90,6 +90,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/mitempdf', [ControllerMasterDataItem::class, 'exportpdf'])->name('mitempdf');
     Route::post('/getmitemv2', [ControllerMasterDataItem::class, 'getmitem'])->name('getmitemv2');
     Route::post('/getstock', [ControllerMasterDataItem::class, 'getstock'])->name('getstock');
+    Route::post('/getpriceitem', [ControllerMasterDataItem::class, 'getpriceitem'])->name('getpriceitem');
     Route::get('mitemexcel', [ControllerMasterDataItem::class, 'exportExcel'])->name('mitemexcel');
 
     Route::get('msaldoawal', [ControllerMasterSaldoAwal::class, 'index'])->name('msaldoawal');

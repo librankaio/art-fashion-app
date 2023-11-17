@@ -53,7 +53,6 @@ class ControllerTransBonPenjualan extends Controller
     }
 
     public function post(Request $request){
-        // dd($request->all());
         $items = array();
         $is_stocknotvalid = 0;
         for ($i=0;$i<sizeof($request->no_d);$i++){
@@ -111,6 +110,7 @@ class ControllerTransBonPenjualan extends Controller
                     'qty' => $request->quantity_d[$i],
                     'diskon' => $request->diskon_d[$i],
                     'subtotal' => (float) str_replace(',', '', $request->subtot_d[$i]),
+                    'harga_awal' => (float) str_replace(',', '', $request->harga_awal_d[$i]),
                     'hrgjual' => (float) str_replace(',', '', $request->hrgjual_d[$i]),
                     'disctot' => (float) str_replace(',', '', $request->totdisc_d[$i]),
                     'hrgsetdisc' => (float) str_replace(',', '', $request->hrgsetdisc_d[$i]),
@@ -200,7 +200,7 @@ class ControllerTransBonPenjualan extends Controller
         // $mitems = DB::select( DB::raw("select code_mitem as code, name_mitem as name from mitems_counters where name_mcounters = '$counter_name' and stock > 0"));
         $mitems = Mitem::select('id','code','name')->get();
         $payments = Mjenispayment::select('id','code','name')->get();
-        $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','warna','qty','satuan','hrgjual','diskon','subtotal','disctot','hrgsetdisc','subtotfinal','note')->where('idh','=',$tpenjualanh->id)->get();
+        $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','warna','qty','satuan','harga_awal','hrgjual','diskon','subtotal','disctot','hrgsetdisc','subtotfinal','note')->where('idh','=',$tpenjualanh->id)->get();
         return view('pages.Transaksi.tbonpenjualanedit',[
             'counters' => $counters,
             'mitems' => $mitems,
@@ -284,6 +284,7 @@ class ControllerTransBonPenjualan extends Controller
                     'satuan' => request('satuan_d')[$i],
                     'diskon' => request('diskon_d')[$i],
                     'subtotal' => (float) str_replace(',', '', request('subtot_d')[$i]),
+                    'harga_awal' => (float) str_replace(',', '', request('harga_awal_d')[$i]),
                     'hrgjual' => (float) str_replace(',', '', request('hrgjual_d')[$i]),
                     'disctot' => (float) str_replace(',', '', request('totdisc_d')[$i]),
                     'hrgsetdisc' => (float) str_replace(',', '', request('hrgsetdisc_d')[$i]),
