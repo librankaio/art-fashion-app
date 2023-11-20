@@ -53,6 +53,10 @@ class ControllerTransBonPenjualan extends Controller
     }
 
     public function post(Request $request){
+        $notrans = DB::select("select fgetcode('tpenjualan') as codetrans");
+        foreach($notrans as $notran){
+            $no = $notran->codetrans;
+        }
         $items = array();
         $is_stocknotvalid = 0;
         for ($i=0;$i<sizeof($request->no_d);$i++){
@@ -73,10 +77,10 @@ class ControllerTransBonPenjualan extends Controller
         if ($is_stocknotvalid != 0){
             return redirect()->back()->with('error', 'Salah satu item stock counter kosong atau lebih dari stock counter!');
         }
-        $checkexist = Tpenjualan_h::select('id','no')->where('no','=', $request->no)->first();
+        $checkexist = Tpenjualan_h::select('id','no')->where('no','=', $no)->first();
         if($checkexist == null){
             Tpenjualan_h::create([
-                'no' => $request->no,
+                'no' => $no,
                 'tgl' => $request->dt,
                 'counter' => $request->counter,
                 'jenis_promosi' => $request->jenis_promosi,
@@ -91,7 +95,7 @@ class ControllerTransBonPenjualan extends Controller
                 'totbayar_2' => (float) str_replace(',', '', $request->totbayar_2),
                 'totkembali' => (float) str_replace(',', '', $request->totkembali),
             ]);
-            $idh_loop = Tpenjualan_h::select('id')->where('no','=',$request->no)->get();
+            $idh_loop = Tpenjualan_h::select('id')->where('no','=',$no)->get();
             for($j=0; $j<sizeof($idh_loop); $j++){
                 $idh = $idh_loop[$j]->id;
             }

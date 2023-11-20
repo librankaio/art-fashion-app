@@ -37,11 +37,15 @@ class ControllerTransPenerimaanBrg extends Controller
 
     public function post(Request $request){
         // dd($request->all());
+        $notrans = DB::select("select fgetcode('tpenerimaan') as codetrans");
 
-        $checkexist = Tpenerimaan_h::select('id','no')->where('no','=', $request->no)->first();
+        foreach($notrans as $notran){
+            $no = $notran->codetrans;
+        }
+        $checkexist = Tpenerimaan_h::select('id','no')->where('no','=', $no)->first();
         if($checkexist == null){
             Tpenerimaan_h::create([
-                'no' => $request->no,
+                'no' => $no,
                 'no_sj' => $request->nosj,
                 'counter' => $request->counter,
                 'tgl' => $request->dt,
@@ -49,7 +53,7 @@ class ControllerTransPenerimaanBrg extends Controller
                 'jenis' => $request->jenis,
                 'grdtotal' => (float) str_replace(',', '', $request->price_total),
             ]);
-            $idh_loop = Tpenerimaan_h::select('id')->where('no','=',$request->no)->get();
+            $idh_loop = Tpenerimaan_h::select('id')->where('no','=',$no)->get();
             for($j=0; $j<sizeof($idh_loop); $j++){
                 $idh = $idh_loop[$j]->id;
             }

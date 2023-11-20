@@ -87,7 +87,7 @@
             </div>
             <div class="col-12 col-md-6 col-lg-6">
                 <div class="card" id="card_items" style="border: 1px solid lightblue;">
-                {{-- <div class="card" id="card_items" style="border: 1px solid lightblue; display:none;"> --}}
+                {{-- <div class="card" id="card_items" style="border: 1px solid lightblue; [display:none;]"> --}}
                     <div class="card-header">
                         <h4>Add Items</h4>
                     </div>

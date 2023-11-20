@@ -33,17 +33,22 @@ class ControllerTransAdjustmentStock extends Controller
 
     public function post(Request $request){
         // dd($request->all());
+        $notrans = DB::select("select fgetcode('tadj') as codetrans");
 
-        $checkexist = Tadj_h::select('id','no')->where('no','=', $request->no)->first();
+        foreach($notrans as $notran){
+            $no = $notran->codetrans;
+        }
+
+        $checkexist = Tadj_h::select('id','no')->where('no','=', $no)->first();
         if($checkexist == null){
             Tadj_h::create([
-                'no' => $request->no,
+                'no' => $no,
                 'tgl' => $request->dt,
                 'counter' => $request->counter,
                 'jenis' => $request->jenis,
                 'note' => $request->note,
             ]);
-            $idh_loop = Tadj_h::select('id')->where('no','=',$request->no)->get();
+            $idh_loop = Tadj_h::select('id')->where('no','=',$no)->get();
             for($j=0; $j<sizeof($idh_loop); $j++){
                 $idh = $idh_loop[$j]->id;
             }

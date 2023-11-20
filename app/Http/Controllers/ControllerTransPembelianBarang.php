@@ -28,17 +28,23 @@ class ControllerTransPembelianBarang extends Controller
     public function post(Request $request){
         // dd($request->all());
 
-        $checkexist = Tpembelian_h::select('id','no')->where('no','=', $request->no)->first();
+        $notrans = DB::select("select fgetcode('tpembelian') as codetrans");
+
+        foreach($notrans as $notran){
+            $no = $notran->codetrans;
+        }
+
+        $checkexist = Tpembelian_h::select('id','no')->where('no','=', $no)->first();
         if($checkexist == null){
             Tpembelian_h::create([
-                'no' => $request->no,
+                'no' => $no,
                 'tgl' => $request->dt,
                 'supplier' => $request->supplier,
                 'counter' => session('counter'),
                 'note' => $request->note,
                 'grdtotal' => (float) str_replace(',', '', $request->price_total),
             ]);
-            $idh_loop = Tpembelian_h::select('id')->where('no','=',$request->no)->get();
+            $idh_loop = Tpembelian_h::select('id')->where('no','=', $no)->get();
             for($j=0; $j<sizeof($idh_loop); $j++){
                 $idh = $idh_loop[$j]->id;
             }

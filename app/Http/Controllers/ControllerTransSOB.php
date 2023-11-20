@@ -33,10 +33,11 @@ class ControllerTransSOB extends Controller
     public function post(Request $request){
         // dd($request->all());
         $notrans = DB::select("select fgetcode('tsob') as codetrans");
+        // dd($notrans);
         foreach($notrans as $notran){
             $no = $notran->codetrans;
         }
-        $checkexist = Tsob_h::select('id','no')->where('no','=', $request->no)->first();
+        $checkexist = Tsob_h::select('id','no')->where('no','=', $no)->first();
         if($checkexist == null){
             Tsob_h::create([
                 'no' => $no,
@@ -45,7 +46,7 @@ class ControllerTransSOB extends Controller
                 'note' => $request->note,
                 'grdtotal' => (float) str_replace(',', '', $request->price_total),
             ]);
-            $idh_loop = Tsob_h::select('id')->where('no','=',$request->no)->get();
+            $idh_loop = Tsob_h::select('id')->where('no','=',$no)->get();
             for($j=0; $j<sizeof($idh_loop); $j++){
                 $idh = $idh_loop[$j]->id;
             }
@@ -65,6 +66,13 @@ class ControllerTransSOB extends Controller
                     'hrgjual' => (float) str_replace(',', '', $request->hrgjual_d[$i]),
                 ]);
                 $count++;
+            }
+            $exist_transcode = Mitem::select('id','code')->where('code','=', $request->kode_d[$i])->first();
+                // dd(strtok($request->kode_d[$i], " "));
+            if($exist_transcode == null || $exist_transcode != "Y"){
+                Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
+                    'exist_trans' => "Y",
+                ]);
             }
             if($count == $countrows){
                 return redirect()->back();

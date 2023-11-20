@@ -34,6 +34,10 @@ class ControllerTransReturPenjualan extends Controller
 
     public function post(Request $request){
         // dd($request->all());
+        $notrans = DB::select("select fgetcode('tretur') as codetrans");
+        foreach($notrans as $notran){
+            $no = $notran->codetrans;
+        }
         $items = array();
         $is_stocknotvalid = 0;
         for ($i=0;$i<sizeof($request->no_d);$i++){
@@ -56,16 +60,16 @@ class ControllerTransReturPenjualan extends Controller
             return redirect()->back()->with('error', 'Salah satu item stock counter kosong atau lebih dari stock counter!');
         }
         
-        $checkexist = Tretur_h::select('id','no')->where('no','=', $request->no)->first();
+        $checkexist = Tretur_h::select('id','no')->where('no','=', $no)->first();
         if($checkexist == null){
             Tretur_h::create([
-                'no' => $request->no,
+                'no' => $no,
                 'counter' => $request->counter,
                 'counter_from' => $request->counter_from,
                 'tgl' => $request->dt,
                 'note' => $request->note,
             ]);
-            $idh_loop = Tretur_h::select('id')->where('no','=',$request->no)->get();
+            $idh_loop = Tretur_h::select('id')->where('no','=',$no)->get();
             for($j=0; $j<sizeof($idh_loop); $j++){
                 $idh = $idh_loop[$j]->id;
             }
