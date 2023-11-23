@@ -99,7 +99,7 @@
                                             <a href="/tbonjual/{{ $item->id }}/print"
                                                 class="btn btn-icon icon-left btn-success" target="_blank"><i class="far fa-print">
                                                     Print</i></a>
-                                            <a href="/tbonjual/{{ $item->id }}/printmatrix"
+                                            <a href="/tbonjual/{{ $item->id }}/printpdfbonjual"
                                                 class="btn btn-icon icon-left btn-success" target="_blank"><i class="far fa-print">
                                                     Print Matrix</i></a>
                                         </td>

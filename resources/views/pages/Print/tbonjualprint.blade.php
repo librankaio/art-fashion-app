@@ -57,10 +57,10 @@
              @php $disc = 0; @endphp
              @php $final_disc = 0; @endphp
              @for($i = 0; $i < sizeof($tpenjualands); $i++) @php $counter++; @endphp <tr>
-                            <div class="row">
-                                <div class="col-5">
-                                    <h5>{{ $tpenjualands[$i]->code." ".$tpenjualands[$i]->name}}</h5>
-                                    @if($tpenjualands[$i]->diskon == 0 || $tpenjualands[$i]->diskon == '')
+                <div class="row">
+                    <div class="col-5">
+                        <h5>{{ $tpenjualands[$i]->code." ".$tpenjualands[$i]->name}}</h5>
+                        @if($tpenjualands[$i]->diskon == 0 || $tpenjualands[$i]->diskon == '')
                                         <div class="row">
                                             <div class="col-6">
                                                 @php $total_qty = $qty +  number_format($tpenjualands[$i]->qty, 0, '.', '') @endphp
@@ -73,7 +73,7 @@
                                                 <h5>{{ number_format($tpenjualands[$i]->subtotal) }}</h5>
                                             </div>
                                         </div>
-                                    @else
+                        @else
                                         <div class="row">
                                             <div class="col-6">
                                                 @php $total_qty = $qty +  number_format($tpenjualands[$i]->qty, 0, '.', '') @endphp
@@ -97,10 +97,10 @@
                                                 <h5>{{ number_format($total_disc) }}</h5>
                                             </div>
                                         </div>
-                                    @endif
-                                </div>
-                            </div>
-                        @endfor
+                        @endif
+                    </div>
+                </div>
+            @endfor
             <div class="row">
                 <div class="col-5">
                     <hr style="border-top: dotted 0.3px; margin: 0em;" />

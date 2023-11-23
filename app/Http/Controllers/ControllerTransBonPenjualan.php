@@ -9,6 +9,7 @@ use App\Models\Mjenispayment;
 use App\Models\MsaldoAwal;
 use App\Models\Tpenjualan_d;
 use App\Models\Tpenjualan_h;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -105,7 +106,7 @@ class ControllerTransBonPenjualan extends Controller
             for ($i=0;$i<sizeof($request->no_d);$i++){
                 Tpenjualan_d::create([
                     'idh' => $idh,
-                    'no_penjualan' => $request->no,
+                    'no_penjualan' => $no,
                     'code' => $request->kode_d[$i],
                     'name' => $request->namaitem_d[$i],
                     'warna' => $request->warna_d[$i],
@@ -147,7 +148,7 @@ class ControllerTransBonPenjualan extends Controller
                 if(session('privilage') == 'ADM' || session('privilage') == 'SPG DS'){
                     return redirect()->back()->with('success', 'Data berhasil di update');
                 }else{
-                    $tpenjualanh = Tpenjualan_h::where('no','=', $request->no)->first();
+                    $tpenjualanh = Tpenjualan_h::where('no','=', $no)->first();
                     $tpenjualands = Tpenjualan_d::where('no_penjualan','=', $tpenjualanh->no)->get();
                     $address = Mcounter::select('alamat')->where('name','=',$tpenjualanh->counter)->first();
 
@@ -386,5 +387,22 @@ class ControllerTransBonPenjualan extends Controller
             'tpenjualands' => $tpenjualands,
             'address' => $address,
         ]);
+    }
+
+    public function printpdfbonjual(Tpenjualan_h $tpenjualanh){
+        $tpenjualands = Tpenjualan_d::where('idh','=',$tpenjualanh->id)->get();
+        // dd($tpenjualands);
+        $address = Mcounter::select('alamat')->where('name','=',$tpenjualanh->counter)->first();
+        // 1 inch = 72 point
+        // 1 inch = 2.54 cm
+        // 10 cm = 10/2.54*72 = 283.464566929
+        // 20 cm = 10/2.54*72 = 566.929133858
+        $customPaper = array(0,0,226.7,850.3);
+        $pdf = Pdf::loadView('pages.Print.tbonpenjualanprintmatrix', [
+            'tpenjualanh' => $tpenjualanh,
+            'tpenjualands'=> $tpenjualands,
+            // 'address'=> $address
+            ])->setPaper($customPaper, 'portrait');
+        return $pdf->stream("Bon_Penjualan/".$tpenjualanh->no);
     }
 }
