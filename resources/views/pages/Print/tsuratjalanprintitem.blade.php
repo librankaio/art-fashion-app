@@ -123,18 +123,15 @@
   <div class="container" style="padding-bottom: 7px;">
     {{-- <h5 style="margin: 0px auto; font-size: 8px;" id="title">{{ $item->name." - ".$item->warna }}</h5> --}}
     <h5 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left;" id="text_code">{{ $item->name_lbl }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right; margin-top:1.5px">{{ $item->warna }}</h5></span></h5>
-    <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($item->code , 'C128') }}" alt="barcode" width="100" height="20" id="bgimg"/> <br>
-    {{-- <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($item->code , 'C128') }}" alt="barcode" width="100" height="20" id="bgimg"/> --}}
-    {{-- <div style="height:2px;"><br></div> --}}
+    <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($item->code , 'C128') }}" alt="barcode" width="100" height="20" id="bgimg"/>
     <h1 class="split-para" style="margin: 0px auto; font-size: 6px; text-align:left; margin: 0px auto;" id="text_code">{{ $item->code }} <span><h1 style="margin: 0px auto; font-size: 6px; float:right; margin: 0px auto;">{{date("mY")}}</h1></span></h1>
     <h1 style="margin: 0px auto; text-align: center; font-size: 8px;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h1>
   </div>
-  <div class="container" style="padding-bottom: 7px;">
+  <div class="container">
+  {{-- <div class="container" style="padding-bottom: 7px;"> --}}
     {{-- <h5 style="margin: 0px auto; font-size: 8px;" id="title">{{ $item->name." - ".$item->warna}}</h5> --}}
     <h5 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left;" id="text_code">{{ $item->name_lbl }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right; margin-top:1.5px">{{ $item->warna }}</h5></span></h5>
-    <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($item->code , 'C128') }}" alt="barcode" width="100" height="20" id="bgimg"/> <br>
-    {{-- <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($item->code , 'C128') }}" alt="barcode" width="100" height="20" id="bgimg"/> --}}
-    {{-- <div style="height:2px;"><br></div> --}}
+    <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($item->code , 'C128') }}" alt="barcode" width="100" height="20" id="bgimg" style="margin: 0px auto;"/>
     <h1 class="split-para" style="margin: 0px auto; font-size: 6px; text-align:left; margin: 0px auto;" id="text_code">{{ $item->code }} <span><h1 style="margin: 0px auto; font-size: 6px; float:right; margin: 0px auto;">{{date("mY")}}</h1></span></h1>
     <h1 style="margin: 0px auto; text-align: center; font-size: 8px;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h1>
   </div>
