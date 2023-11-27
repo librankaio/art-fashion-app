@@ -112,6 +112,7 @@
                                 <h5>{{ 'Rp.'.number_format($biayas[$i]->total) }}</h5>
                                 @php $biaya = $biayas[$i]->total; @endphp
                             @endfor
+                                <h5>{{ 'Rp.'.number_format($biayas[$i]->total) }}</h5>
                         </div>
                     </div>
                 </div>

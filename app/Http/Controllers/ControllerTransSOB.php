@@ -66,14 +66,14 @@ class ControllerTransSOB extends Controller
                     'hrgjual' => (float) str_replace(',', '', $request->hrgjual_d[$i]),
                 ]);
                 $count++;
-            }
-            $exist_transcode = Mitem::select('id','code')->where('code','=', $request->kode_d[$i])->first();
+                $exist_transcode = Mitem::select('id','code')->where('code','=', $request->kode_d[$i])->first();
                 // dd(strtok($request->kode_d[$i], " "));
-            if($exist_transcode == null || $exist_transcode != "Y"){
-                Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
-                    'exist_trans' => "Y",
-                ]);
-            }
+                if($exist_transcode == null || $exist_transcode != "Y"){
+                    Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
+                        'exist_trans' => "Y",
+                    ]);
+                }
+            }            
             if($count == $countrows){
                 return redirect()->back();
             }
