@@ -57,6 +57,7 @@ class ControllerReportPerOutlet extends Controller
 
         $results = DB::select('CALL vpendapatanoutlet (?,?,?)', [$dtfr, $dtto,$counter]);
         $saldo_awals = DB::select('select saldo from sldawaltoko where tgl = ?', [$dtfr]);
+        // dd($saldo_awals);
         $biayas = DB::select('select sum(total) as total from texpense_hs where tgl BETWEEN ? AND ?', [$dtfr,$dtto]);
 
         // dd($saldo_awals);

@@ -93,10 +93,24 @@
                             <h5>Saldo Awal : </h5>
                         </div>
                         <div class="col-6 d-flex justify-content-end align-items-end">
+                            @php
+                            $saldo_awal = 0;
+                            $old_saldo_awal = 0;
+                            $old_saldo_awal_2 = 0;
+                            @endphp
                             @for($i = 0; $i < sizeof($saldo_awals); $i++) @php $counter++; @endphp 
-                                <h5>{{ 'Rp.'.number_format($saldo_awals[$i]->saldo) }}</h5>
-                                @php $saldo_awal = $saldo_awals[$i]->saldo; @endphp
+                            @if ($old_saldo_awal != 0)
+                            @php
+                            $saldo_awal = $old_saldo_awal + $saldo_awals[$i]->saldo;
+                            $old_saldo_awal_2 = $saldo_awal;
+                            @endphp
+                            @elseif ($saldo_awal == 0)
+                            @php
+                            $old_saldo_awal = $saldo_awals[$i]->saldo; 
+                            @endphp
+                            @endif
                             @endfor
+                            <h5>{{ 'Rp.'.number_format($saldo_awal) }}</h5>
                         </div>
                     </div>
                 </div>
@@ -108,11 +122,21 @@
                             <h5>Total Biaya : </h5>
                         </div>
                         <div class="col-6 d-flex justify-content-end align-items-end">
+                            @php 
+                            $biaya = 0;
+                            $old_biaya = 0;
+                            @endphp
                             @for($i = 0; $i < sizeof($biayas); $i++) @php $counter++; @endphp 
-                                <h5>{{ 'Rp.'.number_format($biayas[$i]->total) }}</h5>
-                                @php $biaya = $biayas[$i]->total; @endphp
+                                @php 
+                                $old_biaya = $biayas[$i]->total;
+                                @endphp
+                                @if ($old_biaya != 0)
+                                @php
+                                $biaya = $old_biaya + $biayas[$i]->total;
+                                @endphp
+                                @endif
+                                <h5>{{ 'Rp.'.number_format($biaya) }}</h5> 
                             @endfor
-                                <h5>{{ 'Rp.'.number_format($biayas[$i]->total) }}</h5>
                         </div>
                     </div>
                 </div>
