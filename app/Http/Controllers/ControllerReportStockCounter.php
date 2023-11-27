@@ -19,8 +19,13 @@ class ControllerReportStockCounter extends Controller
     public function post(Request $request)
     {
         $counter = $request->input('counter');
-
-        $results = DB::table('vstockpercounter')->where('name_mcounters','=',$counter)->get();
+        $kode_item = $request->input('kode');
+        // dd(strtok($kode_item, " "));
+        if ($kode_item == ''){
+            $results = DB::table('vstockpercounter')->where('name_mcounters','=',$counter)->get();
+        }else{
+            $results = DB::table('vstockpercounter')->where('name_mcounters','=',$counter)->where('code_mitem','=',strtok($kode_item, " "))->get();
+        }
         $counters = Mcounter::select('id','code','name')->get();
 
         return view('pages.Report.rlapstockpercounter', [
