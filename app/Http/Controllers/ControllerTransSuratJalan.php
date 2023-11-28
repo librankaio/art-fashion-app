@@ -366,7 +366,8 @@ class ControllerTransSuratJalan extends Controller
         }
         // dd($items);
         $datenow = date("Y-m-d");
-        $customPaper = array(0,0,85.039,141.732);
+        // $customPaper = array(0,0,85.039,141.732);
+        $customPaper = array(0,0,215.4,141.7);
         $pdf = Pdf::loadView('pages.Print.tsuratjalanprintitem', [
             'items'=>$items,
             'array_name_lbl'=>$array_name_lbl])->setPaper($customPaper, 'portrait');
