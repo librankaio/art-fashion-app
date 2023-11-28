@@ -68,6 +68,7 @@
                                             <option>SPG DS</option>
                                             <option>SPG SR</option>
                                             <option>ADMIN</option>
+                                            <option>USER</option>
                                         </select>                                   
                                     </div>
                                 </div>

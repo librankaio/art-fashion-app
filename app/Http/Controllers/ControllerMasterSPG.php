@@ -47,6 +47,10 @@ class ControllerMasterSPG extends Controller
                 User::where('nik', '=', $request->nik)->update([
                     'privilage' => 'SPG DS',
                 ]);
+            }else if ($request->jenis == 'USER') {
+                User::where('nik', '=', $request->nik)->update([
+                    'privilage' => 'USER',
+                ]);
             }
             $user = User::select('id','nik','name')->where('nik','=',$request->nik)->first();
             DB::insert( DB::raw("insert into mhakakses (id_user, nik, counter, feature, save, open, updt, print, dlt) select '$user->id', '$request->nik', '$request->counter', code, 'Y', 'Y', 'Y', 'Y', 'Y' FROM app"));
@@ -85,6 +89,11 @@ class ControllerMasterSPG extends Controller
                     'privilage' => 'SPG DS',
                 ]);
             }
+            else if (request('jenis') == 'USER') {
+                User::where('nik', '=', request('jenis'))->update([
+                    'privilage' => 'USER',
+                ]);
+            }
             return redirect()->route('mspg');
         }
         $password = bcrypt(request('password'));
@@ -107,6 +116,10 @@ class ControllerMasterSPG extends Controller
         }else if (request('jenis') == 'SPG DS') {
             User::where('nik', '=', request('jenis'))->update([
                 'privilage' => 'SPG DS',
+            ]);
+        }else if (request('jenis') == 'USER') {
+            User::where('nik', '=', request('jenis'))->update([
+                'privilage' => 'USER',
             ]);
         }
         return redirect()->route('mspg');
