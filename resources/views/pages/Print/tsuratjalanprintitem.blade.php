@@ -123,20 +123,20 @@
   @for($i = 0; $i < $item->qty; $i++)
   <div class="container" style="padding-bottom: 5px;">
     {{-- <h5 style="margin: 0px auto; font-size: 8px;" id="title">{{ $item->name." - ".$item->warna }}</h5> --}}
-    <h5 class="split-para" style="margin: 0px auto; font-size: 6px; text-align:left;" id="text_code">{{ $item->name_lbl }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{ $item->warna }}</h5></span></h5>
+    <h5 class="split-para" style="margin: 0px auto; font-size: 6px; text-align:left; padding-bottom: 2px;" id="text_code">{{ $item->name_lbl }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{ $item->warna }}</h5></span></h5>
     <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($item->code , 'C128') }}" alt="barcode" width="100" height="20" id="bgimg"/>
     <h5 class="split-para" style="margin: 0px auto; font-size: 6px; text-align:left;" id="text_code">{{ $item->code }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{date("mY")}}</h5></span></h5>
     <h1 style="margin: 0px auto; text-align: center; font-size: 7px;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h1>
   </div>
-  <div class="container">
+  <div class="container" style="padding-bottom: 0px">
   {{-- <div class="container" style="padding-bottom: 7px;"> --}}
     {{-- <h5 style="margin: 0px auto; font-size: 8px;" id="title">{{ $item->name." - ".$item->warna}}</h5> --}}
-    <h5 class="split-para" style="margin: 0px auto; font-size: 6px; text-align:left;" id="text_code">{{ $item->name_lbl }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{ $item->warna }}</h5></span></h5>
+    <h5 class="split-para" style="margin: 0px auto; font-size: 6px; text-align:left; padding-bottom: 2px;" id="text_code">{{ $item->name_lbl }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{ $item->warna }}</h5></span></h5>
     <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($item->code , 'C128') }}" alt="barcode" width="100" height="20" id="bgimg"/>
     <h5 class="split-para" style="margin: 0px auto; font-size: 6px; text-align:left;" id="text_code">{{ $item->code }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{date("mY")}}</h5></span></h5>
     <h1 style="margin: 0px auto; text-align: center; font-size: 7px;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h1>
   </div>
-  <div class="page_break"></div> 
+  {{-- <div class="page_break"></div>  --}}
   @endfor
 @endforeach
 </body>
