@@ -75,7 +75,7 @@ class ControllerTransSOB extends Controller
                 }
             }            
             if($count == $countrows){
-                return redirect()->back()->with('success', 'Data berhasil di update');
+                return redirect()->back()->with('success', 'Data berhasil di Simpan');
             }
         }
         return redirect()->back()->back()->with('warning', 'Nomor Transaksi Sudah ada!');
