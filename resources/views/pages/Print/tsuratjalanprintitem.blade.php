@@ -136,7 +136,7 @@
     <h5 class="split-para" style="margin: 0px auto; font-size: 6px; text-align:left;" id="text_code">{{ $item->code }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{date("mY")}}</h5></span></h5>
     <h1 style="margin: 0px auto; text-align: center; font-size: 7px;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h1>
   </div>
-  {{-- <div class="page_break"></div>  --}}
+  <div class="page_break"></div> 
   @endfor
 @endforeach
 </body>
