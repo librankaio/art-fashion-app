@@ -75,10 +75,10 @@ class ControllerTransSOB extends Controller
                 }
             }            
             if($count == $countrows){
-                return redirect()->back();
+                return redirect()->back()->with('success', 'Data berhasil di update');
             }
         }
-        return redirect()->back();
+        return redirect()->back()->back()->with('warning', 'Nomor Transaksi Sudah ada!');
     }
 
     public function  getmitem(Request $request){
