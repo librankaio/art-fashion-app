@@ -40,12 +40,12 @@ class ControllerReportPerOutlet extends Controller
         }else{
             $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         }
-        $saldo_awals = DB::select('select saldo from sldawaltoko where tgl = ?', [$dtfr]);
+        $saldo_awals = DB::select('select saldo from sldawaltoko where tgl = ? and counter = ?', [$dtfr, $counter] );
         $biayas = DB::select('select sum(total) as total from texpense_hs where tgl BETWEEN ? AND ?', [$dtfr,$dtto]);       
 
         return view('pages.Report.rlapperoutlet', [
             'results' => $results,
-            'counters' => $counters,            
+            'counters' => $counters,             
         ]);
     }
 
@@ -56,7 +56,7 @@ class ControllerReportPerOutlet extends Controller
         $counter = $request->input('counter');
 
         $results = DB::select('CALL vpendapatanoutlet (?,?,?)', [$dtfr, $dtto,$counter]);
-        $saldo_awals = DB::select('select saldo from sldawaltoko where tgl = ?', [$dtfr]);
+        $saldo_awals = DB::select('select saldo from sldawaltoko where tgl = ? and counter = ?', [$dtfr, $counter]);
         // dd($saldo_awals);
         $biayas = DB::select('select sum(total) as total from texpense_hs where tgl BETWEEN ? AND ?', [$dtfr,$dtto]);
 

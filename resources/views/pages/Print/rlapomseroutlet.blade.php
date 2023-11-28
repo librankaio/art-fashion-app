@@ -95,22 +95,11 @@
                         <div class="col-6 d-flex justify-content-end align-items-end">
                             @php
                             $saldo_awal = 0;
-                            $old_saldo_awal = 0;
-                            $old_saldo_awal_2 = 0;
                             @endphp
-                            @for($i = 0; $i < sizeof($saldo_awals); $i++) @php $counter++; @endphp 
-                            @if ($old_saldo_awal != 0)
-                            @php
-                            $saldo_awal = $old_saldo_awal + $saldo_awals[$i]->saldo;
-                            $old_saldo_awal_2 = $saldo_awal;
-                            @endphp
-                            @elseif ($saldo_awal == 0)
-                            @php
-                            $old_saldo_awal = $saldo_awals[$i]->saldo; 
-                            @endphp
-                            @endif
-                            @endfor
+                            @foreach ($saldo_awals as $saldo_awal)
+                            @php $saldo_awal = $saldo_awal->saldo; @endphp
                             <h5>{{ 'Rp.'.number_format($saldo_awal) }}</h5>
+                            @endforeach
                         </div>
                     </div>
                 </div>
