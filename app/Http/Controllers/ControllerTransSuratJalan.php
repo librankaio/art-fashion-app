@@ -21,6 +21,8 @@ class ControllerTransSuratJalan extends Controller
         $privilage = session('privilage');
         if($privilage == 'ADM'){
             $counters = Mcounter::select('id','code','name')->get();
+        }else if($privilage == 'GUDANG'){
+            $counters = Mcounter::select('id','code','name')->get();
         }else if($privilage == null){
             $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         }else{
@@ -161,6 +163,8 @@ class ControllerTransSuratJalan extends Controller
     public function getedit(Tsj_h $tsjh){
         $privilage = session('privilage');
         if($privilage == 'ADM'){
+            $counters = Mcounter::select('id','code','name')->get();
+        }else if($privilage == 'GUDANG'){
             $counters = Mcounter::select('id','code','name')->get();
         }else if($privilage == null){
             $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();

@@ -19,6 +19,8 @@ class ControllerTransPenerimaanBrg extends Controller
         $privilage = session('privilage');
         if($privilage == 'ADM'){
             $counters = Mcounter::select('id','code','name')->get();
+        }else if($privilage == 'GUDANG'){
+            $counters = Mcounter::select('id','code','name')->get();
         }else if($privilage == null){
             $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         }else{
@@ -136,6 +138,8 @@ class ControllerTransPenerimaanBrg extends Controller
     public function getedit(Tpenerimaan_h $tpenerimaanh){
         $privilage = session('privilage');
         if($privilage == 'ADM'){
+            $counters = Mcounter::select('id','code','name')->get();
+        }else if($privilage == 'GUDANG'){
             $counters = Mcounter::select('id','code','name')->get();
         }else if($privilage == null){
             $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
