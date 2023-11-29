@@ -117,16 +117,16 @@
 </head>
 </html>
 <body>
-  <div class="container" style="padding-bottom: 5px;">
+  <div class="container" style="padding-bottom: 8px;">
     <h5 class="split-para" style="margin: 0px auto; font-size: 6px; text-align:left; padding-bottom: 1px;" id="text_code">{{ $mitem->name_lbl }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{ $mitem->warna }}</h5></span></h5>
     <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code , 'C128') }}" alt="barcode" width="100" height="20" id="bgimg"/>
-    <h5 class="split-para" style="margin: 0px auto; font-size: 6px; text-align:left;" id="text_code">{{ $mitem->code }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{date("mY")}}</h5></span></h5>
-    <h1 style="margin: 0px auto; text-align: center; font-size: 7px;">RP. {{ number_format($mitem->hrgjual, 2, '.', ',') }},-</h1>
+    <h5 class="split-para" style="margin: 0px auto; font-size: 6px; text-align:left; margin-top: -5px" id="text_code">{{ $mitem->code }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{date("mY")}}</h5></span></h5>
+    <h1 style="margin: 0px auto; text-align: center; font-size: 7px; margin-top:-5px;">RP. {{ number_format($mitem->hrgjual, 2, '.', ',') }},-</h1>
   </div>
-  <div class="container" style="padding-bottom: 0px;">
+  <div class="container" style="padding-bottom: 0px">
     <h5 class="split-para" style="margin: 0px auto; font-size: 6px; text-align:left; padding-bottom: 1px;" id="text_code">{{ $mitem->name_lbl }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{ $mitem->warna }}</h5></span></h5>
     <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code , 'C128') }}" alt="barcode" width="100" height="20" id="bgimg"/>
-    <h5 class="split-para" style="margin: 0px auto; font-size: 6px; text-align:left;" id="text_code">{{ $mitem->code }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{date("mY")}}</h5></span></h5>
+    <h5 class="split-para" style="margin: 0px auto; font-size: 6px; text-align:left; margin-top: -5px" id="text_code">{{ $mitem->code }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{date("mY")}}</h5></span></h5>
     <h1 style="margin: 0px auto; text-align: center; font-size: 7px;">RP. {{ number_format($mitem->hrgjual, 2, '.', ',') }},-</h1>
   </div>
 </body>

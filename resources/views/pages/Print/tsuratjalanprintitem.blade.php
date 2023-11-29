@@ -121,7 +121,7 @@
 <body>
 @foreach($items as $item)
   @for($i = 0; $i < $item->qty; $i++)
-  <div class="container" style="padding-bottom: 7px;">
+  <div class="container" style="padding-bottom: 8px;">
     {{-- <h5 style="margin: 0px auto; font-size: 8px;" id="title">{{ $item->name." - ".$item->warna }}</h5> --}}
     <h5 class="split-para" style="margin: 0px auto; font-size: 6px; text-align:left; padding-bottom: 1px;" id="text_code">{{ $item->name_lbl }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{ $item->warna }}</h5></span></h5>
     <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($item->code , 'C128') }}" alt="barcode" width="100" height="20" id="bgimg"/>
