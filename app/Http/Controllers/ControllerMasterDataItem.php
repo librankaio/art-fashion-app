@@ -140,7 +140,7 @@ class ControllerMasterDataItem extends Controller
         $kode = $request->kode;
         $counter_asal = $request->counter_asal;
         if($kode != '' && $counter_asal != ''){
-            $stock = MitemCounters::select('stock')->where('code_mitem','=',$kode)->where('name_mcounters','=',$counter_asal)->first();
+            $stock = MitemCounters::select('stock')->where('code_mitem','=',strtok($kode, " "))->where('name_mcounters','=',$counter_asal)->first();
         }
         return json_encode($stock);
     }
