@@ -161,6 +161,7 @@ class ControllerTransSuratJalan extends Controller
     }
 
     public function getedit(Tsj_h $tsjh){
+        // dd($tsjh);
         $privilage = session('privilage');
         if($privilage == 'ADM'){
             $counters = Mcounter::select('id','code','name')->get();

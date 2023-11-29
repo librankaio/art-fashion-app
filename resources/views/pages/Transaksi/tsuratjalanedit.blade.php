@@ -32,12 +32,16 @@
                                 </div>      
                                 <div class="form-group">
                                     <label>No SOB.</label>
+                                    @if ($tsjh->no_sob != '' || $tsjh->no_sob != null)
                                     <select class="form-control select2" name="nosob" id="nosob">
                                         <option selected>{{ $tsjh->no_sob }}</option>
                                         @foreach($sobs as $data => $sob)
                                         <option>{{ $sob->no }}</option>
                                         @endforeach
                                     </select>
+                                    @else
+                                    <input type="text" class="form-control" name="nosob" id="nosob" value="" readonly>
+                                    @endif
                                 </div>       
                                 <div class="form-group">
                                     <label>Counter From</label>
