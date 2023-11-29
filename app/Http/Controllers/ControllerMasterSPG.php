@@ -89,15 +89,15 @@ class ControllerMasterSPG extends Controller
                     'privilage' => 'SPG SR',
                 ]);
             }else if (request('jenis') == 'SPG DS') {
-                User::where('nik', '=', request('jenis'))->update([
+                User::where('nik', '=', request('nik'))->update([
                     'privilage' => 'SPG DS',
                 ]);
             }else if (request('jenis') == 'USER') {
-                User::where('nik', '=', request('jenis'))->update([
+                User::where('nik', '=', request('nik'))->update([
                     'privilage' => 'USER',
                 ]);
             }else if (request('jenis') == 'GUDANG') {
-                User::where('nik', '=', request('jenis'))->update([
+                User::where('nik', '=', request('nik'))->update([
                     'privilage' => 'GUDANG',
                 ]);
             }
@@ -121,15 +121,16 @@ class ControllerMasterSPG extends Controller
                 'privilage' => 'SPG SR',
             ]);
         }else if (request('jenis') == 'SPG DS') {
-            User::where('nik', '=', request('jenis'))->update([
+            User::where('nik', '=', request('nik'))->update([
                 'privilage' => 'SPG DS',
             ]);
         }else if (request('jenis') == 'USER') {
-            User::where('nik', '=', request('jenis'))->update([
+            User::where('nik', '=', request('nik'))->update([
                 'privilage' => 'USER',
             ]);
         }else if (request('jenis') == 'GUDANG') {
-            User::where('nik', '=', request('jenis'))->update([
+            dd("YES TRUE");
+            User::where('nik', '=', request('nik'))->update([
                 'privilage' => 'GUDANG',
             ]);
         }
