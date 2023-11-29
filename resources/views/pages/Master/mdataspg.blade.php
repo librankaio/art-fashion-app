@@ -69,6 +69,7 @@
                                             <option>SPG SR</option>
                                             <option>ADMIN</option>
                                             <option>USER</option>
+                                            <option>GUDANG</option>
                                         </select>                                   
                                     </div>
                                 </div>
