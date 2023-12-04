@@ -242,6 +242,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                        <button class="btn btn-primary mr-1" id="clear_payment2" type="button">Clear</button>
                                         @endif
                                     </div>
                                 </div>
@@ -837,6 +838,10 @@
                 }else{
                     $("#totbayar_2").prop('readonly', true);
                 }
+            });
+
+            $(document).on("click", "#clear_payment2", function(e) {
+                $("#payment_mthd_2").prop('selectedIndex', 0).trigger('change');
             });
 
             $(document).on("change", "#totbayar_2", function(e) {
