@@ -240,9 +240,10 @@
                                                 @foreach($payments as $payment)
                                                 <option>{{ $payment->name}}</option>
                                                 @endforeach
+                                                <option value="">Tidak ada</option>
                                             </select>
                                         </div>
-                                        <button class="btn btn-primary mr-1" id="clear_payment2" type="button">Clear</button>
+                                        {{-- <button class="btn btn-primary mr-1" id="clear_payment2" type="button">Clear</button> --}}
                                         @endif
                                     </div>
                                 </div>
