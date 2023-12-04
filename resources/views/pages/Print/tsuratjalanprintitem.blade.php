@@ -121,14 +121,15 @@
 <body>
 @foreach($items as $item)
   @for($i = 0; $i < $item->qty; $i++)
-  <div class="container" style="padding-bottom: 8px;">
+  <div class="container" style="padding-bottom: 10px;">
     {{-- <h5 style="margin: 0px auto; font-size: 8px;" id="title">{{ $item->name." - ".$item->warna }}</h5> --}}
     <h5 class="split-para" style="margin: 0px auto; font-size: 6px; text-align:left; padding-bottom: 1px;" id="text_code">{{ $item->name_lbl }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{ $item->warna }}</h5></span></h5>
     <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($item->code , 'C128') }}" alt="barcode" width="100" height="20" id="bgimg"/>
     {{-- <h5 class="split-para" style="margin: 0px auto; font-size: 7px; text-align:left; margin-top: -5px" id="text_code">{{ $item->code }} <span><h5 style="margin: 0px auto; font-size: 7px; float:right;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h5></span></h5> --}}
-    <h5 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left; margin-top: -5px" id="text_code">{{ $item->code }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{date("mY")}}</h5></span></h5>
+    {{-- <h5 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left; margin-top: -5px" id="text_code">{{ $item->code }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{date("mY")}}</h5></span></h5> --}}
+    <h5 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left; margin-top: -5px" id="text_code">{{ $item->code }} <span><h5 style="margin: 0px auto; font-size: 8px; float:right;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h5></span></h5>
     {{-- <h1 style="margin: 0px auto; text-align: center; font-size: 7px; margin-top:-5px;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h1> --}}
-    <h1 style="margin: 0px auto; text-align: center; font-size: 7px;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h1>
+    {{-- <h1 style="margin: 0px auto; text-align: center; font-size: 7px;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h1> --}}
   </div>
   <div class="container" style="padding-bottom: 0px">
   {{-- <div class="container" style="padding-bottom: 7px;"> --}}
@@ -136,8 +137,9 @@
     <h5 class="split-para" style="margin: 0px auto; font-size: 6px; text-align:left; padding-bottom: 1px;" id="text_code">{{ $item->name_lbl }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{ $item->warna }}</h5></span></h5>
     <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($item->code , 'C128') }}" alt="barcode" width="100" height="20" id="bgimg"/>
     {{-- <h5 class="split-para" style="margin: 0px auto; font-size: 7px; text-align:left; margin-top: -5px" id="text_code">{{ $item->code }} <span><h5 style="margin: 0px auto; font-size: 7px; float:right;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h5></span></h5> --}}
-    <h5 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left; margin-top: -5px" id="text_code">{{ $item->code }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{date("mY")}}</h5></span></h5>
-    <h1 style="margin: 0px auto; text-align: center; font-size: 7px;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h1>
+    {{-- <h5 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left; margin-top: -5px" id="text_code">{{ $item->code }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{date("mY")}}</h5></span></h5> --}}
+    <h5 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left; margin-top: -5px" id="text_code">{{ $item->code }} <span><h5 style="margin: 0px auto; font-size: 8px; float:right;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h5></span></h5>
+    {{-- <h1 style="margin: 0px auto; text-align: center; font-size: 7px;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h1> --}}
   </div>
   <div class="page_break"></div> 
   @endfor
