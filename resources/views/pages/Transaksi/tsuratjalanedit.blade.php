@@ -182,7 +182,7 @@
                                     <td class="border border-5" hidden><input style='width:120px;' readonly form='thisform' class='idclass form-control' name='id_d[]' type='text' value='{{ $tsjds[$i]->id }}' id="tbl_detail_id_{{ $counter }}"></td>
                                     <td class="border border-5" hidden><input style='width:120px;' readonly form='thisform' class='delclass form-control' name='deleted_item_d[]' type='text' value='' id="deleted_d_{{ $counter }}"></td>
                                     <td class="border border-5" hidden><input style='width:120px;' readonly form='thisform' class='existdbclass form-control' name='existdb_d[]' type='text' value='{{ $tsjds[$i]->id }}' id="existdb_{{ $counter }}"></td>
-                                    </tr>
+                                </tr>
                                 @endfor
                                 </tbody>                            
                             </table>

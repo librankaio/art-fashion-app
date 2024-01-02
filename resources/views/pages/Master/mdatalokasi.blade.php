@@ -44,6 +44,10 @@
                                         <label>Nama</label>
                                         <input type="text" class="form-control" name="name" id="name">
                                     </div>
+                                    <div class="form-group">
+                                        <label>Inisial</label>
+                                        <input type="text" class="form-control" name="initial" id="initial">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -125,7 +129,7 @@
         // Validate ifnull
         kode = $("#code").val();
         name = $("#name").val();
-        // alamat = $("#alamat").val();
+        initial = $("#initial").val();
 
         if (kode == ""){
             swal('WARNING', 'Kode Tidak boleh kosong!', 'warning');
@@ -133,12 +137,21 @@
         }else if (name == ""){
             swal('WARNING', 'Nama Tidak boleh kosong!', 'warning');
             return false;
-        }
-        // else if (alamat == ""){
-        //     swal('WARNING', 'Alamat Tidak boleh kosong!', 'warning');
-        //     return false;
-        // }
+        }else if (initial == ""){
+            swal('WARNING', 'Alamat Tidak boleh kosong!', 'warning');
+            return false;
+        }      
 
+    });
+
+    $("#initial").keyup(function(e){
+        if (this.value.length > 4) {
+            this.value = this.value.slice(0, 4);
+        }
+        // if (/\D/g.test(this.value)){
+        //     // Filter non-digits from input value.
+        //     this.value = this.value.replace(/\D/g, '');
+        // }
     });
 </script>
 @endsection

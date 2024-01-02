@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ControllerTransPenerimaanBrg extends Controller
-{
+{ 
     public function index()
     {
         $privilage = session('privilage');

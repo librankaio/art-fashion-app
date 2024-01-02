@@ -26,6 +26,7 @@ class ControllerMasterDataLokasi extends Controller
                 'code' => $request->code,
                 'name' => $request->name,
                 'alamat' => $request->alamat,
+                'initial' => $request->initial,
             ]);
             DB::insert( DB::raw("insert into mitems_counters (code_mitem, name_mitem, code_mcounters, name_mcounters, stock)
             select code, name, '$request->code', '$request->name', 0 FROM mitems"));
@@ -42,6 +43,7 @@ class ControllerMasterDataLokasi extends Controller
             'code' => request('code'),
             'name' => request('name'),
             'alamat' => request('alamat'),
+            'initial' => request('initial'),
         ]);
         $code = request('code');
         $name = request('name'); 

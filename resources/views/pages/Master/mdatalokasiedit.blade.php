@@ -44,6 +44,10 @@
                                         <label>Nama</label>
                                         <input type="text" class="form-control" name="name" id="name" value="{{ $mcounter->name }}" readonly>
                                     </div>
+                                    <div class="form-group">
+                                        <label>Inisial</label>
+                                        <input type="text" class="form-control" name="initial" id="initial" value="{{ $mcounter->initial }}" maxlength="4">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -77,12 +81,21 @@
         // Validate ifnull
         kode = $("#kode").val();
         nama = $("#nama").val();
+        initial = $("#initial").val();
         if (kode == ""){
             swal('WARNING', 'Kode Tidak boleh kosong!', 'warning');
             return false;
         }else if (nama == 0){
             swal('WARNING', 'Nama Tidak boleh kosong!', 'warning');
             return false;
+        }else if (initial == ""){
+            swal('WARNING', 'Inisial Tidak boleh kosong!', 'warning');
+            return false;
+        }
+    });
+    $("#initial").keyup(function(e){
+        if (this.value.length > 4) {
+            this.value = this.value.slice(0, 4);
         }
     });
 </script>

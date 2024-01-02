@@ -12,6 +12,7 @@ class Mcounter extends Model
     protected $fillable = [
         'code',
         'name',
+        'initial',
         'alamat',
     ];
 }
