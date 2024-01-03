@@ -13,5 +13,6 @@ class Texpense_h extends Model
         'tgl',
         'note',
         'total',
+        'counter',
     ];
 }

@@ -58,7 +58,7 @@ class ControllerTransAdjustmentStock extends Controller
             for ($i=0;$i<sizeof($request->no_d);$i++){
                 Tadj_d::create([
                     'idh' => $idh,
-                    'no_adj' => $request->no,
+                    'no_adj' => $no,
                     'code' => $request->kode_d[$i],
                     'name' => $request->nama_item_d[$i],
                     'warna' => $request->warna_d[$i],
