@@ -377,4 +377,22 @@ class ControllerTransSuratJalan extends Controller
             'array_name_lbl'=>$array_name_lbl])->setPaper($customPaper, 'portrait');
         return $pdf->stream($datenow."_NOSJ/".$tsjh->no);
     }
+
+    public function printpdf(Tsj_h $tsjh){
+        $tsjds = Tsj_d::where('idh','=',$tsjh->id)->get();
+        $address = Mcounter::select('alamat')->where('name','=',$tsjh->counter)->first();
+        
+        $array_warna = [];
+        foreach($tsjds as $tsjd){
+            $warna = Mitem::where('code', '=', $tsjd->code)->first();
+            // dd($warna);
+            $tsjd['warna'] = $warna->warna;
+        }
+        $pdf = PDF::loadView('pages.Print.tsuratjalanprintpdf',[
+            'tsjh' => $tsjh,
+            'tsjds' => $tsjds,
+            'address' => $address
+        ])->setPaper('A4', 'portrait');
+        return $pdf->stream();
+    }
 }

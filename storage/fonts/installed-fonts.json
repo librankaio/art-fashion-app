@@ -1,5 +1,8 @@
 {
     "open sans": {
-        "normal": "open_sans_normal_f9f1b653d87c168097eaa958ffde3cdf"
+        "normal": "G:\\applications\\fashion-app\\storage\\fonts\/open_sans_normal_2bf6e8a03908d49a7fa7b1094b0c2804",
+        "500": "G:\\applications\\fashion-app\\storage\\fonts\/open_sans_500_663f11545dfeea65b44b2da12b5a66b1",
+        "bold": "G:\\applications\\fashion-app\\storage\\fonts\/open_sans_bold_0e7196744e416eea97ecd5b9781a44c2",
+        "800": "open_sans_800_32706e64358098f2a0ad457efc8e0229"
     }
 }

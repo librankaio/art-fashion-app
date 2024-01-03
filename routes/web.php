@@ -168,6 +168,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/tsuratjalan/delete/{tsjh}', [ControllerTransSuratJalan::class, 'delete'])->name('tsuratjalandelete');
     Route::get('/tsuratjalan/{tsjh}/print', [ControllerTransSuratJalan::class, 'print'])->name('tsuratjalanprint');
     Route::get('/tsuratjalan/{tsjh}/printitem', [ControllerTransSuratJalan::class, 'printItem'])->name('tsuratjalanprintitem');
+    Route::get('/tsuratjalan/{tsjh}/printpdf', [ControllerTransSuratJalan::class, 'printpdf'])->name('tsuratjalanprintpdf');
 
     Route::get('tpembelianbarang', [ControllerTransPembelianBarang::class, 'index'])->name('tpembelianbarang');
     Route::post('/tpembelianbarangpost', [ControllerTransPembelianBarang::class, 'post'])->name('tpembelianbarangpost');
