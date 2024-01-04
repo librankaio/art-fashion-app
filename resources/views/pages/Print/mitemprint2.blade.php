@@ -22,8 +22,12 @@
     /* .split-para span { 
       display:block; float:right ;width:50%; margin-left:10px; margin-right: 20px;
     } */
-    .split-para span { 
+    /* .split-para span { 
       display:block; float:right; padding-right:7px; padding-top:2px;
+    } */
+    .split-para span { 
+      /* display:block; float:right; padding-right:7px; padding-top:2px; */
+      display:block; float:right; padding-right:7px; padding-top:0px;
     }
     body {
         font-family: 'Roboto', sans-serif;
