@@ -2,7 +2,6 @@
 <html>
   <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <link type="text/css" media="dompdf" href="/public/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
   <style>
     @font-face {
         font-family: 'Open Sans';
