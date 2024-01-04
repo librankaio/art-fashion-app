@@ -108,7 +108,7 @@
       display:block; float:right; padding-right:7px; padding-top:0px;
     }
     body {
-        font-family: 'Open Sans', sans-serif;
+        font-family: 'Open Sans';
     }
     p  
     { 
