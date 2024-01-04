@@ -107,9 +107,9 @@
       /* display:block; float:right; padding-right:7px; padding-top:2px; */
       display:block; float:right; padding-right:7px; padding-top:0px;
     }
-    body {
+    /* body {
         font-family: 'Open Sans';
-    }
+    } */
     p  
     { 
       word-wrap: break-word
