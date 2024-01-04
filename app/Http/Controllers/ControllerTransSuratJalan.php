@@ -388,11 +388,18 @@ class ControllerTransSuratJalan extends Controller
             // dd($warna);
             $tsjd['warna'] = $warna->warna;
         }
+
+        // 1 inch = 72 point
+        // 1 inch = 2.54 cm
+        // 10 cm = 10/2.54*72 = 283.464566929
+        // 20 cm = 10/2.54*72 = 566.929133858
+        $datenow = date("Y-m-d");
+        $customPaper = array(0,0,684,792);
         $pdf = PDF::loadView('pages.Print.tsuratjalanprintpdf',[
             'tsjh' => $tsjh,
             'tsjds' => $tsjds,
             'address' => $address
-        ])->setPaper('A4', 'portrait');
-        return $pdf->stream();
+        ])->setPaper($customPaper, 'portrait');
+        return $pdf->stream($datenow."_NOSJ/".$tsjh->no);
     }
 }

@@ -13,10 +13,13 @@
     }
     h1,h2,h3,h4,h5,h6 {
       font-family: 'Roboto', sans-serif;
+      margin-top: 0;
+      margin-bottom: 0;
     }
     td{
         font-family: 'Roboto', sans-serif;
         font-weight: bold;
+        font-size:15px
     }
     hr{
         border-top: 1px solid;
@@ -63,28 +66,28 @@
             <table id="mytable" border="0.5px" style="border:solid;">
                 <thead>
                     <tr>
-                        <td align="center" style="width: 40px; word-wrap: break-word;">No</td>
-                        <td align="center" style="width: 80px; word-wrap: break-word;">Kode</td>
-                        <td align="center" style="width: 80px; word-wrap: break-word;">Nama Item</td>
-                        <td align="center" style="width: 80px; word-wrap: break-word;">Warna</td>
-                        <td align="center" style="width: 40px; word-wrap: break-word;">Quantity</td>
-                        <td align="center" style="width: 80px; word-wrap: break-word;">Satuan</td>
-                        <td align="center" style="width: 80px; word-wrap: break-word;">Harga</td>
-                        <td align="center" style="width: 80px; word-wrap: break-word;">Subtotal</td>
+                        <td align="center" style="width: 60px; word-wrap: break-word;">No</td>
+                        <td align="center" style="width: 105px; word-wrap: break-word;">Kode</td>
+                        <td align="center" style="width: 105px; word-wrap: break-word;">Nama Item</td>
+                        <td align="center" style="width: 105px; word-wrap: break-word;">Warna</td>
+                        <td align="center" style="width: 60px; word-wrap: break-word;">Quantity</td>
+                        <td align="center" style="width: 105px; word-wrap: break-word;">Satuan</td>
+                        <td align="center" style="width: 105px; word-wrap: break-word;">Harga</td>
+                        <td align="center" style="width: 105px; word-wrap: break-word;">Subtotal</td>
                     </tr>  
                 </thead>
                 <tbody>
                     @php $counter = 0; @endphp
                     @php $qty_sum = 0; @endphp
                     @for($i = 0; $i < sizeof($tsjds); $i++) @php $counter++; @endphp <tr>
-                        <td align="center" style="width: 40px; word-wrap: break-word;">{{ $counter }}</td>
-                        <td align="center" style="width: 80px; word-wrap: break-word;">{{ $tsjds[$i]->code }}</td>
-                        <td align="center" style="width: 80px; word-wrap: break-word;">{{ $tsjds[$i]->name }}</td>
-                        <td align="center" style="width: 80px; word-wrap: break-word;">{{ $tsjds[$i]->warna }}</td>
-                        <td align="center" style="width: 40px; word-wrap: break-word;">{{ number_format($tsjds[$i]->qty, 0, '.', '') }}</td>
-                        <td align="center" style="width: 80px; word-wrap: break-word;">{{ $tsjds[$i]->satuan }}</td>
-                        <td align="center" style="width: 80px; word-wrap: break-word;">{{ number_format($tsjds[$i]->hrgjual, 0, '.', ',') }}</td>
-                        <td align="center" style="width: 80px; word-wrap: break-word;">{{ number_format($tsjds[$i]->subtotal, 0, '.', ',') }}</td>
+                        <td align="center" style="width: 60px; word-wrap: break-word;">{{ $counter }}</td>
+                        <td align="center" style="width: 105px; word-wrap: break-word;">{{ $tsjds[$i]->code }}</td>
+                        <td align="center" style="width: 105px; word-wrap: break-word;">{{ $tsjds[$i]->name }}</td>
+                        <td align="center" style="width: 105px; word-wrap: break-word;">{{ $tsjds[$i]->warna }}</td>
+                        <td align="center" style="width: 60px; word-wrap: break-word;">{{ number_format($tsjds[$i]->qty, 0, '.', '') }}</td>
+                        <td align="center" style="width: 105px; word-wrap: break-word;">{{ $tsjds[$i]->satuan }}</td>
+                        <td align="center" style="width: 105px; word-wrap: break-word;">{{ number_format($tsjds[$i]->hrgjual, 0, '.', ',') }}</td>
+                        <td align="center" style="width: 105px; word-wrap: break-word;">{{ number_format($tsjds[$i]->subtotal, 0, '.', ',') }}</td>
                         </tr>
                         @if($qty_sum == 0)
                             @php $qty_sum = $qty_sum + number_format($tsjds[$i]->qty, 0, '.', '')@endphp
@@ -103,10 +106,10 @@
             <table>
                 <thead>
                     <tr>
-                        <td align="center" style="width: 170px; word-wrap: break-word;">Penerima</td>
-                        <td align="center" style="width: 170px; word-wrap: break-word;">Pengirim</td>
-                        <td align="center" style="width: 170px; word-wrap: break-word;">Pemeriksa</td>
-                        <td align="center" style="width: 170px; word-wrap: break-word;">Hormat Kami</td>
+                        <td align="center" style="width: 200px; word-wrap: break-word;">Penerima</td>
+                        <td align="center" style="width: 200px; word-wrap: break-word;">Pengirim</td>
+                        <td align="center" style="width: 200px; word-wrap: break-word;">Pemeriksa</td>
+                        <td align="center" style="width: 200px; word-wrap: break-word;">Hormat Kami</td>
                     </tr>                    
                 </thead>
                 <br>

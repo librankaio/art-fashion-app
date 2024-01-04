@@ -4,5 +4,19 @@
         "500": "G:\\applications\\fashion-app\\storage\\fonts\/open_sans_500_663f11545dfeea65b44b2da12b5a66b1",
         "bold": "G:\\applications\\fashion-app\\storage\\fonts\/open_sans_bold_0e7196744e416eea97ecd5b9781a44c2",
         "800": "open_sans_800_32706e64358098f2a0ad457efc8e0229"
+    },
+    "roboto": {
+        "100_italic": "G:\\applications\\fashion-app\\storage\\fonts\/roboto_100_italic_71d4fad1ca0f22d70d8be7cc40bb76ab",
+        "300_italic": "G:\\applications\\fashion-app\\storage\\fonts\/roboto_300_italic_3d719d848a0b6b3f4f0918985ffd2db7",
+        "italic": "G:\\applications\\fashion-app\\storage\\fonts\/roboto_italic_e3ef71c7d9eeac822fc7d92d4fc7ff6e",
+        "500_italic": "G:\\applications\\fashion-app\\storage\\fonts\/roboto_500_italic_e69cd621b57d68ed0b47f09bd22a3d7e",
+        "bold_italic": "G:\\applications\\fashion-app\\storage\\fonts\/roboto_bold_italic_76e4a6bfadf19fea9990a367967a3f96",
+        "900_italic": "G:\\applications\\fashion-app\\storage\\fonts\/roboto_900_italic_7ad2e464d2e86e53eea8619bf6734bbe",
+        "100": "G:\\applications\\fashion-app\\storage\\fonts\/roboto_100_1c4e32da7e6c8539dd3a51af38f413be",
+        "300": "G:\\applications\\fashion-app\\storage\\fonts\/roboto_300_32acfcb296f555e063ebba2be7db9e2f",
+        "normal": "G:\\applications\\fashion-app\\storage\\fonts\/roboto_normal_7bc701b343c10631f60048716b96e4f7",
+        "500": "G:\\applications\\fashion-app\\storage\\fonts\/roboto_500_5774d6fb05eba3d096525f821dbe4137",
+        "bold": "G:\\applications\\fashion-app\\storage\\fonts\/roboto_bold_8db5cb5d0586c1e891426d13097b1d04",
+        "900": "roboto_900_7bf41cacaff90e7097ddd49fb9296601"
     }
 }
