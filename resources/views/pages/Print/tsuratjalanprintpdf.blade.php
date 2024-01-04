@@ -112,7 +112,7 @@
     <div style="margin-left: 0%; margin-right: 0%;">
         <h5 class="split-para" style="margin: 0px auto; text-align:left; padding-bottom: 1px;" id="text_code"><span><h5 style="margin: 0px auto; float:right; font-size:15px">Art Fashion Jewelry <br>Telp.(021) 6403172 / 6401336<br>Fax. 021.6401336</h5></span></h5>
         {{-- <img src="/public/assets/img/artfashion_logo2.png" alt="logo" width="200"> --}}
-        <img src="data:image/svg+xml;base64,<?php echo base64_encode(file_get_contents(base_path('public/assets/img/artfashion_logo2.png'))); ?>" width="200">
+        {{-- <img src="data:image/svg+xml;base64,<?php echo base64_encode(file_get_contents(base_path('public/assets/img/artfashion_logo2.png'))); ?>" width="200"> --}}
         {{-- <h5>Art Fashion Jewelry <br>Telp.(021) 6403172 / 6401336<br>Fax. 021.6401336</h5> --}}
         <center>
             <h1 style="text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px;">SURAT JALAN</h1>

@@ -3,7 +3,7 @@
   <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
-    @font-face {
+    /* @font-face {
         font-family: 'Open Sans';
         src: url({{ storage_path("fonts/static/OpenSans/OpenSans-Bold.ttf") }}) format("truetype");
         font-weight: 700;
@@ -85,7 +85,7 @@
         src: url({{ storage_path("fonts/static/OpenSans/OpenSans-Italic.ttf") }}) format("truetype");
         font-weight: 400;
         font-style: italic;
-    }
+    } */
     @page {
       size: 30mm 33mm;
       margin: -1px auto;
@@ -107,9 +107,9 @@
       /* display:block; float:right; padding-right:7px; padding-top:2px; */
       display:block; float:right; padding-right:7px; padding-top:0px;
     }
-    body {
+    /* body {
         font-family: 'Open Sans', sans-serif;
-    }
+    } */
     p  
     { 
       word-wrap: break-word
