@@ -116,6 +116,7 @@
                             $old_biaya = 0;
                             @endphp
                             @for($i = 0; $i < sizeof($biayas); $i++) @php $counter++; @endphp 
+                                @if(sizeof($biayas) > 1)
                                 @php 
                                 $old_biaya = $biayas[$i]->total;
                                 @endphp
@@ -125,6 +126,9 @@
                                 @endphp
                                 @endif
                                 <h5>{{ 'Rp.'.number_format($biaya) }}</h5> 
+                                @else
+                                <h5>{{ 'Rp.'.number_format($biayas[$i]->total) }}</h5> 
+                                @endif
                             @endfor
                         </div>
                     </div>
