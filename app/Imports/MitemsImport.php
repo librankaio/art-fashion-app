@@ -32,11 +32,11 @@ class MitemsImport implements ToCollection,WithHeadingRow
                     'spcprice' => $row['spcprice'],
                     'name_lbl' => $row['name_lbl'],
                 ]);
+                $code = $row['code'];
+                $name = $row['name'];
+                DB::insert( DB::raw("insert into mitems_counters (code_mitem, name_mitem, code_mcounters, name_mcounters, stock)
+                select '$code', '$name', code, name, 0 FROM mcounters"));
             }
-            $code = $row['code'];
-            $name = $row['name'];
-            DB::insert( DB::raw("insert into mitems_counters (code_mitem, name_mitem, code_mcounters, name_mcounters, stock)
-            select '$code', '$name', code, name, 0 FROM mcounters"));
         }
         return $mitem;
     }
