@@ -38,7 +38,7 @@ class MitemsImport implements ToCollection,WithHeadingRow
                 select '$code', '$name', code, name, 0 FROM mcounters"));
             }
         }
-        return $mitem;
+        // return $mitem;
     }
 }
 
