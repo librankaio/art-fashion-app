@@ -115,13 +115,13 @@
     } */
     body {
         /* font-family: 'Roboto';font-size: 16px; */
-        font-family: 'Roboto', sans-serif;
+        font-family: 'Open Sans', sans-serif;
     }
     h1,h2,h3,h4,h5,h6 {
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Open Sans', sans-serif;
     }
     td{
-        font-family: 'Roboto', sans-serif;
+        font-family: 'Open Sans', sans-serif;
         font-weight: bold;
     }
     p  
@@ -141,7 +141,7 @@
     <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($item->code , 'C128') }}" alt="barcode" width="100" height="20" id="bgimg"/>
     {{-- <h5 class="split-para" style="margin: 0px auto; font-size: 7px; text-align:left; margin-top: -5px" id="text_code">{{ $item->code }} <span><h5 style="margin: 0px auto; font-size: 7px; float:right;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h5></span></h5> --}}
     {{-- <h5 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left; margin-top: -5px" id="text_code">{{ $item->code }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{date("mY")}}</h5></span></h5> --}}
-    <h5 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left; margin-top: -5px" id="text_code">{{ $item->code }} <span><h5 style="margin: 0px auto; font-size: 6.5px; float:right;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h5></span></h5>
+    <h5 class="split-para" style="margin: 0px auto; font-size: 6.5px; text-align:left; margin-top: -5px" id="text_code">{{ $item->code }} <span><h5 style="margin: 0px auto; font-size: 6.5px; float:right;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h5></span></h5>
     {{-- <h1 style="margin: 0px auto; text-align: center; font-size: 7px; margin-top:-5px;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h1> --}}
     {{-- <h1 style="margin: 0px auto; text-align: center; font-size: 7px;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h1> --}}
   </div>
@@ -152,7 +152,7 @@
     <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($item->code , 'C128') }}" alt="barcode" width="100" height="20" id="bgimg"/>
     {{-- <h5 class="split-para" style="margin: 0px auto; font-size: 7px; text-align:left; margin-top: -5px" id="text_code">{{ $item->code }} <span><h5 style="margin: 0px auto; font-size: 7px; float:right;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h5></span></h5> --}}
     {{-- <h5 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left; margin-top: -5px" id="text_code">{{ $item->code }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{date("mY")}}</h5></span></h5> --}}
-    <h5 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left; margin-top: -5px" id="text_code">{{ $item->code }} <span><h5 style="margin: 0px auto; font-size: 6.5px; float:right;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h5></span></h5>
+    <h5 class="split-para" style="margin: 0px auto; font-size: 6.5px; text-align:left; margin-top: -5px" id="text_code">{{ $item->code }} <span><h5 style="margin: 0px auto; font-size: 6.5px; float:right;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h5></span></h5>
     {{-- <h1 style="margin: 0px auto; text-align: center; font-size: 7px;">RP. {{ number_format($item->hrgjual, 2, '.', ',') }},-</h1> --}}
   </div>
   <div class="page_break"></div> 
