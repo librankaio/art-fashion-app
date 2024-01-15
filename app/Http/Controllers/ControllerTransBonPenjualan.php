@@ -58,7 +58,7 @@ class ControllerTransBonPenjualan extends Controller
     }
 
     public function post(Request $request){
-        dd(session('name'));
+        // dd(session('name'));
         $notrans = DB::select("select fgetcode('tpenjualan') as codetrans");
         foreach($notrans as $notran){
             $no = $notran->codetrans;
