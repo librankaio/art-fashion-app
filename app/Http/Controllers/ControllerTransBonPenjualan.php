@@ -58,116 +58,120 @@ class ControllerTransBonPenjualan extends Controller
     }
 
     public function post(Request $request){
-        // dd(session('name'));
-        $notrans = DB::select("select fgetcode('tpenjualan') as codetrans");
-        foreach($notrans as $notran){
-            $no = $notran->codetrans;
-        }
-        $items = array();
-        $is_stocknotvalid = 0;
-        for ($i=0;$i<sizeof($request->no_d);$i++){
-            $stock_mitem_counter = DB::table('mitems_counters')
-            ->selectRaw('stock')
-            ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-            ->where('name_mcounters', '=', $request->counter)
-            ->first();
-            $stock_counter_min = $stock_mitem_counter->stock-$request->quantity_d[$i];
-            // dd($stock_mitem_counter);            
-            if ($request->quantity_d[$i] > $stock_mitem_counter->stock){
-                array_push($items, strtok($request->kode_d[$i], " "));
-                Session::flash('items_error', $items);
-                Session::flash('counter_selected', $request->counter);
-                $is_stocknotvalid++;
+        // dd(request()->all());
+        if($request->no_d != null){
+            $notrans = DB::select("select fgetcode('tpenjualan') as codetrans");
+            foreach($notrans as $notran){
+                $no = $notran->codetrans;
             }
-        }
-        if ($is_stocknotvalid != 0){
-            return redirect()->back()->with('error', 'Salah satu item stock counter kosong atau lebih dari stock counter!');
-        }
-        $checkexist = Tpenjualan_h::select('id','no')->where('no','=', $no)->first();
-        if($checkexist == null){
-            Tpenjualan_h::create([
-                'no' => $no,
-                'tgl' => $request->dt,
-                'counter' => $request->counter,
-                'jenis_promosi' => $request->jenis_promosi,
-                'note' => $request->note,
-                'payment_mthd' => $request->payment_mthd,
-                'payment_mthd_2' => $request->payment_mthd_2,
-                'noreff' => $request->noreff,
-                'diskon' =>  (float) str_replace(',', '', $request->price_disc),
-                'hrgsblmdisc' => (float) str_replace(',', '', $request->price_sebelumdisc),
-                'grdtotal' => (float) str_replace(',', '', $request->price_total),
-                'totbayar' => (float) str_replace(',', '', $request->totbayar),
-                'totbayar_2' => (float) str_replace(',', '', $request->totbayar_2),
-                'totkembali' => (float) str_replace(',', '', $request->totkembali),
-                'user' => session('nik'),
-            ]);
-            $idh_loop = Tpenjualan_h::select('id')->where('no','=',$no)->get();
-            for($j=0; $j<sizeof($idh_loop); $j++){
-                $idh = $idh_loop[$j]->id;
-            }
-    
-            $countrows = sizeof($request->no_d);
-            $count=0;
+            $items = array();
+            $is_stocknotvalid = 0;
             for ($i=0;$i<sizeof($request->no_d);$i++){
-                Tpenjualan_d::create([
-                    'idh' => $idh,
-                    'no_penjualan' => $no,
-                    'code' => $request->kode_d[$i],
-                    'name' => $request->namaitem_d[$i],
-                    'warna' => $request->warna_d[$i],
-                    'qty' => $request->quantity_d[$i],
-                    'satuan' => $request->satuan_d[$i],
-                    'qty' => $request->quantity_d[$i],
-                    'diskon' => $request->diskon_d[$i],
-                    'subtotal' => (float) str_replace(',', '', $request->subtot_d[$i]),
-                    'harga_awal' => (float) str_replace(',', '', $request->harga_awal_d[$i]),
-                    'hrgjual' => (float) str_replace(',', '', $request->hrgjual_d[$i]),
-                    'disctot' => (float) str_replace(',', '', $request->totdisc_d[$i]),
-                    'hrgsetdisc' => (float) str_replace(',', '', $request->hrgsetdisc_d[$i]),
-                    'subtotfinal' => (float) str_replace(',', '', $request->subtotfinal_d[$i]),
-                    'note' => $request->keterangan_d[$i],
-                ]);
-                
                 $stock_mitem_counter = DB::table('mitems_counters')
                 ->selectRaw('stock')
                 ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
                 ->where('name_mcounters', '=', $request->counter)
                 ->first();
                 $stock_counter_min = $stock_mitem_counter->stock-$request->quantity_d[$i];
-                DB::table('mitems_counters')
-                ->selectRaw('stock')
-                ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                ->where('name_mcounters', '=', $request->counter)
-                ->update([
-                    'stock' => (int)$stock_counter_min,
-                ]);
-
-                // Insert item into existing in transaction
-                Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
-                    'exist_trans' => "Y",
-                ]);
-                $count++;
+                // dd($stock_mitem_counter);            
+                if ($request->quantity_d[$i] > $stock_mitem_counter->stock){
+                    array_push($items, strtok($request->kode_d[$i], " "));
+                    Session::flash('items_error', $items);
+                    Session::flash('counter_selected', $request->counter);
+                    $is_stocknotvalid++;
+                }
             }
-            
-            if($count == $countrows){
-                if(session('privilage') == 'ADM' || session('privilage') == 'SPG DS'){
-                    return redirect()->back()->with('success', 'Data berhasil di update');
-                }else{
-                    $tpenjualanh = Tpenjualan_h::where('no','=', $no)->first();
-                    $tpenjualands = Tpenjualan_d::where('no_penjualan','=', $tpenjualanh->no)->get();
-                    $address = Mcounter::select('alamat')->where('name','=',$tpenjualanh->counter)->first();
-
-                    return view('pages.Print.tbonjualprint',[
-                        'tpenjualanh' => $tpenjualanh,
-                        'tpenjualands' => $tpenjualands,
-                        'address' => $address,
+            if ($is_stocknotvalid != 0){
+                return redirect()->back()->with('error', 'Salah satu item stock counter kosong atau lebih dari stock counter!');
+            }
+            $checkexist = Tpenjualan_h::select('id','no')->where('no','=', $no)->first();
+            if($checkexist == null){
+                Tpenjualan_h::create([
+                    'no' => $no,
+                    'tgl' => $request->dt,
+                    'counter' => $request->counter,
+                    'jenis_promosi' => $request->jenis_promosi,
+                    'note' => $request->note,
+                    'payment_mthd' => $request->payment_mthd,
+                    'payment_mthd_2' => $request->payment_mthd_2,
+                    'noreff' => $request->noreff,
+                    'diskon' =>  (float) str_replace(',', '', $request->price_disc),
+                    'hrgsblmdisc' => (float) str_replace(',', '', $request->price_sebelumdisc),
+                    'grdtotal' => (float) str_replace(',', '', $request->price_total),
+                    'totbayar' => (float) str_replace(',', '', $request->totbayar),
+                    'totbayar_2' => (float) str_replace(',', '', $request->totbayar_2),
+                    'totkembali' => (float) str_replace(',', '', $request->totkembali),
+                    'user' => session('nik'),
+                ]);
+                $idh_loop = Tpenjualan_h::select('id')->where('no','=',$no)->get();
+                for($j=0; $j<sizeof($idh_loop); $j++){
+                    $idh = $idh_loop[$j]->id;
+                }
+        
+                $countrows = sizeof($request->no_d);
+                $count=0;
+                for ($i=0;$i<sizeof($request->no_d);$i++){
+                    Tpenjualan_d::create([
+                        'idh' => $idh,
+                        'no_penjualan' => $no,
+                        'code' => $request->kode_d[$i],
+                        'name' => $request->namaitem_d[$i],
+                        'warna' => $request->warna_d[$i],
+                        'qty' => $request->quantity_d[$i],
+                        'satuan' => $request->satuan_d[$i],
+                        'qty' => $request->quantity_d[$i],
+                        'diskon' => $request->diskon_d[$i],
+                        'subtotal' => (float) str_replace(',', '', $request->subtot_d[$i]),
+                        'harga_awal' => (float) str_replace(',', '', $request->harga_awal_d[$i]),
+                        'hrgjual' => (float) str_replace(',', '', $request->hrgjual_d[$i]),
+                        'disctot' => (float) str_replace(',', '', $request->totdisc_d[$i]),
+                        'hrgsetdisc' => (float) str_replace(',', '', $request->hrgsetdisc_d[$i]),
+                        'subtotfinal' => (float) str_replace(',', '', $request->subtotfinal_d[$i]),
+                        'note' => $request->keterangan_d[$i],
                     ]);
-                }                
-                // return redirect()->back();
+                    
+                    $stock_mitem_counter = DB::table('mitems_counters')
+                    ->selectRaw('stock')
+                    ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
+                    ->where('name_mcounters', '=', $request->counter)
+                    ->first();
+                    $stock_counter_min = $stock_mitem_counter->stock-$request->quantity_d[$i];
+                    DB::table('mitems_counters')
+                    ->selectRaw('stock')
+                    ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
+                    ->where('name_mcounters', '=', $request->counter)
+                    ->update([
+                        'stock' => (int)$stock_counter_min,
+                    ]);
+
+                    // Insert item into existing in transaction
+                    Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
+                        'exist_trans' => "Y",
+                    ]);
+                    $count++;
+                }
+                
+                if($count == $countrows){
+                    if(session('privilage') == 'ADM' || session('privilage') == 'SPG DS'){
+                        return redirect()->back()->with('success', 'Data berhasil di update');
+                    }else{
+                        $tpenjualanh = Tpenjualan_h::where('no','=', $no)->first();
+                        $tpenjualands = Tpenjualan_d::where('no_penjualan','=', $tpenjualanh->no)->get();
+                        $address = Mcounter::select('alamat')->where('name','=',$tpenjualanh->counter)->first();
+
+                        return view('pages.Print.tbonjualprint',[
+                            'tpenjualanh' => $tpenjualanh,
+                            'tpenjualands' => $tpenjualands,
+                            'address' => $address,
+                        ]);
+                    }                
+                    // return redirect()->back();
+                }
             }
+            return redirect()->back();
         }
-        return redirect()->back();
+        Session::flash('counter_selected', $request->counter);
+        return redirect()->back()->with('error_data', 'Silahkan periksa data anda kembali! [Data pada tabel kosong, silahkan klik tombol tambah(+) untuk memasukan item terlebih dahulu.]');
     }
 
     public function  getmitem(Request $request){
