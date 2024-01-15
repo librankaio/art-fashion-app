@@ -621,6 +621,7 @@
             $(document).on("click", ".delete", function(e) {
                 e.preventDefault();
                 counter_id = $(this).val();
+                deleted_stat = 0;
                 var r = confirm("Delete Transaksi ?");
                 if (r == true) {
                     if(counter_id != 0){
@@ -696,6 +697,17 @@
                         $("#deleted_d_" + counter_id).val(id_detail);
                         $(this).closest('tr').hide();
 
+                       $(this).closest('tr').wrap('<div/>');
+
+                        var table   = document.getElementById('datatable');
+                        for (var i = 1; i < table.rows.length; i++) 
+                        {
+                        var firstCol = table.rows[i].cells[0];
+                        firstCol.innerText = i;
+                        }
+                        
+                        // $(this).closest('tr').unwrap();
+
                         counter_id = 0;
                     }else{
                         counter_id = $(this).closest('tr').text();
@@ -769,7 +781,18 @@
                         // $(this).closest('tr').remove();
                         id_detail = $("#tbl_detail_id_"+counter_id).val()
                         $("#deleted_d_" + counter_id).val(id_detail);
-                        $(this).closest('tr').hide();
+                        $(this).closest('tr').remove();
+                        // $(this).closest('tr').contents().unwrap().wrap('<div/>');
+                        // $(this).closest('tr').wrap('<div/>');
+                        
+                        var table   = document.getElementById('datatable');
+                        for (var i = 1; i < table.rows.length; i++) 
+                        {
+                        var firstCol = table.rows[i].cells[0];
+                        firstCol.innerText = i;
+                        }
+
+                        // $(this).closest('tr').unwrap();
                     }  
                 } else {
                     return false;

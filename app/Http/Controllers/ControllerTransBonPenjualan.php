@@ -41,11 +41,15 @@ class ControllerTransBonPenjualan extends Controller
         
         // $mitems = DB::select( DB::raw("SELECT DISTINCT p.code , p.name FROM mitems p JOIN mitems_counters s ON p.code = s.code_mitem WHERE s.name_mcounters = '$counter_name' "));
         // $mitems = DB::select(DB::raw("select code_mitem as code, name_mitem as name from mitems_counters where name_mcounters = '$counter_name' and stock > 0"));
+        $latest_counter = Tpenjualan_h::select('counter')->where('user','=', session('nik'))->orderBy('id', 'desc')->first();
+        // dd($latest_counter);
+        // $tanggal = Tpenjualan_h::select('counter')->where('user','=', session('nik'))->orderBy('id', 'desc')->first();
         $mitems = Mitem::select('id','code','name')->limit(10)->get();
         $payments = Mjenispayment::select('id','code','name')->get();
         $notrans = DB::select("select fgetcode('tpenjualan') as codetrans");
         return view('pages.Transaksi.tbonpenjualan',[
             'counters' => $counters,
+            'latest_counter' => $latest_counter,
             'mitems' => $mitems,
             'payments' => $payments,
             'notrans' => $notrans,
@@ -54,6 +58,7 @@ class ControllerTransBonPenjualan extends Controller
     }
 
     public function post(Request $request){
+        dd(session('name'));
         $notrans = DB::select("select fgetcode('tpenjualan') as codetrans");
         foreach($notrans as $notran){
             $no = $notran->codetrans;
@@ -95,6 +100,7 @@ class ControllerTransBonPenjualan extends Controller
                 'totbayar' => (float) str_replace(',', '', $request->totbayar),
                 'totbayar_2' => (float) str_replace(',', '', $request->totbayar_2),
                 'totkembali' => (float) str_replace(',', '', $request->totkembali),
+                'user' => session('nik'),
             ]);
             $idh_loop = Tpenjualan_h::select('id')->where('no','=',$no)->get();
             for($j=0; $j<sizeof($idh_loop); $j++){
@@ -274,6 +280,7 @@ class ControllerTransBonPenjualan extends Controller
             'totbayar' =>  (float) str_replace(',', '', request('totbayar')),
             'totbayar_2' =>  (float) str_replace(',', '', request('totbayar_2')),
             'totkembali' =>  (float) str_replace(',', '', request('totkembali')),
+            'user' => session('nik'),
         ]);
         $count=0;
         $countrows = sizeof(request('no_d'));        

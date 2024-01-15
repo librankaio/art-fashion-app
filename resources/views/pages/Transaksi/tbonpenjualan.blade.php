@@ -100,7 +100,9 @@
                                 <div class="form-group">
                                     <label>Counter</label>
                                     <select class="form-control select2" name="counter" id="counter">
-                                        {{-- <option disabled selected>--Select Counter--</option> --}}
+                                        @if($latest_counter != null)
+                                            <option selected>{{ $latest_counter->counter }}</option>
+                                        @endif
                                         @foreach($counters as $counter)
                                         <option>{{ $counter->name}}</option>
                                         @endforeach
@@ -728,6 +730,13 @@
                     $("#price_disc").val(thousands_separators(new_disc));
                     $("#price_total").val(thousands_separators(new_grantot.toFixed(2)));
                     $(this).closest('tr').remove();
+
+                    var table   = document.getElementById('datatable');
+                    for (var i = 1; i < table.rows.length; i++) 
+                    {
+                    var firstCol = table.rows[i].cells[0];
+                    firstCol.innerText = i;
+                    }
                 } else {
                     return false;
                 }
