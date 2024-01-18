@@ -321,11 +321,13 @@
                             </div>
                         </div>
                     </div>              
-                    <div class="card-footer text-right">
-                        <a class="btn btn-warning mr-1" href="/tbonjuallist">List</a>
+                    <div class="card-footer text-right">                        
                         @if(session('privilage') != 'ADM' && session('privilage') != 'SPG DS')
+                            <a class="btn btn-warning mr-1" href="/tbonjuallist">List</a>
                             <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('tbonjualpost') }}" onclick="timeout_init()" formtarget="_blank">Save</button>
                         @else
+                            {{-- <a class="btn btn-warning mr-1" id="modal-list" onclick="filterlist()">List</a> --}}
+                            <a class="btn btn-warning mr-1 text-light" id="modal-list" onclick="filterlist()">List</a>
                             <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('tbonjualpost') }}">Save</button>
                         @endif
                         {{-- @if($tpos_save == 'Y')
@@ -341,7 +343,7 @@
     </form>
     </div>
 </section>
-<!-- MODAL -->
+<!-- MODAL Input saldo awal-->
 <div class="modal" tabindex="-1" id="mymodal">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -378,6 +380,52 @@
     </div>
   </div>
 {{-- END MODAL --}}
+
+<div class="modal" tabindex="-1" id="modal-list-part">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">FILTER LIST</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="{{ route('tbonjuallist') }}" method="GET">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Counter List</label>
+                    <select class="form-control" name="counter_filter" id="counter_filter">
+                        @if($latest_counter != null)
+                            <option selected>{{ $latest_counter->counter }}</option>
+                        @endif
+                        @foreach($counters as $counter)
+                        <option>{{ $counter->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary mr-1" type="submit" id="confirm_modal_filter" onclick="submitFormFilter();">Search</button> 
+            </div> 
+        </form>
+      </div>
+    </div>
+  </div>
+{{-- MODAL INPUT FILTER LIST --}}
+{{-- <form class="modal-part" id="modal-list-part" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="form-group">
+        <label>Counter</label>
+        <select class="form-control" name="counter_filter" id="counter_filter">
+            @if($latest_counter != null)
+                <option selected>{{ $latest_counter->counter }}</option>
+            @endif
+            @foreach($counters as $counter)
+            <option>{{ $counter->name}}</option>
+            @endforeach
+        </select>
+    </div>
+  </form> --}}
+{{-- END MODAL INPUT FILTER LIST --}}
 @stop
 @section('pluginjs')
 <script src="{{ asset('assets/js/page/bootstrap-modal.js') }}"></script>
@@ -390,6 +438,14 @@
 
     function timeout_init() {
         setTimeout('timeout_trigger()', 3000);
+    }
+
+    function filterlist(){
+        $('#modal-list-part').modal({
+            backdrop: 'static',
+            keyboard: true, 
+            show: true,
+        });
     }
     $(document).ready(function() {
         var today_saldo = $('#today_saldo').val();
@@ -407,6 +463,48 @@
             // alert('Form has been submitted');
             $('#confirm_modal').submit()
         }
+        function submitFormFilter(){
+            // alert('Form has been submitted');
+            $('#confirm_modal_filter').submit()
+        }
+
+        $('#counter_filter').select2({
+            dropdownParent: $('#modal-list-part')
+        });
+
+        // $("#modal-list").fireModal({
+        // title: 'Login',
+        // body: $("#modal-list-part"),
+        // footerClass: 'bg-whitesmoke',
+        // autoFocus: false,
+        // onFormSubmit: function(modal, e, form) {
+        //     // Form Data
+        //     let form_data = $(e.target).serialize();
+        //     console.log(form_data)
+            
+        //     // DO AJAX HERE
+        //     let fake_ajax = setTimeout(function() {
+        //     form.stopProgress();
+        //     modal.find('.modal-body').prepend('<div class="alert alert-info">Please check your browser console</div>')
+
+        //     clearInterval(fake_ajax);
+        //     }, 1500);
+
+        //     e.preventDefault();
+        // },
+        // shown: function(modal, form) {
+        //     console.log(form)
+        // },
+        // buttons: [
+        //     {
+        //     text: 'Search List',
+        //     submit: true,
+        //     class: 'btn btn-primary btn-shadow',
+        //     handler: function(modal) {
+        //     }
+        //     }
+        // ]
+        // });
 
         //CSRF TOKEN
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');

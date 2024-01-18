@@ -402,6 +402,15 @@
                         $("#deleted_d_" + counter_id).val(id_detail);
                         $(this).closest('tr').hide();
 
+                        $(this).closest('tr').wrap('<div/>');
+
+                        var table   = document.getElementById('datatable');
+                        for (var i = 1; i < table.rows.length; i++) 
+                        {
+                        var firstCol = table.rows[i].cells[0];
+                        firstCol.innerText = i;
+                        }
+
                         counter_id = 0;
                     }else{
                         counter_id = $(this).closest('tr').text();
@@ -431,7 +440,15 @@
 
                         id_detail = $("#tbl_detail_id_"+counter_id).val()
                         $("#deleted_d_" + counter_id).val(id_detail);
-                        $(this).closest('tr').hide();
+                        // $(this).closest('tr').hide();
+                        $(this).closest('tr').remove();
+
+                        var table   = document.getElementById('datatable');
+                        for (var i = 1; i < table.rows.length; i++) 
+                        {
+                        var firstCol = table.rows[i].cells[0];
+                        firstCol.innerText = i;
+                        }
                     }  
                 } else {
                     return false;

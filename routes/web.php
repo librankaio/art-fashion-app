@@ -40,9 +40,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/testreport', function () {
-//     return view('pages.Print.printp');
-// });
+Route::get('/testmodal', function () {
+    return view('pages.Modal');
+});
 // Route::get('/tss', function () {
 //     return view('pages.Print.printp');
 // });

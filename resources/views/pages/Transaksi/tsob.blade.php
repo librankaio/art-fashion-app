@@ -366,6 +366,13 @@
                     rowCount--;
                     $("#price_total").val(thousands_separators(sum.toFixed(2)));
                     $(this).closest('tr').remove();
+
+                    var table   = document.getElementById('datatable');
+                    for (var i = 1; i < table.rows.length; i++) 
+                    {
+                    var firstCol = table.rows[i].cells[0];
+                    firstCol.innerText = i;
+                    }
                 } else {
                     return false;
                 }

@@ -323,7 +323,17 @@
                         sum = old_grandtot - subtot;
 
                         $("#price_total").val(thousands_separators(sum.toFixed(2)));
-                        $(this).closest('tr').remove();
+                        // $(this).closest('tr').remove();
+                        $(this).closest('tr').hide();
+
+                       $(this).closest('tr').wrap('<div/>');
+
+                        var table   = document.getElementById('datatable');
+                        for (var i = 1; i < table.rows.length; i++) 
+                        {
+                        var firstCol = table.rows[i].cells[0];
+                        firstCol.innerText = i;
+                        }
 
                         counter_id = 0;
                     }else{
@@ -351,6 +361,13 @@
 
                         $("#price_total").val(thousands_separators(sum.toFixed(2)));
                         $(this).closest('tr').remove();
+
+                        var table   = document.getElementById('datatable');
+                        for (var i = 1; i < table.rows.length; i++) 
+                        {
+                        var firstCol = table.rows[i].cells[0];
+                        firstCol.innerText = i;
+                        }
                         }  
                 } else {
                     return false;

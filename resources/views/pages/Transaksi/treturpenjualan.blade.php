@@ -272,6 +272,13 @@
                 if (r == true) {
                     counter_id = $(this).closest('tr').text();
                     $(this).closest('tr').remove();
+                    
+                    var table   = document.getElementById('datatable');
+                    for (var i = 1; i < table.rows.length; i++) 
+                    {
+                    var firstCol = table.rows[i].cells[0];
+                    firstCol.innerText = i;
+                    }
                 } else {
                     return false;
                 }
