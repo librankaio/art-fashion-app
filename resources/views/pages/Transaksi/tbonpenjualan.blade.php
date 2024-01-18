@@ -325,6 +325,9 @@
                         @if(session('privilage') != 'ADM' && session('privilage') != 'SPG DS')
                             <a class="btn btn-warning mr-1" href="/tbonjuallist">List</a>
                             <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('tbonjualpost') }}" onclick="timeout_init()" formtarget="_blank">Save</button>
+                        @elseif(session('privilage') == 'SPG DS')
+                            <a class="btn btn-warning mr-1" href="/tbonjuallist">List</a>
+                            <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('tbonjualpost') }}">Save</button>
                         @else
                             {{-- <a class="btn btn-warning mr-1" id="modal-list" onclick="filterlist()">List</a> --}}
                             <a class="btn btn-warning mr-1 text-light" id="modal-list" onclick="filterlist()">List</a>
