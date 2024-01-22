@@ -288,6 +288,12 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
+                                            <label>Total Quantity</label>
+                                            <input type="text" class="form-control" form="thisform" id="tot_qty" value="0" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
                                             <label>Total Sebelum Diskon</label>
                                             <input type="text" class="form-control" name="price_sebelumdisc" form="thisform" id="price_sebelumdisc" value="0" readonly>
                                         </div>
@@ -570,7 +576,7 @@
             });
 
             var counter = 1;
-            $(document).on("click", "#addItem", function(e) {
+            $(document).on("click", "#addItem", function(e) {                
                 e.preventDefault();
                 if($('#quantity').val() == 0){
                     swal('WARNING', 'Quantity tidak boleh 0!', 'warning');
@@ -609,6 +615,7 @@
                             subtot = $("#subtot").val();
                             keterangan = $("#keterangan").val();
                             harga_awal = '';
+                            tot_qty = $('#tot_qty').val();
 
                             $.ajax({
                                 url: '{{ route('getpriceitem') }}', 
@@ -648,7 +655,7 @@
                                         hrgsetdiskon = norm_subtot - diskon_total;
 
 
-                                        tablerow = "<tr row_id="+ counter +"><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td><td class='border border-5'><input style='width:120px;' form='thisform' class='row_qty quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "' id='qty_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_harga_awal harga_awalclass form-control' name='harga_awal_d[]' type='text' value='" + thousands_separators(harga_awal) + "' id='harga_awal_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_hrgjual hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "' id='hrgjual_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_diskon diskonclass form-control' name='diskon_d[]' id='diskon_d_"+counter+"' type='text' value='" + diskon + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='totdiscclass form-control' value='" +  thousands_separators(diskon_total) + "' name='totdisc_d[]' id='totdisc_d_"+counter+"'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + thousands_separators(subtot) + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='hrgsetdiscclass form-control' value='" +  thousands_separators(hrgsetdiskon) + "' name='hrgsetdisc_d[]' id='hrgsetdisc_d_"+counter+"'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotfinalclass form-control' value='" + thousands_separators(hrgsetdiskon) + "' name='subtotfinal_d[]' id='subtotfinal_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='keteranganclass form-control' name='keterangan_d[]' type='text' value='" + keterangan + "'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
+                                        tablerow = "<tr row_id="+ counter +" id='row_"+counter+"'><th style='readonly:true;' row_th="+ counter +" class='border border-5'>" + counter + "</th><td class='border border-5' style='display:none;'><input style='width:120px;' readonly form='thisform' class='numberclass form-control' type='text' value='" + counter + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td><td class='border border-5'><input style='width:120px;' form='thisform' class='row_qty quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "' id='qty_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_harga_awal harga_awalclass form-control' name='harga_awal_d[]' type='text' value='" + thousands_separators(harga_awal) + "' id='harga_awal_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_hrgjual hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "' id='hrgjual_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_diskon diskonclass form-control' name='diskon_d[]' id='diskon_d_"+counter+"' type='text' value='" + diskon + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='totdiscclass form-control' value='" +  thousands_separators(diskon_total) + "' name='totdisc_d[]' id='totdisc_d_"+counter+"'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + thousands_separators(subtot) + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='hrgsetdiscclass form-control' value='" +  thousands_separators(hrgsetdiskon) + "' name='hrgsetdisc_d[]' id='hrgsetdisc_d_"+counter+"'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotfinalclass form-control' value='" + thousands_separators(hrgsetdiskon) + "' name='subtotfinal_d[]' id='subtotfinal_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='keteranganclass form-control' name='keterangan_d[]' type='text' value='" + keterangan + "'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
                                         
                                         subtotparse = subtot.replaceAll(",", "");
                                         $("#datatable tbody").append(tablerow);
@@ -749,6 +756,9 @@
                                             $("#price_total").val(thousands_separators(subtot_new.toFixed(2)));
                                         }
                                         counter++;
+                                        console.log("Tot QTY : "+tot_qty+" qty : "+quantity);
+                                        tot_qty_new = Number(tot_qty) + Number(quantity);
+                                        $("#tot_qty").val(tot_qty_new);
                                         $("#kode").prop('selectedIndex', 0).trigger('change');
                                         $("#warna").val('');
                                         $("#nama_item").val('');
@@ -773,10 +783,22 @@
                 e.preventDefault();
                 var r = confirm("Delete Transaksi ?");
                 if (r == true) {
-                    counter_id = $(this).closest('tr').text();
+                    // counter_id = $(this).closest('tr').text();
+                    counter_id = $('td').find('.numberclass').val();
+                    // counter_id = $(this).closest('[row_id]').text();
+                    // counter_id = $(this).closest('[row_th]').text();
                     console.log(counter_id);
+                    console.log("TEST Number: "+counter_id);
+                    // counter = $(this).closest('.row_qty').val();
                     subtot = $("#subtot_d_"+ counter_id).val().replaceAll(",", "");
-                    
+                    qty_row = $("#qty_d_"+ counter_id).val();
+                    console.log(counter_id);
+                    console.log(qty_row);
+                    grand_qty =  $("#tot_qty").val()
+                    total_qty = Number(grand_qty) - Number(qty_row);
+                    // console.log("qty value :"+qty_row);
+                    $("#tot_qty").val(total_qty);
+
                     if (/\D/g.test(subtot))
                     {
                         // Filter comma
@@ -838,6 +860,7 @@
                     var firstCol = table.rows[i].cells[0];
                     firstCol.innerText = i;
                     }
+                    counter--;
                 } else {
                     return false;
                 }
