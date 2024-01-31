@@ -456,7 +456,7 @@
                     $("#price_total").val(thousands_separators(Number(total).toFixed(2)));
                 }
 
-                tablerow = "<tr row_id="+ rowCount +"><th style='readonly:true;' class='border border-5'>" + rowCount + "</th><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='nama_item_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td><td class='border border-5'><input type='text' style='width:100px;' form='thisform' class='row_qty quantityclass form-control' name='quantity_d[]' value='" + quantity + "' id='qty_d_"+counter+"'></td><td class='border border-5'><input type='text' style='width:100px;' form='thisform' class='row_hrgjual hrgjualclass form-control' name='hrgjual_d[]' value='" + thousands_separators(hrgjual.toFixed(2)) + "' id='hrgjual_d_"+rowCount+"'></td><td class='border border-5'><input type='text' style='width:100px;' form='thisform' class='subtotclass form-control' name='subtot_d[]' id='subtot_d_"+rowCount+"' value='" + subtot + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='" + satuan + "' name='satuan_d[]'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='keteranganclass form-control' value='" + keterangan + "' name='keterangan_d[]'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
+                tablerow = "<tr row_id="+ rowCount +"><th style='readonly:true;' class='border border-5'>" + rowCount + "</th><td class='border border-5' style='display:none;'><input style='width:120px;' readonly form='thisform' class='numberclass form-control' type='text' value='" + counter + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='nama_item_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td><td class='border border-5'><input type='text' style='width:100px;' form='thisform' class='row_qty quantityclass form-control' name='quantity_d[]' value='" + quantity + "' id='qty_d_"+counter+"'></td><td class='border border-5'><input type='text' style='width:100px;' form='thisform' class='row_hrgjual hrgjualclass form-control' name='hrgjual_d[]' value='" + thousands_separators(hrgjual.toFixed(2)) + "' id='hrgjual_d_"+rowCount+"'></td><td class='border border-5'><input type='text' style='width:100px;' form='thisform' class='subtotclass form-control' name='subtot_d[]' id='subtot_d_"+rowCount+"' value='" + subtot + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='" + satuan + "' name='satuan_d[]'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='keteranganclass form-control' value='" + keterangan + "' name='keterangan_d[]'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
                 
                 $("#datatable tbody").append(tablerow);
 
@@ -478,7 +478,8 @@
                 e.preventDefault();
                 var r = confirm("Delete Transaksi ?");
                 if (r == true) {
-                    counter_id = $(this).closest('tr').text();
+                    // counter_id = $(this).closest('tr').text();
+                    counter_id = $('td').find('.numberclass').val();
                     subtot = $("#subtot_d_"+ counter_id).val().replaceAll(",", "");
                     
                     if (/\D/g.test(subtot))
@@ -511,6 +512,7 @@
                     var firstCol = table.rows[i].cells[0];
                     firstCol.innerText = i;
                     }
+                    counter--;
                 } else {
                     return false;
                 }

@@ -600,7 +600,7 @@
                         // console.log(kode);
                         console.log(response.stock);
                         if(response.stock <= 0){
-                            swal('WARNING', 'Stock dari Item '+kode+' pada Counter '+counter_asal+' Kosong!', 'warning');
+                            swal('WARNING', 'Stock dari Item '+kode+' pada Counter '+counter_asal+' Kosong/Stock kurang (silahkan cek stock item)!', 'warning');
                             hide_loading();
                             return false;
                         }else{
