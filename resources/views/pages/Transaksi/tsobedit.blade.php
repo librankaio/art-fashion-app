@@ -323,8 +323,8 @@
                         sum = old_grandtot - subtot;
 
                         $("#price_total").val(thousands_separators(sum.toFixed(2)));
-                        // $(this).closest('tr').remove();
-                        $(this).closest('tr').hide();
+                        $(this).closest('tr').remove();
+                        // $(this).closest('tr').hide();
 
                        $(this).closest('tr').wrap('<div/>');
 
