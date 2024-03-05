@@ -260,7 +260,8 @@
                             console.log('masuk');
                             number_counter = Number($('#number_counter').val());
                             for (i=0; i < response.length; i++) {
-                                if(response[i].no == nosj){
+                                if(response[i].no_sj == nosj){
+                                    console.log("YES")
                                     // if(number_counter == 0){
                                     //     number_counter++;
                                     // }
