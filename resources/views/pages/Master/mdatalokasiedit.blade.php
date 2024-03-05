@@ -32,7 +32,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Kode Counter</label>
-                                        <input type="text" class="form-control" name="code" id="code" value="{{ $mcounter->code }}">
+                                        <input type="text" class="form-control" name="code" id="code" value="{{ $mcounter->code }}" readonly>
                                     </div>
                                     <div class="form-group">
                                         <label>Alamat</label>
