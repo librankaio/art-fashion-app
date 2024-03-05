@@ -62,10 +62,17 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="row">
+                                            @if ($mitem->exist_trans == "Y")
+                                            <div class="col-md-6">
+                                                <label>Kode / Artikel</label>
+                                                <input type="text" class="form-control" name="kode" id="kode" value="{{ $mitem->code }}" readonly>
+                                            </div>
+                                            @else
                                             <div class="col-md-6">
                                                 <label>Kode / Artikel</label>
                                                 <input type="text" class="form-control" name="kode" id="kode" value="{{ $mitem->code }}">
                                             </div>
+                                            @endif
                                             <div class="col-md-6" style="display:none;">
                                                 <label>Kode Lama</label>
                                                 <input type="text" class="form-control" name="old_kode" id="old_kode" value="{{ $mitem->code }}">

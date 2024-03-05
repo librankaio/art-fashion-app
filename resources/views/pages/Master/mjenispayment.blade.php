@@ -32,7 +32,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Kode</label>
-                                        <input type="text" class="form-control" name="kode" id="kode">
+                                        <input type="text" class="form-control" name="kode" id="kode" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-6">

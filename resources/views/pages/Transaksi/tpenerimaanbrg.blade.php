@@ -260,7 +260,7 @@
                             console.log('masuk');
                             number_counter = Number($('#number_counter').val());
                             for (i=0; i < response.length; i++) {
-                                if(response[i].no_sj == nosj){
+                                if(response[i].no == nosj){
                                     // if(number_counter == 0){
                                     //     number_counter++;
                                     // }
@@ -270,7 +270,6 @@
                                     }else if(response[i].note == null){
                                         note = ''
                                     }
-
                                     subtotparse = thousands_separators(Number(response[i].subtotal).toFixed(2));
 
                                     if($("#price_total").val() == 0 || $("#price_total").val() == ''){
@@ -314,6 +313,27 @@
                             } else {
                                 x.style.display = "none";
                             }
+
+                            $.ajax({
+                                url: '{{ route('getnosjh') }}', 
+                                method: 'post', 
+                                data: {'nosj': nosj}, 
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
+                                dataType: 'json', 
+                                success: function(response) {
+                                    console.log(response);
+                                    console.log("masuk 2");
+                                    for (i=0; i < response.length; i++) {
+                                        console.log(response[i].no);
+                                        if(response[i].no == nosj){
+                                            counter = response[i].counter; 
+                                            $("#counter").append("<option value='"+counter+"' selected>"+counter+"</option>");
+                                        }
+                                    }
+                                    hide_loading()
+                                }
+                            });
                         }else if($('#number_counter').val() >= 0){
                             console.log('masuk222 sad');
 
@@ -374,6 +394,25 @@
                             if (x.style.display === "none") {
                                 x.style.display = "block";
                             }
+                            $.ajax({
+                                url: '{{ route('getnosjh') }}', 
+                                method: 'post', 
+                                data: {'nosj': nosj}, 
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
+                                dataType: 'json', 
+                                success: function(response) {
+                                    console.log(response);
+                                    console.log("masuk 2");
+                                    for (i=0; i < response.length; i++) {
+                                        if(response[i].no == nosj){
+                                            counter = response[i].counter;                                        
+                                            $("#counter").append("<option value='"+counter+"'>"+counter+"</option>");
+                                        }
+                                    }
+                                    hide_loading()
+                                }
+                            });
                         }
                         hide_loading()
                     }

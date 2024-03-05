@@ -32,7 +32,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>NIK</label>
-                                        <input type="text" class="form-control" name="nik" id="nik" value="{{ $user->nik }}">
+                                        <input type="text" class="form-control" name="nik" id="nik" value="{{ $user->nik }}" readonly>
                                     </div>
                                     <div class="form-group">
                                         <label>Nama</label>

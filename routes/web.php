@@ -129,6 +129,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/tpenerimaanbrgpost', [ControllerTransPenerimaanBrg::class, 'post'])->name('tpenerimaanbrgpost');
     Route::post('/getmitempenerimaan', [ControllerTransPenerimaanBrg::class, 'getmitem'])->name('getmitempenerimaan');
     Route::post('/getnosjd', [ControllerTransPenerimaanBrg::class, 'getnosj'])->name('getnosjd');
+    Route::post('/getnosjh', [ControllerTransPenerimaanBrg::class, 'getnosjh'])->name('getnosjh');
     Route::get('tpenerimaanbrglist', [ControllerTransPenerimaanBrg::class, 'list'])->name('tpenerimaanbrglist');
     Route::get('/tpenerimaanbrg/{tpenerimaanh}/edit', [ControllerTransPenerimaanBrg::class, 'getedit'])->name('tpenerimaanbrgedit');
     Route::post('/tpenerimaanbrg/{tpenerimaanh}', [ControllerTransPenerimaanBrg::class, 'update'])->name('tpenerimaanbrgupdate');

@@ -154,6 +154,7 @@ class ControllerMasterDataItem extends Controller
     }
 
     public function getedit(Mitem $mitem){
+        // dd($mitem);
         return view('pages.Master.mdataitemedit',['mitem' => $mitem]);
     }
 
