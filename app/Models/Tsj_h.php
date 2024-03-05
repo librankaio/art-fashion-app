@@ -18,6 +18,7 @@ class Tsj_h extends Model
         'no_sob',
         'note',
         'grdtotal',
+        'exist_penerimaan',
         'user',
     ];
 }
