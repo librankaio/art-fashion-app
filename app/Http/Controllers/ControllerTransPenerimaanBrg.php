@@ -137,8 +137,13 @@ class ControllerTransPenerimaanBrg extends Controller
     }
 
     public function list(){
-        $tpenerimaanhs = Tpenerimaan_h::select('id','no','no_sj','counter','tgl','note','jenis','grdtotal','user',)->orderBy('created_at', 'asc')->get();
-        $tpenerimaands = Tpenerimaan_d::select('id','idh','no_penerimaan','code','name','qty','satuan','hrgjual','keterangan','subtotal',)->get();
+        if(session('privilage') != "ADM"){
+            $tpenerimaanhs = Tpenerimaan_h::select('id','no','no_sj','counter','tgl','note','jenis','grdtotal','user',)->orderBy('created_at', 'asc')->where('counter','=',session('counter'))->get();
+            $tpenerimaands = Tpenerimaan_d::select('id','idh','no_penerimaan','code','name','qty','satuan','hrgjual','keterangan','subtotal',)->get();
+        }else{
+            $tpenerimaanhs = Tpenerimaan_h::select('id','no','no_sj','counter','tgl','note','jenis','grdtotal','user',)->orderBy('created_at', 'asc')->get();
+            $tpenerimaands = Tpenerimaan_d::select('id','idh','no_penerimaan','code','name','qty','satuan','hrgjual','keterangan','subtotal',)->get();
+        }
         return view('pages.Transaksi.tpenerimaanbrglist',[
             'tpenerimaanhs' => $tpenerimaanhs,
             'tpenerimaands' => $tpenerimaands
