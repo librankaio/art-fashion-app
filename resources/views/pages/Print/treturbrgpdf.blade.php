@@ -62,8 +62,8 @@
                 </table>
             </div>
         </div>
-        <h5>No Surat Jalan : {{ $tsjh->no }} </h5>
-        <h5>Tanggal Surat Jalan : {{ date("Y-m-d", strtotime($tsjh->tgl)) }} </h5>
+        <h5>No Retur : {{ $treturh->no }} </h5>
+        <h5>Tanggal Retur : {{ date("Y-m-d", strtotime($treturh->tgl)) }} </h5>
         <center>              
             <table id="mytable" border="0.5px" style="border:solid;">
                 <thead>
@@ -101,7 +101,7 @@
                 <td align="center" colspan="4">Total Quantity</td>
                 <td align="center">{{ $qty_sum }}</td>
                 {{-- <td align="center" colspan="2"></td> --}}
-                {{-- <td align="center" colspan="2">Grand Total : {{ number_format($tsjh->grdtotal, 0, '.', ',') }}</td> --}}
+                {{-- <td align="center" colspan="2">Grand Total : {{ number_format($treturh->grdtotal, 0, '.', ',') }}</td> --}}
             </table>
         </center>
         <center>
