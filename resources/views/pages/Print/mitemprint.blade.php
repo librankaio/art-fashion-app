@@ -1,4 +1,4 @@
-<html>
+<html0>
   <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -81,16 +81,16 @@
     .page_break { page-break-before: always; }
   </style>
 </head>
-</html>
+</html0
 <body>
   <div class="container" style="padding-bottom: 15px;">
     <h5 class="split-para" style="margin: 0px auto; font-size: 6px; text-align:left; padding-bottom: 1px;" id="text_code">{{ $mitem->name_lbl }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{ $mitem->warna }}</h5></span></h5>
     <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code , 'C128') }}" alt="barcode" width="100" height="20" id="bgimg"/>
-    <h5 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left; margin-top: -5px" id="text_code">{{ $mitem->code }} <span><h5 style="margin: 0px auto; font-size: 6.5px; float:right; font-weight: bold;">RP. {{ number_format($mitem->hrgjual, 2, '.', ',') }},-</h5></span></h5>
+    <h5 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left; margin-top: -5px" id="text_code">{{ $mitem->code }} <span><h5 style="margin: 0px auto; font-size: 6.5px; float:right; font-weight: bold;">RP. {{ number_format($mitem->hrgjual, 0, '.', ',') }},-</h5></span></h5>
   </div>
   <div class="container" style="padding-bottom: 0px">
     <h5 class="split-para" style="margin: 0px auto; font-size: 6px; text-align:left; padding-bottom: 1px;" id="text_code">{{ $mitem->name_lbl }} <span><h5 style="margin: 0px auto; font-size: 6px; float:right;">{{ $mitem->warna }}</h5></span></h5>
     <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code , 'C128') }}" alt="barcode" width="100" height="20" id="bgimg"/>
-    <h5 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left; margin-top: -5px" id="text_code">{{ $mitem->code }} <span><h5 style="margin: 0px auto; font-size: 6.5px; float:right; font-weight: bold;">RP. {{ number_format($mitem->hrgjual, 2, '.', ',') }},-</h5></span></h5>
+    <h5 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left; margin-top: -5px" id="text_code">{{ $mitem->code }} <span><h5 style="margin: 0px auto; font-size: 6.5px; float:right; font-weight: bold;">RP. {{ number_format($mitem->hrgjual, 0, '.', ',') }},-</h5></span></h5>
   </div>
 </body>
