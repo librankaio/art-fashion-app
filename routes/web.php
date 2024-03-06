@@ -141,6 +141,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/treturjual/{treturh}/edit', [ControllerTransReturPenjualan::class, 'getedit'])->name('treturjualedit');
     Route::post('/treturjual/{treturh}', [ControllerTransReturPenjualan::class, 'update'])->name('treturjualupdate');
     Route::post('/treturjual/delete/{treturh}', [ControllerTransReturPenjualan::class, 'delete'])->name('treturjualdelete');
+    Route::get('/treturjual/{treturh}/printpdf', [ControllerTransReturPenjualan::class, 'printpdf'])->name('treturjualprintpdf');
 
     Route::get('tadjustmentstock', [ControllerTransAdjustmentStock::class, 'index'])->name('tadjustmentstock');
     Route::post('/tadjpost', [ControllerTransAdjustmentStock::class, 'post'])->name('tadjpost');

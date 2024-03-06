@@ -7,6 +7,7 @@ use App\Models\Mitem;
 use App\Models\MitemCounters;
 use App\Models\Tretur_d;
 use App\Models\Tretur_h;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -338,5 +339,30 @@ class ControllerTransReturPenjualan extends Controller
         Tretur_d::where('idh','=',$treturh->id)->delete();
 
         return redirect()->route('treturjuallist')->with('success', 'Data berhasil dihapus');
+    }
+
+    public function printpdf(Tretur_h $treturh){
+        $treturds = Tretur_d::where('idh','=',$treturh->id)->get();
+        $address = Mcounter::select('alamat')->where('name','=',$treturh->counter)->first();
+        
+        $array_warna = [];
+        foreach($treturds as $treturd){
+            $warna = Mitem::where('code', '=', strtok($treturd->code))->first();
+            // dd($warna);
+            $treturd['warna'] = $warna->warna;
+        }
+
+        // 1 inch = 72 point
+        // 1 inch = 2.54 cm
+        // 10 cm = 10/2.54*72 = 283.464566929
+        // 20 cm = 10/2.54*72 = 566.929133858
+        $datenow = date("Y-m-d");
+        $customPaper = array(0,0,684,792);
+        $pdf = PDF::loadView('pages.Print.treturbrgpdf',[
+            'treturh' => $treturh,
+            'treturds' => $treturds,
+            'address' => $address
+        ])->setPaper($customPaper, 'portrait');
+        return $pdf->stream($datenow."NO_RETUR/".$treturh->no);
     }
 }
