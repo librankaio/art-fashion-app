@@ -68,7 +68,7 @@
             <table id="mytable" border="0.5px" style="border:solid;">
                 <thead>
                     <tr>
-                        <td align="center" style="width: 60px; word-wrap: break-word;">No</td>
+                        <td align="center" style="width: 105px; word-wrap: break-word;">No</td>
                         <td align="center" style="width: 105px; word-wrap: break-word;">Kode</td>
                         <td align="center" style="width: 105px; word-wrap: break-word;">Nama Item</td>
                         <td align="center" style="width: 105px; word-wrap: break-word;">Warna</td>
