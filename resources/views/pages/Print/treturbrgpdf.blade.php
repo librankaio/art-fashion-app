@@ -74,8 +74,8 @@
                         <td align="center" style="width: 105px; word-wrap: break-word;">Warna</td>
                         <td align="center" style="width: 60px; word-wrap: break-word;">Quantity</td>
                         <td align="center" style="width: 105px; word-wrap: break-word;">Satuan</td>
-                        <td align="center" style="width: 105px; word-wrap: break-word;">Harga</td>
-                        <td align="center" style="width: 105px; word-wrap: break-word;">Subtotal</td>
+                        {{-- <td align="center" style="width: 105px; word-wrap: break-word;">Harga</td>
+                        <td align="center" style="width: 105px; word-wrap: break-word;">Subtotal</td> --}}
                     </tr>  
                 </thead>
                 <tbody>
