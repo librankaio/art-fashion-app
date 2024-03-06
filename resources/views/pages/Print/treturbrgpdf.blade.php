@@ -70,7 +70,7 @@
                     <tr>
                         <td align="center" style="width: 105px; word-wrap: break-word;">No</td>
                         <td align="center" style="width: 250px; word-wrap: break-word;">Kode</td>
-                        <td align="center" style="width: 105px; word-wrap: break-word;">Nama Item</td>
+                        <td align="center" style="width: 140px; word-wrap: break-word;">Nama Item</td>
                         <td align="center" style="width: 105px; word-wrap: break-word;">Warna</td>
                         <td align="center" style="width: 60px; word-wrap: break-word;">Quantity</td>
                         <td align="center" style="width: 105px; word-wrap: break-word;">Satuan</td>
@@ -84,7 +84,7 @@
                     @for($i = 0; $i < sizeof($treturds); $i++) @php $counter++; @endphp <tr>
                         <td align="center" style="width: 105px; word-wrap: break-word;">{{ $counter }}</td>
                         <td align="center" style="width: 250px; word-wrap: break-word;">{{ $treturds[$i]->code }}</td>
-                        <td align="center" style="width: 105px; word-wrap: break-word;">{{ $treturds[$i]->name }}</td>
+                        <td align="center" style="width: 140px; word-wrap: break-word;">{{ $treturds[$i]->name }}</td>
                         <td align="center" style="width: 105px; word-wrap: break-word;">{{ $treturds[$i]->warna }}</td>
                         <td align="center" style="width: 60px; word-wrap: break-word;">{{ number_format($treturds[$i]->qty, 0, '.', '') }}</td>
                         <td align="center" style="width: 105px; word-wrap: break-word;">{{ $treturds[$i]->satuan }}</td>
