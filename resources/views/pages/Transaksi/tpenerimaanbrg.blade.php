@@ -408,7 +408,7 @@
                                     for (i=0; i < response.length; i++) {
                                         if(response[i].no == nosj){
                                             counter = response[i].counter;                                        
-                                            $("#counter").append("<option value='"+counter+"'>"+counter+"</option>");
+                                            $("#counter").append("<option value='"+counter+"' selected>"+counter+"</option>");
                                         }
                                     }
                                     hide_loading()
