@@ -85,19 +85,35 @@
                                         <td class="border border-5" style="text-align: center;">{{ $item->counter }}</td>
                                         <td class="border border-5" style="text-align: center;">{{ number_format($item->grdtotal, 2, '.', ',') }}</td>
                                         <td style="text-align: center;" class="d-flex justify-content-center">
-                                            <a href="/tsuratjalan/{{ $item->id }}/edit"
-                                                class="btn btn-icon icon-left btn-primary"><i class="far fa-edit">
-                                                    Edit</i></a>
-                                            <form action="/tsuratjalan/delete/{{ $item->id }}" id="del-{{ $item->id }}"
-                                                method="POST" class="px-2">
-                                                @csrf
-                                                <button class="btn btn-icon icon-left btn-danger"
-                                                    id="del-{{ $item->id }}" type="submit"
-                                                    data-confirm="WARNING!|Do you want to delete {{ $item->no }} data?"
-                                                    data-confirm-yes="submitDel({{ $item->id }})"><i
-                                                        class="fa fa-trash">
-                                                        Delete</i></button>
-                                            </form>
+                                            @if($item->exist_penerimaan == "Y")
+                                                <a href="/tsuratjalan/{{ $item->id }}/edit"
+                                                    class="btn btn-icon icon-left btn-primary disabled"><i class="far fa-edit">
+                                                        Edit</i></a>
+                                                <form action="/tsuratjalan/delete/{{ $item->id }}" id="del-{{ $item->id }}"
+                                                    method="POST" class="px-2">
+                                                    @csrf
+                                                    <button class="btn btn-icon icon-left btn-danger" disabled
+                                                        id="del-{{ $item->id }}" type="submit"
+                                                        data-confirm="WARNING!|Do you want to delete {{ $item->no }} data?"
+                                                        data-confirm-yes="submitDel({{ $item->id }})"><i
+                                                            class="fa fa-trash">
+                                                            Delete</i></button>
+                                                </form>
+                                            @else                                                
+                                                <a href="/tsuratjalan/{{ $item->id }}/edit"
+                                                    class="btn btn-icon icon-left btn-primary"><i class="far fa-edit">
+                                                Edit</i></a>
+                                                <form action="/tsuratjalan/delete/{{ $item->id }}" id="del-{{ $item->id }}"
+                                                    method="POST" class="px-2">
+                                                    @csrf
+                                                    <button class="btn btn-icon icon-left btn-danger"
+                                                        id="del-{{ $item->id }}" type="submit"
+                                                        data-confirm="WARNING!|Do you want to delete {{ $item->no }} data?"
+                                                        data-confirm-yes="submitDel({{ $item->id }})"><i
+                                                            class="fa fa-trash">
+                                                            Delete</i></button>
+                                                </form>
+                                            @endif                                                
                                             <a href="/tsuratjalan/{{ $item->id }}/print"
                                                 class="btn btn-icon icon-left btn-success" target="_blank"><i class="far fa-print">
                                                     Print</i></a>
