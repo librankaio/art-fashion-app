@@ -57,7 +57,7 @@
                                 <th scope="row" class="border border-5">{{ $counter }}</th>
                                 <td class="border border-5" style="text-align: center;"></td>
                                 <td class="border border-5" style="text-align: center;">{{ date("Y-m-d", strtotime($item->tgl)) }}</td>
-                                <td class="border border-5" style="text-align: center;">{{ $item->code }}</td>
+                                <td class="border border-5" style="text-align: center;">{{ $item->CODE }}</td>
                                 <td class="border border-5" style="text-align: center;">{{ $item->name }}</td>
                                 <td class="border border-5" style="text-align: center;">{{ $item->qty }}</td>
                                 <td class="border border-5" style="text-align: center;">{{ number_format($item->diskon, 0, '.', '') }}</td>
@@ -69,7 +69,7 @@
                                 <th scope="row" class="border border-5">{{ $counter }}</th>
                                 <td class="border border-5" style="text-align: center;">{{ $item->no }}</td>
                                 <td class="border border-5" style="text-align: center;">{{ date("Y-m-d", strtotime($item->tgl)) }}</td>
-                                <td class="border border-5" style="text-align: center;">{{ $item->code }}</td>
+                                <td class="border border-5" style="text-align: center;">{{ $item->CODE }}</td>
                                 <td class="border border-5" style="text-align: center;">{{ $item->name }}</td>
                                 <td class="border border-5" style="text-align: center;">{{ $item->qty }}</td>
                                 <td class="border border-5" style="text-align: center;">{{ number_format($item->diskon, 0, '.', '') }}</td>

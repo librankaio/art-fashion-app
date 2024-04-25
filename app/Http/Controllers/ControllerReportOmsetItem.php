@@ -42,8 +42,9 @@ class ControllerReportOmsetItem extends Controller
 
         // $results = DB::table('vomsetperitem')->whereBetween('tgl', [$dtfr, $dtto])->where('counter','=',$counter)->paginate(100);
         $results = DB::select('CALL vomsetperitem (?,?,?,?)', [$dtfr, $dtto, $counter, $payment_mthd]);
-        $totqty = DB::select('SELECT sum(totalqty) as totalqty FROM vomsetperitem');
-        $grandtot = DB::select('SELECT sum(subtotal) as grandtotal FROM vomsetperitem');
+        // dd($results);
+        // $totqty = DB::select('SELECT sum(totalqty) as totalqty FROM vomsetperitem');
+        // $grandtot = DB::select('SELECT sum(subtotal) as grandtotal FROM vomsetperitem');
         // $counters = Mcounter::select('id','code','name')->get();
         $privilage = session('privilage');
         if($privilage == 'ADM'){
@@ -58,8 +59,8 @@ class ControllerReportOmsetItem extends Controller
         return view('pages.Report.rlapomset', [
             'results' => $results,
             'counters' => $counters,
-            'totqty' => $totqty,
-            'grandtot' => $grandtot,
+            // 'totqty' => $totqty,
+            // 'grandtot' => $grandtot,
             'payments' => $payments,
             'tpenjualans' => $tpenjualans,
         ]);
@@ -73,8 +74,8 @@ class ControllerReportOmsetItem extends Controller
         $payment_mthd = $request->input('payment_mthd');
 
         $results = DB::select('CALL vomsetperitem (?,?,?,?)', [$dtfr, $dtto, $counter, $payment_mthd]);
-        $totqty = DB::select('SELECT sum(totalqty) as totalqty FROM vomsetperitem');
-        $grandtot = DB::select('SELECT sum(subtotal) as grandtotal FROM vomsetperitem');
+        // $totqty = DB::select('SELECT sum(totalqty) as totalqty FROM vomsetperitem');
+        // $grandtot = DB::select('SELECT sum(subtotal) as grandtotal FROM vomsetperitem');
         $counters = Mcounter::select('id','code','name')->get();
 
         // dd($results);
