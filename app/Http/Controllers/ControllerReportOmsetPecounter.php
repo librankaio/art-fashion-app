@@ -28,16 +28,16 @@ class ControllerReportOmsetPecounter extends Controller
 
         // $results = DB::table('vomsetpercounter')->whereBetween('tgl', [$dtfr, $dtto])->paginate(100);
         $results = DB::select('CALL vomsetpercounter (?,?)', [$dtfr, $dtto]);
-        $totqty = DB::select('SELECT sum(qty) as totalqty FROM vomsetpercounter');
-        $grandtot = DB::select('SELECT sum(subtotal) as grandtotal FROM vomsetpercounter');
+        // $totqty = DB::select('SELECT sum(qty) as totalqty FROM vomsetpercounter');
+        // $grandtot = DB::select('SELECT sum(subtotal) as grandtotal FROM vomsetpercounter');
         $counters = Mcounter::select('id','code','name')->get();
         // dd($results);
 
         return view('pages.Report.romsetcounter', [
             'results' => $results,
             'counters' => $counters,
-            'totqty' => $totqty,
-            'grandtot' => $grandtot,
+            // 'totqty' => $totqty,
+            // 'grandtot' => $grandtot,
         ]);
     }
 
@@ -47,8 +47,8 @@ class ControllerReportOmsetPecounter extends Controller
         $dtto = $request->input('dtto');
 
         $results = DB::select('CALL vomsetpercounter (?,?)', [$dtfr, $dtto]);
-        $totqty = DB::select('SELECT sum(qty) as totalqty FROM vomsetpercounter');
-        $grandtot = DB::select('SELECT sum(subtotal) as grandtotal FROM vomsetpercounter');
+        // $totqty = DB::select('SELECT sum(qty) as totalqty FROM vomsetpercounter');
+        // $grandtot = DB::select('SELECT sum(subtotal) as grandtotal FROM vomsetpercounter');
         $counters = Mcounter::select('id','code','name')->get();
 
         // dd($results);
