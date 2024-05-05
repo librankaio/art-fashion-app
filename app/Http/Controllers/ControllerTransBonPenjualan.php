@@ -154,7 +154,7 @@ class ControllerTransBonPenjualan extends Controller
                 }
                 
                 if($count == $countrows){
-                    if(session('privilage') == 'ADM'){
+                    if(session('privilage') == 'ADM' || session('privilage') == 'SPG DS'){
                         return redirect()->back()->with('success', 'Data berhasil di Insert');
                     }else{
                         $tpenjualanh = Tpenjualan_h::where('no','=', $no)->first();
