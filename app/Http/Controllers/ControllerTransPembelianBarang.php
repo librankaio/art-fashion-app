@@ -64,51 +64,51 @@ class ControllerTransPembelianBarang extends Controller
                     'hrgjual' => (float) str_replace(',', '', $request->hrgjual_d[$i]),
                     'subtotal' => (float) str_replace(',', '', $request->subtot_d[$i]),
                 ]);
-                // $stock_mitem = Mitem::select('stock')->where('code', '=', strtok($request->kode_d[$i], " "))->first();
-                // $stock_sum = $stock_mitem->stock+$request->quantity_d[$i];
-                // Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
-                //     'stock' => (int)$stock_sum,
-                // ]);
-                // $stock_mitem_counter = DB::table('mitems_counters')
-                // ->selectRaw('stock')
-                // ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                // ->where('name_mcounters', '=', session('counter'))
-                // ->first();
-                // // dd($stock_mitem_counter);
-                // $mcounter = Mcounter::where('name', '=', session('counter'))->first();
-                // // dd($mcounter->code);
-                // if ($stock_mitem_counter == null) {
-                //     $stock_mitem_counter = 0;
-                //     $stock_counter_sum = $stock_mitem_counter+$request->quantity_d[$i];
-                //     date_default_timezone_set('Asia/Jakarta');
-                //     $datetime = date('d-m-Y H:i:s');
-                //     MitemCounters::create([
-                //         'code_mitem' => strtok($request->kode_d[$i], " "),
-                //         'name_mitem' => $request->nama_item_d[$i],
-                //         'code_mcounters' => $mcounter->code,
-                //         'name_mcounters' => session('counter'),
-                //         'stock' => $stock_counter_sum,
-                //         'datein' => $datetime,
-                //     ]);
-                // }else{
-                //     $stock_counter_sum = $stock_mitem_counter->stock+$request->quantity_d[$i];
-                //     DB::table('mitems_counters')
-                //     ->selectRaw('stock')
-                //     ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                //     ->where('name_mcounters', '=', session('counter'))
-                //     ->update([
-                //         'stock' => (int)$stock_counter_sum,
-                //     ]);
-                // }
+                $stock_mitem = Mitem::select('stock')->where('code', '=', strtok($request->kode_d[$i], " "))->first();
+                $stock_sum = $stock_mitem->stock+$request->quantity_d[$i];
+                Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
+                    'stock' => (int)$stock_sum,
+                ]);
+                $stock_mitem_counter = DB::table('mitems_counters')
+                ->selectRaw('stock')
+                ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
+                ->where('name_mcounters', '=', session('counter'))
+                ->first();
+                // dd($stock_mitem_counter);
+                $mcounter = Mcounter::where('name', '=', session('counter'))->first();
+                // dd($mcounter->code);
+                if ($stock_mitem_counter == null) {
+                    $stock_mitem_counter = 0;
+                    $stock_counter_sum = $stock_mitem_counter+$request->quantity_d[$i];
+                    date_default_timezone_set('Asia/Jakarta');
+                    $datetime = date('d-m-Y H:i:s');
+                    MitemCounters::create([
+                        'code_mitem' => strtok($request->kode_d[$i], " "),
+                        'name_mitem' => $request->nama_item_d[$i],
+                        'code_mcounters' => $mcounter->code,
+                        'name_mcounters' => session('counter'),
+                        'stock' => $stock_counter_sum,
+                        'datein' => $datetime,
+                    ]);
+                }else{
+                    $stock_counter_sum = $stock_mitem_counter->stock+$request->quantity_d[$i];
+                    DB::table('mitems_counters')
+                    ->selectRaw('stock')
+                    ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
+                    ->where('name_mcounters', '=', session('counter'))
+                    ->update([
+                        'stock' => (int)$stock_counter_sum,
+                    ]);
+                }
                 $count++;
                 
-                // $exist_transcode = Mitem::select('id','code')->where('code','=', $request->kode_d[$i])->first();
+                $exist_transcode = Mitem::select('id','code')->where('code','=', $request->kode_d[$i])->first();
                 // dd(strtok($request->kode_d[$i], " "));
-                // if($exist_transcode == null || $exist_transcode != "Y"){
-                //     Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
-                //         'exist_trans' => "Y",
-                //     ]);
-                // }
+                if($exist_transcode == null || $exist_transcode != "Y"){
+                    Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
+                        'exist_trans' => "Y",
+                    ]);
+                }
             }
             if($count == $countrows){
                 return redirect()->back();
@@ -210,9 +210,9 @@ class ControllerTransPembelianBarang extends Controller
                     'subtotal' => (float) str_replace(',', '', request('subtot_d')[$i])
                 ]);
 
-                // Mitem::where('code', '=', strtok(request('kode_d')[$i], " "))->update([
-                //     'hrgjual' =>  (float) str_replace(',', '', request('hrgjual_d')[$i])
-                // ]);
+                Mitem::where('code', '=', strtok(request('kode_d')[$i], " "))->update([
+                    'hrgjual' =>  (float) str_replace(',', '', request('hrgjual_d')[$i])
+                ]);
 
                 $stock_mitem = Mitem::select('stock')->where('code', '=', strtok(request('kode_d')[$i], " "))->first();
                 $stock_sum = $stock_mitem->stock+request('quantity_d')[$i];

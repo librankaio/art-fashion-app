@@ -65,26 +65,26 @@ class ControllerTransBonPenjualan extends Controller
                 $no = $notran->codetrans;
             }
             // BYPASS SYS
-            $items = array();
-            $is_stocknotvalid = 0;
-            for ($i=0;$i<sizeof($request->no_d);$i++){
-                $stock_mitem_counter = DB::table('mitems_counters')
-                ->selectRaw('stock')
-                ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                ->where('name_mcounters', '=', $request->counter)
-                ->first();
-                $stock_counter_min = $stock_mitem_counter->stock-$request->quantity_d[$i];
-                // dd($stock_mitem_counter);            
-                if ($request->quantity_d[$i] > $stock_mitem_counter->stock){
-                    array_push($items, strtok($request->kode_d[$i], " "));
-                    Session::flash('items_error', $items);
-                    Session::flash('counter_selected', $request->counter);
-                    $is_stocknotvalid++;
-                }
-            }
-            if ($is_stocknotvalid != 0){
-                return redirect()->back()->with('error', 'Salah satu item stock counter kosong atau lebih dari stock counter!');
-            }
+            // $items = array();
+            // $is_stocknotvalid = 0;
+            // for ($i=0;$i<sizeof($request->no_d);$i++){
+            //     $stock_mitem_counter = DB::table('mitems_counters')
+            //     ->selectRaw('stock')
+            //     ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
+            //     ->where('name_mcounters', '=', $request->counter)
+            //     ->first();
+            //     $stock_counter_min = $stock_mitem_counter->stock-$request->quantity_d[$i];
+            //     // dd($stock_mitem_counter);            
+            //     if ($request->quantity_d[$i] > $stock_mitem_counter->stock){
+            //         array_push($items, strtok($request->kode_d[$i], " "));
+            //         Session::flash('items_error', $items);
+            //         Session::flash('counter_selected', $request->counter);
+            //         $is_stocknotvalid++;
+            //     }
+            // }
+            // if ($is_stocknotvalid != 0){
+            //     return redirect()->back()->with('error', 'Salah satu item stock counter kosong atau lebih dari stock counter!');
+            // }
             // END BYPASS SYS
             $checkexist = Tpenjualan_h::select('id','no')->where('no','=', $no)->first();
             if($checkexist == null){
@@ -356,10 +356,6 @@ class ControllerTransBonPenjualan extends Controller
                     ->update([
                         'stock' => (int)$stock_counter_min,
                     ]);
-
-                    // DB::update('CALL sminstock  (?,?,?)', [strtok(request('kode_d')[$i], " "), $mcounter->code, request('quantity_d')[$i]]);
-
-                    // DB::update('CALL splusstock  (?,?,?)', [strtok(request('kode_d')[$i], " "), $mcounter->code, request('quantity_d')[$i]]);
                 }
                 // dd($stock_mitem_counter);
                 $count++;

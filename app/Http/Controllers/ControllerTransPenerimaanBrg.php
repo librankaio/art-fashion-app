@@ -75,25 +75,25 @@ class ControllerTransPenerimaanBrg extends Controller
                     'keterangan' => $request->keterangan_d[$i],
                     'subtotal' => (float) str_replace(',', '', $request->subtot_d[$i]),
                 ]);
-                // $stock_mitem = Mitem::select('stock')->where('code', '=', strtok($request->kode_d[$i], " "))->first();
-                // $stock_sum = $stock_mitem->stock+$request->quantity_d[$i];
-                // Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
-                //     'stock' => (int)$stock_sum,
-                // ]);
-                // $stock_mitem_counter = DB::table('mitems_counters')
-                // ->selectRaw('stock')
-                // ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                // ->where('name_mcounters', '=', $request->counter)
-                // ->first();
-                // // dd($stock_mitem_counter);
-                // $stock_counter_sum = $stock_mitem_counter->stock+$request->quantity_d[$i];
-                // DB::table('mitems_counters')
-                // ->selectRaw('stock')
-                // ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                // ->where('name_mcounters', '=', $request->counter)
-                // ->update([
-                //     'stock' => (int)$stock_counter_sum,
-                // ]);
+                $stock_mitem = Mitem::select('stock')->where('code', '=', strtok($request->kode_d[$i], " "))->first();
+                $stock_sum = $stock_mitem->stock+$request->quantity_d[$i];
+                Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
+                    'stock' => (int)$stock_sum,
+                ]);
+                $stock_mitem_counter = DB::table('mitems_counters')
+                ->selectRaw('stock')
+                ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
+                ->where('name_mcounters', '=', $request->counter)
+                ->first();
+                // dd($stock_mitem_counter);
+                $stock_counter_sum = $stock_mitem_counter->stock+$request->quantity_d[$i];
+                DB::table('mitems_counters')
+                ->selectRaw('stock')
+                ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
+                ->where('name_mcounters', '=', $request->counter)
+                ->update([
+                    'stock' => (int)$stock_counter_sum,
+                ]);
                 $count++;
             }
             Tsj_h::where('no', '=', $request->nosj)->update([
@@ -174,43 +174,43 @@ class ControllerTransPenerimaanBrg extends Controller
     public function update(Tpenerimaan_h $tpenerimaanh){
         // dd(request()->all());
 
-        // for($x=0;$x<sizeof(request('existdb_d'));$x++){
-        //     $getstock_old = Tpenerimaan_d::where('id', '=', request('id_d')[$x])->first();
-        //     if ($getstock_old != null){
-        //         // dd($getstock_old);
-        //         // dd((int)$getstock_old->qty);
-        //         // dd($getstock_old->code);
-        //         $old_stock_mitem_counter = DB::table('mitems_counters')
-        //         ->selectRaw('stock')
-        //         ->where('code_mitem', '=', strtok($getstock_old->code, " "))
-        //         ->where('name_mcounters', '=', request('counter'))
-        //         ->first();
-        //         // dd($old_stock_mitem_counter->stock-(int)$getstock_old->qty);
-        //         // Make stock counter value is equal to old stock
-        //         // $getstock_old->qty is pembelian_d stock value
-        //         $normalize_stock_counter = $old_stock_mitem_counter->stock-(int)$getstock_old->qty;
-        //         // dd($normalize_stock_counter);
-        //         DB::table('mitems_counters')
-        //         ->selectRaw('stock')
-        //         ->where('code_mitem', '=', strtok($getstock_old->code, " "))
-        //         ->where('name_mcounters', '=', request('counter'))
-        //         ->update([
-        //             'stock' => (int)$normalize_stock_counter,
-        //         ]);
+        for($x=0;$x<sizeof(request('existdb_d'));$x++){
+            $getstock_old = Tpenerimaan_d::where('id', '=', request('id_d')[$x])->first();
+            if ($getstock_old != null){
+                // dd($getstock_old);
+                // dd((int)$getstock_old->qty);
+                // dd($getstock_old->code);
+                $old_stock_mitem_counter = DB::table('mitems_counters')
+                ->selectRaw('stock')
+                ->where('code_mitem', '=', strtok($getstock_old->code, " "))
+                ->where('name_mcounters', '=', request('counter'))
+                ->first();
+                // dd($old_stock_mitem_counter->stock-(int)$getstock_old->qty);
+                // Make stock counter value is equal to old stock
+                // $getstock_old->qty is pembelian_d stock value
+                $normalize_stock_counter = $old_stock_mitem_counter->stock-(int)$getstock_old->qty;
+                // dd($normalize_stock_counter);
+                DB::table('mitems_counters')
+                ->selectRaw('stock')
+                ->where('code_mitem', '=', strtok($getstock_old->code, " "))
+                ->where('name_mcounters', '=', request('counter'))
+                ->update([
+                    'stock' => (int)$normalize_stock_counter,
+                ]);
 
-        //         $stock_mitem_old = Mitem::select('stock')->where('code', '=', strtok($getstock_old->code, " "))->first();
-        //         // Make stock mitem value is equal to mitem old stock
-        //         // dd($stock_mitem_old->stock - (int)$getstock_old->qty);
-        //         $normalize_stock_mitem = $stock_mitem_old->stock - (int)$getstock_old->qty;
-        //         Mitem::where('code', '=', strtok($getstock_old->code, " "))->update([
-        //             'stock' => (int)$normalize_stock_mitem,
-        //         ]);
+                $stock_mitem_old = Mitem::select('stock')->where('code', '=', strtok($getstock_old->code, " "))->first();
+                // Make stock mitem value is equal to mitem old stock
+                // dd($stock_mitem_old->stock - (int)$getstock_old->qty);
+                $normalize_stock_mitem = $stock_mitem_old->stock - (int)$getstock_old->qty;
+                Mitem::where('code', '=', strtok($getstock_old->code, " "))->update([
+                    'stock' => (int)$normalize_stock_mitem,
+                ]);
 
-        //         if(request('deleted_item_d') == request('id_d')[$x]){
-        //             Tpenerimaan_d::where('id','=',request('id_d')[$x])->delete();
-        //         }
-        //     }
-        // }
+                if(request('deleted_item_d') == request('id_d')[$x]){
+                    Tpenerimaan_d::where('id','=',request('id_d')[$x])->delete();
+                }
+            }
+        }
 
         for($j=0;$j<sizeof(request('no_d'));$j++){
             $no_penerimaanh = request('no');
@@ -242,42 +242,42 @@ class ControllerTransPenerimaanBrg extends Controller
                     'keterangan' => request('keterangan_d')[$i],
                     'subtotal' => (float) str_replace(',', '', request('subtot_d')[$i]),
                 ]);
-                // $stock_mitem = Mitem::select('stock')->where('code', '=', strtok(request('kode_d')[$i], " "))->first();
-                // $stock_sum = $stock_mitem->stock+request('quantity_d')[$i];
-                // Mitem::where('code', '=', strtok(request('kode_d')[$i], " "))->update([
-                //     'stock' => (int)$stock_sum,
-                // ]);
-                // $stock_mitem_counter = DB::table('mitems_counters')
-                // ->selectRaw('stock')
-                // ->where('code_mitem', '=', strtok(request('kode_d')[$i], " "))
-                // ->where('name_mcounters', '=', request('counter'))
-                // ->first();
+                $stock_mitem = Mitem::select('stock')->where('code', '=', strtok(request('kode_d')[$i], " "))->first();
+                $stock_sum = $stock_mitem->stock+request('quantity_d')[$i];
+                Mitem::where('code', '=', strtok(request('kode_d')[$i], " "))->update([
+                    'stock' => (int)$stock_sum,
+                ]);
+                $stock_mitem_counter = DB::table('mitems_counters')
+                ->selectRaw('stock')
+                ->where('code_mitem', '=', strtok(request('kode_d')[$i], " "))
+                ->where('name_mcounters', '=', request('counter'))
+                ->first();
 
-                // $mcounter = Mcounter::where('name', '=', request('counter'))->first();
+                $mcounter = Mcounter::where('name', '=', request('counter'))->first();
 
-                // if ($stock_mitem_counter == null) {
-                //     $stock_mitem_counter = 0;
-                //     $stock_counter_sum = $stock_mitem_counter + request('quantity_d')[$i];
-                //     date_default_timezone_set('Asia/Jakarta');
-                //     $datetime = date('d-m-Y H:i:s');
-                //     MitemCounters::create([
-                //         'code_mitem' => strtok(request('kode_d')[$i], " "),
-                //         'name_mitem' => request('nama_item_d')[$i],
-                //         'code_mcounters' => $mcounter->code,
-                //         'name_mcounters' => request('counter'),
-                //         'stock' => $stock_counter_sum,
-                //         'datein' => $datetime,
-                //     ]);
-                // }else{
-                //     $stock_counter_sum = $stock_mitem_counter->stock +request('quantity_d')[$i];
-                //     DB::table('mitems_counters')
-                //     ->selectRaw('stock')
-                //     ->where('code_mitem', '=', strtok(request('kode_d')[$i], " "))
-                //     ->where('name_mcounters', '=', request('counter'))
-                //     ->update([
-                //         'stock' => (int)$stock_counter_sum,
-                //     ]);
-                // }
+                if ($stock_mitem_counter == null) {
+                    $stock_mitem_counter = 0;
+                    $stock_counter_sum = $stock_mitem_counter + request('quantity_d')[$i];
+                    date_default_timezone_set('Asia/Jakarta');
+                    $datetime = date('d-m-Y H:i:s');
+                    MitemCounters::create([
+                        'code_mitem' => strtok(request('kode_d')[$i], " "),
+                        'name_mitem' => request('nama_item_d')[$i],
+                        'code_mcounters' => $mcounter->code,
+                        'name_mcounters' => request('counter'),
+                        'stock' => $stock_counter_sum,
+                        'datein' => $datetime,
+                    ]);
+                }else{
+                    $stock_counter_sum = $stock_mitem_counter->stock +request('quantity_d')[$i];
+                    DB::table('mitems_counters')
+                    ->selectRaw('stock')
+                    ->where('code_mitem', '=', strtok(request('kode_d')[$i], " "))
+                    ->where('name_mcounters', '=', request('counter'))
+                    ->update([
+                        'stock' => (int)$stock_counter_sum,
+                    ]);
+                }
                 // dd($stock_mitem_counter);
                 $count++;
             }
@@ -290,24 +290,24 @@ class ControllerTransPenerimaanBrg extends Controller
 
     public function delete(Tpenerimaan_h $tpenerimaanh){
         $penerimaan_detail = Tpenerimaan_d::where('idh','=',$tpenerimaanh->id)->get();
-        // foreach($penerimaan_detail as $penerimaan_old_item){
-        //     // Mins a value from the old stock in mitems_counters table
-        //     $stock_mitem_counter = DB::table('mitems_counters')
-        //     ->selectRaw('stock')
-        //     ->where('code_mitem', '=', strtok($penerimaan_old_item->code, " "))
-        //     ->where('name_mcounters', '=', $tpenerimaanh->counter)
-        //     ->first();
-        //     // dd($stock_mitem_counter);
-        //     $stock_mitem_counter_min = $stock_mitem_counter->stock - (int)$penerimaan_old_item->qty;
-        //     // dd($stock_mitem_counter_min);
-        //     DB::table('mitems_counters')
-        //     ->selectRaw('stock')
-        //     ->where('code_mitem', '=', strtok($penerimaan_old_item->code, " "))
-        //     ->where('name_mcounters', '=', $tpenerimaanh->counter)
-        //     ->update([
-        //         'stock' => (int)$stock_mitem_counter_min,
-        //     ]);
-        // }
+        foreach($penerimaan_detail as $penerimaan_old_item){
+            // Mins a value from the old stock in mitems_counters table
+            $stock_mitem_counter = DB::table('mitems_counters')
+            ->selectRaw('stock')
+            ->where('code_mitem', '=', strtok($penerimaan_old_item->code, " "))
+            ->where('name_mcounters', '=', $tpenerimaanh->counter)
+            ->first();
+            // dd($stock_mitem_counter);
+            $stock_mitem_counter_min = $stock_mitem_counter->stock - (int)$penerimaan_old_item->qty;
+            // dd($stock_mitem_counter_min);
+            DB::table('mitems_counters')
+            ->selectRaw('stock')
+            ->where('code_mitem', '=', strtok($penerimaan_old_item->code, " "))
+            ->where('name_mcounters', '=', $tpenerimaanh->counter)
+            ->update([
+                'stock' => (int)$stock_mitem_counter_min,
+            ]);
+        }
 
         $tpenerimaan = Tpenerimaan_h::where('id','=',$tpenerimaanh->id)->first();
         $tsjh = Tsj_h::where('no', '=', $tpenerimaan->no_sj)->first();
