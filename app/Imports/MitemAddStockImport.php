@@ -22,7 +22,7 @@ class MitemAddStockImport implements ToCollection,WithHeadingRow
                 // $date = \Carbon\Carbon::parse($row['tgl'])->toDateString();
                 // $row['tgl'] = Date::excelToDateTimeObject($row['tgl'])->format('Y-m-d');
                 $date = intval($row['tgl']);
-                $date_format = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($date)->format('Y-m-d');;
+                $date_format = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($date)->format('Y-m-d');
                 // $date = new DateTime($row['tgl']);
                 // dd($date_format);
                 // dd($date->format('d-m-Y'));

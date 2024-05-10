@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mcounter;
 use App\Models\Mitem;
 use App\Models\MitemCounters;
+use App\Models\MutasiAF;
 use App\Models\Tpenerimaan_d;
 use App\Models\Tpenerimaan_h;
 use App\Models\Tsj_d;
@@ -93,6 +94,18 @@ class ControllerTransPenerimaanBrg extends Controller
                 ->where('name_mcounters', '=', $request->counter)
                 ->update([
                     'stock' => (int)$stock_counter_sum,
+                ]);
+
+                $mcounter = Mcounter::where('name', '=', $request->counter)->first();
+                MutasiAF::create([  
+                    'code_mitem' => strtok($request->kode_d[$i], " "),
+                    'code_mcounters' => $mcounter->code,
+                    'qty' => $request->quantity_d[$i],
+                    'notrans' => $request->no,
+                    'doctype' => "PENERIMAAN",
+                    'jenis' => "PLUS",
+                    'action' => "CREATE",
+                    'user' => session('nik'),
                 ]);
                 $count++;
             }
@@ -277,6 +290,18 @@ class ControllerTransPenerimaanBrg extends Controller
                     ->update([
                         'stock' => (int)$stock_counter_sum,
                     ]);
+
+                    $mcounter = Mcounter::where('name', '=', request('counter'))->first();
+                    MutasiAF::create([  
+                        'code_mitem' => strtok(request('kode_d')[$i], " "),
+                        'code_mcounters' => $mcounter->code,
+                        'qty' => request('quantity_d')[$i],
+                        'notrans' => request('no'),
+                        'doctype' => "PENERIMAAN",
+                        'jenis' => "ADJUST",
+                        'action' => "UPDATE",
+                        'user' => session('nik'),
+                    ]);
                 }
                 // dd($stock_mitem_counter);
                 $count++;
@@ -306,6 +331,19 @@ class ControllerTransPenerimaanBrg extends Controller
             ->where('name_mcounters', '=', $tpenerimaanh->counter)
             ->update([
                 'stock' => (int)$stock_mitem_counter_min,
+            ]);
+
+            $mcounter = Mcounter::where('name', '=', $tpenerimaanh->counter)->first();
+
+            MutasiAF::create([  
+                'code_mitem' => strtok($penerimaan_old_item->code, " "),
+                'code_mcounters' => $mcounter->code,
+                'qty' => (int)$penerimaan_old_item->qty,
+                'notrans' => $tpenerimaanh->no,
+                'doctype' => "PENERIMAAN",
+                'jenis' => "MINUS",
+                'action' => "DELETE",
+                'user' => session('nik'),
             ]);
         }
 

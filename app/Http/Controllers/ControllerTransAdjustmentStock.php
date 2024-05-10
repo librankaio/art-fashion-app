@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mcounter;
 use App\Models\Mitem;
 use App\Models\MitemCounters;
+use App\Models\MutasiAF;
 use App\Models\Tadj_d;
 use App\Models\Tadj_h;
 use Illuminate\Http\Request;
@@ -84,6 +85,17 @@ class ControllerTransAdjustmentStock extends Controller
                     ->update([
                         'stock' => (int)$stock_counter_sum,
                     ]);
+                    $mcounter = Mcounter::where('name', '=', $request->counter)->first();
+                    MutasiAF::create([  
+                        'code_mitem' => strtok($request->kode_d[$i], " "),
+                        'code_mcounters' => $mcounter->code,
+                        'qty' => $request->quantity_d[$i],
+                        'notrans' => $request->no,
+                        'doctype' => "ADJUSTMENT",
+                        'jenis' => "PLUS",
+                        'action' => "CREATE",
+                        'user' => session('nik'),
+                    ]);
                     //    DB::update('CALL splusstock  (?,?,?)', [ strtok($request->kode_d[$i], " "), $mcounter->code, $request->quantity_d[$i]]);
                 }else if ($request->jenis == 'Minus'){
                     $stock_mitem_counter = DB::table('mitems_counters')
@@ -98,6 +110,16 @@ class ControllerTransAdjustmentStock extends Controller
                     ->where('name_mcounters', '=', $request->counter)
                     ->update([
                         'stock' => (int)$stock_counter_min,
+                    ]);
+                    MutasiAF::create([  
+                        'code_mitem' => strtok($request->kode_d[$i], " "),
+                        'code_mcounters' => $mcounter->code,
+                        'qty' => $request->quantity_d[$i],
+                        'notrans' => $request->no,
+                        'doctype' => "ADJUSTMENT",
+                        'jenis' => "MINUS",
+                        'action' => "CREATE",
+                        'user' => session('nik'),
                     ]);
                     //    DB::update('CALL sminstock  (?,?,?)', [ strtok($request->kode_d[$i], " "), $mcounter->code, $request->quantity_d[$i]]);                       
                 }
@@ -165,7 +187,7 @@ class ControllerTransAdjustmentStock extends Controller
                     ->update([
                         'stock' => (int)$normalize_stock_counter,
                     ]);
-    
+
                     $stock_mitem_old = Mitem::select('stock')->where('code', '=', strtok($getstock_old->code, " "))->first();
                     // Make stock mitem value is equal to mitem old stock
                     // dd($stock_mitem_old->stock - (int)$getstock_old->qty);
@@ -260,6 +282,17 @@ class ControllerTransAdjustmentStock extends Controller
                     ->update([
                         'stock' => (int)$stock_counter_sum,
                     ]); 
+                    $mcounter = Mcounter::where('name', '=', request('counter'))->first();
+                    MutasiAF::create([  
+                        'code_mitem' => strtok(request('kode_d')[$i], " "),
+                        'code_mcounters' => $mcounter->code,
+                        'qty' => request('quantity_d')[$i],
+                        'notrans' => request('no'),
+                        'doctype' => "ADJUSTMENT",
+                        'jenis' => "ADJUST-PLUS",
+                        'action' => "UPDATE",
+                        'user' => session('nik'),
+                    ]);
                         // DB::update('CALL sminstock  (?,?,?)', [ strtok(request('kode_d')[$i], " "), $mcounter->code, request('quantity_d')[$i]]);
                         // DB::update('CALL splusstock  (?,?,?)', [ strtok(request('kode_d')[$i], " "), $mcounter->code, request('quantity_d')[$i]]);
                 }else if(request('jenis') == 'Minus'){
@@ -277,6 +310,17 @@ class ControllerTransAdjustmentStock extends Controller
                     ->update([
                         'stock' => (int)$stock_counter_min,
                     ]); 
+                    $mcounter = Mcounter::where('name', '=', request('counter'))->first();
+                    MutasiAF::create([  
+                        'code_mitem' => strtok(request('kode_d')[$i], " "),
+                        'code_mcounters' => $mcounter->code,
+                        'qty' => request('quantity_d')[$i],
+                        'notrans' => request('no'),
+                        'doctype' => "ADJUSTMENT",
+                        'jenis' => "ADJUST-MINUS",
+                        'action' => "UPDATE",
+                        'user' => session('nik'),
+                    ]);
                         // DB::update('CALL sminstock  (?,?,?)', [ strtok(request('kode_d')[$i], " "), $mcounter->code, request('quantity_d')[$i]]);
                 }
                 // dd($stock_mitem_counter);
@@ -314,6 +358,18 @@ class ControllerTransAdjustmentStock extends Controller
                 ->update([
                     'stock' => (int)$normalize_stock_counter,
                 ]);
+
+                $mcounter = Mcounter::where('name', '=', $tadjh->counter)->first();
+                MutasiAF::create([  
+                    'code_mitem' => strtok($tadj_length[$x]->code, " "),
+                    'code_mcounters' => $mcounter->code,
+                    'qty' => (int)$getstock_old->qty,
+                    'notrans' => $tadjh->no,
+                    'doctype' => "ADJUSTMENT",
+                    'jenis' => "ADJUSTMENT-MINUS",
+                    'action' => "DELETE",
+                    'user' => session('nik'),
+                ]);
     
                 $stock_mitem_old = Mitem::select('stock')->where('code', '=', strtok($getstock_old->code, " "))->first();
                     // Make stock mitem value is equal to mitem old stock
@@ -343,6 +399,18 @@ class ControllerTransAdjustmentStock extends Controller
                 ->where('name_mcounters', '=', $tadjh->counter)
                 ->update([
                     'stock' => (int)$normalize_stock_counter,
+                ]);
+
+                $mcounter = Mcounter::where('name', '=', $tadjh->counter)->first();
+                MutasiAF::create([  
+                    'code_mitem' => strtok($tadj_length[$x]->code, " "),
+                    'code_mcounters' => $mcounter->code,
+                    'qty' => (int)$getstock_old->qty,
+                    'notrans' => $tadjh->no,
+                    'doctype' => "ADJUSTMENT",
+                    'jenis' => "ADJUSTMENT-PLUS",
+                    'action' => "DELETE",
+                    'user' => session('nik'),
                 ]);
     
                 $stock_mitem_old = Mitem::select('stock')->where('code', '=', strtok($getstock_old->code, " "))->first();

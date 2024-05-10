@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mcounter;
 use App\Models\Mitem;
 use App\Models\MitemCounters;
+use App\Models\MutasiAF;
 use App\Models\Mwarna;
 use App\Models\Tpembelian_d;
 use App\Models\Tpembelian_h;
@@ -98,6 +99,17 @@ class ControllerTransPembelianBarang extends Controller
                     ->where('name_mcounters', '=', session('counter'))
                     ->update([
                         'stock' => (int)$stock_counter_sum,
+                    ]);
+
+                    MutasiAF::create([  
+                        'code_mitem' => strtok($request->kode_d[$i], " "),
+                        'code_mcounters' => $mcounter->code,
+                        'qty' => $request->quantity_d[$i],
+                        'notrans' => $request->no,
+                        'doctype' => "PEMBELIAN",
+                        'jenis' => "PLUS",
+                        'action' => "CREATE",
+                        'user' => session('nik'),
                     ]);
                 }
                 $count++;
@@ -225,7 +237,7 @@ class ControllerTransPembelianBarang extends Controller
                 ->where('name_mcounters', '=', session('counter'))
                 ->first();
 
-                $mcounter = Mcounter::where('name', '=', session('counter'))->first();
+                $mcounter = Mcounter::where('name', '=', $tpembelianh->counter)->first();
 
                 if ($stock_mitem_counter == null) {
                     $stock_mitem_counter = 0;
@@ -248,6 +260,17 @@ class ControllerTransPembelianBarang extends Controller
                     ->where('name_mcounters', '=', session('counter'))
                     ->update([
                         'stock' => (int)$stock_counter_sum,
+                    ]);
+
+                    MutasiAF::create([  
+                        'code_mitem' => strtok(request('kode_d')[$i], " "),
+                        'code_mcounters' => $mcounter->code,
+                        'qty' => request('quantity_d')[$i],
+                        'notrans' => request('no'),
+                        'doctype' => "PEMBELIAN",
+                        'jenis' => "ADJUST",
+                        'action' => "UPDATE",
+                        'user' => session('nik'),
                     ]);
                 }
                 // dd($stock_mitem_counter);
@@ -285,6 +308,19 @@ class ControllerTransPembelianBarang extends Controller
             ->where('name_mcounters', '=', session('counter'))
             ->update([
                 'stock' => (int)$stock_mitem_counter_min,
+            ]);
+
+            $mcounter = Mcounter::where('name', '=', session('counter'))->first();
+
+            MutasiAF::create([  
+                'code_mitem' => strtok($pembelian_old_item->code, " "),
+                'code_mcounters' => $mcounter->code,
+                'qty' => (int)$pembelian_old_item->qty,
+                'notrans' => $tpembelianh->no,
+                'doctype' => "PEMBELIAN",
+                'jenis' => "MINUS",
+                'action' => "DELETE",
+                'user' => session('nik'),
             ]);
         }
         Tpembelian_h::find($tpembelianh->id)->delete();

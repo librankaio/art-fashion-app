@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mcounter;
 use App\Models\Mitem;
 use App\Models\MitemCounters;
+use App\Models\MutasiAF;
 use App\Models\Tsj_d;
 use App\Models\Tsj_h;
 use App\Models\Tsob_d;
@@ -44,28 +45,28 @@ class ControllerTransSuratJalan extends Controller
         foreach($notrans as $notran){
             $no = $notran->codetrans;
         }
-        // $items = array();
-        // $is_stocknotvalid = 0;
-        // for ($i=0;$i<sizeof($request->no_d);$i++){
-        //     $stock_mitem_counter = DB::table('mitems_counters')
-        //     ->selectRaw('stock')
-        //     ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-        //     ->where('name_mcounters', '=', $request->counter_from)
-        //     ->first();
-        //     // dd($stock_mitem_counter->stock);
-        //     $stock_counter_min = $stock_mitem_counter->stock-$request->quantity_d[$i];
-        //     // dd($stock_mitem_counter);
-        //     if ($request->quantity_d[$i] > $stock_mitem_counter->stock){
-        //         array_push($items, strtok($request->kode_d[$i], " "));
-        //         Session::flash('items_error', $items);
-        //         Session::flash('counter_selected', $request->counter_from);
-        //         $is_stocknotvalid++;
-        //     }            
-        // }
-        // if ($is_stocknotvalid != 0){
-        //     // dd(count(session('items_error')));
-        //     return redirect()->back()->with('error', 'Salah satu item stock counter kosong atau lebih dari stock counter!');
-        // }
+        $items = array();
+        $is_stocknotvalid = 0;
+        for ($i=0;$i<sizeof($request->no_d);$i++){
+            $stock_mitem_counter = DB::table('mitems_counters')
+            ->selectRaw('stock')
+            ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
+            ->where('name_mcounters', '=', $request->counter_from)
+            ->first();
+            // dd($stock_mitem_counter->stock);
+            $stock_counter_min = $stock_mitem_counter->stock-$request->quantity_d[$i];
+            // dd($stock_mitem_counter);
+            if ($request->quantity_d[$i] > $stock_mitem_counter->stock){
+                array_push($items, strtok($request->kode_d[$i], " "));
+                Session::flash('items_error', $items);
+                Session::flash('counter_selected', $request->counter_from);
+                $is_stocknotvalid++;
+            }            
+        }
+        if ($is_stocknotvalid != 0){
+            // dd(count(session('items_error')));
+            return redirect()->back()->with('error', 'Salah satu item stock counter kosong atau lebih dari stock counter!');
+        }
         $checkexist = Tsj_h::select('id','no')->where('no','=', $no)->first();
         if($checkexist == null){
             Tsj_h::create([
@@ -117,6 +118,18 @@ class ControllerTransSuratJalan extends Controller
                 ->where('name_mcounters', '=', $request->counter_from)
                 ->update([
                     'stock' => (int)$stock_counter_min,
+                ]);
+
+                $mcounter = Mcounter::where('name', '=', $request->counter_from)->first();
+                MutasiAF::create([  
+                    'code_mitem' => strtok($request->kode_d[$i], " "),
+                    'code_mcounters' => $mcounter->code,
+                    'qty' => $request->quantity_d[$i],
+                    'notrans' => $request->no,
+                    'doctype' => "SURAT JALAN",
+                    'jenis' => "PLUS",
+                    'action' => "CREATE",
+                    'user' => session('nik'),
                 ]);
                 // dd($stock_counter_min);
                 $count++;
@@ -287,6 +300,18 @@ class ControllerTransSuratJalan extends Controller
                     ->update([
                         'stock' => (int)$stock_counter_min,
                     ]);
+
+                    $mcounter = Mcounter::where('name', '=', request('counter_from'))->first();
+                    MutasiAF::create([  
+                        'code_mitem' => strtok(request('kode_d')[$i], " "),
+                        'code_mcounters' => $mcounter->code,
+                        'qty' => request('quantity_d')[$i],
+                        'notrans' => request('no'),
+                        'doctype' => "SURAT JALAN",
+                        'jenis' => "ADJUST",
+                        'action' => "UPDATE",
+                        'user' => session('nik'),
+                    ]);
                 }
                 // dd($stock_mitem_counter);
                 $count++;
@@ -323,6 +348,19 @@ class ControllerTransSuratJalan extends Controller
             ->where('name_mcounters', '=', $tsjh->counter_from)
             ->update([
                 'stock' => (int)$stock_mitem_counter_sum,
+            ]);
+
+            $mcounter = Mcounter::where('name', '=', $tsjh->counter_from)->first();
+
+            MutasiAF::create([  
+                'code_mitem' => strtok($suratjalan_old_item->code, " "),
+                'code_mcounters' => $mcounter->code,
+                'qty' => (int)$suratjalan_old_item->qty,
+                'notrans' => $tsjh->no,
+                'doctype' => "SURAT_JALAN",
+                'jenis' => "MINUS",
+                'action' => "DELETE",
+                'user' => session('nik'),
             ]);
         }
 
