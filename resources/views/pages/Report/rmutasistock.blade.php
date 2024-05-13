@@ -39,14 +39,15 @@
                                 <div class="form-group">
                                     <label>Artikel</label>
                                     <select class="form-control select2" name="artikel" id="artikel">
-                                        @if(request('artikel') == NULL)
+                                        <option></option>
+                                        {{-- @if(request('artikel') == NULL)
                                         <option disabled selected>--Select Artikel--</option>
                                         @else
                                         <option selected>@php echo $_GET['artikel']; @endphp</option>
                                         @endif
                                         @foreach($mitems as $data => $mitem)
                                         <option>{{ $mitem->code }}</option>
-                                        @endforeach
+                                        @endforeach --}}
                                     </select>
                                 </div>                                
                             </div>
@@ -139,6 +140,30 @@
         //CSRF TOKEN
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $(document).ready(function() {
+
+            $("#artikel").select2({
+                placeholder : 'Select Artikel',
+                ajax: {
+                    url: "{{ route('getmitemv2') }}",
+                    type: "post",
+                    dataType: "json",
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            _token: CSRF_TOKEN,
+                            search : params.term, //search term
+                        };
+                    },
+                    processResults: function (response) {
+                        console.log(response)                  
+                        return {
+                            results: response,          
+                        };
+                    },
+                    cache: true,
+                }
+            });
+
             $('.select2').select2({});
 
             var counter = 1;

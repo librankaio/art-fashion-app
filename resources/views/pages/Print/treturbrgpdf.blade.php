@@ -41,7 +41,11 @@
         <img src="data:image/svg+xml;base64,<?php echo base64_encode(file_get_contents(base_path('public/assets/img/artfashion_logo2.png'))); ?>" width="200">
         {{-- <h5>Art Fashion Jewelry <br>Telp.(021) 6403172 / 6401336<br>Fax. 021.6401336</h5> --}}
         <center>
-            <h1 style="text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px;">RETUR PENJUALAN</h1>
+            @if($treturh->counter == "HEAD OFFICE ARTFASHION" || $treturh->counter == "HEAD OFFICE CHERRY")
+                <h1 style="text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px;">RETUR PENJUALAN</h1>
+            @else
+                <h1 style="text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px;">SURAT JALAN</h1>
+            @endif
         </center>
         <div class="row pt-4">
             <div class="col-6">
