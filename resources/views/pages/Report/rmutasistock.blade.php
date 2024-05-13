@@ -38,15 +38,11 @@
                             <div class="col-md-12">                    
                                 <div class="form-group">
                                     <label>Artikel</label>
-                                    <select class="form-control select2" name="artikel" id="artikel">
+                                    <select class="form-control" name="artikel" id="artikel">
+                                        {{-- <option disabled selected>--Select Kode--</option> --}}
                                         <option></option>
-                                        {{-- @if(request('artikel') == NULL)
-                                        <option disabled selected>--Select Artikel--</option>
-                                        @else
-                                        <option selected>@php echo $_GET['artikel']; @endphp</option>
-                                        @endif
-                                        @foreach($mitems as $data => $mitem)
-                                        <option>{{ $mitem->code }}</option>
+                                        {{-- @foreach($mitems as $data => $item)                                        
+                                        <option value="{{ $item->code }}">{{ $item->code." - ".$item->name }}</option>
                                         @endforeach --}}
                                     </select>
                                 </div>                                
@@ -134,6 +130,9 @@
     </div>
 </section>
 @stop
+@section('pluginjs')
+<script src="{{ asset('assets/js/page/bootstrap-modal.js') }}"></script>
+@stop
 @section('botscripts')
 <script type="text/javascript">
     $(document).ready(function() {
@@ -164,7 +163,7 @@
                 }
             });
 
-            $('.select2').select2({});
+            // $('.select2').select2({});
 
             var counter = 1;
             $(document).on("click", "#addItem", function(e) {

@@ -30,7 +30,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Kode</label>
-                                    <select class="form-control js-kode" id="kode">
+                                    <select class="form-control" id="kode">
                                         {{-- <option disabled selected>--Select Kode--</option> --}}
                                         <option></option>
                                         {{-- @foreach($mitems as $data => $item)                                        
