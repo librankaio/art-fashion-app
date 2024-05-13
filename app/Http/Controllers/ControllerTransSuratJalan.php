@@ -63,10 +63,10 @@ class ControllerTransSuratJalan extends Controller
                 $is_stocknotvalid++;
             }            
         }
-        if ($is_stocknotvalid != 0){
-            // dd(count(session('items_error')));
-            return redirect()->back()->with('error', 'Salah satu item stock counter kosong atau lebih dari stock counter!');
-        }
+        // if ($is_stocknotvalid != 0){
+        //     // dd(count(session('items_error')));
+        //     return redirect()->back()->with('error', 'Salah satu item stock counter kosong atau lebih dari stock counter!');
+        // }
         $checkexist = Tsj_h::select('id','no')->where('no','=', $no)->first();
         if($checkexist == null){
             Tsj_h::create([

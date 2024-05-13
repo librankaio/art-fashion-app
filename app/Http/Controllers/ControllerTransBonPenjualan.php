@@ -83,9 +83,9 @@ class ControllerTransBonPenjualan extends Controller
                     $is_stocknotvalid++;
                 }
             }
-            if ($is_stocknotvalid != 0){
-                return redirect()->back()->with('error', 'Salah satu item stock counter kosong atau lebih dari stock counter!');
-            }
+            // if ($is_stocknotvalid != 0){
+            //     return redirect()->back()->with('error', 'Salah satu item stock counter kosong atau lebih dari stock counter!');
+            // }
             // END BYPASS SYS
             $checkexist = Tpenjualan_h::select('id','no')->where('no','=', $no)->first();
             if($checkexist == null){
