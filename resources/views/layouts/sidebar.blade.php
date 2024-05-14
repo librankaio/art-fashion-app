@@ -111,9 +111,9 @@
             @if($rmutasistock_open == 'Y' || $role == 'ADM')
             <li><a class="nav-link" href="{{ route('rmutasistock') }}">Laporan Mutasi Stock</a></li>
             @endif
-            @if($rstockoverview_open == 'Y' || $role == 'ADM')
+            {{-- @if($rstockoverview_open == 'Y' || $role == 'ADM')
             <li><a class="nav-link" href="{{ route('rstockoverview') }}">Laporan Stock Overview</a></li>
-            @endif
+            @endif --}}
             @if($rlapoutlet_open == 'Y' || $role == 'ADM')
             <li><a class="nav-link" href="{{ route('rlaperoutlet') }}">Laporan Per Outlet</a></li>
             @endif

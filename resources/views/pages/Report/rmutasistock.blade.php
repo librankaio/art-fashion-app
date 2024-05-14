@@ -75,8 +75,9 @@
                                         <th scope="col" class="border border-5">Jenis Transaksi</th>
                                         <th scope="col" class="border border-5">No Transaksi</th>
                                         <th scope="col" class="border border-5">Tanggal</th>
-                                        <th scope="col" class="border border-5">Counter</th>
-                                        <th scope="col" class="border border-5">Quantity</th>
+                                        <th scope="col" class="border border-5">Saldo IN</th>
+                                        <th scope="col" class="border border-5">Saldo OUT</th>
+                                        <th scope="col" class="border border-5">Saldo</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -104,7 +105,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>Total</label>
+                                    <label>Saldo Akhir</label>
                                     @if(isset($totqty))
                                     @foreach ($totqty as $qty)
                                         <input type="text" class="form-control" form="thisform" value="{{ number_format($qty->totalqty) }}" readonly>
