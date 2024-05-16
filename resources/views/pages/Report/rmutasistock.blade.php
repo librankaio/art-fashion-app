@@ -35,7 +35,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">                    
+                            <div class="col-md-6">                    
                                 <div class="form-group">
                                     <label>Artikel</label>
                                     <select class="form-control" name="artikel" id="artikel">
@@ -44,6 +44,21 @@
                                         {{-- @foreach($mitems as $data => $item)                                        
                                         <option value="{{ $item->code }}">{{ $item->code." - ".$item->name }}</option>
                                         @endforeach --}}
+                                    </select>
+                                </div>                                
+                            </div>
+                            <div class="col-md-6">                    
+                                <div class="form-group">
+                                    <label>Counter</label>
+                                    <select class="form-control select2" name="counter" id="counter">
+                                        <option disabled selected>--Select Counter--</option>
+                                        {{-- @if(request('counter') == NULL)
+                                        @else
+                                            <option disabled selected>{{ $_GET['counter'] }}</option>
+                                        @endif --}}
+                                        @foreach($counters as $data => $item)                                        
+                                        <option>{{ $item->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>                                
                             </div>
@@ -86,11 +101,12 @@
                                     @foreach($results as $data => $item)
                                         @php $counter++ @endphp
                                         <tr>
-                                            <th scope="row" class="border border-5">{{ $item->JenisTransaksi }}</th>
+                                            <th scope="row" class="border border-5">{{ $item->trans }}</th>
                                             <td class="border border-5" style="text-align: center;">{{ $item->no }}</td>
-                                            <td class="border border-5" style="text-align: center;">{{ date("Y-m-d", strtotime($item->tgl)) }}</td>
-                                            <td class="border border-5" style="text-align: center;">{{ $item->counter }}</td>
+                                            <td class="border border-5" style="text-align: center;">{{ date("Y-m-d", strtotime($item->tdt)) }}</td>
                                             <td class="border border-5" style="text-align: center;">{{ number_format($item->qty) }}</td>
+                                            <td class="border border-5" style="text-align: center;">{{ number_format($item->qty2) }}</td>
+                                            <td class="border border-5" style="text-align: center;">{{ number_format($item->cumvalue) }}</td>
                                         </tr>
                                     @endforeach
                                     @endisset
@@ -108,7 +124,8 @@
                                     <label>Saldo Akhir</label>
                                     @if(isset($totqty))
                                     @foreach ($totqty as $qty)
-                                        <input type="text" class="form-control" form="thisform" value="{{ number_format($qty->totalqty) }}" readonly>
+                                        <input type="text" class="form-control" form="thisform" value="0" readonly>
+                                        {{-- <input type="text" class="form-control" form="thisform" value="{{ number_format($qty->totalqty) }}" readonly> --}}
                                         @endforeach
                                     @else
                                         <input type="text" class="form-control" form="thisform" readonly>
