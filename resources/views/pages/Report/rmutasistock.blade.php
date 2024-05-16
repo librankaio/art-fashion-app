@@ -88,6 +88,7 @@
                                 <thead>
                                     <tr>
                                         <th scope="col" class="border border-5">Jenis Transaksi</th>
+                                        <th scope="col" class="border border-5">Kode Artikel</th>
                                         <th scope="col" class="border border-5">No Transaksi</th>
                                         <th scope="col" class="border border-5">Tanggal</th>
                                         <th scope="col" class="border border-5">Saldo IN</th>
@@ -102,6 +103,7 @@
                                         @php $counter++ @endphp
                                         <tr>
                                             <th scope="row" class="border border-5">{{ $item->trans }}</th>
+                                            <th scope="row" class="border border-5">{{ $item->id_mitm }}</th>
                                             <td class="border border-5" style="text-align: center;">{{ $item->no }}</td>
                                             <td class="border border-5" style="text-align: center;">{{ date("Y-m-d", strtotime($item->tdt)) }}</td>
                                             <td class="border border-5" style="text-align: center;">{{ number_format($item->qty) }}</td>
