@@ -192,7 +192,7 @@ class ControllerTransPenerimaanBrg extends Controller
         }
         $mitems = Mitem::select('id','code','name')->get();
         $tpenerimaands = Tpenerimaan_d::select('id','idh','no_penerimaan','code','name','warna','qty','satuan','hrgjual','keterangan','subtotal',)->where('idh','=',$tpenerimaanh->id)->get();
-        dd($tpenerimaands);
+        // dd($tpenerimaands);
         return view('pages.Transaksi.tpenerimaanbrgedit',[
             'counters' => $counters,
             'mitems' => $mitems,
