@@ -74,7 +74,7 @@ class ControllerTransPenerimaanBrg extends Controller
                     'satuan' => $request->satuan_d[$i],
                     'hrgjual' => (float) str_replace(',', '', $request->hrgjual_d[$i]),
                     'keterangan' => $request->keterangan_d[$i],
-                    'subtotal' => (float) str_replace(',', '', $request->subtot_d[$i]),
+                    'subtotal' => (float)    str_replace(',', '', $request->subtot_d[$i]),
                 ]);
                 $stock_mitem = Mitem::select('stock')->where('code', '=', strtok($request->kode_d[$i], " "))->first();
                 $stock_sum = $stock_mitem->stock+$request->quantity_d[$i];
@@ -192,6 +192,7 @@ class ControllerTransPenerimaanBrg extends Controller
         }
         $mitems = Mitem::select('id','code','name')->get();
         $tpenerimaands = Tpenerimaan_d::select('id','idh','no_penerimaan','code','name','warna','qty','satuan','hrgjual','keterangan','subtotal',)->where('idh','=',$tpenerimaanh->id)->get();
+        dd($tpenerimaands);
         return view('pages.Transaksi.tpenerimaanbrgedit',[
             'counters' => $counters,
             'mitems' => $mitems,

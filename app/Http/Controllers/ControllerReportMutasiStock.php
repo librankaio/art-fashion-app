@@ -33,6 +33,7 @@ class ControllerReportMutasiStock extends Controller
         $mitems = Mitem::select('code','name')->get();
         $counters = Mcounter::select('id','code','name')->get();
 
+        dd($results);
         return view('pages.Report.rmutasistock', [
             'results' => $results,
             'mitems' => $mitems,

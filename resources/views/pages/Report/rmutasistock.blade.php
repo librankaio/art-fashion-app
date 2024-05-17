@@ -124,11 +124,14 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Saldo Akhir</label>
-                                    @if(isset($totqty))
-                                    @foreach ($totqty as $qty)
-                                        <input type="text" class="form-control" form="thisform" value="0" readonly>
+                                    @if(isset($results))
+                                        @php
+                                           $endofarr = sizeof($results);
+                                        @endphp
+                                        @for($i = $endofarr; $i < $endofarr; $i++)
+                                        <input type="text" class="form-control" form="thisform" value="{{ $results[$i]->cumvalue }}" readonly>
                                         {{-- <input type="text" class="form-control" form="thisform" value="{{ number_format($qty->totalqty) }}" readonly> --}}
-                                        @endforeach
+                                        @endfor
                                     @else
                                         <input type="text" class="form-control" form="thisform" readonly>
                                     @endif
