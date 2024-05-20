@@ -208,19 +208,39 @@ class ControllerTransBonPenjualan extends Controller
         }
         // dd(session('bonjual_counter'));
         if(session('privilage') == null){
-            $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal','hrgsblmdisc','diskon')->where('counter','=',session('counter'))->orderBy('created_at', 'desc')->get();
-            $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note',)->get();
-        }else if (session('privilage') == 'ADM'){
-            if(Request()->counter_filter != null){
-                $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal','hrgsblmdisc','diskon')->where('counter','=',Request()->counter_filter)->orderBy('created_at', 'desc')->get();
+            if (isset(request()->search)) {
+                $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal','hrgsblmdisc','diskon')->where('counter','=',session('counter'))->where('no','LIKE','%'.request()->search.'%')->orderBy('created_at', 'desc')->paginate(50);
                 $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note',)->get();
             }else{
-                $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal','hrgsblmdisc','diskon')->where('counter','=',session('bonjual_counter'))->orderBy('created_at', 'desc')->get();
+                $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal','hrgsblmdisc','diskon')->where('counter','=',session('counter'))->orderBy('created_at', 'desc')->paginate(50);
                 $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note',)->get();
             }
+        }else if (session('privilage') == 'ADM'){
+            if(Request()->counter_filter != null){
+                if (isset(request()->search)) {
+                    $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal','hrgsblmdisc','diskon')->where('counter','=',session('bonjual_counter'))->where('no','LIKE','%'.request()->search.'%')->orderBy('created_at', 'desc')->paginate(50);
+                    $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note',)->get();
+                }else{
+                    $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal','hrgsblmdisc','diskon')->where('counter','=',session('bonjual_counter'))->orderBy('created_at', 'desc')->paginate(50);
+                    $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note',)->get();
+                }
+            }else{
+                if (isset(request()->search)) {
+                    $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal','hrgsblmdisc','diskon')->where('counter','=',session('bonjual_counter'))->where('no','LIKE','%'.request()->search.'%')->orderBy('created_at', 'desc')->paginate(50);
+                    $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note',)->get();
+                }else{
+                    $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal','hrgsblmdisc','diskon')->where('counter','=',session('bonjual_counter'))->orderBy('created_at', 'desc')->paginate(50);
+                    $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note',)->get();
+                }
+            }
         }else{
-            $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal','hrgsblmdisc','diskon')->where('counter','=',session('counter'))->orderBy('created_at', 'desc')->get();
-            $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note',)->get();
+            if (isset(request()->search)) {
+                $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal','hrgsblmdisc','diskon')->where('counter','=',session('counter'))->where('no','LIKE','%'.request()->search.'%')->orderBy('created_at', 'desc')->paginate(50);
+                $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note',)->get();
+            }else{
+                $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal','hrgsblmdisc','diskon')->where('counter','=',session('counter'))->orderBy('created_at', 'desc')->paginate(50);
+                $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note',)->get();
+            }
         }
         return view('pages.Transaksi.tbonpenjualanlist',[
             'tpenjualanhs' => $tpenjualanhs,

@@ -55,6 +55,19 @@
         <div class="row">
             <div class="col-12 col-md-12 col-lg-12">
                 <div class="card">
+                    <div class="card-header">
+                        <h4>Lists</h4>
+                        <div class="card-header-action">
+                          <form formaction="/tbonjuallist" method="get">
+                            <div class="input-group">
+                              <input type="text" class="form-control" placeholder="Search" name="search" value="@php if(request()->input('search')==NULL){ echo "";} else{ echo $_GET['search']; } @endphp">
+                              <div class="input-group-btn">
+                                <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="datatable">
@@ -107,6 +120,9 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <div class="card-footer text-right">
+                                {{ $tpenjualanhs->links() }}
+                              </div>
                         </div>
                     </div>
                 </div>
@@ -119,7 +135,9 @@
 <script type="text/javascript">
     $('#datatable').DataTable({
         // "ordering":false,
-        "bInfo" : false
+        "bInfo" : false,
+        "bPaginate": false,
+        "searching": false
     });
 
     $(".alert button.close").click(function (e) {
