@@ -1405,10 +1405,94 @@
                 $('#subtotold_d_'+row_id).val(thousands_separators(this_row_sum.toFixed(2)))
 
                 $('#price_sebelumdisc').val(thousands_separators(new_total_pricedisc.toFixed(2)));
+
+                ///DISCOUNT CHANGES
+                tot_bayar1 = $('#totbayar').val()
+                // Normalization tot_bayar1
+                if (/\D/g.test(tot_bayar1))
+                {
+                    // Filter comma
+                    tot_bayar1 = tot_bayar1.replace(/\,/g,"");
+                    tot_bayar1 = Number(Math.trunc(tot_bayar1))
+                }
+                tot_bayar2 = $('#totbayar_2').val()
+                // Normalization tot_bayar2
+                if (/\D/g.test(tot_bayar2))
+                {
+                    // Filter comma
+                    tot_bayar2 = tot_bayar2.replace(/\,/g,"");
+                    tot_bayar2 = Number(Math.trunc(tot_bayar2))
+                }
+
+                grand_tot_bayar = Number(tot_bayar1) + Number(tot_bayar2);
+
+                price_tot = $('#price_total').val()
+                // Normalization price_tot
+                if (/\D/g.test(price_tot))
+                {
+                    // Filter comma
+                    price_tot = price_tot.replace(/\,/g,"");
+                    price_tot = Number(Math.trunc(price_tot))
+                }
+
+                tot_kembali = Number(price_tot) * -1
+
+                if(tot_kembali < price_tot){
+                    kembali = Number(grand_tot_bayar) + Number(tot_kembali)
+
+                    $('#totkembali').val(thousands_separators(kembali.toFixed(2)));
+                }else{
+                    kembali = Number(grand_tot_bayar) - Number(tot_kembali)
+
+                    $('#totkembali').val(thousands_separators(kembali.toFixed(2)));
+                }
+
             }else if(counter == 1){
                 console.log(counter);
                 old_tot_qty = $('#tot_qty').val(this_row_qty);
                 old_tot_pricedisc = $('#price_sebelumdisc').val(thousands_separators(this_row_sum.toFixed(2)));
+                price_tot = $('#price_total').val()
+                
+                ///DISCOUNT CHANGES
+                tot_bayar1 = $('#totbayar').val()
+                // Normalization tot_bayar1
+                if (/\D/g.test(tot_bayar1))
+                {
+                    // Filter comma
+                    tot_bayar1 = tot_bayar1.replace(/\,/g,"");
+                    tot_bayar1 = Number(Math.trunc(tot_bayar1))
+                }
+                tot_bayar2 = $('#totbayar_2').val()
+                // Normalization tot_bayar2
+                if (/\D/g.test(tot_bayar2))
+                {
+                    // Filter comma
+                    tot_bayar2 = tot_bayar2.replace(/\,/g,"");
+                    tot_bayar2 = Number(Math.trunc(tot_bayar2))
+                }
+
+                grand_tot_bayar = Number(tot_bayar1) + Number(tot_bayar2);
+
+                price_tot = $('#price_total').val()
+                // Normalization price_tot
+                if (/\D/g.test(price_tot))
+                {
+                    // Filter comma
+                    price_tot = price_tot.replace(/\,/g,"");
+                    price_tot = Number(Math.trunc(price_tot))
+                }
+
+                tot_kembali = Number(price_tot) * -1
+
+                if(tot_kembali < price_tot){
+                    kembali = Number(grand_tot_bayar) + Number(tot_kembali)
+
+                    $('#totkembali').val(thousands_separators(kembali.toFixed(2)));
+                }else{
+                    kembali = Number(grand_tot_bayar) - Number(tot_kembali)
+
+                    $('#totkembali').val(thousands_separators(kembali.toFixed(2)));
+                }
             }
         })	
         
