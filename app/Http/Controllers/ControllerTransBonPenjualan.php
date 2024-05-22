@@ -85,6 +85,11 @@ class ControllerTransBonPenjualan extends Controller
                         'stock' => 10,
                         'datein' => $datetime,
                     ]);
+                    $stock_mitem_counter = DB::table('mitems_counters')
+                    ->selectRaw('stock')
+                    ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
+                    ->where('name_mcounters', '=', $request->counter)
+                    ->first();
                 }
                 $stock_counter_min = $stock_mitem_counter->stock-$request->quantity_d[$i];
                 // dd($stock_mitem_counter);            
