@@ -59,7 +59,6 @@ class ControllerTransBonPenjualan extends Controller
     }
 
     public function post(Request $request){
-        // dd(request()->all());
         if($request->no_d != null){
             $notrans = DB::select("select fgetcode('tpenjualan') as codetrans");
             foreach($notrans as $notran){
@@ -74,6 +73,19 @@ class ControllerTransBonPenjualan extends Controller
                 ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
                 ->where('name_mcounters', '=', $request->counter)
                 ->first();
+                if($stock_mitem_counter == null){
+                    $mcounter = Mcounter::where('name', '=', $request->counter)->first();
+                    date_default_timezone_set('Asia/Jakarta');
+                    $datetime = date('d-m-Y H:i:s');
+                    MitemCounters::create([
+                        'code_mitem' => strtok($request->kode_d[$i], " "),
+                        'name_mitem' => $request->namaitem_d[$i],
+                        'code_mcounters' => $mcounter->code,
+                        'name_mcounters' => $request->counter,
+                        'stock' => 10,
+                        'datein' => $datetime,
+                    ]);
+                }
                 $stock_counter_min = $stock_mitem_counter->stock-$request->quantity_d[$i];
                 // dd($stock_mitem_counter);            
                 if ($request->quantity_d[$i] > $stock_mitem_counter->stock){
