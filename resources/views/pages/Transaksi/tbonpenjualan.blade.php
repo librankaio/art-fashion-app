@@ -1048,36 +1048,34 @@
         });
 
         $(document).on("click","#confirm",function(e){
-        // Validate ifnull
-        no = $("#no").val();
-        code_cust = $("#code_cust").prop('selectedIndex');
-        payment_method = $("#payment_mthd").prop('selectedIndex');
-        if (spg_access != 'ADM'){
-            if (no == ""){
-            swal('WARNING', 'No Tidak boleh kosong!', 'warning');
-            return false;
-            }else if (code_cust == 0){
-                swal('WARNING', 'Please select Code Cust', 'warning');
+            // Validate ifnull
+            no = $("#no").val();
+            code_cust = $("#code_cust").prop('selectedIndex');
+            payment_method = $("#payment_mthd").prop('selectedIndex');
+            if (spg_access != 'ADM'){
+                if (no == ""){
+                swal('WARNING', 'No Tidak boleh kosong!', 'warning');
                 return false;
-            }else if (payment_method == 0){
-                swal('WARNING', 'Please select Jenis Payment', 'warning');
-                return false;
+                }else if (code_cust == 0){
+                    swal('WARNING', 'Please select Code Cust', 'warning');
+                    return false;
+                }else if (payment_method == 0){
+                    swal('WARNING', 'Please select Jenis Payment', 'warning');
+                    return false;
+                }
             }
-        }
-        
+            
         });
 
-        $(document).on('keyup', '.row_qty', function(event) 
-        {
-            event.preventDefault(); 
-            if (/\D/g.test(this.value)){
-                // Filter non-digits from input value.
-                this.value = this.value.replace(/\D/g, '');
-            }
+        $(document).on('keyup', '.row_qty', function(event) {
+                event.preventDefault(); 
+                if (/\D/g.test(this.value)){
+                    // Filter non-digits from input value.
+                    this.value = this.value.replace(/\D/g, '');
+                }
         });
 
-        $(document).on('focusout', '.row_qty', function(event) 
-        {
+        $(document).on('focusout', '.row_qty', function(event) {
             event.preventDefault();
 
             console.log("focus out");

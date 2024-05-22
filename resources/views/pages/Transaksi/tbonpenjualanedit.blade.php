@@ -160,12 +160,14 @@
                                         <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='nama_item_d[]' type='text' value='{{ $tpenjualands[$i]->name }}'></td>
                                         <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='{{ $tpenjualands[$i]->warna }}'></td>
                                         <td class="border border-5"><input type='text' style='width:100px;' form='thisform' class='row_qty quantityclass form-control' name='quantity_d[]' id='qty_d_{{ $counter }}' value='{{ number_format($tpenjualands[$i]->qty, 0, '.', '') }}'></td>
+                                        <td class='border border-5' style='display:none;'><input style='width:120px;' readonly form='thisform' class='qtyoldclass form-control' type='text' value='{{ number_format($tpenjualands[$i]->qty, 0, '.', '') }}' id='qtyold_d_{{ $counter }}'></td>
                                         <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='{{ $tpenjualands[$i]->satuan }}' name='satuan_d[]'></td>
                                         <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='harga_awalclass form-control' id="harga_awal_d_{{ $counter }}" value='{{ number_format($tpenjualands[$i]->harga_awal, 2, '.', ',') }}' name='harga_awal_d[]'></td>
                                         <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='hrgjualclass form-control' id="hrgjual_d_{{ $counter }}" value='{{ number_format($tpenjualands[$i]->hrgjual, 2, '.', ',') }}' name='hrgjual_d[]'></td>
                                         <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='diskonclass form-control' value='{{ $tpenjualands[$i]->diskon }}' name='diskon_d[]' id='diskon_d_{{ $counter }}'></td>
                                         <td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='totdiscclass form-control' value='{{ number_format($tpenjualands[$i]->disctot, 2, '.', ',') }}' name='totdisc_d[]' id='totdisc_d_{{ $counter }}'></td>
                                         <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='{{ number_format($tpenjualands[$i]->subtotal, 2, '.', ',') }}' name='subtot_d[]' id='subtot_d_{{ $counter }}'></td>
+                                        <td class='border border-5' style='display:none;'><input style='width:120px;' readonly form='thisform' class='subtotoldclass form-control' type='text' value='{{ number_format($tpenjualands[$i]->subtotal, 2, '.', ',') }}' id='subtotold_d_{{ $counter }}'></td>
                                         <td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='hrgsetdiscclass form-control' value='{{ number_format($tpenjualands[$i]->hrgsetdisc, 2, '.', ',') }}' name='hrgsetdisc_d[]' id='hrgsetdisc_d_{{ $counter }}'></td>
                                         <td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotfinalclass form-control' value='{{ number_format($tpenjualands[$i]->subtotfinal, 2, '.', ',') }}' name='subtotfinal_d[]' id='subtotfinal_d_{{ $counter }}'></td>
                                         <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='keteranganclass form-control' value='{{ $tpenjualands[$i]->note }}' name='keterangan_d[]'></td>
@@ -178,7 +180,11 @@
                                     @endfor
                                 </tbody>                            
                             </table>
-                        </div>                                              
+                        </div>        
+                        <div class="form-group">
+                            {{-- <label>counter</label> --}}
+                            <input type="text" class="form-control" id="number_counter" value="{{ $counter }}" readonly>
+                        </div>                                      
                     </div>      
                     {{-- <div class="col-12 col-md-6 col-lg-6 align-self-end">
                         <div class="row">
@@ -418,7 +424,7 @@
                 });
             });
 
-            var counter = parseInt({{ $counter}}) +1;
+            var counter = parseInt({{ $counter}});
             $(document).on("click", "#addItem", function(e) {
                 e.preventDefault();
                 if($('#quantity').val() == 0){
@@ -431,192 +437,8 @@
                     swal('WARNING', 'Silahkan pilih counter terlebih dahulu!', 'warning');
                     return false;
                 }
-                // show_loading()
-                // $.ajax({
-                //     url: '{{ route('getstock') }}', 
-                //     method: 'post', 
-                //     data: {'kode': kode, 'counter_asal': counter_asal}, 
-                //     headers: {
-                //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
-                //     dataType: 'json', 
-                //     success: function(response) {
-                //         // console.log(kode);
-                //         console.log(response.stock);
-                //         if(response.stock <= 0){
-                //             swal('WARNING', 'Stock dari Item '+kode+' pada Counter '+counter_asal+' Kosong!', 'warning');
-                //             hide_loading();
-                //             return false;
-                //         }else{
-                //             kode = $("#select2-kode-container").text();
-                //             kode_id = $("#kode").val();
-                //             nama_item = $("#nama_item").val();
-                //             warna = $("#warna").val();
-                //             hrgjual = $("#hrgjual").val();
-                //             diskon = $("#disc").val();
-                //             quantity = $("#quantity").val();
-                //             satuan = $("#satuan").val();
-                //             subtot = $("#subtot").val();
-                //             keterangan = $("#keterangan").val();
-                //             harga_awal = '';
 
-                //             $.ajax({
-                //                 url: '{{ route('getpriceitem') }}', 
-                //                 method: 'post', 
-                //                 data: {'kode': kode_id}, 
-                //                 headers: {
-                //                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
-                //                 dataType: 'json', 
-                //                 success: function(response) {
-                //                     console.log(response);
-                //                     harga_awal = response.hrgjual
-                //                     if (/\D/g.test(harga_awal))
-                //                     {
-                //                         // Filter comma
-                //                         harga_awal = harga_awal.replace(/\,/g,"");
-                //                         harga_awal = Number(Math.trunc(harga_awal))
-                //                     }
-                //                     if(harga_awal != ''){
-                //                         hrg = hrgjual
-                //                         if (/\D/g.test(hrg))
-                //                         {
-                //                             // Filter comma
-                //                             hrg = hrg.replace(/\,/g,"");
-                //                             hrg = Number(Math.trunc(hrg))
-                //                         }
-
-                //                         tot = hrg * quantity;
-                //                         diskon_total = (tot * diskon)/100;
-
-                //                         norm_subtot = subtot
-                //                         if (/\D/g.test(norm_subtot))
-                //                         {
-                //                             // Filter comma
-                //                             norm_subtot = norm_subtot.replace(/\,/g,"");
-                //                             norm_subtot = Number(Math.trunc(norm_subtot))
-                //                         }
-                //                         hrgsetdiskon = norm_subtot - diskon_total;
-
-
-                //                         tablerow = "<tr row_id="+ counter +"><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5' style='display:none;'><input style='width:120px;' readonly form='thisform' class='numberclass form-control' type='text' value='" + counter + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='nama_item_d[]' type='text' value='" + nama_item + "'><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td></td><td class='border border-5'><input style='width:120px;' form='thisform' class='row_qty quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "' id='qty_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_harga_awal harga_awalclass form-control' name='harga_awal_d[]' type='text' value='" + thousands_separators(harga_awal) + "' id='harga_awal_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_hrgjual hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "' id='hrgjual_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_diskon diskonclass form-control' name='diskon_d[]' id='diskon_d_"+counter+"' type='text' value='" + diskon + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='totdiscclass form-control' value='" +  thousands_separators(diskon_total) + "' name='totdisc_d[]' id='totdisc_d_"+counter+"'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='hrgsetdiscclass form-control' value='" +  thousands_separators(hrgsetdiskon) + "' name='hrgsetdisc_d[]' id='hrgsetdisc_d_"+counter+"'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotfinalclass form-control' value='" + thousands_separators(hrgsetdiskon) + "' name='subtotfinal_d[]' id='subtotfinal_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='keteranganclass form-control' name='keterangan_d[]' type='text' value='" + keterangan + "'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td><td class='border border-5' hidden><input type='text' readonly form='thisform' style='width:100px;' class='totdiscclass form-control' value='" +  thousands_separators(diskon_total) + "' name='totdisc_d[]' id='totdisc_d_"+counter+"'></td><td class='border border-5' hidden><input style='width:120px;' readonly form='thisform' class='idclass form-control' name='id_d[]' type='text' value='new_item' id='tbl_detail_id_"+counter+"'></td><td class='border border-5' hidden><input style='width:120px;' readonly form='thisform' class='delclass form-control' name='deleted_item_d[]' type='text' id='deleted_d_"+counter+"'></td></tr>";
-                                        
-                //                         subtotparse = subtot.replaceAll(",", "");
-                //                         $("#datatable tbody").append(tablerow);
-                //                         if(counter == 1){
-                //                             if (/\D/g.test(subtot))
-                //                             {
-                //                                 // Filter comma
-                //                                 subtot = subtot.replace(/\,/g,"");
-                //                                 subtot = Number(Math.trunc(subtot))
-                //                             }
-                //                             disc = subtot * ($("#disc").val() / 100);
-                //                             total =  (subtot - disc);
-
-                //                             grandtot = total;
-
-                //                             total_sebelum_disc = grandtot + disc;
-                //                             $('#price_sebelumdisc').val(thousands_separators(total_sebelum_disc));
-
-                //                             totbayar_1 = $('#totbayar').val();
-                //                             if (/\D/g.test(totbayar_1))
-                //                             {
-                //                                 // Filter comma
-                //                                 totbayar_1 = totbayar_1.replace(/\,/g,"");
-                //                                 totbayar_1 = Number(Math.trunc(totbayar_1))
-                //                             }
-                //                             totbayar_2 = $('#totbayar_2').val();
-                //                             if (/\D/g.test(totbayar_2))
-                //                             {
-                //                                 // Filter comma
-                //                                 totbayar_2 = totbayar_2.replace(/\,/g,"");
-                //                                 totbayar_2 = Number(Math.trunc(totbayar_2))
-                //                             }
-
-                //                             grandtotal_bayar = parseFloat(totbayar_1) + parseFloat(totbayar_2);
-
-                //                             kembali = grandtotal_bayar - grandtot;
-                                            
-                //                             $("#totkembali").val(thousands_separators(kembali));
-                //                             $("#price_disc").val(thousands_separators(disc));
-                //                             $("#price_total").val(thousands_separators(grandtot.toFixed(2)));
-                //                         }else{
-                //                             if (/\D/g.test(subtot))
-                //                             {
-                //                                 // Filter comma
-                //                                 subtot = subtot.replace(/\,/g,"");
-                //                                 subtot = Number(Math.trunc(subtot))
-                //                             }
-
-                //                             old_grandtot = $("#price_total").val();
-                //                             if (/\D/g.test(old_grandtot))
-                //                             {
-                //                                 // Filter comma
-                //                                 old_grandtot = old_grandtot.replace(/\,/g,"");
-                //                                 old_grandtot = Number(Math.trunc(old_grandtot))
-                //                             }
-
-                //                             disc_old = $("#price_disc").val()
-                //                             if (/\D/g.test(disc_old))
-                //                             {
-                //                                 // Filter comma
-                //                                 disc_old = disc_old.replace(/\,/g,"");
-                //                                 disc_old = Number(Math.trunc(disc_old))
-                //                             }
-
-                //                             disc = subtot * (parseFloat($("#disc").val()) / 100);
-
-                //                             console.log("disc" + disc)
-
-                //                             disc_new = parseFloat(disc_old) + disc;
-                //                             console.log("Disc New : ",disc_new);
-                //                             total =  (subtot - disc);
-                //                             subtot_new = old_grandtot + total;
-
-                //                             total_sebelum_disc = subtot_new + disc_new;
-                //                             $('#price_sebelumdisc').val(thousands_separators(total_sebelum_disc.toFixed(2)));
-
-                //                             totbayar_1 = $('#totbayar').val();
-                //                             if (/\D/g.test(totbayar_1))
-                //                             {
-                //                                 // Filter comma
-                //                                 totbayar_1 = totbayar_1.replace(/\,/g,"");
-                //                                 totbayar_1 = Number(Math.trunc(totbayar_1))
-                //                             }
-                //                             totbayar_2 = $('#totbayar_2').val();
-                //                             if (/\D/g.test(totbayar_2))
-                //                             {
-                //                                 // Filter comma
-                //                                 totbayar_2 = totbayar_2.replace(/\,/g,"");
-                //                                 totbayar_2 = Number(Math.trunc(totbayar_2))
-                //                             }
-
-                //                             grandtotal_bayar = parseFloat(totbayar_1) + parseFloat(totbayar_2);
-
-                //                             kembali = grandtotal_bayar - subtot_new;
-                                            
-                //                             $("#totkembali").val(thousands_separators(kembali));
-                //                             $("#price_disc").val(thousands_separators(disc_new));
-                //                             $("#price_total").val(thousands_separators(subtot_new.toFixed(2)));
-                //                         }
-                //                         counter++;
-                //                         $("#kode").prop('selectedIndex', 0).trigger('change');
-                //                         $("#warna").val('');
-                //                         $("#nama_item").val('');
-                //                         $("#hrgjual").val(0);
-                //                         $("#disc").val(0);
-                //                         $("#satuan").val('');
-                //                         $("#quantity").val(0);
-                //                         $("#merk").val('');
-                //                         $("#subtot").val('');
-                //                         $("#keterangan").val('');
-                //                         hide_loading()
-                //                     }
-                                    
-                //                 }
-                //             });
-                //         }
-                //     }
-                // });
-
+                counter++;
                 kode = $("#select2-kode-container").text();
                 kode_id = $("#kode").val();
                 nama_item = $("#nama_item").val();
@@ -650,7 +472,7 @@
                 hrgsetdiskon = norm_subtot - diskon_total;
 
 
-                tablerow = "<tr row_id="+ counter +"><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5' style='display:none;'><input style='width:120px;' readonly form='thisform' class='numberclass form-control' type='text' value='" + counter + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='nama_item_d[]' type='text' value='" + nama_item + "'><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td></td><td class='border border-5'><input style='width:120px;' form='thisform' class='row_qty quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "' id='qty_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_harga_awal harga_awalclass form-control' name='harga_awal_d[]' type='text' value='" + thousands_separators(harga_awal) + "' id='harga_awal_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_hrgjual hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "' id='hrgjual_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_diskon diskonclass form-control' name='diskon_d[]' id='diskon_d_"+counter+"' type='text' value='" + diskon + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='totdiscclass form-control' value='" +  thousands_separators(diskon_total) + "' name='totdisc_d[]' id='totdisc_d_"+counter+"'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='hrgsetdiscclass form-control' value='" +  thousands_separators(hrgsetdiskon) + "' name='hrgsetdisc_d[]' id='hrgsetdisc_d_"+counter+"'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotfinalclass form-control' value='" + thousands_separators(hrgsetdiskon) + "' name='subtotfinal_d[]' id='subtotfinal_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='keteranganclass form-control' name='keterangan_d[]' type='text' value='" + keterangan + "'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td><td class='border border-5' hidden><input type='text' readonly form='thisform' style='width:100px;' class='totdiscclass form-control' value='" +  thousands_separators(diskon_total) + "' name='totdisc_d[]' id='totdisc_d_"+counter+"'></td><td class='border border-5' hidden><input style='width:120px;' readonly form='thisform' class='idclass form-control' name='id_d[]' type='text' value='new_item' id='tbl_detail_id_"+counter+"'></td><td class='border border-5' hidden><input style='width:120px;' readonly form='thisform' class='delclass form-control' name='deleted_item_d[]' type='text' id='deleted_d_"+counter+"'></td></tr>";
+                tablerow = "<tr row_id="+ counter +"><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5' style='display:none;'><input style='width:120px;' readonly form='thisform' class='numberclass form-control' type='text' value='" + counter + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='nama_item_d[]' type='text' value='" + nama_item + "'><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td></td><td class='border border-5'><input style='width:120px;' form='thisform' class='row_qty quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "' id='qty_d_"+counter+"'></td><td class='border border-5' style='display:none;'><input style='width:120px;' readonly form='thisform' class='qtyoldclass form-control' type='text' value='" + quantity + "' id='qtyold_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_harga_awal harga_awalclass form-control' name='harga_awal_d[]' type='text' value='" + thousands_separators(harga_awal) + "' id='harga_awal_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_hrgjual hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "' id='hrgjual_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_diskon diskonclass form-control' name='diskon_d[]' id='diskon_d_"+counter+"' type='text' value='" + diskon + "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='totdiscclass form-control' value='" +  thousands_separators(diskon_total) + "' name='totdisc_d[]' id='totdisc_d_"+counter+"'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'><td class='border border-5' style='display:none;'><input style='width:120px;' readonly form='thisform' class='subtotoldclass form-control' type='text' value='" + thousands_separators(subtot) + "' id='subtotold_d_"+counter+"'></td></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='hrgsetdiscclass form-control' value='" +  thousands_separators(hrgsetdiskon) + "' name='hrgsetdisc_d[]' id='hrgsetdisc_d_"+counter+"'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotfinalclass form-control' value='" + thousands_separators(hrgsetdiskon) + "' name='subtotfinal_d[]' id='subtotfinal_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='keteranganclass form-control' name='keterangan_d[]' type='text' value='" + keterangan + "'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td><td class='border border-5' hidden><input type='text' readonly form='thisform' style='width:100px;' class='totdiscclass form-control' value='" +  thousands_separators(diskon_total) + "' name='totdisc_d[]' id='totdisc_d_"+counter+"'></td><td class='border border-5' hidden><input style='width:120px;' readonly form='thisform' class='idclass form-control' name='id_d[]' type='text' value='new_item' id='tbl_detail_id_"+counter+"'></td><td class='border border-5' hidden><input style='width:120px;' readonly form='thisform' class='delclass form-control' name='deleted_item_d[]' type='text' id='deleted_d_"+counter+"'></td></tr>";
                                         
                 subtotparse = subtot.replaceAll(",", "");
                 $("#datatable tbody").append(tablerow);
@@ -750,7 +572,8 @@
                     $("#price_disc").val(thousands_separators(disc_new));
                     $("#price_total").val(thousands_separators(subtot_new.toFixed(2)));
                 }
-                counter++;
+                // counter++;
+                $('#number_counter').val(counter)
                 $("#kode").prop('selectedIndex', 0).trigger('change');
                 $("#warna").val('');
                 $("#nama_item").val('');
@@ -822,6 +645,25 @@
                         
                         new_grantot = old_grandtot - total_row
 
+                        totbayar = $("#totbayar").val();
+                    if (/\D/g.test(totbayar))
+                    {
+                        // Filter comma
+                        totbayar = totbayar.replace(/\,/g,"");
+                        totbayar = Number(Math.trunc(totbayar))
+                    }
+                    totbayar_2 = $("#totbayar_2").val();
+                    if (/\D/g.test(totbayar_2))
+                    {
+                        // Filter comma
+                        totbayar_2 = totbayar_2.replace(/\,/g,"");
+                        totbayar_2 = Number(Math.trunc(totbayar_2))
+                    }
+                    grantot_bayar = Number(totbayar) + Number(totbayar_2)
+
+                    total_kembali =  Number(grantot_bayar) - Number(new_grantot)
+
+                    $("#totkembali").val(thousands_separators(total_kembali));
                         $("#price_disc").val(thousands_separators(new_disc));
                         $("#price_total").val(thousands_separators(new_grantot.toFixed(2)));
 
@@ -852,6 +694,7 @@
                         firstCol.innerText = i;
                         }
                         counter--;
+                        $('#number_counter').val(counter);
                         // $(this).closest('tr').unwrap();
 
                         counter_id = 0;
@@ -923,6 +766,26 @@
 
                         new_grantot = old_grandtot - total_row
 
+                        totbayar = $("#totbayar").val();
+                        if (/\D/g.test(totbayar))
+                        {
+                            // Filter comma
+                            totbayar = totbayar.replace(/\,/g,"");
+                            totbayar = Number(Math.trunc(totbayar))
+                        }
+                        totbayar_2 = $("#totbayar_2").val();
+                        if (/\D/g.test(totbayar_2))
+                        {
+                            // Filter comma
+                            totbayar_2 = totbayar_2.replace(/\,/g,"");
+                            totbayar_2 = Number(Math.trunc(totbayar_2))
+                        }
+                        grantot_bayar = Number(totbayar) + Number(totbayar_2)
+
+                        total_kembali =  Number(grantot_bayar) - Number(new_grantot)
+
+                        $("#totkembali").val(thousands_separators(total_kembali));
+
                         $("#price_disc").val(thousands_separators(new_disc));
                         $("#price_total").val(thousands_separators(new_grantot.toFixed(2)));
                         // $(this).closest('tr').remove();
@@ -937,6 +800,7 @@
                         firstCol.innerText = i;
                         }
                         counter--;
+                        $('#number_counter').val(counter);
                         // $(this).closest('tr').contents().unwrap().wrap('<div/>');
                         // $(this).closest('tr').wrap('<div/>');
                         // $(this).closest('tr').unwrap();
@@ -1134,8 +998,7 @@
             }
         });
 
-        $(document).on('focusout', '.row_qty', function(event) 
-        {
+        $(document).on('focusout', '.row_qty', function(event) {
             event.preventDefault();
 
             console.log("focus out");
@@ -1236,6 +1099,150 @@
             total_price_new = this_row_sum - new_total_price
             this_row_new_total = old_total_price_mins + total_price_new
             $('#price_total').val(thousands_separators(this_row_new_total.toFixed(2)))
+
+            var counter = $('#number_counter').val();
+            old_tot_qty = $('#tot_qty').val();
+            old_totpricedisc = $('#price_sebelumdisc').val();
+            if (/\D/g.test(old_totpricedisc))
+            {
+                    // Filter comma
+                    old_totpricedisc = old_totpricedisc.replace(/\,/g,"");
+                    old_totpricedisc = Number(Math.trunc(old_totpricedisc))
+            }
+
+            // console.log("this row qty : "+this_row_qty);
+            console.log("this row sebelum_dsc : "+this_row_sum);
+            if(counter > 1){
+                total_old_qty_row = $('#qtyold_d_'+row_id).val()
+                
+                // console.log("total_old_qty_row : "+total_old_qty_row);
+                // console.log("tot_qty : "+old_tot_qty);
+                
+                current_qty = Number(old_tot_qty) - Number(total_old_qty_row);
+                // console.log("current qty :"+current_qty);
+                current_tot_qty = $('#tot_qty').val(current_qty)
+                new_total_qty = Number(this_row_qty) + Number(current_qty);
+                $('#qtyold_d_'+row_id).val(this_row_qty)
+                
+                // console.log("current qty :"+this_row_qty);
+                $('#tot_qty').val(new_total_qty);
+
+                total_old_pricedisc_row = $('#subtotold_d_'+row_id).val()
+                if (/\D/g.test(total_old_pricedisc_row))
+                {
+                        // Filter comma
+                        total_old_pricedisc_row = total_old_pricedisc_row.replace(/\,/g,"");
+                        total_old_pricedisc_row = Number(Math.trunc(total_old_pricedisc_row))
+                }
+                console.log("total_old_sblmdisc_row : "+total_old_pricedisc_row);
+                console.log("tot_sblmdisc : "+old_totpricedisc);
+
+                this_row_sum = $('#subtot_d_'+row_id).val()
+                if (/\D/g.test(this_row_sum))
+                {
+                        // Filter comma
+                        this_row_sum = this_row_sum.replace(/\,/g,"");
+                        this_row_sum = Number(Math.trunc(this_row_sum))
+                }
+
+                current_pricedisc = Number(old_totpricedisc) - Number(total_old_pricedisc_row);
+
+                console.log("current price disc :"+current_pricedisc);
+
+                current_tot_pricedisc = $('#price_sebelumdisc').val(current_pricedisc)
+                new_total_pricedisc = Number(this_row_sum) + Number(current_pricedisc);
+                $('#subtotold_d_'+row_id).val(thousands_separators(this_row_sum.toFixed(2)))
+
+                $('#price_sebelumdisc').val(thousands_separators(new_total_pricedisc.toFixed(2)));
+
+                ///DISCOUNT CHANGES
+                tot_bayar1 = $('#totbayar').val()
+                // Normalization tot_bayar1
+                if (/\D/g.test(tot_bayar1))
+                {
+                    // Filter comma
+                    tot_bayar1 = tot_bayar1.replace(/\,/g,"");
+                    tot_bayar1 = Number(Math.trunc(tot_bayar1))
+                }
+                tot_bayar2 = $('#totbayar_2').val()
+                // Normalization tot_bayar2
+                if (/\D/g.test(tot_bayar2))
+                {
+                    // Filter comma
+                    tot_bayar2 = tot_bayar2.replace(/\,/g,"");
+                    tot_bayar2 = Number(Math.trunc(tot_bayar2))
+                }
+
+                grand_tot_bayar = Number(tot_bayar1) + Number(tot_bayar2);
+
+                price_tot = $('#price_total').val()
+                // Normalization price_tot
+                if (/\D/g.test(price_tot))
+                {
+                    // Filter comma
+                    price_tot = price_tot.replace(/\,/g,"");
+                    price_tot = Number(Math.trunc(price_tot))
+                }
+
+                tot_kembali = Number(price_tot) * -1
+
+                if(tot_kembali < price_tot){
+                    kembali = Number(grand_tot_bayar) + Number(tot_kembali)
+
+                    $('#totkembali').val(thousands_separators(kembali.toFixed(2)));
+                }else{
+                    kembali = Number(grand_tot_bayar) - Number(tot_kembali)
+
+                    $('#totkembali').val(thousands_separators(kembali.toFixed(2)));
+                }
+
+            }else if(counter == 1){
+                console.log(counter);
+                old_tot_qty = $('#tot_qty').val(this_row_qty);
+                old_tot_pricedisc = $('#price_sebelumdisc').val(thousands_separators(this_row_sum.toFixed(2)));
+                price_tot = $('#price_total').val()
+                
+                ///DISCOUNT CHANGES
+                tot_bayar1 = $('#totbayar').val()
+                // Normalization tot_bayar1
+                if (/\D/g.test(tot_bayar1))
+                {
+                    // Filter comma
+                    tot_bayar1 = tot_bayar1.replace(/\,/g,"");
+                    tot_bayar1 = Number(Math.trunc(tot_bayar1))
+                }
+                tot_bayar2 = $('#totbayar_2').val()
+                // Normalization tot_bayar2
+                if (/\D/g.test(tot_bayar2))
+                {
+                    // Filter comma
+                    tot_bayar2 = tot_bayar2.replace(/\,/g,"");
+                    tot_bayar2 = Number(Math.trunc(tot_bayar2))
+                }
+
+                grand_tot_bayar = Number(tot_bayar1) + Number(tot_bayar2);
+
+                price_tot = $('#price_total').val()
+                // Normalization price_tot
+                if (/\D/g.test(price_tot))
+                {
+                    // Filter comma
+                    price_tot = price_tot.replace(/\,/g,"");
+                    price_tot = Number(Math.trunc(price_tot))
+                }
+
+                tot_kembali = Number(price_tot) * -1
+
+                if(tot_kembali < price_tot){
+                    kembali = Number(grand_tot_bayar) + Number(tot_kembali)
+
+                    $('#totkembali').val(thousands_separators(kembali.toFixed(2)));
+                }else{
+                    kembali = Number(grand_tot_bayar) - Number(tot_kembali)
+
+                    $('#totkembali').val(thousands_separators(kembali.toFixed(2)));
+                }
+            }
         })	
     })
 
