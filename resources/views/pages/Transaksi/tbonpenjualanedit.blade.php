@@ -425,6 +425,7 @@
             });
 
             var counter = parseInt({{ $counter}});
+            var counter_row = parseInt({{ $counter}});
             $(document).on("click", "#addItem", function(e) {
                 e.preventDefault();
                 if($('#quantity').val() == 0){

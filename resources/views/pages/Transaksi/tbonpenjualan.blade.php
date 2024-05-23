@@ -750,8 +750,10 @@
                 var r = confirm("Delete Transaksi ?");
                 if (r == true) {
                     // counter_id = $(this).closest('tr').text();
-                    counter_id = $('td').find('.numberclass').val();
-                    // counter_id = $(this).closest('[row_id]').text();
+                    // counter_id = $('td').find('.numberclass').val();
+                    // console.log('counter_id = ' + counter_id);
+                    counter_id = $(this).closest('[row_id]').text();
+                    // console.log('counter_id = ' + counter_id_v2);
                     // counter_id = $(this).closest('[row_th]').text();
                     // console.log(counter_id);
                     // console.log("TEST Number: "+counter_id);
@@ -790,13 +792,16 @@
                         old_disc = Number(Math.trunc(old_disc))
                     }
                     discrow = $("#totdisc_d_"+ counter_id).val();
+                    console.log("discrow id = "+counter_id);
                     if (/\D/g.test(discrow))
                     {
                         // Filter comma
                         discrow = discrow.replace(/\,/g,"");
                         discrow = Number(Math.trunc(discrow))
                     }
-                    new_disc = old_disc - discrow;
+                    new_disc = Number(old_disc) - Number(discrow);
+                    console.log("discrow = "+discrow);
+                    console.log("Total Discount baru = "+new_disc);
                     total_row = subtot - discrow;
 
                     price_totsebelumdisc = $("#price_sebelumdisc").val();
@@ -811,13 +816,14 @@
                     $('#price_sebelumdisc').val(thousands_separators(totsebelumdisc_new.toFixed(2)));
 
                     price_setelahdisc_row = $('#subtotfinal_d_'+counter_id).val();
+                    console.log("price_setelahdisc_row id = "+counter_id);
                     if (/\D/g.test(price_setelahdisc_row))
                     {
                         // Filter comma
                         price_setelahdisc_row = price_setelahdisc_row.replace(/\,/g,"");
                         price_setelahdisc_row = Number(Math.trunc(price_setelahdisc_row))
                     }
-                    new_grantot = old_grandtot - price_setelahdisc_row
+                    new_grantot = Number(old_grandtot) - Number(price_setelahdisc_row);
                     // disc = subtot * ( / 100);
                     // totaldisc = old_disc - disc;
                     // totalwithdisc = (subtot) - disc;
@@ -839,13 +845,14 @@
                     grantot_bayar = Number(totbayar) + Number(totbayar_2)
                     console.log("grantot_bayar : "+ grantot_bayar)
                     console.log("new_grantot : "+ new_grantot)
+                    // total_baru = Number(old_grandtot) - Number(new_grantot)
 
+                    // total_kembali =  Number(grantot_bayar) - Number(total_baru)
                     total_kembali =  Number(grantot_bayar) - Number(new_grantot)
 
                     $("#totkembali").val(thousands_separators(total_kembali));
                     $("#price_disc").val(thousands_separators(new_disc));
                     $("#price_total").val(thousands_separators(new_grantot.toFixed(2)));
-                    $(this).closest('tr').remove();
 
                     var table   = document.getElementById('datatable');
                     for (var i = 1; i < table.rows.length; i++) 
@@ -855,6 +862,7 @@
                     }
                     counter--;
                     $('#number_counter').val(counter)
+                    $(this).closest('tr').remove();
                 } else {
                     return false;
                 }
