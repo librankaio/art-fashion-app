@@ -751,8 +751,10 @@
                 if (r == true) {
                     // counter_id = $(this).closest('tr').text();
                     // counter_id = $('td').find('.numberclass').val();
+                    counter_id = $(this).closest('tr').find('.numberclass').val();
+                    console.log(counter_id);
                     // console.log('counter_id = ' + counter_id);
-                    counter_id = $(this).closest('[row_id]').text();
+                    // counter_id = $(this).closest('[row_id]').text();
                     // console.log('counter_id = ' + counter_id_v2);
                     // counter_id = $(this).closest('[row_th]').text();
                     // console.log(counter_id);
