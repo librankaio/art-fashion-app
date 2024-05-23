@@ -11,7 +11,7 @@ class ControllerTransExpense extends Controller
     {
         // dd(session('counter'));
         $counter = session('counter');
-        $datas = Texpense_h::select('id','tgl','note','total')->where('counter','=',$counter)->get();
+        $datas = Texpense_h::select('id','tgl','note','total')->where('counter','=',$counter)->orderBy('created_at', 'desc')->get();
         return view('pages.Transaksi.texpense',[
             'datas' => $datas,
         ]);

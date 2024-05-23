@@ -9,7 +9,7 @@ class ControllerMasterSaldoAwal extends Controller
 {
     public function index()
     {
-        $datas = MsaldoAwal::select('id','tgl','saldo','counter')->where('counter','=',session('counter'))->get();
+        $datas = MsaldoAwal::select('id','tgl','saldo','counter')->where('counter','=',session('counter'))->orderBy('created_at', 'desc')->get();
         return view('pages.Master.msaldoawal',[
             'datas' => $datas,
         ]);
