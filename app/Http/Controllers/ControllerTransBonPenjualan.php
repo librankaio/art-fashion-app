@@ -187,11 +187,15 @@ class ControllerTransBonPenjualan extends Controller
                 
                 if($count == $countrows){
                     if(session('privilage') == 'ADM' || session('privilage') == 'SPG DS'){
+                        // $query_update = "UPDATE tpenjualan_hs SET grandtot = (SELECT SUM(subtotal) FROM tpenjualan_ds TX WHERE tpenjualan_hs.no = TX.no_penjualan) WHERE tpenjualan_hs.no = $no";
+                        // DB::statement($query_update);
                         return redirect()->back()->with('success', 'Data berhasil di Insert');
                     }else{
                         $tpenjualanh = Tpenjualan_h::where('no','=', $no)->first();
                         $tpenjualands = Tpenjualan_d::where('no_penjualan','=', $tpenjualanh->no)->get();
                         $address = Mcounter::select('alamat')->where('name','=',$tpenjualanh->counter)->first();
+                        // $query_update = "UPDATE tpenjualan_hs SET grandtot = (SELECT SUM(subtotal) FROM tpenjualan_ds TX WHERE tpenjualan_hs.no = TX.no_penjualan) WHERE tpenjualan_hs.no = $no";
+                        // DB::statement($query_update);
 
                         return view('pages.Print.tbonjualprint',[
                             'tpenjualanh' => $tpenjualanh,
@@ -238,6 +242,13 @@ class ControllerTransBonPenjualan extends Controller
                     $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal','hrgsblmdisc','diskon')->where('counter','=',session('bonjual_counter'))->where('no','LIKE','%'.request()->search.'%')->orderBy('created_at', 'desc')->paginate(50);
                     $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note',)->get();
                 }else{
+                    // dd(Request()->counter_filter);
+                    if(isset(request()->counter_filter)){
+                        if (Session::has('bonjual_counter')){
+                            $bonjual_counter = Request()->counter_filter;
+                            Request()->session()->put('bonjual_counter', $bonjual_counter);
+                        }
+                    }
                     $tpenjualanhs = Tpenjualan_h::select('id','no','tgl','counter','note','payment_mthd','noreff','grdtotal','hrgsblmdisc','diskon')->where('counter','=',session('bonjual_counter'))->orderBy('created_at', 'desc')->paginate(50);
                     $tpenjualands = Tpenjualan_d::select('id','idh','no_penjualan','code','name','qty','satuan','hrgjual','diskon','subtotal','note',)->get();
                 }
