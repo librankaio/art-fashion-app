@@ -657,6 +657,7 @@
             swal('WARNING', 'Please select Code Cust', 'warning');
             return false;
         }
+        show_loading()
         // else if (nosob == 0){
         //     swal('WARNING', 'Please select Nomer SOB', 'warning');
         //     return false;
