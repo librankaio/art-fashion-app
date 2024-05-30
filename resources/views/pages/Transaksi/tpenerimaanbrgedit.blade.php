@@ -562,6 +562,7 @@
             swal('WARNING', 'Please select Code Cust', 'warning');
             return false;
         }
+        show_loading()
         });
 
         $(document).on('keyup', '.row_hrgjual', function(event) 

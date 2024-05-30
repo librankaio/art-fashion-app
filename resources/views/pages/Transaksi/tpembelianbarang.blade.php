@@ -410,6 +410,7 @@
                 swal('WARNING', 'Supplier tidak boleh kosong!', 'warning');
                 return false;
             }
+            show_loading()
             
             });
 

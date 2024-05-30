@@ -1085,6 +1085,7 @@
                     return false;
                 }
             }
+            show_loading()
             
         });
 

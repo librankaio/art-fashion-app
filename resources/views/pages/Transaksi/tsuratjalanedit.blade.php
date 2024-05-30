@@ -575,6 +575,7 @@
             swal('WARNING', 'Please select Code Cust', 'warning');
             return false;
         }
+        show_loading()
         });
 
         $(document).on('focusout', '.row_qty', function(event) 

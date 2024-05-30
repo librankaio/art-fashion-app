@@ -374,6 +374,7 @@
             swal('WARNING', 'Item pada tabel minimal harus ada 1!', 'warning');
             return false;
         }
+        show_loading()
         });
         
     })

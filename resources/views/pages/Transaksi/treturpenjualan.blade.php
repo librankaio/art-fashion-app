@@ -342,7 +342,7 @@
             swal('WARNING', 'No Tidak boleh kosong!', 'warning');
             return false;
         }
-        
+        show_loading()
         });
         
     })

@@ -88,6 +88,7 @@
             swal('WARNING', 'Nama Tidak boleh kosong!', 'warning');
             return false;
         }
+        show_loading()
     });
 
     $(document).on('keyup', '#total', function(event) 

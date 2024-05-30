@@ -460,6 +460,7 @@
                 swal('WARNING', 'No Tidak boleh kosong!', 'warning');
                 return false;
             }
+            show_loading()
         });
 
         $(document).on('focusout', '.row_qty', function(event) 

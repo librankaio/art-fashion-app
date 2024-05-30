@@ -988,6 +988,7 @@
                 //     swal('WARNING', 'Please select Jenis Payment', 'warning');
                 //     return false;
                 // }
+                show_loading()
             }
         });
         

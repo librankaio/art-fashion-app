@@ -644,6 +644,7 @@
             swal('WARNING', 'No Tidak boleh kosong!', 'warning');
             return false;
         }
+        show_loading()
         });
 
         $(document).on('keyup', '.row_hrgjual', function(event) 
