@@ -13,6 +13,9 @@ class ControllerTransSOB extends Controller
 {
     public function index()
     {
+        if(session('dt_tsob') == '') {
+            session()->put('dt_tsob', '');
+        }
         $privilage = session('privilage');
         if($privilage == 'ADM'){
             $counters = Mcounter::select('id','code','name')->get();
@@ -77,6 +80,7 @@ class ControllerTransSOB extends Controller
                 }
             }            
             if($count == $countrows){
+                $request->session()->put('dt_tsob', $request->dt);
                 return redirect()->back()->with('success', 'Data berhasil di Simpan');
             }
         }

@@ -46,7 +46,11 @@
                                 </div>                         
                                 <div class="form-group">
                                     <label>Tanggal</label>
+                                    @if(session('dt_tsob') == '')
                                     <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d") }}">
+                                    @else
+                                    <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d", strtotime(session('dt_tsob'))) }}">
+                                    @endif
                                 </div>
                                 <div class="form-group">
                                     <label>Catatan</label>

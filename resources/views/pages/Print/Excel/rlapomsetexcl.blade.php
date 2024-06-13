@@ -61,9 +61,9 @@
                                 <td class="border border-5" style="text-align: center;">{{ $item->name }}</td>
                                 <td class="border border-5" style="text-align: center;">{{ $item->qty }}</td>
                                 <td class="border border-5" style="text-align: center;">{{ number_format($item->diskon, 0, '.', '') }}</td>
-                                <td class="border border-5" style="text-align: center;">{{ number_format($item->disctot, 2, '.', ',') }}</td>
-                                <td class="border border-5" style="text-align: center;">{{ number_format($item->subtotalbef, 2, '.', ',') }}</td>
-                                <td class="border border-5" style="text-align: center;">{{ number_format($item->subtotal, 2, '.', ',') }}</td>
+                                <td class="border border-5" style="text-align: center;">{{ number_format($item->disctot, 0, '.', ',') }}</td>
+                                <td class="border border-5" style="text-align: center;">{{ number_format($item->subtotalbef, 0, '.', ',') }}</td>
+                                <td class="border border-5" style="text-align: center;">{{ number_format($item->subtotal, 0, '.', ',') }}</td>
                                 <td class="border border-5" style="text-align: center;">{{ $item->payment_mthd }}</td>
                             @else
                                 <th scope="row" class="border border-5">{{ $counter }}</th>
@@ -73,9 +73,9 @@
                                 <td class="border border-5" style="text-align: center;">{{ $item->name }}</td>
                                 <td class="border border-5" style="text-align: center;">{{ $item->qty }}</td>
                                 <td class="border border-5" style="text-align: center;">{{ number_format($item->diskon, 0, '.', '') }}</td>
-                                <td class="border border-5" style="text-align: center;">{{ number_format($item->disctot, 2, '.', ',') }}</td>
-                                <td class="border border-5" style="text-align: center;">{{ number_format($item->subtotalbef, 2, '.', ',') }}</td>
-                                <td class="border border-5" style="text-align: center;">{{ number_format($item->subtotal, 2, '.', ',') }}</td>
+                                <td class="border border-5" style="text-align: center;">{{ number_format($item->disctot, 0, '.', ',') }}</td>
+                                <td class="border border-5" style="text-align: center;">{{ number_format($item->subtotalbef, 0, '.', ',') }}</td>
+                                <td class="border border-5" style="text-align: center;">{{ number_format($item->subtotal, 0, '.', ',') }}</td>
                                 <td class="border border-5" style="text-align: center;">{{ $item->payment_mthd }}</td>
                             @endif   
                         </tr>
@@ -101,18 +101,18 @@
                         @php $tot_sblmdisc = 0; @endphp
                         @foreach($results as $data => $item)
                         @if($tot_sblmdisc == 0)
-                            @php $tot_sblmdisc = number_format($item->subtotalbef, 2, '.', '') @endphp
+                            @php $tot_sblmdisc = number_format($item->subtotalbef, 0, '.', '') @endphp
                         @else
                             @if ($old_sumtot_sblmdisc == 0)
-                                @php $old_sumtot_sblmdisc = $tot_sblmdisc + number_format($item->subtotalbef, 2, '.', '') @endphp
+                                @php $old_sumtot_sblmdisc = $tot_sblmdisc + number_format($item->subtotalbef, 0, '.', '') @endphp
                             @else
-                                @php $old_sumtot_sblmdisc_2 = $old_sumtot_sblmdisc + number_format($item->subtotalbef, 2, '.', '') @endphp
+                                @php $old_sumtot_sblmdisc_2 = $old_sumtot_sblmdisc + number_format($item->subtotalbef, 0, '.', '') @endphp
                                 @php $old_sumtot_sblmdisc = $old_sumtot_sblmdisc_2 @endphp
                             @endif
                         @endif
                         @endforeach
-                        <td align="center" colspan="1">{{ number_format($old_sumtot_sblmdisc, 2, '.', ',') }}</td>
-                        <td align="center" colspan="1">{{ number_format($total_subtotal, 2, '.', ',') }}</td>
+                        <td align="center" colspan="1">{{ number_format($old_sumtot_sblmdisc, 0, '.', ',') }}</td>
+                        <td align="center" colspan="1">{{ number_format($total_subtotal, 0, '.', ',') }}</td>
                 @elseif(count($results) == 0)
                     <td colspan="13" class="border-2">
                         <label for="noresult" class="form-label">NO DATA RESULTS...</label>
