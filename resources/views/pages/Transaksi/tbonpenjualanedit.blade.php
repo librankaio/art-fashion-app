@@ -156,6 +156,7 @@
                                     @for($i = 0; $i < sizeof($tpenjualands); $i++) @php $counter++; @endphp 
                                     <tr row_id="{{ $counter }}">
                                         <th class="id-header border border-5" style='readonly:true;' headers="{{ $counter }}">{{ $counter }}</th>
+                                        <td class='border border-5' style='display:none;'><input style='width:120px;' readonly form='thisform' class='numberclass form-control' type='text' value='{{ $counter }}'></td>
                                         <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='{{ $tpenjualands[$i]->code }}'></td>
                                         <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='nama_item_d[]' type='text' value='{{ $tpenjualands[$i]->name }}'></td>
                                         <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='{{ $tpenjualands[$i]->warna }}'></td>
@@ -183,7 +184,7 @@
                         </div>        
                         <div class="form-group">
                             {{-- <label>counter</label> --}}
-                            <input type="text" class="form-control" id="number_counter" value="{{ $counter }}" readonly>
+                            <input type="text" class="form-control" id="number_counter" value="{{ $counter }}" readonly hidden>
                         </div>                                      
                     </div>      
                     {{-- <div class="col-12 col-md-6 col-lg-6 align-self-end">
@@ -591,8 +592,10 @@
 
             $(document).on("click", ".delete", function(e) {
                 e.preventDefault();
-                counter_id = $(this).val();
-                deleted_stat = 0;
+                // counter_id = $(this).val();
+                counter_id = $(this).closest('tr').find('.numberclass').val();
+                console.log(counter_id);
+                // deleted_stat = 0;
                 var r = confirm("Delete Transaksi ?");
                 if (r == true) {
                     if(counter_id != 0){
