@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
-<body class="idr" onload="window.print()" style="font-family: Open Sans;">
+<body class="idr" onload="window.print()" style="font-family: Open Sans; padding-right:50px; padding-left:50px;">
 
     <section class="upright">
         <div style="margin-left: 0%; margin-right: 0%;">
@@ -252,9 +252,10 @@
         font-style: italic;
     }
     @page {
-      size: 30mm 33mm;
+      /* size: 30mm 33mm; */
+      size: 241,3mm 279,4mm;
       margin: -1px auto;
-      /* margin-top: 5px auto; */
+      margin-right: 5px auto;
     }
     body {
         /* font-family: 'Roboto';font-size: 16px; */
@@ -270,7 +271,7 @@
   /* @page { size: landscape; margin: 0px auto; } */
   @page {
   page-orientation: upright; 
-  margin: 0px auto;
+  /* margin: 0px auto; */
 }
 
 @page upright {
