@@ -165,7 +165,12 @@ class ControllerTransSuratJalan extends Controller
     }
 
     public function list(){
-        $tsjhs = Tsj_h::select('id','no','tgl','counter','note','grdtotal','user','no_sob','exist_penerimaan')->orderBy('created_at', 'asc')->get();
+        // dd(Request()->counter_filter);
+        if (!Session::has('sj_counter')){
+            $sj_counter = Request()->counter_filter;
+            Request()->session()->put('sj_counter', $sj_counter);
+        }
+        $tsjhs = Tsj_h::select('id','no','tgl','counter','note','grdtotal','user','no_sob','exist_penerimaan')->where('counter','=',session('sj_counter'))->orderBy('created_at', 'asc')->get();
         $tsjds = Tsj_d::select('id','idh','no_sj','code','name','qty','satuan','hrgjual','subtotal',)->get();
         return view('pages.Transaksi.tsuratjalanlist',[
             'tsjhs' => $tsjhs,

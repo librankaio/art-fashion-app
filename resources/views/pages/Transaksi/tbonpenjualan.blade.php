@@ -593,8 +593,6 @@
                     swal('WARNING', 'Silahkan pilih counter terlebih dahulu!', 'warning');
                     return false;
                 }
-                            counter++;
-                            counter_row++;
                             kode = $("#select2-kode-container").text();
                             kode_id = $("#kode").val();
                             nama_item = $("#nama_item").val();
@@ -607,6 +605,32 @@
                             keterangan = $("#keterangan").val();
                             harga_awal = '';
                             tot_qty = $('#tot_qty').val();
+
+                            var table   = document.getElementById('datatable');
+                            for (var i = 1; i < table.rows.length; i++) 
+                            {
+                            exist_code_row = table.rows[i].cells[2].getElementsByTagName('input')[0].value;
+                            console.log("isi input :"+ exist_code_row);
+                            if(exist_code_row == kode_id){
+                                var this_row_qty_val = table.rows[i].cells[5].getElementsByTagName('input')[0].value;
+                                sum_exist_qty = Number(this_row_qty_val) +  Number(quantity);
+                                table.rows[i].cells[5].getElementsByTagName('input')[0].value = sum_exist_qty;
+                                $("#kode").prop('selectedIndex', 0).trigger('change');
+                                $("#warna").val('');
+                                $("#nama_item").val('');
+                                $("#hrgjual").val(0);
+                                $("#disc").val(0);
+                                $("#satuan").val('');
+                                $("#quantity").val(0);
+                                $("#merk").val('');
+                                $("#subtot").val('');
+                                $("#keterangan").val('');
+                                alert('Item yang sama ditambahkan!');
+                                return false
+                            }
+                            }
+                            counter++;
+                            counter_row++;
                                         hrg = hrgjual
                                         if (/\D/g.test(hrg))
                                         {

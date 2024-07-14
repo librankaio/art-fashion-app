@@ -180,7 +180,8 @@
                         </div>
                     </div>              
                     <div class="card-footer text-right">
-                        <a class="btn btn-warning mr-1" href="/tsuratjalanlist">List</a>
+                        <a class="btn btn-warning mr-1 text-light" onclick="filterlist()">List</a>
+                        {{-- <a class="btn btn-warning mr-1 text-light" href="/tsuratjalanlist" onclick="filterlist()">List</a> --}}
                         <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('tsuratjalanpost') }}">Save</button>
                         {{-- @if($tpos_save == 'Y')
                             <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}">Submit</button>
@@ -195,15 +196,56 @@
     </form>
     </div>
 </section>
+{{-- MODAL LIST --}}
+<div class="modal" tabindex="-1" id="modal-list-part">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">FILTER LIST</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="{{ route('tsuratjalanlist') }}" method="GET">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Counter List</label>
+                    <select class="form-control" name="counter_filter" id="counter_filter">
+                        {{-- @if($latest_counter != null)
+                            <option selected>{{ $latest_counter->counter }}</option>
+                        @endif --}}
+                        @foreach($counters as $counter)
+                        <option>{{ $counter->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary mr-1" type="submit" id="confirm_modal_filter" onclick="submitFormFilter();">Search</button> 
+            </div> 
+        </form>
+      </div>
+    </div>
+  </div>
 @stop
 @section('botscripts')
 <script type="text/javascript">
+    // MODAL TRIGGER
+    function filterlist(){
+        $('#modal-list-part').modal({
+            backdrop: 'static',
+            keyboard: true, 
+            show: true,
+        });
+    }
     $(document).ready(function() {
         rowCount = $('#number_counter').val();
         var counter = Number($('#number_counter').val());
         //CSRF TOKEN
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $(document).ready(function() {
+            $("#jenis").select2({});
+            $("#counter_filter").select2({});
             $("#kode").select2({
                 placeholder : 'Select Kode',
                 ajax: {
