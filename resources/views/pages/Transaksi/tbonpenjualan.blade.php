@@ -605,30 +605,83 @@
                             keterangan = $("#keterangan").val();
                             harga_awal = '';
                             tot_qty = $('#tot_qty').val();
+                            
+                            // add duplicate code in qty
+                            // var table   = document.getElementById('datatable');
+                            // for (var i = 1; i < table.rows.length; i++) 
+                            // {
+                            // exist_code_row = table.rows[i].cells[2].getElementsByTagName('input')[0].value;
+                            // console.log("isi input :"+ exist_code_row);
+                            // if(exist_code_row == kode_id){
+                            //     total_qty = $('#tot_qty').val();
+                            //     var this_row_qty_val = table.rows[i].cells[5].getElementsByTagName('input')[0].value;
+                            //     old_total_qty = total_qty - this_row_qty_val
+                            //     $('#tot_qty').val(old_total_qty)
+                            //     sum_exist_qty = Number(this_row_qty_val) +  Number(quantity);
+                            //     table.rows[i].cells[5].getElementsByTagName('input')[0].value = sum_exist_qty;
+                            //     normalize_tot_qty = $('#tot_qty').val();
+                            //     new_tot_qty = Number(normalize_tot_qty) + Number(sum_exist_qty);
+                            //     $('#tot_qty').val(new_tot_qty);
+                            //     $("#kode").prop('selectedIndex', 0).trigger('change');
+                            //     $("#warna").val('');
+                            //     $("#nama_item").val('');
+                            //     $("#hrgjual").val(0);
+                            //     $("#disc").val(0);
+                            //     $("#satuan").val('');
+                            //     $("#quantity").val(0);
+                            //     $("#merk").val('');
+                            //     $("#subtot").val('');
+                            //     $("#keterangan").val('');
+                            //     // alert('Item yang sama ditambahkan!');
+                            //     table.rows[i].cells[5].getElementsByTagName('input')[0].value = sum_exist_qty;
+                            //     price_sebelumdisc = $('#price_sebelumdisc').val();
+                            //     //NORMALIZE THE STR price_sebelumdisc
+                            //     if (/\D/g.test(price_sebelumdisc))
+                            //     {
+                            //         // Filter comma
+                            //         price_sebelumdisc = price_sebelumdisc.replace(/\,/g,"");
+                            //         price_sebelumdisc = Number(Math.trunc(price_sebelumdisc))
+                            //     }
+                            //     hrg_row = table.rows[i].cells[9].getElementsByTagName('input')[0].value;
+                            //     //NORMALIZE THE STR hrg_row
+                            //     if (/\D/g.test(hrg_row))
+                            //     {
+                            //         // Filter comma
+                            //         hrg_row = hrg_row.replace(/\,/g,"");
+                            //         hrg_row = Number(Math.trunc(hrg_row))
+                            //     }
+                            //     old_price_sebelumdisc = Number(price_sebelumdisc) - Number(hrg_row)
+                            //     console.log("old_price_sebelumdisc : "+old_price_sebelumdisc)
+                            //     $('#price_sebelumdisc').val(old_price_sebelumdisc);
 
-                            var table   = document.getElementById('datatable');
-                            for (var i = 1; i < table.rows.length; i++) 
-                            {
-                            exist_code_row = table.rows[i].cells[2].getElementsByTagName('input')[0].value;
-                            console.log("isi input :"+ exist_code_row);
-                            if(exist_code_row == kode_id){
-                                var this_row_qty_val = table.rows[i].cells[5].getElementsByTagName('input')[0].value;
-                                sum_exist_qty = Number(this_row_qty_val) +  Number(quantity);
-                                table.rows[i].cells[5].getElementsByTagName('input')[0].value = sum_exist_qty;
-                                $("#kode").prop('selectedIndex', 0).trigger('change');
-                                $("#warna").val('');
-                                $("#nama_item").val('');
-                                $("#hrgjual").val(0);
-                                $("#disc").val(0);
-                                $("#satuan").val('');
-                                $("#quantity").val(0);
-                                $("#merk").val('');
-                                $("#subtot").val('');
-                                $("#keterangan").val('');
-                                alert('Item yang sama ditambahkan!');
-                                return false
-                            }
-                            }
+                            //     disc_row = table.rows[i].cells[10].getElementsByTagName('input')[0].value;
+                            //     //NORMALIZE THE STR
+                            //     if (/\D/g.test(hrg_row))
+                            //     {
+                            //         // Filter comma
+                            //         hrg_row = hrg_row.replace(/\,/g,"");
+                            //         hrg_row = Number(Math.trunc(hrg_row))
+                            //     }
+
+                            //     new_hrg_bfr_disc = Number(hrg_row) * Number(sum_exist_qty);
+                            //     sum_exist_price_sebelumdisc = Number(old_price_sebelumdisc) + Number(new_hrg_bfr_disc);
+                            //     $('#price_sebelumdisc').val(thousands_separators(sum_exist_price_sebelumdisc.toFixed(2)));
+
+                            //     table.rows[i].cells[12].getElementsByTagName('input')[0].value = thousands_separators(new_hrg_bfr_disc.toFixed(2));
+                            //     hrg_bfr_disc_row = table.rows[i].cells[12].getElementsByTagName('input')[0].value = thousands_separators(new_hrg_bfr_disc.toFixed(2));
+                            //     new_disc_row = Number(new_hrg_bfr_disc) * disc_row/100;
+                            //     table.rows[i].cells[11].getElementsByTagName('input')[0].value = thousands_separators(new_disc_row.toFixed(0));
+                            //     new_hrg_aftr_disc_row = new_hrg_bfr_disc - new_disc_row
+                            //     table.rows[i].cells[14].getElementsByTagName('input')[0].value = thousands_separators(new_hrg_aftr_disc_row.toFixed(0));
+                            //     table.rows[i].cells[15].getElementsByTagName('input')[0].value = thousands_separators(new_hrg_aftr_disc_row.toFixed(0));
+                                 
+                                
+                            //     console.log('harga_row : '+ hrg_row );
+                            //     console.log('disc_row : '+ disc_row );
+                            //     console.log('hrg_bfr_disc_row : '+ hrg_bfr_disc_row );
+                            //     return false
+                            // }
+                            // }
                             counter++;
                             counter_row++;
                                         hrg = hrgjual
