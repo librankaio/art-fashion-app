@@ -169,6 +169,10 @@ class ControllerTransSuratJalan extends Controller
         if (!Session::has('sj_counter')){
             $sj_counter = Request()->counter_filter;
             Request()->session()->put('sj_counter', $sj_counter);
+        }else{
+            Session::forget('sj_counter');
+            $sj_counter = Request()->counter_filter;
+            Request()->session()->put('sj_counter', $sj_counter);
         }
         $tsjhs = Tsj_h::select('id','no','tgl','counter','note','grdtotal','user','no_sob','exist_penerimaan')->where('counter','=',session('sj_counter'))->orderBy('tgl', 'asc')->get();
         $tsjds = Tsj_d::select('id','idh','no_sj','code','name','qty','satuan','hrgjual','subtotal',)->get();
