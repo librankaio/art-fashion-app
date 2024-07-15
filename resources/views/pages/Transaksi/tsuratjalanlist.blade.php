@@ -64,7 +64,7 @@
                                         <th scope="col" class="border border-5" style="text-align: center;">No Trans</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">No SOB</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Tanggal</th>
-                                        <th scope="col" class="border border-5" style="text-align: center;">Counter From</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Counter Tujuan</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Counter</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Grand Total</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Action</th>
