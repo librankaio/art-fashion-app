@@ -381,6 +381,7 @@
                             $('#price_total').val(0)
                             $("#datatable tbody").empty();
 
+
                             number_counter = Number($('#number_counter').val());
                             for (i=0; i < response.length; i++) {
                                 if(response[i].no_sob == nosob){
@@ -412,7 +413,7 @@
                                     new_grandtot = thousands_separators(Number(sum).toFixed(2));
 
                                     $("#price_total").val(new_grandtot);
-                                    // number_counter++
+                                    number_counter++
 
                                     counter++;
                                     // number_new = $('#number_counter').val();
@@ -476,6 +477,25 @@
                 subtot = $("#subtot").val();
                 rowCount = $('#number_counter').val();
                 counter = rowCount;
+
+                //ADD DUPLICATE ITEM 
+                var table   = document.getElementById('datatable');
+                for (var i = 1; i < table.rows.length; i++) {
+                    exist_code_row = table.rows[i].cells[2].getElementsByTagName('input')[0].value;
+                    console.log("isi input :"+ exist_code_row);
+                    if(exist_code_row == kode_id){
+                        var this_row_qty_val = table.rows[i].cells[5].getElementsByTagName('input')[0].value;
+                        new_total_qty = Number(quantity) + Number(this_row_qty_val)
+                        table.rows[i].cells[5].getElementsByTagName('input')[0].value = new_total_qty;
+                        this_hrg_row = table.rows[i].cells[7].getElementsByTagName('input')[0].value;
+                        new_subtot = Number(new_total_qty) * Number(this_hrg_row);
+                        table.rows[i].cells[7].getElementsByTagName('input')[0].value = thousands_separators(new_subtot.toFixed(2));
+                        $('#price_total').val();
+                        table.rows[i].cells[8].getElementsByTagName('input')[0].value = thousands_separators(new_subtot.toFixed(2));
+                        alert('ada kode sama');
+                        return false
+                    }
+                }
                 
                 subtotparse = subtot.replaceAll(",", "");
                 

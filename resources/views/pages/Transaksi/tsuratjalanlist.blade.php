@@ -64,6 +64,7 @@
                                         <th scope="col" class="border border-5" style="text-align: center;">No Trans</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">No SOB</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Tanggal</th>
+                                        <th scope="col" class="border border-5" style="text-align: center;">Counter From</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Counter</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Grand Total</th>
                                         <th scope="col" class="border border-5" style="text-align: center;">Action</th>
@@ -82,6 +83,7 @@
                                             <td class="border border-5" style="text-align: center;">{{ $item->no_sob }}</td>
                                         @endif
                                         <td class="border border-5" style="text-align: center;">{{ date("Y-m-d", strtotime($item->tgl)) }}</td>
+                                        <td class="border border-5" style="text-align: center;">{{ $item->counter_from }}</td>
                                         <td class="border border-5" style="text-align: center;">{{ $item->counter }}</td>
                                         <td class="border border-5" style="text-align: center;">{{ number_format($item->grdtotal, 2, '.', ',') }}</td>
                                         <td style="text-align: center;" class="d-flex justify-content-center">
