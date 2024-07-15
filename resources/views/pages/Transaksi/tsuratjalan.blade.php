@@ -238,6 +238,11 @@
             show: true,
         });
     }
+
+    function submitFormFilter(){
+        // alert('Form has been submitted');
+        $('#confirm_modal_filter').submit()
+    }
     $(document).ready(function() {
         rowCount = $('#number_counter').val();
         var counter = Number($('#number_counter').val());
@@ -245,7 +250,11 @@
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $(document).ready(function() {
             $("#jenis").select2({});
-            $("#counter_filter").select2({});
+            // $("#counter_filter").select2({});
+
+            $('#counter_filter').select2({
+                dropdownParent: $('#modal-list-part')
+            });
             $("#kode").select2({
                 placeholder : 'Select Kode',
                 ajax: {

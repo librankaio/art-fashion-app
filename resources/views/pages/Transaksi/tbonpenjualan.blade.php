@@ -460,6 +460,7 @@
             show: true,
         });
     }
+    
     $(document).ready(function() {
         var today_saldo = $('#today_saldo').val();
         var spg_access = $('#spg_access').val();
