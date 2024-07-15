@@ -39,8 +39,12 @@
                                 <div class="form-group">
                                     <label>Artikel</label>
                                     <select class="form-control" name="artikel" id="artikel">
-                                        {{-- <option disabled selected>--Select Kode--</option> --}}
+                                        @if(request('artikel') == NULL)
                                         <option></option>
+                                        @else
+                                        <option disabled selected>{{ $_GET['counter'] }}</option>
+                                        <option></option>
+                                        @endif
                                         {{-- @foreach($mitems as $data => $item)                                        
                                         <option value="{{ $item->code }}">{{ $item->code." - ".$item->name }}</option>
                                         @endforeach --}}
@@ -51,14 +55,18 @@
                                 <div class="form-group">
                                     <label>Counter</label>
                                     <select class="form-control select2" name="counter" id="counter">
-                                        <option disabled selected>--Select Counter--</option>
-                                        {{-- @if(request('counter') == NULL)
+                                        @if(request('counter') == NULL)
+                                            <option disabled selected>--Select Counter--</option>
+                                            @foreach($counters as $data => $item)                                        
+                                            <option>{{ $item->name}}</option>
+                                            @endforeach
                                         @else
                                             <option disabled selected>{{ $_GET['counter'] }}</option>
-                                        @endif --}}
-                                        @foreach($counters as $data => $item)                                        
-                                        <option>{{ $item->name}}</option>
-                                        @endforeach
+                                            @foreach($counters as $data => $item)                                        
+                                            <option>{{ $item->name}}</option>
+                                            @endforeach
+                                        @endif
+                                        
                                     </select>
                                 </div>                                
                             </div>
