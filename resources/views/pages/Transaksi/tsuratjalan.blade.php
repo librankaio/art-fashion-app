@@ -508,7 +508,7 @@
                         new_subtot = Number(new_total_qty) * Number(this_hrg_row);
                         final_pricetot = Number(new_pricetot) + Number(new_subtot);
                         $('#price_total').val(thousands_separators(final_pricetot.toFixed(2)));
-                        table.rows[i].cells[7].getElementsByTagName('input')[0].value = thousands_separators(new_subtot.toFixed(2));
+                        // table.rows[i].cells[7].getElementsByTagName('input')[0].value = thousands_separators(new_subtot.toFixed(2));
                         table.rows[i].cells[8].getElementsByTagName('input')[0].value = thousands_separators(new_subtot.toFixed(2));
                         // alert('ada kode sama');
                         $("#kode").prop('selectedIndex', 0).trigger('change');
