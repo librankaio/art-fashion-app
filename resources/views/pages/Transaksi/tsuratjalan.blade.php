@@ -484,15 +484,42 @@
                     exist_code_row = table.rows[i].cells[2].getElementsByTagName('input')[0].value;
                     console.log("isi input :"+ exist_code_row);
                     if(exist_code_row == kode_id){
+                        price_total_old = $('#price_total').val();
+                        if (/\D/g.test(price_total_old))
+                        {
+                            // Filter comma
+                            price_total_old = price_total_old.replace(/\,/g,"");
+                            price_total_old = Number(Math.trunc(price_total_old))
+                        }
+
                         var this_row_qty_val = table.rows[i].cells[5].getElementsByTagName('input')[0].value;
                         new_total_qty = Number(quantity) + Number(this_row_qty_val)
                         table.rows[i].cells[5].getElementsByTagName('input')[0].value = new_total_qty;
                         this_hrg_row = table.rows[i].cells[7].getElementsByTagName('input')[0].value;
+                        if (/\D/g.test(this_hrg_row))
+                        {
+                            // Filter comma
+                            this_hrg_row = this_hrg_row.replace(/\,/g,"");
+                            this_hrg_row = Number(Math.trunc(this_hrg_row))
+                        }
+                        normalize_price_total = Number(price_total_old) - Number(this_hrg_row)
+                        $('#price_total').val(normalize_price_total);
+                        new_pricetot = $('#price_total').val();
                         new_subtot = Number(new_total_qty) * Number(this_hrg_row);
+                        final_pricetot = Number(new_pricetot) + Number(new_subtot);
+                        $('#price_total').val(thousands_separators(final_pricetot.toFixed(2)));
                         table.rows[i].cells[7].getElementsByTagName('input')[0].value = thousands_separators(new_subtot.toFixed(2));
-                        $('#price_total').val();
                         table.rows[i].cells[8].getElementsByTagName('input')[0].value = thousands_separators(new_subtot.toFixed(2));
-                        alert('ada kode sama');
+                        // alert('ada kode sama');
+                        $("#kode").prop('selectedIndex', 0).trigger('change');
+                        $("#nama_item").val('');
+                        $("#warna").val('');
+                        $("#hrgjual").val(0);
+                        $("#satuan").val('');
+                        $("#quantity").val(0);
+                        $("#merk").val('');
+                        $("#subtot").val('');
+                        $("#note").val('');
                         return false
                     }
                 }
