@@ -493,6 +493,7 @@
                         }
 
                         var this_row_qty_val = table.rows[i].cells[5].getElementsByTagName('input')[0].value;
+                        old_qty = this_row_qty_val
                         new_total_qty = Number(quantity) + Number(this_row_qty_val)
                         table.rows[i].cells[5].getElementsByTagName('input')[0].value = new_total_qty;
                         this_hrg_row = table.rows[i].cells[7].getElementsByTagName('input')[0].value;
@@ -502,11 +503,13 @@
                             this_hrg_row = this_hrg_row.replace(/\,/g,"");
                             this_hrg_row = Number(Math.trunc(this_hrg_row))
                         }
-                        normalize_price_total = Number(price_total_old) - Number(this_hrg_row)
+                        old_subtot = Number(this_hrg_row) * Number(old_qty) 
+                        normalize_price_total = Number(price_total_old) - Number(old_subtot)
                         $('#price_total').val(normalize_price_total);
                         new_pricetot = $('#price_total').val();
                         new_subtot = Number(new_total_qty) * Number(this_hrg_row);
                         final_pricetot = Number(new_pricetot) + Number(new_subtot);
+                        console.log("final_pricetot : "+final_pricetot)
                         $('#price_total').val(thousands_separators(final_pricetot.toFixed(2)));
                         // table.rows[i].cells[7].getElementsByTagName('input')[0].value = thousands_separators(new_subtot.toFixed(2));
                         table.rows[i].cells[8].getElementsByTagName('input')[0].value = thousands_separators(new_subtot.toFixed(2));
@@ -526,7 +529,7 @@
                 
                 subtotparse = subtot.replaceAll(",", "");
                 
-                if(counter == 1){
+                if(counter > 1){
                     if (/\D/g.test(hrgjual))
                     {
                         // Filter comma
@@ -572,13 +575,13 @@
                         total_old = total_old.replace(/\,/g,"");
                         total_old = Number(Math.trunc(total_old))
                     }
-                    
                     total = sum + total_old
+                    rowCount++;
 
                     $("#price_total").val(thousands_separators(Number(total).toFixed(2)));
                 }
 
-                tablerow = "<tr row_id="+ rowCount +"><th style='readonly:true;' class='border border-5'>" + rowCount + "</th><td class='border border-5' style='display:none;'><input style='width:120px;' readonly form='thisform' class='numberclass form-control' type='text' value='" + counter + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td><td class='border border-5'><input style='width:120px;' form='thisform' class='row_qty quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "' id='qty_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_hrgjual hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "' id='hrgjual_d_"+rowCount+"'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+rowCount+"'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
+                tablerow = "<tr row_id="+ rowCount +"><th style='readonly:true;' class='border border-5'>" + rowCount + "</th><td class='border border-5' style='display:none;'><input style='width:120px;' readonly form='thisform' class='numberclass form-control' type='text' value='" + rowCount + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td><td class='border border-5'><input style='width:120px;' form='thisform' class='row_qty quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "' id='qty_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_hrgjual hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "' id='hrgjual_d_"+rowCount+"'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+rowCount+"'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td></tr>";
                 
                 $("#datatable tbody").append(tablerow);
 
@@ -604,6 +607,7 @@
                     // counter_id = $(this).closest('tr').text();
                     // counter_id = $('td').find('.numberclass').val();
                     counter_id = $(this).closest('tr').find('.numberclass').val();
+                    // console.log(counter_id);
                     subtot = $("#subtot_d_"+ counter_id).val().replaceAll(",", "");
                     
                     if (/\D/g.test(subtot))
