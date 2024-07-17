@@ -42,7 +42,7 @@
                                         @if(request('artikel') == NULL)
                                         <option></option>
                                         @else
-                                        <option disabled selected>{{ $_GET['counter'] }}</option>
+                                        <option disabled selected>{{ $_GET['artikel'] }}</option>
                                         <option></option>
                                         @endif
                                         {{-- @foreach($mitems as $data => $item)                                        
