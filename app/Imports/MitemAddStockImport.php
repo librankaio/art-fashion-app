@@ -36,8 +36,8 @@ class MitemAddStockImport implements ToCollection,WithHeadingRow
                 ]);
             // }
             $qty = $row['qty'];
-            $code_mitem = $row['code_mitem'];
-            $code_mcounter = $row['code_mcounter'];
+            $code_mitem = trim($row['code_mitem']);
+            $code_mcounter = trim($row['code_mcounter']);
             // DB::select("select stock from mitems_counter where code_mitem = '$code_mitem' and code_mcounters = '$code_mcounter' liimit 1");
             DB::update( DB::raw("update mitems_counters set stock = stock + $qty where code_mitem = '$code_mitem' and code_mcounters = '$code_mcounter'"));
         } 

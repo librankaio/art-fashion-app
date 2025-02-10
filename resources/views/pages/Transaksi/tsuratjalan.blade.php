@@ -746,32 +746,31 @@
         });
 
         $(document).on("click","#confirm",function(e){
-        // Validate ifnull
-        no = $("#no").val();
-        counter = $("#counter").val();
-        code_cust = $("#code_cust").prop('selectedIndex');
-        // nosob = $("#nosob").prop('selectedIndex');
-        jenis = $("#jenis").prop('selectedIndex');
-        if (no == ""){
-            swal('WARNING', 'No Tidak boleh kosong!', 'warning');
-            return false;
-        }else if (code_cust == 0){
-            swal('WARNING', 'Please select Code Cust', 'warning');
-            return false;
-        }
-        show_loading()
-        // else if (nosob == 0){
-        //     swal('WARNING', 'Please select Nomer SOB', 'warning');
-        //     return false;
-        // }
-        // else if (jenis == 0){
-        //     swal('WARNING', 'Please select Jenis', 'warning');
-        //     return false;
-        // }
+            // Validate ifnull
+            no = $("#no").val();
+            counter = $("#counter").val();
+            code_cust = $("#code_cust").prop('selectedIndex');
+            // nosob = $("#nosob").prop('selectedIndex');
+            jenis = $("#jenis").prop('selectedIndex');
+            if (no == ""){
+                swal('WARNING', 'No Tidak boleh kosong!', 'warning');
+                return false;
+            }else if (code_cust == 0){
+                swal('WARNING', 'Please select Code Cust', 'warning');
+                return false;
+            }
+            show_loading()
+            // else if (nosob == 0){
+            //     swal('WARNING', 'Please select Nomer SOB', 'warning');
+            //     return false;
+            // }
+            // else if (jenis == 0){
+            //     swal('WARNING', 'Please select Jenis', 'warning');
+            //     return false;
+            // }
         });
 
-        $(document).on('focusout', '.row_qty', function(event) 
-            {
+        $(document).on('focusout', '.row_qty', function(event) {
                 event.preventDefault();
 
                 console.log("focus out");
@@ -814,7 +813,7 @@
                 total_new = total_old + sum;
 
                 $('#price_total').val(thousands_separators(total_new.toFixed(2)));
-            })	
+        });
         
     })
 

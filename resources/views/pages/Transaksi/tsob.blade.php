@@ -19,151 +19,151 @@
         </div>
         <form action="" method="POST" id="thisform">
             @csrf
-        <div class="row">
-            <div class="col-12 col-md-4 col-lg-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Header Information</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>No Trans</label>
-                                    @foreach($notrans as $key => $code)
-                                        @php $codetrans = $code->codetrans @endphp
-                                    @endforeach
-                                    <input type="text" class="form-control" name="no" id="no" value="{{ $code->codetrans }}" readonly>
-                                </div>       
-                                <div class="form-group">
-                                    <label>Counter</label>
-                                    <select class="form-control select2" name="counter" id="counter">
-                                        {{-- <option disabled selected>--Select Counter--</option> --}}
-                                        @foreach($counters as $counter)
-                                        <option>{{ $counter->name}}</option>
+            <div class="row">
+                <div class="col-12 col-md-4 col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Header Information</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>No Trans</label>
+                                        @foreach($notrans as $key => $code)
+                                            @php $codetrans = $code->codetrans @endphp
                                         @endforeach
-                                    </select>
-                                </div>                         
-                                <div class="form-group">
-                                    <label>Tanggal</label>
-                                    @if(session('dt_tsob') == '')
-                                    <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d") }}">
-                                    @else
-                                    <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d", strtotime(session('dt_tsob'))) }}">
-                                    @endif
-                                </div>
-                                <div class="form-group">
-                                    <label>Catatan</label>
-                                    <textarea class="form-control" style="height:100px" name="note"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-6">
-                <div class="card" style="border: 1px solid lightblue">
-                    <div class="card-header">
-                        <h4>Add Items</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Kode</label>
-                                    <select class="form-control select2" id="kode">
-                                        <option></option>
-                                        {{-- @foreach($mitems as $data => $item)                                        
-                                        <option value="{{ $item->code }}">{{ $item->code." - ".$item->name }}</option>
-                                        @endforeach --}}
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Nama Item</label>
-                                    <input type="text" class="form-control" id="nama_item" disabled>
-                                </div>
-                                <div class="form-group">
-                                    <label>Warna</label>
-                                    <input type="text" class="form-control" id="warna" disabled>
-                                </div>     
-                                <div class="form-group">
-                                    <a href="" id="addItem">
-                                        <i class="fa fa-plus" style="font-size:18pt"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-md-6">                                
-                                <div class="form-group">
-                                    <label>Satuan</label>
-                                    <input type="text" class="form-control" id="satuan" disabled>
-                                </div>
-                                <div class="form-group">
-                                    <label>Quantity</label>
-                                    <input type="text" class="form-control" id="quantity" value="0">
-                                </div>
-                                <div class="form-group">
-                                    <label>Harga Jual</label>
-                                    <input type="text" class="form-control" id="hrgjual" value="0">
-                                </div>   
-                                <div class="form-group">
-                                    <label>Subtotal</label>
-                                    <input type="text" class="form-control" id="subtot" disabled>
+                                        <input type="text" class="form-control" name="no" id="no" value="{{ $code->codetrans }}" readonly>
+                                    </div>       
+                                    <div class="form-group">
+                                        <label>Counter</label>
+                                        <select class="form-control select2" name="counter" id="counter">
+                                            {{-- <option disabled selected>--Select Counter--</option> --}}
+                                            @foreach($counters as $counter)
+                                            <option>{{ $counter->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>                         
+                                    <div class="form-group">
+                                        <label>Tanggal</label>
+                                        @if(session('dt_tsob') == '')
+                                        <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d") }}">
+                                        @else
+                                        <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d", strtotime(session('dt_tsob'))) }}">
+                                        @endif
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Catatan</label>
+                                        <textarea class="form-control" style="height:100px" name="note"></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12 col-md-12 col-lg-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="datatable">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" class="border border-5">No</th>
-                                        <th scope="col" class="border border-5">Kode</th>
-                                        <th scope="col" class="border border-5">Nama Item</th>
-                                        <th scope="col" class="border border-5">Warna</th>
-                                        <th scope="col" class="border border-5">Quantity</th>
-                                        <th scope="col" class="border border-5">Satuan</th>
-                                        <th scope="col" class="border border-5">Harga Jual</th>
-                                        <th scope="col" class="border border-5">Subtotal</th>
-                                        <th scope="col" class="border border-5">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>                            
-                            </table>
-                        </div>                                              
-                    </div>      
-                    <div class="col-12 col-md-6 col-lg-6 align-self-end">
-                        <div class="row">
-                            <div class="col-md-8">
-                                
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Total</label>
-                                    <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" readonly>
+                <div class="col-12 col-md-6 col-lg-6">
+                    <div class="card" style="border: 1px solid lightblue">
+                        <div class="card-header">
+                            <h4>Add Items</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Kode</label>
+                                        <select class="form-control select2" id="kode">
+                                            <option></option>
+                                            {{-- @foreach($mitems as $data => $item)                                        
+                                            <option value="{{ $item->code }}">{{ $item->code." - ".$item->name }}</option>
+                                            @endforeach --}}
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Nama Item</label>
+                                        <input type="text" class="form-control" id="nama_item" disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Warna</label>
+                                        <input type="text" class="form-control" id="warna" disabled>
+                                    </div>     
+                                    <div class="form-group">
+                                        <a href="" id="addItem">
+                                            <i class="fa fa-plus" style="font-size:18pt"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">                                
+                                    <div class="form-group">
+                                        <label>Satuan</label>
+                                        <input type="text" class="form-control" id="satuan" disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Quantity</label>
+                                        <input type="text" class="form-control" id="quantity" value="0">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Harga Jual</label>
+                                        <input type="text" class="form-control" id="hrgjual" value="0">
+                                    </div>   
+                                    <div class="form-group">
+                                        <label>Subtotal</label>
+                                        <input type="text" class="form-control" id="subtot" disabled>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>              
-                    <div class="card-footer text-right">
-                        <a class="btn btn-warning mr-1" href="/tsoblist">List</a>
-                        <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('tsobpost') }}">Save</button>
-                        {{-- @if($tpos_save == 'Y')
-                            <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}">Submit</button>
-                        @elseif($tpos_save == 'N' || $tpos_save == null)
-                            <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}" disabled>Submit</button>
-                        @endif --}}
-                        {{-- <button class="btn btn-secondary" type="reset">Reset</button> --}}
+                    </div>
+                </div>
+                <div class="col-12 col-md-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="border border-5">No</th>
+                                            <th scope="col" class="border border-5">Kode</th>
+                                            <th scope="col" class="border border-5">Nama Item</th>
+                                            <th scope="col" class="border border-5">Warna</th>
+                                            <th scope="col" class="border border-5">Quantity</th>
+                                            <th scope="col" class="border border-5">Satuan</th>
+                                            <th scope="col" class="border border-5">Harga Jual</th>
+                                            <th scope="col" class="border border-5">Subtotal</th>
+                                            <th scope="col" class="border border-5">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>                            
+                                </table>
+                            </div>                                              
+                        </div>      
+                        <div class="col-12 col-md-6 col-lg-6 align-self-end">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Total</label>
+                                        <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>              
+                        <div class="card-footer text-right">
+                            <a class="btn btn-warning mr-1" href="/tsoblist">List</a>
+                            <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('tsobpost') }}">Save</button>
+                            {{-- @if($tpos_save == 'Y')
+                                <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}">Submit</button>
+                            @elseif($tpos_save == 'N' || $tpos_save == null)
+                                <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}" disabled>Submit</button>
+                            @endif --}}
+                            {{-- <button class="btn btn-secondary" type="reset">Reset</button> --}}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
     </div>
 </section>
 @stop
