@@ -23,5 +23,6 @@ class Mitem extends Model
         'stock',
         'nett',
         'spcprice',
+        'barcode'
     ];
 }
