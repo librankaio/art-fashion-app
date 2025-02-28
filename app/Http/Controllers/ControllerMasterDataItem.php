@@ -210,6 +210,20 @@ class ControllerMasterDataItem extends Controller
         return $pdf->stream($datenow."_ITEM/".$mitem->code);
     }
 
+    public function barcode(Mitem $mitem){
+        // dd($mitem);
+        // return view('pages.Print.mitemprint',[
+        //     'mitem' => $mitem
+        // ]);
+
+        $datenow = date("Y-m-d");
+        $customPaper = array(0,0,85.039,141.732);
+        $pdf = Pdf::loadView('pages.Print.barcodemitem', [
+            'mitem'=>$mitem
+        ])->setPaper($customPaper, 'portrait');
+        return $pdf->stream($datenow."_ITEM/".$mitem->code);
+    }
+
     public function exportpdf(){
         // $pdf = Pdf::loadHTML('<h1>TEST</h1>');
 

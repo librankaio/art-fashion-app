@@ -227,10 +227,16 @@
                                                                     Delete</i></button>
                                                         </form>
                                                     @endif
-                                                    <a href="/mitem/{{ $item->id }}/print"
+                                                    <div class="div pr-2">
+                                                        <a href="/mitem/{{ $item->id }}/print"
+                                                            class="btn btn-icon icon-left btn-success" target="_blank"><i
+                                                                class="far fa-print">
+                                                                Print</i></a>
+                                                    </div>
+                                                    <a href="/mitem/{{ $item->id }}/barcode"
                                                         class="btn btn-icon icon-left btn-success" target="_blank"><i
                                                             class="far fa-print">
-                                                            Print</i></a>
+                                                            Barcode</i></a>
                                                 </td>
                                             </tr>
                                         @endforeach
