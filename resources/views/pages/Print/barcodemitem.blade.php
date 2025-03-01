@@ -110,10 +110,10 @@
             id="text_code">{{ $mitem->name_lbl }} <span>
                 <h5 style="margin: 0px auto; font-size: 6px; float:right;"></h5>
             </span></h5>
-        <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code, 'C128') }}" alt="barcode" width="100"
-            height="20" id="bgimg" />
+        <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->barcode, 'C128') }}" alt="barcode"
+            width="100" height="20" id="bgimg" />
         <h5 class="split-para" style="margin: 0px auto; font-size: 8px; margin-top:-7px; text-align:center;">
-            {{ $mitem->code }}</h5>
+            {{ $mitem->barcode }}</h5>
         <h5 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left; margin-top: -5px"
             id="text_code">
             <span>
@@ -127,10 +127,10 @@
             id="text_code">{{ $mitem->name_lbl }} <span>
                 <h5 style="margin: 0px auto; font-size: 6px; float:right;"></h5>
             </span></h5>
-        <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->code, 'C128') }}" alt="barcode" width="100"
-            height="20" id="bgimg" />
+        <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->barcode, 'C128') }}" alt="barcode"
+            width="100" height="20" id="bgimg" />
         <h5 class="split-para" style="margin: 0px auto; font-size: 8px; margin-top:-7px; text-align:center;">
-            {{ $mitem->code }}</h5>
+            {{ $mitem->barcode }}</h5>
         <h5 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left; margin-top: -5px"
             id="text_code">
             <span>
