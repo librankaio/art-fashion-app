@@ -218,6 +218,10 @@ class ControllerMasterDataItem extends Controller
 
         $datenow = date("Y-m-d");
         $customPaper = array(0,0,85.039,141.732);
+        if($mitem->barcode == null){
+            $mitem->setAttribute('barcode', 'none');
+        }
+        // dd($mitem);
         $pdf = Pdf::loadView('pages.Print.barcodemitem', [
             'mitem'=>$mitem
         ])->setPaper($customPaper, 'portrait');

@@ -112,8 +112,13 @@
             </span></h5>
         <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->barcode, 'C128') }}" alt="barcode"
             width="100" height="20" id="bgimg" />
-        <h5 class="split-para" style="margin: 0px auto; font-size: 8px; margin-top:-7px; text-align:center;">
-            {{ $mitem->barcode }}</h5>
+        @if ($mitem->barcode == 'none')
+            <h5 class="split-para" style="margin: 0px auto; font-size: 8px; margin-top:-7px; text-align:center;">
+                -</h5>
+        @else
+            <h5 class="split-para" style="margin: 0px auto; font-size: 8px; margin-top:-7px; text-align:center;">
+                {{ $mitem->barcode }}</h5>
+        @endif
         <h5 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left; margin-top: -5px"
             id="text_code">
             <span>
@@ -129,8 +134,13 @@
             </span></h5>
         <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($mitem->barcode, 'C128') }}" alt="barcode"
             width="100" height="20" id="bgimg" />
-        <h5 class="split-para" style="margin: 0px auto; font-size: 8px; margin-top:-7px; text-align:center;">
-            {{ $mitem->barcode }}</h5>
+        @if ($mitem->barcode == 'none')
+            <h5 class="split-para" style="margin: 0px auto; font-size: 8px; margin-top:-7px; text-align:center;">
+                -</h5>
+        @else
+            <h5 class="split-para" style="margin: 0px auto; font-size: 8px; margin-top:-7px; text-align:center;">
+                {{ $mitem->barcode }}</h5>
+        @endif
         <h5 class="split-para" style="margin: 0px auto; font-size: 8px; text-align:left; margin-top: -5px"
             id="text_code">
             <span>
