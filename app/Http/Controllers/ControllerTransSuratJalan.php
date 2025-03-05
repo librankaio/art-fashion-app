@@ -425,6 +425,28 @@ class ControllerTransSuratJalan extends Controller
             'array_name_lbl'=>$array_name_lbl])->setPaper($customPaper, 'portrait');
         return $pdf->stream($datenow."_NOSJ/".$tsjh->no);
     }
+    public function printLblBarcode(Tsj_h $tsjh){
+        $items = Tsj_d::where('idh','=',$tsjh->id)->get();
+        // dd($items);
+        $array_name_lbl = [];
+        
+        foreach($items as $item){
+            $name_lbl = Mitem::where('code', '=', $item->code)->first();
+            $barcode = Mitem::where('code', '=', $item->code)->first();
+            // array_push($items, $name_lbl->name_lbl);
+            // $items->put('name_lbl', $name_lbl->name_lbl);
+            $item['name_lbl'] = $name_lbl->name_lbl;
+            $item['barcode'] = $barcode->barcode;
+        }
+        // dd($items);
+        $datenow = date("Y-m-d");
+        // $customPaper = array(0,0,85.039,141.732);
+        $customPaper = array(0,0,215.4,141.7);
+        $pdf = Pdf::loadView('pages.Print.tsuratjalanprintlabelbarcode', [
+            'items'=>$items,
+            'array_name_lbl'=>$array_name_lbl])->setPaper($customPaper, 'portrait');
+        return $pdf->stream($datenow."_NOSJ/".$tsjh->no);
+    }
 
     public function printpdf(Tsj_h $tsjh){
         $tsjds = Tsj_d::where('idh','=',$tsjh->id)->get();
