@@ -223,6 +223,8 @@ class ControllerTransBonPenjualan extends Controller
     }
 
     public function list(){
+        ini_set('memory_limit', '3000M');
+        ini_set('max_execution_time', '0');
         if (!Session::has('bonjual_counter')){
             $bonjual_counter = Request()->counter_filter;
             Request()->session()->put('bonjual_counter', $bonjual_counter);
