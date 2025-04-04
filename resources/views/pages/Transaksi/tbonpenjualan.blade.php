@@ -403,7 +403,8 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="{{ route('tbonjuallist') }}" method="GET">
+        <form action="{{ route('tbonjuallist') }}" method="POST">
+            @csrf
             <div class="modal-body">
                 <div class="form-group">
                     <label>Counter List</label>
