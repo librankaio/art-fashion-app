@@ -166,8 +166,11 @@
 @section('botscripts')
     <script type="text/javascript">
         $('#datatable').DataTable({
-            // "ordering":false,
-            "bInfo": false
+            // "ordering": false,
+            "bInfo": false,
+            "order": [
+                [3, 'asc']
+            ]
         });
 
         $(".alert button.close").click(function(e) {
