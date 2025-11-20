@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Mitem;
 use App\Models\MitemCounters;
 use App\Models\Mwarna;
+use App\Models\Tadj_d;
+use App\Models\Tpembelian_d;
+use App\Models\Tpenjualan_d;
+use App\Models\Tretur_d;
+use App\Models\Tsob_d;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -16,37 +21,6 @@ class ControllerMasterDataItem extends Controller
 {
     public function index(Request $request)
     {
-        // if ($request->ajax()) {
-        //     $data = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice')->get();           
-        //     // return datatables()->of($data)->toJson();
-
-        //     return datatables()->of($data)
-        //         ->addIndexColumn()
-        //         ->addColumn('action', function($data){
-        //             $token = request()->session()->token();
- 
-        //             $token = csrf_token();
-        //             $actionBtn = '<a href="/mitem/'.$data->id.'/edit"
-        //             class="btn btn-icon icon-left btn-primary"><i class="far fa-edit">
-        //                 Edit</i></a>
-                        
-        //                 <form action="/mitem/delete/'.$data->id.'" id="del-'.$data->id.'"
-        //                     method="POST" class="px-2">
-        //                     <input type="hidden" name="_token" value="'.$token.'" />
-        //                     <button class="btn btn-icon icon-left btn-danger"
-        //                         id="del-'.$data->id.'" type="submit"
-        //                         data-confirm="WARNING!|Do you want to delete '.$data->id.' data?"
-        //                         data-confirm-yes="submitDel('.$data->id.')"><i
-        //                             class="fa fa-trash">
-        //                             Delete</i></button>
-        //                 </form>';
-        //             return $actionBtn;
-        //         })
-        //         ->rawColumns(['action'])
-        //         ->make(true);
-        // }
-        // $datas = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice')->get();
-
         if (isset($request->search)) {
             $warnas = Mwarna::select('code','name')->get();
             $datas = Mitem::select('id','code','name','name_lbl','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice','exist_trans')
@@ -68,10 +42,6 @@ class ControllerMasterDataItem extends Controller
         ]);
     }
 
-    public function search(Request $request){
-
-    }
-
     public function post(Request $request){
         $availcode = Mitem::where('code', '=', $request->kode)->first();
         $counter = session('counter');
@@ -79,8 +49,6 @@ class ControllerMasterDataItem extends Controller
         if($availcode != null){
             return redirect()->back()->with('error', 'Kode sudah terdaftar');
         }else{
-            // DB::select( DB::raw("INSERT INTO mitems_counters (code_mitem, name_mitem, code_mcounters, name_mcounters)
-            // (SELECT code, name, '$request->kode', '$counter' FROM mitems TA);") );
             Mitem::create([  
                 'name' => $request->nama,
                 'name_lbl' => $request->name_lbl,
@@ -96,32 +64,15 @@ class ControllerMasterDataItem extends Controller
                 'nett' => (float) str_replace(',', '', $request->price_nett),
                 'spcprice' => (float) str_replace(',', '', $request->price_special),
             ]);
-            DB::insert( DB::raw("insert into mitems_counters (code_mitem, name_mitem, code_mcounters, name_mcounters, stock)
-            select '$request->kode', '$request->nama', code, name, 0 FROM mcounters"));
-            // DB::select( DB::raw("INSERT INTO mitems_counters (code_mitem, name_mitem, code_mcounters, name_mcounters, stock)
-            // select '$request->kode', '$request->nama', code, name, 0 FROM mcounters"));
+            DB::insert(
+                "INSERT INTO mitems_counters (code_mitem, name_mitem, code_mcounters, name_mcounters, stock)
+                SELECT ?, ?, code, name, 0 FROM mcounters",
+                [$request->kode, $request->nama]
+            );
             return redirect()->back()->with('success', 'Data berhasil ditambahkan');
         }
     }
 
-    // public function  getmitem(Request $request){
-    //     // $datas = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice')->get();
-
-    //     if ($request->ajax()) {
-    //         $data = Mitem::select('id','code','name','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice')->get();
-    //         return datatables()->of($data)->toJson();
-    //         // return datatables()->of($data)
-    //         //     ->addIndexColumn()
-    //         //     ->addColumn('action', function($row){
-    //         //         $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
-    //         //         return $actionBtn;
-    //         //     })
-    //         //     ->rawColumns(['action'])
-    //         //     ->make(true)
-    //         //     ->toJson();
-    //     }
-    //     // return json_encode($datas);
-    // }
     public function  getmitem(Request $request){
         $search = $request->search;
 
@@ -160,12 +111,10 @@ class ControllerMasterDataItem extends Controller
     }
 
     public function getedit(Mitem $mitem){
-        // dd($mitem);
         return view('pages.Master.mdataitemedit',['mitem' => $mitem]);
     }
 
     public function update(Mitem $mitem){
-        // dd(request()->all());
         Mitem::where('id', '=', $mitem->id)->update([
             'name' => request('nama'),
             'name_lbl' => request('name_lbl'),
@@ -190,17 +139,47 @@ class ControllerMasterDataItem extends Controller
         return redirect()->route('mitem')->with('success', 'Data berhasil di update');
     }
 
+    //OLD DELETE
+    // public function delete(Mitem $mitem){
+    //     Mitem::find($mitem->id)->delete();
+    //     DB::select( DB::raw("delete from mitems_counters where code_mitem = '$mitem->code' "));
+    //     return redirect()->route('mitem')->with('success', 'Data berhasil di hapus');
+    // }
+
     public function delete(Mitem $mitem){
-        Mitem::find($mitem->id)->delete();
-        DB::select( DB::raw("delete from mitems_counters where code_mitem = '$mitem->code' "));
-        return redirect()->route('mitem')->with('success', 'Data berhasil di hapus');
+        // Ambil kode yang di-strtok (ambil dari depan sebelum spasi)
+        $cleanCode = strtok($mitem->code, " ");
+
+        // Daftar tabel yang harus dicek
+        $checkModels = [
+            Tadj_d::class,
+            Tpembelian_d::class,
+            Tpenjualan_d::class,
+            Tretur_d::class,
+            Tsob_d::class
+        ];
+
+        // Loop cek ke setiap tabel
+        foreach ($checkModels as $model) {
+            $exists = $model::where('code', 'like', $cleanCode . '%')->exists();
+
+            if ($exists) {
+                return redirect()->route('mitem')
+                    ->with('error', "Item '$mitem->code' masih digunakan di tabel " . class_basename($model) . " sehingga tidak bisa dihapus.");
+            }
+        }
+
+        // Hapus mitems_counters tanpa pengecekan
+        DB::select(DB::raw("DELETE FROM mitems_counters WHERE code_mitem LIKE '{$cleanCode}%'"));
+
+        // Jika aman → hapus
+        $mitem->delete();
+
+        return redirect()->route('mitem')
+            ->with('success', 'Data berhasil dihapus');
     }
     
     public function print(Mitem $mitem){
-        // dd($mitem);
-        // return view('pages.Print.mitemprint',[
-        //     'mitem' => $mitem
-        // ]);
 
         $datenow = date("Y-m-d");
         $customPaper = array(0,0,85.039,141.732);
@@ -211,10 +190,6 @@ class ControllerMasterDataItem extends Controller
     }
 
     public function barcode(Mitem $mitem){
-        // dd($mitem);
-        // return view('pages.Print.mitemprint',[
-        //     'mitem' => $mitem
-        // ]);
 
         $datenow = date("Y-m-d");
         $customPaper = array(0,0,85.039,141.732);
@@ -229,23 +204,15 @@ class ControllerMasterDataItem extends Controller
     }
 
     public function exportpdf(){
-        // $pdf = Pdf::loadHTML('<h1>TEST</h1>');
-
-        // return $pdf->stream();
-
-        // $pdf = App::make('dompdf.wrapper');
-        // return $pdf->stream();
         
         $customPaper = array(0,0,85.039,141.732);
         $pdf = PDF::loadView('pages.Print.mitemprint2')->setPaper($customPaper, 'landscape');
-        // $pdf->loadHTML('<h1>Test</h1>');
         return $pdf->stream();
     }
 
     public function exportExcel(Request $request)
     {
         $results = Mitem::select('id','code','name','name_lbl','warna','kategori','hrgjual','size','satuan','material','gross','nett','spcprice','exist_trans')->get();
-        // dd($results);
         return view('pages.Print.Excel.mitemexcl', compact('results'));
     }
 }

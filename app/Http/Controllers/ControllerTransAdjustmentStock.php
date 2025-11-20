@@ -33,9 +33,6 @@ class ControllerTransAdjustmentStock extends Controller
     }
 
     public function post(Request $request){
-        // $mcounter = Mcounter::where('name', '=', $request->counter)->first();
-        // dd($request->all());
-       
         $notrans = DB::select("select fgetcode('tadj') as codetrans");
 
         foreach($notrans as $notran){
@@ -96,7 +93,6 @@ class ControllerTransAdjustmentStock extends Controller
                         'action' => "CREATE",
                         'user' => session('nik'),
                     ]);
-                    //    DB::update('CALL splusstock  (?,?,?)', [ strtok($request->kode_d[$i], " "), $mcounter->code, $request->quantity_d[$i]]);
                 }else if ($request->jenis == 'Minus'){
                     $stock_mitem_counter = DB::table('mitems_counters')
                     ->selectRaw('stock')
@@ -120,8 +116,7 @@ class ControllerTransAdjustmentStock extends Controller
                         'jenis' => "MINUS",
                         'action' => "CREATE",
                         'user' => session('nik'),
-                    ]);
-                    //    DB::update('CALL sminstock  (?,?,?)', [ strtok($request->kode_d[$i], " "), $mcounter->code, $request->quantity_d[$i]]);                       
+                    ]);                   
                 }
                 $count++;
             }
@@ -161,25 +156,20 @@ class ControllerTransAdjustmentStock extends Controller
     }
 
     public function update(Tadj_h $tadjh){
-        // dd(request()->all());
-        // dd(sizeof(request('id_d')));
         if (request('jenis') == 'Plus'){
             for($x=0;$x<sizeof(request('existdb_d'));$x++){
                 $getstock_old = Tadj_d::where('id', '=', request('id_d')[$x])->first();
                 if ($getstock_old != null){
-                    // dd($getstock_old);
-                    // dd((int)$getstock_old->qty);
-                    // dd($getstock_old->code);
                     $old_stock_mitem_counter = DB::table('mitems_counters')
                     ->selectRaw('stock')
                     ->where('code_mitem', '=', strtok($getstock_old->code, " "))
                     ->where('name_mcounters', '=', request('counter'))
                     ->first();
-                    // dd($old_stock_mitem_counter->stock-(int)$getstock_old->qty);
+
                     // Make stock counter value is equal to old stock
                     // $getstock_old->qty is pembelian_d stock value
+
                     $normalize_stock_counter = $old_stock_mitem_counter->stock - (int)$getstock_old->qty;
-                    // dd($normalize_stock_counter);
                     DB::table('mitems_counters')
                     ->selectRaw('stock')
                     ->where('code_mitem', '=', strtok($getstock_old->code, " "))
@@ -190,7 +180,6 @@ class ControllerTransAdjustmentStock extends Controller
 
                     $stock_mitem_old = Mitem::select('stock')->where('code', '=', strtok($getstock_old->code, " "))->first();
                     // Make stock mitem value is equal to mitem old stock
-                    // dd($stock_mitem_old->stock - (int)$getstock_old->qty);
                     $normalize_stock_mitem = $stock_mitem_old->stock - (int)$getstock_old->qty;
                     Mitem::where('code', '=', strtok($getstock_old->code, " "))->update([
                         'stock' => (int)$normalize_stock_mitem,
@@ -205,19 +194,16 @@ class ControllerTransAdjustmentStock extends Controller
             for($x=0;$x<sizeof(request('existdb_d'));$x++){
                 $getstock_old = Tadj_d::where('id', '=', request('id_d')[$x])->first();
                 if ($getstock_old != null){
-                    // dd($getstock_old);
-                    // dd((int)$getstock_old->qty);
-                    // dd($getstock_old->code);
                     $old_stock_mitem_counter = DB::table('mitems_counters')
                     ->selectRaw('stock')
                     ->where('code_mitem', '=', strtok($getstock_old->code, " "))
                     ->where('name_mcounters', '=', request('counter'))
                     ->first();
-                    // dd($old_stock_mitem_counter->stock-(int)$getstock_old->qty);
+
                     // Make stock counter value is equal to old stock
                     // $getstock_old->qty is pembelian_d stock value
+
                     $normalize_stock_counter = $old_stock_mitem_counter->stock + (int)$getstock_old->qty;
-                    // dd($normalize_stock_counter);
                     DB::table('mitems_counters')
                     ->selectRaw('stock')
                     ->where('code_mitem', '=', strtok($getstock_old->code, " "))
@@ -228,7 +214,6 @@ class ControllerTransAdjustmentStock extends Controller
     
                     $stock_mitem_old = Mitem::select('stock')->where('code', '=', strtok($getstock_old->code, " "))->first();
                     // Make stock mitem value is equal to mitem old stock
-                    // dd($stock_mitem_old->stock - (int)$getstock_old->qty);
                     $normalize_stock_mitem = $stock_mitem_old->stock + (int)$getstock_old->qty;
                     Mitem::where('code', '=', strtok($getstock_old->code, " "))->update([
                         'stock' => (int)$normalize_stock_mitem,
@@ -273,7 +258,6 @@ class ControllerTransAdjustmentStock extends Controller
                     ->where('code_mitem', '=', strtok(request('kode_d')[$i], " "))
                     ->where('name_mcounters', '=', request('counter'))
                     ->first();
-                    // dd($stock_mitem_counter);
                     $stock_counter_sum = $stock_mitem_counter->stock+request('quantity_d')[$i];
                     DB::table('mitems_counters')
                     ->selectRaw('stock')
@@ -293,8 +277,6 @@ class ControllerTransAdjustmentStock extends Controller
                         'action' => "UPDATE",
                         'user' => session('nik'),
                     ]);
-                        // DB::update('CALL sminstock  (?,?,?)', [ strtok(request('kode_d')[$i], " "), $mcounter->code, request('quantity_d')[$i]]);
-                        // DB::update('CALL splusstock  (?,?,?)', [ strtok(request('kode_d')[$i], " "), $mcounter->code, request('quantity_d')[$i]]);
                 }else if(request('jenis') == 'Minus'){
                     $stock_mitem_counter = DB::table('mitems_counters')
                     ->selectRaw('stock')
@@ -323,20 +305,14 @@ class ControllerTransAdjustmentStock extends Controller
                     ]);
                         // DB::update('CALL sminstock  (?,?,?)', [ strtok(request('kode_d')[$i], " "), $mcounter->code, request('quantity_d')[$i]]);
                 }
-                // dd($stock_mitem_counter);
                 $count++;
             }
         }
-        // dd($counting_item);
         return redirect()->route('tadjlist')->with('success', 'Data berhasil di update');
-        // if($count == $countrows){
-        //     return redirect()->route('tadjlist');
-        // }
     }
 
     public function delete(Tadj_h $tadjh){
         $tadj_length = Tadj_d::where('idh', '=', $tadjh->id)->get();
-        // dd(sizeof($tadj_length));
         if ($tadjh->jenis == 'Plus'){
             for($x=0;$x<sizeof($tadj_length);$x++){
                 // dd($tadj_length[$x]->id);
@@ -346,11 +322,12 @@ class ControllerTransAdjustmentStock extends Controller
                 ->where('code_mitem', '=', strtok($tadj_length[$x]->code, " "))
                 ->where('name_mcounters', '=', $tadjh->counter)
                 ->first();
-                // dd($old_stock_mitem_counter->stock-(int)$getstock_old->qty);
+
                     // Make stock counter value is equal to old stock
                     // $getstock_old->qty is pembelian_d stock value
+
                 $normalize_stock_counter = $old_stock_mitem_counter->stock - (int)$getstock_old->qty;
-                    // dd($normalize_stock_counter);
+                
                 DB::table('mitems_counters')
                 ->selectRaw('stock')
                 ->where('code_mitem', '=', strtok($tadj_length[$x]->code, " "))
@@ -373,7 +350,6 @@ class ControllerTransAdjustmentStock extends Controller
     
                 $stock_mitem_old = Mitem::select('stock')->where('code', '=', strtok($getstock_old->code, " "))->first();
                     // Make stock mitem value is equal to mitem old stock
-                    // dd($stock_mitem_old->stock - (int)$getstock_old->qty);
                 $normalize_stock_mitem = $stock_mitem_old->stock - (int)$getstock_old->qty;
                 Mitem::where('code', '=', strtok($getstock_old->code, " "))->update([
                     'stock' => (int)$normalize_stock_mitem,
@@ -381,18 +357,15 @@ class ControllerTransAdjustmentStock extends Controller
             }
         }else if($tadjh->jenis == 'Minus'){
             for($x=0;$x<sizeof($tadj_length);$x++){
-                // dd($tadj_length[$x]->id);
                 $getstock_old = Tadj_d::where('id', '=', $tadj_length[$x]->id)->first();
                 $old_stock_mitem_counter = DB::table('mitems_counters')
                 ->selectRaw('stock')
                 ->where('code_mitem', '=', strtok($tadj_length[$x]->code, " "))
                 ->where('name_mcounters', '=', $tadjh->counter)
                 ->first();
-                // dd($old_stock_mitem_counter->stock-(int)$getstock_old->qty);
                 // Make stock counter value is equal to old stock
                 // $getstock_old->qty is pembelian_d stock value
                 $normalize_stock_counter = $old_stock_mitem_counter->stock + (int)$getstock_old->qty;
-                // dd($normalize_stock_counter);
                 DB::table('mitems_counters')
                 ->selectRaw('stock')
                 ->where('code_mitem', '=', strtok($tadj_length[$x]->code, " "))
