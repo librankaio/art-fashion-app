@@ -24,6 +24,7 @@ use App\Http\Controllers\ControllerTransReturPenjualan;
 use App\Http\Controllers\ControllerTransSOB;
 use App\Http\Controllers\ControllerTransStockOpname;
 use App\Http\Controllers\ControllerTransSuratJalan;
+use App\Http\Controllers\ControllerTransSuratJalanV2;
 use App\Http\Controllers\ControllerUpload;
 use App\Http\Controllers\ControllerUploadMitemCounter;
 use App\Http\Controllers\ControllerUploadTbhStockMitem;
@@ -161,18 +162,18 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/tbonjual/{tpenjualanh}/printmatrix', [ControllerTransBonPenjualan::class, 'printmatrix'])->name('tbonjualprintmatrix');
     Route::get('/tbonjual/{tpenjualanh}/printpdfbonjual', [ControllerTransBonPenjualan::class, 'printpdfbonjual'])->name('printpdfbonjual');
 
-    Route::get('tsuratjalan', [ControllerTransSuratJalan::class, 'index'])->name('tsuratjalan');
-    Route::post('/tsuratjalanpost', [ControllerTransSuratJalan::class, 'post'])->name('tsuratjalanpost');
-    Route::post('/getnosobd', [ControllerTransSuratJalan::class, 'getnosob'])->name('getnosobd');
-    Route::post('/getcounter', [ControllerTransSuratJalan::class, 'getcounter'])->name('getcounter');
-    Route::get('tsuratjalanlist', [ControllerTransSuratJalan::class, 'list'])->name('tsuratjalanlist');
-    Route::get('/tsuratjalan/{tsjh}/edit', [ControllerTransSuratJalan::class, 'getedit'])->name('tsuratjalanedit');
-    Route::post('/tsuratjalan/{tsjh}', [ControllerTransSuratJalan::class, 'update'])->name('tsuratjalanupdate');
-    Route::post('/tsuratjalan/delete/{tsjh}', [ControllerTransSuratJalan::class, 'delete'])->name('tsuratjalandelete');
-    Route::get('/tsuratjalan/{tsjh}/print', [ControllerTransSuratJalan::class, 'print'])->name('tsuratjalanprint');
-    Route::get('/tsuratjalan/{tsjh}/printitem', [ControllerTransSuratJalan::class, 'printItem'])->name('tsuratjalanprintitem');
-    Route::get('/tsuratjalan/{tsjh}/printlblbarcode', [ControllerTransSuratJalan::class, 'printlblbarcode'])->name('tsuratjalanprintlblbarcode');
-    Route::get('/tsuratjalan/{tsjh}/printpdf', [ControllerTransSuratJalan::class, 'printpdf'])->name('tsuratjalanprintpdf');
+    Route::get('tsuratjalan', [ControllerTransSuratJalanV2::class, 'index'])->name('tsuratjalan');
+    Route::post('/tsuratjalanpost', [ControllerTransSuratJalanV2::class, 'post'])->name('tsuratjalanpost');
+    Route::post('/getnosobd', [ControllerTransSuratJalanV2::class, 'getnosob'])->name('getnosobd');
+    Route::post('/getcounter', [ControllerTransSuratJalanV2::class, 'getcounter'])->name('getcounter');
+    Route::get('tsuratjalanlist', [ControllerTransSuratJalanV2::class, 'list'])->name('tsuratjalanlist');
+    Route::get('/tsuratjalan/{tsjh}/edit', [ControllerTransSuratJalanV2::class, 'getedit'])->name('tsuratjalanedit');
+    Route::post('/tsuratjalan/{tsjh}', [ControllerTransSuratJalanV2::class, 'update'])->name('tsuratjalanupdate');
+    Route::post('/tsuratjalan/delete/{tsjh}', [ControllerTransSuratJalanV2::class, 'delete'])->name('tsuratjalandelete');
+    Route::get('/tsuratjalan/{tsjh}/print', [ControllerTransSuratJalanV2::class, 'print'])->name('tsuratjalanprint');
+    Route::get('/tsuratjalan/{tsjh}/printitem', [ControllerTransSuratJalanV2::class, 'printItem'])->name('tsuratjalanprintitem');
+    Route::get('/tsuratjalan/{tsjh}/printlblbarcode', [ControllerTransSuratJalanV2::class, 'printlblbarcode'])->name('tsuratjalanprintlblbarcode');
+    Route::get('/tsuratjalan/{tsjh}/printpdf', [ControllerTransSuratJalanV2::class, 'printpdf'])->name('tsuratjalanprintpdf');
 
     Route::get('tpembelianbarang', [ControllerTransPembelianBarang::class, 'index'])->name('tpembelianbarang');
     Route::post('/tpembelianbarangpost', [ControllerTransPembelianBarang::class, 'post'])->name('tpembelianbarangpost');
