@@ -205,7 +205,7 @@ class ControllerTransSuratJalanV2 extends Controller
     }
 
     public function update(Tsj_h $tsjh){
-        dd(request()->all());
+        // dd(request()->all());
         for($x=0;$x<sizeof(request('existdb_d'));$x++){
             $getstock_old = Tsj_d::where('id', '=', request('id_d')[$x])->first();
             if ($getstock_old != null){
