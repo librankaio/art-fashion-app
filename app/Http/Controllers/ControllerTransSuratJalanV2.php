@@ -333,19 +333,19 @@ class ControllerTransSuratJalanV2 extends Controller
                 'stock' => (int)$stock_mitem_sum,
             ]);
             // Mins a value from the old stock in mitems_counters table
-            $stock_mitem_counter = DB::table('mitems_counters')
-            ->selectRaw('stock')
-            ->where('code_mitem', '=', strtok($suratjalan_old_item->code, " "))
-            ->where('name_mcounters', '=', $tsjh->counter_from)
-            ->first();
-            $stock_mitem_counter_sum = $stock_mitem_counter->stock + (int)$suratjalan_old_item->qty;
-            DB::table('mitems_counters')
-            ->selectRaw('stock')
-            ->where('code_mitem', '=', strtok($suratjalan_old_item->code, " "))
-            ->where('name_mcounters', '=', $tsjh->counter_from)
-            ->update([
-                'stock' => (int)$stock_mitem_counter_sum,
-            ]);
+            // $stock_mitem_counter = DB::table('mitems_counters')
+            // ->selectRaw('stock')
+            // ->where('code_mitem', '=', strtok($suratjalan_old_item->code, " "))
+            // ->where('name_mcounters', '=', $tsjh->counter_from)
+            // ->first();
+            // $stock_mitem_counter_sum = $stock_mitem_counter->stock + (int)$suratjalan_old_item->qty;
+            // DB::table('mitems_counters')
+            // ->selectRaw('stock')
+            // ->where('code_mitem', '=', strtok($suratjalan_old_item->code, " "))
+            // ->where('name_mcounters', '=', $tsjh->counter_from)
+            // ->update([
+            //     'stock' => (int)$stock_mitem_counter_sum,
+            // ]);
 
             $mcounter = Mcounter::where('name', '=', $tsjh->counter_from)->first();
 
