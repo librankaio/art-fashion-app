@@ -205,6 +205,7 @@ class ControllerTransSuratJalanV2 extends Controller
     }
 
     public function update(Tsj_h $tsjh){
+        dd(request()->all());
         for($x=0;$x<sizeof(request('existdb_d'));$x++){
             $getstock_old = Tsj_d::where('id', '=', request('id_d')[$x])->first();
             if ($getstock_old != null){
@@ -281,18 +282,18 @@ class ControllerTransSuratJalanV2 extends Controller
                 $mcounter = Mcounter::where('name', '=', request('counter_from'))->first();
 
                 if ($stock_mitem_counter == null) {
-                    $stock_mitem_counter = 0;
-                    $stock_counter_min = $stock_mitem_counter - request('quantity_d')[$i];
-                    date_default_timezone_set('Asia/Jakarta');
-                    $datetime = date('d-m-Y H:i:s');
-                    MitemCounters::create([
-                        'code_mitem' => strtok(request('kode_d')[$i], " "),
-                        'name_mitem' => request('nama_item_d')[$i],
-                        'code_mcounters' => $mcounter->code,
-                        'name_mcounters' => request('counter_from'),
-                        'stock' => $stock_counter_min,
-                        'datein' => $datetime,
-                    ]);
+                    // $stock_mitem_counter = 0;
+                    // $stock_counter_min = $stock_mitem_counter - request('quantity_d')[$i];
+                    // date_default_timezone_set('Asia/Jakarta');
+                    // $datetime = date('d-m-Y H:i:s');
+                    // MitemCounters::create([
+                    //     'code_mitem' => strtok(request('kode_d')[$i], " "),
+                    //     'name_mitem' => request('nama_item_d')[$i],
+                    //     'code_mcounters' => $mcounter->code,
+                    //     'name_mcounters' => request('counter_from'),
+                    //     'stock' => $stock_counter_min,
+                    //     'datein' => $datetime,
+                    // ]);
                 }else{
                     // $stock_counter_min = $stock_mitem_counter->stock - request('quantity_d')[$i];
                     // DB::table('mitems_counters')
