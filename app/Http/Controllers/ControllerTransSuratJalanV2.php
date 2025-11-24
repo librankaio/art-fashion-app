@@ -31,8 +31,6 @@ class ControllerTransSuratJalanV2 extends Controller
         }
         if (Session::has('sj_counter')){
             Session::forget('sj_counter');
-            $sj_counter = Request()->counter_filter;
-            Request()->session()->put('sj_counter', $sj_counter);
         }
         $mitems = Mitem::select('id','code','name')->get();
         $sobs = Tsob_h::select('id','no','tgl','counter','note','grdtotal','user',)->whereNull('exist_sj')->get();
