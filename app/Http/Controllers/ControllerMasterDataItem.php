@@ -7,8 +7,10 @@ use App\Models\MitemCounters;
 use App\Models\Mwarna;
 use App\Models\Tadj_d;
 use App\Models\Tpembelian_d;
+use App\Models\Tpenerimaan_d;
 use App\Models\Tpenjualan_d;
 use App\Models\Tretur_d;
+use App\Models\Tsj_d;
 use App\Models\Tsob_d;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -156,7 +158,9 @@ class ControllerMasterDataItem extends Controller
             Tpembelian_d::class,
             Tpenjualan_d::class,
             Tretur_d::class,
-            Tsob_d::class
+            Tsob_d::class,
+            Tsj_d::class,
+            Tpenerimaan_d::class
         ];
 
         // Loop cek ke setiap tabel
