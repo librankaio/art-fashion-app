@@ -209,30 +209,30 @@ class ControllerTransSuratJalanV2 extends Controller
         for($x=0;$x<sizeof(request('existdb_d'));$x++){
             $getstock_old = Tsj_d::where('id', '=', request('id_d')[$x])->first();
             if ($getstock_old != null){
-                // $old_stock_mitem_counter = DB::table('mitems_counters')
-                // ->selectRaw('stock')
-                // ->where('code_mitem', '=', strtok($getstock_old->code, " "))
-                // ->where('name_mcounters', '=', request('counter_from'))
-                // ->first();
+                $old_stock_mitem_counter = DB::table('mitems_counters')
+                ->selectRaw('stock')
+                ->where('code_mitem', '=', strtok($getstock_old->code, " "))
+                ->where('name_mcounters', '=', request('counter_from'))
+                ->first();
                 // Make stock counter value is equal to old stock
                 // $getstock_old->qty is pembelian_d stock value
-                // $normalize_stock_counter = $old_stock_mitem_counter->stock+(int)$getstock_old->qty;
+                $normalize_stock_counter = $old_stock_mitem_counter->stock+(int)$getstock_old->qty;
 
-                // DB::table('mitems_counters')
-                // ->selectRaw('stock')
-                // ->where('code_mitem', '=', strtok($getstock_old->code, " "))
-                // ->where('name_mcounters', '=', request('counter_from'))
-                // ->update([
-                //     'stock' => (int)$normalize_stock_counter,
-                // ]);
+                DB::table('mitems_counters')
+                ->selectRaw('stock')
+                ->where('code_mitem', '=', strtok($getstock_old->code, " "))
+                ->where('name_mcounters', '=', request('counter_from'))
+                ->update([
+                    'stock' => (int)$normalize_stock_counter,
+                ]);
 
-                // $stock_mitem_old = Mitem::select('stock')->where('code', '=', strtok($getstock_old->code, " "))->first();
+                $stock_mitem_old = Mitem::select('stock')->where('code', '=', strtok($getstock_old->code, " "))->first();
                 // Make stock mitem value is equal to mitem old stock
                 // dd($stock_mitem_old->stock - (int)$getstock_old->qty);
-                // $normalize_stock_mitem = $stock_mitem_old->stock + (int)$getstock_old->qty;
-                // Mitem::where('code', '=', strtok($getstock_old->code, " "))->update([
-                //     'stock' => (int)$normalize_stock_mitem,
-                // ]);
+                $normalize_stock_mitem = $stock_mitem_old->stock + (int)$getstock_old->qty;
+                Mitem::where('code', '=', strtok($getstock_old->code, " "))->update([
+                    'stock' => (int)$normalize_stock_mitem,
+                ]);
 
                 if(request('deleted_item_d') == request('id_d')[$x]){
                     Tsj_d::where('id','=',request('id_d')[$x])->delete();
@@ -273,36 +273,36 @@ class ControllerTransSuratJalanV2 extends Controller
                 Mitem::where('code', '=', strtok(request('kode_d')[$i], " "))->update([
                     'stock' => (int)$stock_min,
                 ]);
-                // $stock_mitem_counter = DB::table('mitems_counters')
-                // ->selectRaw('stock')
-                // ->where('code_mitem', '=', strtok(request('kode_d')[$i], " "))
-                // ->where('name_mcounters', '=', request('counter_from'))
-                // ->first();
+                $stock_mitem_counter = DB::table('mitems_counters')
+                ->selectRaw('stock')
+                ->where('code_mitem', '=', strtok(request('kode_d')[$i], " "))
+                ->where('name_mcounters', '=', request('counter_from'))
+                ->first();
 
                 $mcounter = Mcounter::where('name', '=', request('counter_from'))->first();
 
                 if ($stock_mitem_counter == null) {
-                    // $stock_mitem_counter = 0;
-                    // $stock_counter_min = $stock_mitem_counter - request('quantity_d')[$i];
-                    // date_default_timezone_set('Asia/Jakarta');
-                    // $datetime = date('d-m-Y H:i:s');
-                    // MitemCounters::create([
-                    //     'code_mitem' => strtok(request('kode_d')[$i], " "),
-                    //     'name_mitem' => request('nama_item_d')[$i],
-                    //     'code_mcounters' => $mcounter->code,
-                    //     'name_mcounters' => request('counter_from'),
-                    //     'stock' => $stock_counter_min,
-                    //     'datein' => $datetime,
-                    // ]);
+                    $stock_mitem_counter = 0;
+                    $stock_counter_min = $stock_mitem_counter - request('quantity_d')[$i];
+                    date_default_timezone_set('Asia/Jakarta');
+                    $datetime = date('d-m-Y H:i:s');
+                    MitemCounters::create([
+                        'code_mitem' => strtok(request('kode_d')[$i], " "),
+                        'name_mitem' => request('nama_item_d')[$i],
+                        'code_mcounters' => $mcounter->code,
+                        'name_mcounters' => request('counter_from'),
+                        'stock' => $stock_counter_min,
+                        'datein' => $datetime,
+                    ]);
                 }else{
-                    // $stock_counter_min = $stock_mitem_counter->stock - request('quantity_d')[$i];
-                    // DB::table('mitems_counters')
-                    // ->selectRaw('stock')
-                    // ->where('code_mitem', '=', strtok(request('kode_d')[$i], " "))
-                    // ->where('name_mcounters', '=', request('counter_from'))
-                    // ->update([
-                    //     'stock' => (int)$stock_counter_min,
-                    // ]);
+                    $stock_counter_min = $stock_mitem_counter->stock - request('quantity_d')[$i];
+                    DB::table('mitems_counters')
+                    ->selectRaw('stock')
+                    ->where('code_mitem', '=', strtok(request('kode_d')[$i], " "))
+                    ->where('name_mcounters', '=', request('counter_from'))
+                    ->update([
+                        'stock' => (int)$stock_counter_min,
+                    ]);
 
                     $mcounter = Mcounter::where('name', '=', request('counter_from'))->first();
                     MutasiAF::create([  
@@ -334,19 +334,19 @@ class ControllerTransSuratJalanV2 extends Controller
                 'stock' => (int)$stock_mitem_sum,
             ]);
             // Mins a value from the old stock in mitems_counters table
-            // $stock_mitem_counter = DB::table('mitems_counters')
-            // ->selectRaw('stock')
-            // ->where('code_mitem', '=', strtok($suratjalan_old_item->code, " "))
-            // ->where('name_mcounters', '=', $tsjh->counter_from)
-            // ->first();
-            // $stock_mitem_counter_sum = $stock_mitem_counter->stock + (int)$suratjalan_old_item->qty;
-            // DB::table('mitems_counters')
-            // ->selectRaw('stock')
-            // ->where('code_mitem', '=', strtok($suratjalan_old_item->code, " "))
-            // ->where('name_mcounters', '=', $tsjh->counter_from)
-            // ->update([
-            //     'stock' => (int)$stock_mitem_counter_sum,
-            // ]);
+            $stock_mitem_counter = DB::table('mitems_counters')
+            ->selectRaw('stock')
+            ->where('code_mitem', '=', strtok($suratjalan_old_item->code, " "))
+            ->where('name_mcounters', '=', $tsjh->counter_from)
+            ->first();
+            $stock_mitem_counter_sum = $stock_mitem_counter->stock + (int)$suratjalan_old_item->qty;
+            DB::table('mitems_counters')
+            ->selectRaw('stock')
+            ->where('code_mitem', '=', strtok($suratjalan_old_item->code, " "))
+            ->where('name_mcounters', '=', $tsjh->counter_from)
+            ->update([
+                'stock' => (int)$stock_mitem_counter_sum,
+            ]);
 
             $mcounter = Mcounter::where('name', '=', $tsjh->counter_from)->first();
 
