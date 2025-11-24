@@ -851,8 +851,8 @@
                     swal('WARNING', 'Please select Code Cust', 'warning');
                     return false;
                 }
-                $('#confirm').prop('disabled', true).text('Processing...');
                 show_loading()
+                $('#confirm').prop('disabled', true).text('Processing...');
 
                 // else if (nosob == 0){
                 //     swal('WARNING', 'Please select Nomer SOB', 'warning');
