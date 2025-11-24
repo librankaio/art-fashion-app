@@ -29,6 +29,11 @@ class ControllerTransSuratJalanV2 extends Controller
         }else{
             $counters = Mcounter::select('id','code','name')->where('name','=',session('counter'))->get();
         }
+        if (Session::has('sj_counter')){
+            Session::forget('sj_counter');
+            $sj_counter = Request()->counter_filter;
+            Request()->session()->put('sj_counter', $sj_counter);
+        }
         $mitems = Mitem::select('id','code','name')->get();
         $sobs = Tsob_h::select('id','no','tgl','counter','note','grdtotal','user',)->whereNull('exist_sj')->get();
         $notrans = DB::select("select fgetcode('tsj') as codetrans");
@@ -164,12 +169,14 @@ class ControllerTransSuratJalanV2 extends Controller
         // dd(Request()->counter_filter);
         if (!Session::has('sj_counter')){
             $sj_counter = Request()->counter_filter;
+            // dd($sj_counter);
             Request()->session()->put('sj_counter', $sj_counter);
         }else{
-            Session::forget('sj_counter');
-            $sj_counter = Request()->counter_filter;
-            Request()->session()->put('sj_counter', $sj_counter);
+            // Session::forget('sj_counter');
+            // $sj_counter = Request()->counter_filter;
+            // Request()->session()->put('sj_counter', $sj_counter);
         }
+        // dd($sj_counter);
         $tsjhs = Tsj_h::select('id','no','tgl','counter_from','counter','note','grdtotal','user','no_sob','exist_penerimaan')->where('counter','=',session('sj_counter'))->orderBy('tgl', 'asc')->get();
         // dd($tsjhs);
         $tsjds = Tsj_d::select('id','idh','no_sj','code','name','qty','satuan','hrgjual','subtotal',)->get();

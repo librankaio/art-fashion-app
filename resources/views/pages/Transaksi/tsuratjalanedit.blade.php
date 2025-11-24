@@ -1,352 +1,426 @@
 @extends('layouts.main')
 @section('content')
-<section class="section">
-    <div class="section-header">
-        <h1>Surat Jalan Edit</h1>
-        <div class="section-header-breadcrumb">
-            <div class="breadcrumb-item active"><a href="#">Transaction</a></div>
-            <div class="breadcrumb-item"><a class="text-muted">Surat Jalan Edit</a></div>
-        </div>
-    </div>
-    @php
-        $tpos_save = session('tpos_save');
-    @endphp
-    <div class="section-body">
-        <div class="row">
-            <div class="col-12 col-md-12 col-lg-12">
-                @include('layouts.flash-message-sj')
+    <section class="section">
+        <div class="section-header">
+            <h1>Surat Jalan Edit</h1>
+            <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item active"><a href="#">Transaction</a></div>
+                <div class="breadcrumb-item"><a class="text-muted">Surat Jalan Edit</a></div>
             </div>
         </div>
-        <form action="" method="POST" id="thisform">
-            @csrf
-        <div class="row">
-            <div class="col-12 col-md-4 col-lg-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Header Information</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>No Trans</label>
-                                    {{-- @foreach($notrans as $key => $code)
+        @php
+            $tpos_save = session('tpos_save');
+        @endphp
+        <div class="section-body">
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-12">
+                    @include('layouts.flash-message-sj')
+                </div>
+            </div>
+            <form action="" method="POST" id="thisform">
+                @csrf
+                <div class="row">
+                    <div class="col-12 col-md-4 col-lg-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Header Information</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>No Trans</label>
+                                            {{-- @foreach ($notrans as $key => $code)
                                         @php $codetrans = $code->codetrans @endphp
                                     @endforeach --}}
-                                    <input type="text" class="form-control" name="no" id="no" value="{{ $tsjh->no }}" readonly>
-                                </div>      
-                                <div class="form-group">
-                                    <label>No SOB.</label>
-                                    @if ($tsjh->no_sob != '' || $tsjh->no_sob != null)
-                                    <select class="form-control select2" name="nosob" id="nosob">
-                                        <option selected>{{ $tsjh->no_sob }}</option>
-                                        @foreach($sobs as $data => $sob)
-                                        <option>{{ $sob->no }}</option>
-                                        @endforeach
-                                    </select>
-                                    @else
-                                    <input type="text" class="form-control" name="nosob" id="nosob" value="" readonly>
-                                    @endif
-                                </div>       
-                                <div class="form-group">
-                                    <label>Counter From</label>
-                                    <select class="form-control select2" name="counter_from" id="counter_from">
-                                        <option selected>{{ $tsjh->counter_from }}</option>
-                                        @foreach($counters as $counter)
-                                        <option>{{ $counter->name}}</option>
-                                        @endforeach
-                                    </select>
+                                            <input type="text" class="form-control" name="no" id="no"
+                                                value="{{ $tsjh->no }}" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>No SOB.</label>
+                                            @if ($tsjh->no_sob != '' || $tsjh->no_sob != null)
+                                                <select class="form-control select2" name="nosob" id="nosob">
+                                                    <option selected>{{ $tsjh->no_sob }}</option>
+                                                    @foreach ($sobs as $data => $sob)
+                                                        <option>{{ $sob->no }}</option>
+                                                    @endforeach
+                                                </select>
+                                            @else
+                                                <input type="text" class="form-control" name="nosob" id="nosob"
+                                                    value="" readonly>
+                                            @endif
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Counter From</label>
+                                            <select class="form-control select2" name="counter_from" id="counter_from">
+                                                <option selected>{{ $tsjh->counter_from }}</option>
+                                                @foreach ($counters as $counter)
+                                                    <option>{{ $counter->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Counter To</label>
+                                            <select class="form-control select2" name="counter" id="counter">
+                                                <option selected>{{ $tsjh->counter }}</option>
+                                                @foreach ($counters as $counter)
+                                                    <option>{{ $counter->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Tanggal</label>
+                                            <input type="date" class="form-control" name="dt"
+                                                value="{{ date('Y-m-d', strtotime($tsjh->tgl)) }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Jenis</label>
+                                            <select class="form-control" name="jenis" id="jenis">
+                                                <option selected>{{ $tsjh->jenis }}</option>
+                                                <option>Normal</option>
+                                                <option>Retur</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Catatan</label>
+                                            <textarea class="form-control" style="height:100px" name="note">{{ $tsjh->note }}</textarea>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Counter To</label>
-                                    <select class="form-control select2" name="counter" id="counter">
-                                        <option selected>{{ $tsjh->counter }}</option>
-                                        @foreach($counters as $counter)
-                                        <option>{{ $counter->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>                          
-                                <div class="form-group">
-                                    <label>Tanggal</label>
-                                    <input type="date" class="form-control" name="dt" value="{{ date("Y-m-d", strtotime($tsjh->tgl)) }}">
-                                </div>
-                                <div class="form-group">
-                                    <label>Jenis</label>
-                                    <select class="form-control" name="jenis" id="jenis">
-                                        <option selected>{{ $tsjh->jenis }}</option>
-                                        <option>Normal</option>
-                                        <option>Retur</option>
-                                    </select>
-                                </div>                                  
-                                <div class="form-group">
-                                    <label>Catatan</label>
-                                    <textarea class="form-control" style="height:100px" name="note">{{$tsjh->note}}</textarea>
-                                </div>                                 
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-6">
-                <div class="card" id="card_items" style="border: 1px solid lightblue">
-                    <div class="card-header">
-                        <h4>Add Items</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Kode</label>
-                                    <select class="form-control select2" id="kode">
-                                        <option></option>
-                                        {{-- @foreach($mitems as $data => $item)                                        
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <div class="card" id="card_items" style="border: 1px solid lightblue">
+                            <div class="card-header">
+                                <h4>Add Items</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Kode</label>
+                                            <select class="form-control select2" id="kode">
+                                                <option></option>
+                                                {{-- @foreach ($mitems as $data => $item)                                        
                                         <option value="{{ $item->code }}">{{ $item->code." - ".$item->name }}</option>
                                         @endforeach --}}
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Nama Item</label>
-                                    <input type="text" class="form-control" id="nama_item" disabled>
-                                </div>
-                                <div class="form-group">
-                                    <label>Warna</label>
-                                    <input type="text" class="form-control" id="warna" disabled>
-                                </div>     
-                                <div class="form-group">
-                                    <a href="" id="addItem">
-                                        <i class="fa fa-plus" style="font-size:18pt"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-md-6">                                
-                                <div class="form-group">
-                                    <label>Satuan</label>
-                                    <input type="text" class="form-control" id="satuan" disabled>
-                                </div>
-                                <div class="form-group">
-                                    <label>Quantity</label>
-                                    <input type="text" class="form-control" id="quantity" value="0">
-                                </div>
-                                <div class="form-group">
-                                    <label>Harga Jual</label>
-                                    <input type="text" class="form-control" id="hrgjual" value="0">
-                                </div>   
-                                <div class="form-group">
-                                    <label>Subtotal</label>
-                                    <input type="text" class="form-control" id="subtot" disabled>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Nama Item</label>
+                                            <input type="text" class="form-control" id="nama_item" disabled>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Warna</label>
+                                            <input type="text" class="form-control" id="warna" disabled>
+                                        </div>
+                                        <div class="form-group">
+                                            <a href="" id="addItem">
+                                                <i class="fa fa-plus" style="font-size:18pt"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Satuan</label>
+                                            <input type="text" class="form-control" id="satuan" disabled>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Quantity</label>
+                                            <input type="text" class="form-control" id="quantity" value="0">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Harga Jual</label>
+                                            <input type="text" class="form-control" id="hrgjual" value="0">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Subtotal</label>
+                                            <input type="text" class="form-control" id="subtot" disabled>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-12 col-lg-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <div class="form-group">
-                                @php $row_counter = 0; @endphp
-                                @for($i = 0; $i < sizeof($tsjds); $i++) @php $row_counter++; @endphp <tr>
-                                @endfor
-                                    {{-- <label>counter</label> --}}
-                                    {{-- <input type="text" class="form-control" id="number_counter" value="{{ $row_counter }}" readonly> --}}
-                            </div>
-                            <table class="table table-bordered" id="datatable">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" class="border border-5">No</th>
-                                        <th scope="col" class="border border-5">Kode</th>
-                                        <th scope="col" class="border border-5">Nama Item</th>
-                                        <th scope="col" class="border border-5">Warna</th>
-                                        <th scope="col" class="border border-5">Quantity</th>
-                                        <th scope="col" class="border border-5">Satuan</th>
-                                        <th scope="col" class="border border-5">Harga Jual</th>
-                                        <th scope="col" class="border border-5">Subtotal</th>
-                                        <th scope="col" class="border border-5">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @php $counter = 0; @endphp
-                                @for($i = 0; $i < sizeof($tsjds); $i++) @php $counter++; @endphp 
-                                <tr row_id="{{ $counter }}" id='row_id_{{$counter}}'>
-                                    <th class="id-header border border-5" style='readonly:true;' headers="{{ $counter }}">{{ $counter }}</th>
-                                    <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='{{ $tsjds[$i]->code }}'></td>
-                                    <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='{{ $tsjds[$i]->name }}'></td>
-                                    <td class="border border-5"><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='{{ $tsjds[$i]->warna }}'></td>
-                                    <td class="border border-5"><input type='text' style='width:100px;' form='thisform' class='row_qty quantityclass form-control' name='quantity_d[]' id='qty_d_{{ $counter }}' value='{{ number_format($tsjds[$i]->qty, 0, '.', '') }}'></td>
-                                    <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='{{ $tsjds[$i]->satuan }}' name='satuan_d[]'></td>
-                                    <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='row_hrgjual hrgjualclass form-control' value='{{ number_format($tsjds[$i]->hrgjual, 2, '.', ',') }}' name='hrgjual_d[]' id='hrgjual_d_{{ $counter }}'></td>
-                                    <td class="border border-5"><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='{{ number_format($tsjds[$i]->subtotal, 2, '.', ',') }}' name='subtot_d[]' id='subtot_d_{{ $counter }}'></td>
-                                    <td class="border border-5"><button title='Delete' class='delete btn btn-primary' value="{{ $counter }}"><i style='font-size:15pt;color:#ffff;' class='fa fa-trash'></i></button></td>
-                                    <td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value=''></td>
-                                    <td class="border border-5" hidden><input style='width:120px;' readonly form='thisform' class='idclass form-control' name='id_d[]' type='text' value='{{ $tsjds[$i]->id }}' id="tbl_detail_id_{{ $counter }}"></td>
-                                    <td class="border border-5" hidden><input style='width:120px;' readonly form='thisform' class='delclass form-control' name='deleted_item_d[]' type='text' value='' id="deleted_d_{{ $counter }}"></td>
-                                    <td class="border border-5" hidden><input style='width:120px;' readonly form='thisform' class='existdbclass form-control' name='existdb_d[]' type='text' value='{{ $tsjds[$i]->id }}' id="existdb_{{ $counter }}"></td>
-                                </tr>
-                                @endfor
-                                </tbody>                            
-                            </table>
-                        </div>                                              
-                    </div>      
-                    <div class="col-12 col-md-6 col-lg-6 align-self-end">
-                        <div class="row">
-                            <div class="col-md-8">
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Total</label>
-                                    <input type="text" class="form-control" name="price_total" form="thisform" id="price_total" value="{{ number_format($tsjh->grdtotal, 2, '.', ',') }}" readonly>
+                    <div class="col-12 col-md-12 col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <div class="form-group">
+                                        @php $row_counter = 0; @endphp
+                                        @for ($i = 0; $i < sizeof($tsjds); $i++)
+                                            @php $row_counter++; @endphp <tr>
+                                        @endfor
+                                        {{-- <label>counter</label> --}}
+                                        {{-- <input type="text" class="form-control" id="number_counter" value="{{ $row_counter }}" readonly> --}}
+                                    </div>
+                                    <table class="table table-bordered" id="datatable">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="border border-5">No</th>
+                                                <th scope="col" class="border border-5">Kode</th>
+                                                <th scope="col" class="border border-5">Nama Item</th>
+                                                <th scope="col" class="border border-5">Warna</th>
+                                                <th scope="col" class="border border-5">Quantity</th>
+                                                <th scope="col" class="border border-5">Satuan</th>
+                                                <th scope="col" class="border border-5">Harga Jual</th>
+                                                <th scope="col" class="border border-5">Subtotal</th>
+                                                <th scope="col" class="border border-5">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @php $counter = 0; @endphp
+                                            @for ($i = 0; $i < sizeof($tsjds); $i++)
+                                                @php $counter++; @endphp
+                                                <tr row_id="{{ $counter }}" id='row_id_{{ $counter }}'>
+                                                    <th class="id-header border border-5" style='readonly:true;'
+                                                        headers="{{ $counter }}">{{ $counter }}</th>
+                                                    <td class="border border-5"><input style='width:120px;' readonly
+                                                            form='thisform' class='kodeclass form-control'
+                                                            name='kode_d[]' type='text'
+                                                            value='{{ $tsjds[$i]->code }}'></td>
+                                                    <td class="border border-5"><input style='width:120px;' readonly
+                                                            form='thisform' class='namaitemclass form-control'
+                                                            name='namaitem_d[]' type='text'
+                                                            value='{{ $tsjds[$i]->name }}'></td>
+                                                    <td class="border border-5"><input style='width:120px;' readonly
+                                                            form='thisform' class='warnaclass form-control'
+                                                            name='warna_d[]' type='text'
+                                                            value='{{ $tsjds[$i]->warna }}'></td>
+                                                    <td class="border border-5"><input type='text'
+                                                            style='width:100px;' form='thisform'
+                                                            class='row_qty quantityclass form-control' name='quantity_d[]'
+                                                            id='qty_d_{{ $counter }}'
+                                                            value='{{ number_format($tsjds[$i]->qty, 0, '.', '') }}'></td>
+                                                    <td class="border border-5"><input type='text' readonly
+                                                            form='thisform' style='width:100px;'
+                                                            class='satuanclass form-control'
+                                                            value='{{ $tsjds[$i]->satuan }}' name='satuan_d[]'></td>
+                                                    <td class="border border-5"><input type='text' readonly
+                                                            form='thisform' style='width:100px;'
+                                                            class='row_hrgjual hrgjualclass form-control'
+                                                            value='{{ number_format($tsjds[$i]->hrgjual, 2, '.', ',') }}'
+                                                            name='hrgjual_d[]' id='hrgjual_d_{{ $counter }}'></td>
+                                                    <td class="border border-5"><input type='text' readonly
+                                                            form='thisform' style='width:100px;'
+                                                            class='subtotclass form-control'
+                                                            value='{{ number_format($tsjds[$i]->subtotal, 2, '.', ',') }}'
+                                                            name='subtot_d[]' id='subtot_d_{{ $counter }}'></td>
+                                                    <td class="border border-5"><button title='Delete'
+                                                            class='delete btn btn-primary' value="{{ $counter }}"><i
+                                                                style='font-size:15pt;color:#ffff;'
+                                                                class='fa fa-trash'></i></button></td>
+                                                    <td hidden><input style='width:120px;' readonly form='thisform'
+                                                            class='noclass form-control' name='no_d[]' type='text'
+                                                            value=''></td>
+                                                    <td class="border border-5" hidden><input style='width:120px;'
+                                                            readonly form='thisform' class='idclass form-control'
+                                                            name='id_d[]' type='text' value='{{ $tsjds[$i]->id }}'
+                                                            id="tbl_detail_id_{{ $counter }}"></td>
+                                                    <td class="border border-5" hidden><input style='width:120px;'
+                                                            readonly form='thisform' class='delclass form-control'
+                                                            name='deleted_item_d[]' type='text' value=''
+                                                            id="deleted_d_{{ $counter }}"></td>
+                                                    <td class="border border-5" hidden><input style='width:120px;'
+                                                            readonly form='thisform' class='existdbclass form-control'
+                                                            name='existdb_d[]' type='text'
+                                                            value='{{ $tsjds[$i]->id }}'
+                                                            id="existdb_{{ $counter }}"></td>
+                                                </tr>
+                                            @endfor
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-                        </div>
-                    </div>              
-                    <div class="card-footer text-right">
-                        <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="/tsuratjalan/{{ $tsjh->id }}">Update</button>
-                        {{-- @if($tpos_save == 'Y')
+                            <div class="col-12 col-md-6 col-lg-6 align-self-end">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Total</label>
+                                            <input type="text" class="form-control" name="price_total"
+                                                form="thisform" id="price_total"
+                                                value="{{ number_format($tsjh->grdtotal, 2, '.', ',') }}" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-right">
+                                <button class="btn btn-primary mr-1" id="confirm" type="submit"
+                                    formaction="/tsuratjalan/{{ $tsjh->id }}">Update</button>
+                                {{-- @if ($tpos_save == 'Y')
                             <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}">Submit</button>
                         @elseif($tpos_save == 'N' || $tpos_save == null)
                             <button class="btn btn-primary mr-1" id="confirm" type="submit" formaction="{{ route('transpospost') }}" disabled>Submit</button>
                         @endif --}}
-                        {{-- <button class="btn btn-secondary" type="reset">Reset</button> --}}
+                                {{-- <button class="btn btn-secondary" type="reset">Reset</button> --}}
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
-    </form>
-    </div>
-</section>
+    </section>
 @stop
 @section('botscripts')
-<script type="text/javascript">
-    $(document).ready(function() {
-        //CSRF TOKEN
-        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+    <script type="text/javascript">
         $(document).ready(function() {
-            $("#kode").select2({
-                placeholder : 'Select Kode',
-                ajax: {
-                    url: "{{ route('getmitemv2') }}",
-                    type: "post",
-                    dataType: "json",
-                    delay: 250,
-                    data: function (params) {
-                        return {
-                            _token: CSRF_TOKEN,
-                            search : params.term, //search term
-                        };
-                    },
-                    processResults: function (response) {
-                        console.log(response)                  
-                        return {
-                            results: response,          
-                        };
-                    },
-                    cache: true,
-                }
-            });
-            $("#kode").on('select2:select', function(e) {
-                var kode = $(this).val();
-                show_loading()
-                $.ajax({
-                    url: '{{ route('getmitem') }}', 
-                    method: 'post', 
-                    data: {'kode': kode}, 
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
-                    dataType: 'json', 
-                    success: function(response) {
-                        // console.log(kode);
-                        console.log(response);
-                        for (i=0; i < response.length; i++) {
-                            if(response[i].code == kode){
-                                $("#nama_item").val(response[i].name)
-                                hrg = Number(response[i].hrgjual);
-                                $("#satuan").val(response[i].satuan)
-                                $("#warna").val(response[i].warna);
-                                subtotal = Number(hrg).toFixed(2) * $('#quantity').val()
-                                $("#subtot").val(thousands_separators(subtotal.toFixed(2)));
-                                $("#hrgjual").val(thousands_separators(hrg.toFixed(2)));
-                            }
-                        }
-                        hide_loading()
+            //CSRF TOKEN
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            $(document).ready(function() {
+                $("#kode").select2({
+                    placeholder: 'Select Kode',
+                    ajax: {
+                        url: "{{ route('getmitemv2') }}",
+                        type: "post",
+                        dataType: "json",
+                        delay: 250,
+                        data: function(params) {
+                            return {
+                                _token: CSRF_TOKEN,
+                                search: params.term, //search term
+                            };
+                        },
+                        processResults: function(response) {
+                            console.log(response)
+                            return {
+                                results: response,
+                            };
+                        },
+                        cache: true,
                     }
                 });
-            });
+                $("#kode").on('select2:select', function(e) {
+                    var kode = $(this).val();
+                    show_loading()
+                    $.ajax({
+                        url: '{{ route('getmitem') }}',
+                        method: 'post',
+                        data: {
+                            'kode': kode
+                        },
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            // console.log(kode);
+                            console.log(response);
+                            for (i = 0; i < response.length; i++) {
+                                if (response[i].code == kode) {
+                                    $("#nama_item").val(response[i].name)
+                                    hrg = Number(response[i].hrgjual);
+                                    $("#satuan").val(response[i].satuan)
+                                    $("#warna").val(response[i].warna);
+                                    subtotal = Number(hrg).toFixed(2) * $('#quantity')
+                                        .val()
+                                    $("#subtot").val(thousands_separators(subtotal
+                                        .toFixed(2)));
+                                    $("#hrgjual").val(thousands_separators(hrg.toFixed(
+                                        2)));
+                                }
+                            }
+                            hide_loading()
+                            // $('#confirm').prop('disabled', false).text('Update');
+                        }
+                    });
+                });
 
-            var counter = parseInt({{ $counter}}) +1;
-            $(document).on("click", "#addItem", function(e) {
-                e.preventDefault();
-                if($('#quantity').val() == 0){
-                    alert('Quantity tidak boleh 0');
-                    return false;
-                }
-
-                kode = $("#select2-kode-container").text();
-                kode_id = $("#kode").val();
-                nama_item = $("#nama_item").val();
-                warna = $("#warna").val();
-                hrgjual = $("#hrgjual").val();
-                quantity = $("#quantity").val();
-                satuan = $("#satuan").val();
-                subtot = $("#subtot").val();
-                // rowCount = $('#number_counter').val();
-                // counter = rowCount;
-
-                tablerow = "<tr row_id="+ counter +"><th style='readonly:true;' class='border border-5'>" + counter + "</th><td class='border border-5' style='display:none;'><input style='width:120px;' readonly form='thisform' class='numberclass form-control' type='text' value='" + counter + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" + kode_id + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" + nama_item + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" + warna + "'></td><td class='border border-5'><input style='width:120px;' form='thisform' class='row_qty quantityclass form-control' name='quantity_d[]' type='text' value='" + quantity + "' id='qty_d_"+counter+"'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" + satuan + "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_hrgjual hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" + hrgjual + "' id='hrgjual_d_"+counter+"'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" + subtot + "' name='subtot_d[]' id='subtot_d_"+counter+"'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" + no + "'></td><td class='border border-5' hidden><input style='width:120px;' readonly form='thisform' class='idclass form-control' name='id_d[]' type='text' value='new_item' id='tbl_detail_id_'"+ counter +"></td><td class='border border-5' hidden><input style='width:120px;' readonly form='thisform' class='delclass form-control' name='deleted_item_d[]' type='text' id='deleted_d_'"+ counter +"></td></tr>";
-                
-                subtotparse = subtot.replaceAll(",", "");
-                $("#datatable tbody").append(tablerow);
-
-                console.log("Counter = "+counter)
-                if(counter == 1){
-                    if (/\D/g.test(subtot))
-                    {
-                        // Filter comma
-                        subtot = subtot.replace(/\,/g,"");
-                        subtot = Number(Math.trunc(subtot))
-                    }
-                    grandtot = subtot;
-
-                    $("#price_total").val(thousands_separators(grandtot.toFixed(2)));
-                }else{
-                    // if (/\D/g.test(subtot))
-                    // {
-                    //     // Filter comma
-                    //     subtot = subtot.replace(/\,/g,"");
-                    //     subtot = Number(Math.trunc(subtot))
-                    // }
-
-                    // old_grandtot = $("#price_total").val();
-                    // if (/\D/g.test(old_grandtot))
-                    // {
-                    //     // Filter comma
-                    //     old_grandtot = old_grandtot.replace(/\,/g,"");
-                    //     old_grandtot = Number(Math.trunc(old_grandtot))
-                    // }
-                    
-                    // console.log("subtotal: " + subtot + ", grandtot: " + old_grandtot);
-                    // sum = subtot + old_grandtot;
-
-                    // $("#price_total").val(thousands_separators(sum.toFixed(2)));
-                    if (/\D/g.test(subtot))
-                    {
-                        // Filter comma
-                        subtot = subtot.replace(/\,/g,"");
-                        subtot = Number(Math.trunc(subtot))
+                var counter = parseInt({{ $counter }}) + 1;
+                $(document).on("click", "#addItem", function(e) {
+                    e.preventDefault();
+                    if ($('#quantity').val() == 0) {
+                        alert('Quantity tidak boleh 0');
+                        return false;
                     }
 
-                        old_grandtot = $('#price_total').val();   
-                        if (/\D/g.test(old_grandtot))
-                        {
+                    kode = $("#select2-kode-container").text();
+                    kode_id = $("#kode").val();
+                    nama_item = $("#nama_item").val();
+                    warna = $("#warna").val();
+                    hrgjual = $("#hrgjual").val();
+                    quantity = $("#quantity").val();
+                    satuan = $("#satuan").val();
+                    subtot = $("#subtot").val();
+                    // rowCount = $('#number_counter').val();
+                    // counter = rowCount;
+
+                    tablerow = "<tr row_id=" + counter +
+                        "><th style='readonly:true;' class='border border-5'>" + counter +
+                        "</th><td class='border border-5' style='display:none;'><input style='width:120px;' readonly form='thisform' class='numberclass form-control' type='text' value='" +
+                        counter +
+                        "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" +
+                        kode_id +
+                        "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" +
+                        nama_item +
+                        "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" +
+                        warna +
+                        "'></td><td class='border border-5'><input style='width:120px;' form='thisform' class='row_qty quantityclass form-control' name='quantity_d[]' type='text' value='" +
+                        quantity + "' id='qty_d_" + counter +
+                        "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='satuanclass form-control' name='satuan_d[]' type='text' value='" +
+                        satuan +
+                        "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='row_hrgjual hrgjualclass form-control' name='hrgjual_d[]' type='text' value='" +
+                        hrgjual + "' id='hrgjual_d_" + counter +
+                        "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='subtotclass form-control' value='" +
+                        subtot + "' name='subtot_d[]' id='subtot_d_" + counter +
+                        "'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" +
+                        no +
+                        "'></td><td class='border border-5' hidden><input style='width:120px;' readonly form='thisform' class='idclass form-control' name='id_d[]' type='text' value='new_item' id='tbl_detail_id_'" +
+                        counter +
+                        "></td><td class='border border-5' hidden><input style='width:120px;' readonly form='thisform' class='delclass form-control' name='deleted_item_d[]' type='text' id='deleted_d_'" +
+                        counter + "></td></tr>";
+
+                    subtotparse = subtot.replaceAll(",", "");
+                    $("#datatable tbody").append(tablerow);
+
+                    console.log("Counter = " + counter)
+                    if (counter == 1) {
+                        if (/\D/g.test(subtot)) {
                             // Filter comma
-                            old_grandtot = old_grandtot.replace(/\,/g,"");
+                            subtot = subtot.replace(/\,/g, "");
+                            subtot = Number(Math.trunc(subtot))
+                        }
+                        grandtot = subtot;
+
+                        $("#price_total").val(thousands_separators(grandtot.toFixed(2)));
+                    } else {
+                        // if (/\D/g.test(subtot))
+                        // {
+                        //     // Filter comma
+                        //     subtot = subtot.replace(/\,/g,"");
+                        //     subtot = Number(Math.trunc(subtot))
+                        // }
+
+                        // old_grandtot = $("#price_total").val();
+                        // if (/\D/g.test(old_grandtot))
+                        // {
+                        //     // Filter comma
+                        //     old_grandtot = old_grandtot.replace(/\,/g,"");
+                        //     old_grandtot = Number(Math.trunc(old_grandtot))
+                        // }
+
+                        // console.log("subtotal: " + subtot + ", grandtot: " + old_grandtot);
+                        // sum = subtot + old_grandtot;
+
+                        // $("#price_total").val(thousands_separators(sum.toFixed(2)));
+                        if (/\D/g.test(subtot)) {
+                            // Filter comma
+                            subtot = subtot.replace(/\,/g, "");
+                            subtot = Number(Math.trunc(subtot))
+                        }
+
+                        old_grandtot = $('#price_total').val();
+                        if (/\D/g.test(old_grandtot)) {
+                            // Filter comma
+                            old_grandtot = old_grandtot.replace(/\,/g, "");
                             old_grandtot = Number(Math.trunc(old_grandtot))
                         }
 
-                        if (/\D/g.test(subtotparse))
-                        {
+                        if (/\D/g.test(subtotparse)) {
                             // Filter comma
-                            subtotparse = subtotparse.replace(/\,/g,"");
+                            subtotparse = subtotparse.replace(/\,/g, "");
                             subtotparse = Number(Math.trunc(subtotparse))
                         }
 
@@ -355,252 +429,244 @@
                         new_grandtot = thousands_separators(Number(sum).toFixed(2));
 
                         $("#price_total").val(new_grandtot);
+                    }
+                    counter++;
+                    $("#number_counter").val(counter);
+                    $("#kode").prop('selectedIndex', 0).trigger('change');
+                    $("#nama_item").val('');
+                    $("#warna").val('');
+                    $("#hrgjual").val(0);
+                    $("#satuan").val('');
+                    $("#quantity").val(0);
+                    $("#merk").val('');
+                    $("#subtot").val('');
+                    $("#note").val('');
+                });
+
+                $(document).on("click", ".delete", function(e) {
+                    e.preventDefault();
+                    counter_id = $(this).val();
+                    var r = confirm("Delete Transaksi ?");
+                    if (r == true) {
+                        if (counter_id != 0) {
+                            console.log(counter_id);
+                            subtot = $("#subtot_d_" + counter_id).val().replaceAll(",", "");
+
+                            if (/\D/g.test(subtot)) {
+                                // Filter comma
+                                subtot = subtot.replace(/\,/g, "");
+                                subtot = Number(Math.trunc(subtot))
+                            }
+
+                            old_grandtot = $("#price_total").val();
+
+                            if (/\D/g.test(old_grandtot)) {
+                                // Filter comma
+                                old_grandtot = old_grandtot.replace(/\,/g, "");
+                                old_grandtot = Number(Math.trunc(old_grandtot))
+                            }
+
+                            sum = old_grandtot - subtot;
+
+                            $("#price_total").val(thousands_separators(sum.toFixed(2)));
+                            // $(this).closest('tr').remove();
+                            id_detail = $("#tbl_detail_id_" + counter_id).val()
+                            $("#deleted_d_" + counter_id).val(id_detail);
+                            $(this).closest('tr').hide();
+
+                            $(this).closest('tr').wrap('<div/>');
+
+                            var table = document.getElementById('datatable');
+                            for (var i = 1; i < table.rows.length; i++) {
+                                var firstCol = table.rows[i].cells[0];
+                                firstCol.innerText = i;
+                            }
+
+                            counter--;
+
+                            counter_id = 0;
+                        } else {
+                            // counter_id = $(this).closest('tr').text();
+                            counter_id = $('td').find('.numberclass').val();
+                            console.log(counter_id);
+                            subtot = $("#subtot_d_" + counter_id).val().replaceAll(",", "");
+
+                            if (/\D/g.test(subtot)) {
+                                // Filter comma
+                                subtot = subtot.replace(/\,/g, "");
+                                subtot = Number(Math.trunc(subtot))
+                            }
+
+                            old_grandtot = $("#price_total").val();
+
+                            if (/\D/g.test(old_grandtot)) {
+                                // Filter comma
+                                old_grandtot = old_grandtot.replace(/\,/g, "");
+                                old_grandtot = Number(Math.trunc(old_grandtot))
+                            }
+
+                            sum = old_grandtot - subtot;
+
+                            $("#price_total").val(thousands_separators(sum.toFixed(2)));
+                            // $(this).closest('tr').remove();
+
+                            id_detail = $("#tbl_detail_id_" + counter_id).val()
+                            $("#deleted_d_" + counter_id).val(id_detail);
+                            // $(this).closest('tr').hide();
+                            $(this).closest('tr').remove();
+
+                            var table = document.getElementById('datatable');
+                            for (var i = 1; i < table.rows.length; i++) {
+                                var firstCol = table.rows[i].cells[0];
+                                firstCol.innerText = i;
+                            }
+                            counter--;
+                        }
+                    } else {
+                        return false;
+                    }
+                });
+
+                $(document).on("change", "#disc", function(e) {
+                    if ($('#disc').val() == '') {
+                        $('#disc').val(0);
+                    }
+                });
+
+                $(document).on("change", "#tax", function(e) {
+                    if ($('#tax').val() == '') {
+                        $('#tax').val(0);
+                    }
+                });
+
+                $(document).on("change", "#quantity", function(e) {
+                    if ($('#quantity').val() == '') {
+                        $('#quantity').val(0);
+                    }
+                    hrg = $('#hrgjual').val();
+                    if (/\D/g.test(hrg)) {
+                        // Filter comma
+                        hrg = hrg.replace(/\,/g, "");
+                        hrg = Number(Math.trunc(hrg))
+                    }
+                    console.log(hrg);
+                    var qty = this.value
+                    var total = parseInt(hrg) * parseInt(qty);
+                    $("#subtot").val(thousands_separators(total.toFixed(2)));
+                });
+
+                $(document).on("change", "#hrgjual", function(e) {
+                    if ($('#hrgjual').val() == '') {
+                        $('#hrgjual').val(0);
+                    }
+                    $(this).val(thousands_separators($(this).val()));
+                    hrgparse = $('#hrgjual').val();
+                    if (/\D/g.test(hrgparse)) {
+                        // Filter non-digits from input value.
+                        hrgparse = hrgparse.replace(/\D/g, '');
+                    }
+                    var hrg = Number(hrgparse).toFixed(2);
+                    var qty = Number($("#quantity").val()).toFixed(2);
+                    var total = Number(hrg) * Number(qty);
+                    console.log(total);
+
+                    $("#subtot").val(thousands_separators(total));
+                });
+                $(document).on("change", "#kurs", function(e) {
+                    if ($('#kurs').val() == '') {
+                        $('#kurs').val(1);
+                    }
+                    $(this).val(thousands_separators($(this).val()));
+                });
+
+                $(document).on("click", "#hrgjual", function(e) {
+                    if (/\D/g.test(this.value)) {
+                        // Filter non-digits from input value.
+                        this.value = this.value.replace(/\D/g, '');
+                    }
+                });
+
+                $(document).on("click", "#kurs", function(e) {
+                    if (/\D/g.test(this.value)) {
+                        // Filter non-digits from input value.
+                        this.value = this.value.replace(/\D/g, '');
+                    }
+                });
+            });
+            // VALIDATE TRIGGER
+            $("#quantity").keyup(function(e) {
+                if (/\D/g.test(this.value)) {
+                    // Filter non-digits from input value.
+                    this.value = this.value.replace(/\D/g, '');
                 }
-                counter++;
-                $("#number_counter").val(counter);
-                $("#kode").prop('selectedIndex', 0).trigger('change');
-                $("#nama_item").val('');
-                $("#warna").val('');
-                $("#hrgjual").val(0);
-                $("#satuan").val('');
-                $("#quantity").val(0);
-                $("#merk").val('');
-                $("#subtot").val('');
-                $("#note").val('');
+            });
+            $("#hrgjual").keyup(function(e) {
+                if (/\D/g.test(this.value)) {
+                    // Filter non-digits from input value.
+                    this.value = this.value.replace(/\D/g, '');
+                }
+            });
+            $("#kurs").keyup(function(e) {
+                if (/\D/g.test(this.value)) {
+                    // Filter non-digits from input value.
+                    this.value = this.value.replace(/\D/g, '');
+                }
+            });
+            $("#disc").keyup(function(e) {
+                if (/\D/g.test(this.value)) {
+                    // Filter non-digits from input value.
+                    this.value = this.value.replace(/\D/g, '');
+                }
+                if (this.value >= 99) {
+                    this.value = 99;
+                }
+            });
+            $("#tax").keyup(function(e) {
+                if (/\D/g.test(this.value)) {
+                    // Filter non-digits from input value.
+                    this.value = this.value.replace(/\D/g, '');
+                }
+                if (this.value >= 99) {
+                    this.value = 99;
+                }
             });
 
-            $(document).on("click", ".delete", function(e) {
-                e.preventDefault();
-                counter_id = $(this).val();
-                var r = confirm("Delete Transaksi ?");
-                if (r == true) {
-                    if(counter_id != 0){
-                        console.log(counter_id);
-                        subtot = $("#subtot_d_" + counter_id).val().replaceAll(",", "");
-
-                        if (/\D/g.test(subtot))
-                        {
-                            // Filter comma
-                            subtot = subtot.replace(/\,/g,"");
-                            subtot = Number(Math.trunc(subtot))
-                        }
-
-                        old_grandtot = $("#price_total").val();
-
-                        if (/\D/g.test(old_grandtot))
-                        {
-                            // Filter comma
-                            old_grandtot = old_grandtot.replace(/\,/g,"");
-                            old_grandtot = Number(Math.trunc(old_grandtot))
-                        }
-
-                        sum = old_grandtot - subtot;
-
-                        $("#price_total").val(thousands_separators(sum.toFixed(2)));
-                        // $(this).closest('tr').remove();
-                        id_detail = $("#tbl_detail_id_"+counter_id).val()
-                        $("#deleted_d_" + counter_id).val(id_detail);
-                        $(this).closest('tr').hide();
-
-                        $(this).closest('tr').wrap('<div/>');
-
-                        var table   = document.getElementById('datatable');
-                        for (var i = 1; i < table.rows.length; i++) 
-                        {
-                        var firstCol = table.rows[i].cells[0];
-                        firstCol.innerText = i;
-                        }
-
-                        counter--;
-
-                        counter_id = 0;
-                    }else{
-                        // counter_id = $(this).closest('tr').text();
-                        counter_id = $('td').find('.numberclass').val();
-                        console.log(counter_id);
-                        subtot = $("#subtot_d_"+ counter_id).val().replaceAll(",", "");
-                        
-                        if (/\D/g.test(subtot))
-                        {
-                            // Filter comma
-                            subtot = subtot.replace(/\,/g,"");
-                            subtot = Number(Math.trunc(subtot))
-                        }
-
-                        old_grandtot = $("#price_total").val();
-
-                        if (/\D/g.test(old_grandtot))
-                        {
-                            // Filter comma
-                            old_grandtot = old_grandtot.replace(/\,/g,"");
-                            old_grandtot = Number(Math.trunc(old_grandtot))
-                        }
-
-                        sum = old_grandtot - subtot;
-
-                        $("#price_total").val(thousands_separators(sum.toFixed(2)));
-                        // $(this).closest('tr').remove();
-
-                        id_detail = $("#tbl_detail_id_"+counter_id).val()
-                        $("#deleted_d_" + counter_id).val(id_detail);
-                        // $(this).closest('tr').hide();
-                        $(this).closest('tr').remove();
-
-                        var table   = document.getElementById('datatable');
-                        for (var i = 1; i < table.rows.length; i++) 
-                        {
-                        var firstCol = table.rows[i].cells[0];
-                        firstCol.innerText = i;
-                        }
-                        counter--;
-                    }  
-                } else {
+            $(document).on("click", "#confirm", function(e) {
+                // Validate ifnull
+                no = $("#no").val();
+                code_cust = $("#code_cust").prop('selectedIndex');
+                if (no == "") {
+                    swal('WARNING', 'No Tidak boleh kosong!', 'warning');
+                    return false;
+                } else if (code_cust == 0) {
+                    swal('WARNING', 'Please select Code Cust', 'warning');
                     return false;
                 }
+                // Disable button agar tidak double click
+                $('#confirm').prop('disabled', true).text('Processing...');
+                show_loading()
             });
 
-            $(document).on("change", "#disc", function(e) {
-                if($('#disc').val() == ''){
-                    $('#disc').val(0);
-                }
-            });
-
-            $(document).on("change", "#tax", function(e) {
-                if($('#tax').val() == ''){
-                    $('#tax').val(0);
-                }
-            });
-
-            $(document).on("change", "#quantity", function(e) {
-                if($('#quantity').val() == ''){
-                    $('#quantity').val(0);
-                }
-                hrg = $('#hrgjual').val();
-                if (/\D/g.test(hrg))
-                {
-                    // Filter comma
-                    hrg = hrg.replace(/\,/g,"");
-                    hrg = Number(Math.trunc(hrg))
-                }
-                console.log(hrg);
-                var qty = this.value
-                var total = parseInt(hrg) * parseInt(qty);               
-                $("#subtot").val(thousands_separators(total.toFixed(2)));
-            });
-
-            $(document).on("change", "#hrgjual", function(e) {
-                if($('#hrgjual').val() == ''){
-                    $('#hrgjual').val(0);
-                }
-                $(this).val(thousands_separators($(this).val()));
-                hrgparse = $('#hrgjual').val();
-                if (/\D/g.test(hrgparse)){
-                // Filter non-digits from input value.
-                hrgparse = hrgparse.replace(/\D/g, '');
-                }
-                var hrg = Number(hrgparse).toFixed(2);
-                var qty = Number($("#quantity").val()).toFixed(2);
-                var total = Number(hrg) * Number(qty);
-                console.log(total);
-                
-                $("#subtot").val(thousands_separators(total));
-            });
-            $(document).on("change", "#kurs", function(e) {
-                if($('#kurs').val() == ''){
-                    $('#kurs').val(1);
-                }
-                $(this).val(thousands_separators($(this).val()));
-            });
-
-            $(document).on("click", "#hrgjual", function(e) {
-                if (/\D/g.test(this.value)){
-                // Filter non-digits from input value.
-                this.value = this.value.replace(/\D/g, '');
-                }
-            });
-
-            $(document).on("click", "#kurs", function(e) {
-                if (/\D/g.test(this.value)){
-                // Filter non-digits from input value.
-                this.value = this.value.replace(/\D/g, '');
-                }
-            });
-        });
-        // VALIDATE TRIGGER
-        $("#quantity").keyup(function(e){
-            if (/\D/g.test(this.value)){
-                // Filter non-digits from input value.
-                this.value = this.value.replace(/\D/g, '');
-            }
-        });
-        $("#hrgjual").keyup(function(e){
-            if (/\D/g.test(this.value)){
-                // Filter non-digits from input value.
-                this.value = this.value.replace(/\D/g, '');
-            }
-        });
-        $("#kurs").keyup(function(e){
-            if (/\D/g.test(this.value)){
-                // Filter non-digits from input value.
-                this.value = this.value.replace(/\D/g, '');
-            }            
-        });
-        $("#disc").keyup(function(e){
-            if (/\D/g.test(this.value)){
-                // Filter non-digits from input value.
-                this.value = this.value.replace(/\D/g, '');
-            }
-            if(this.value >= 99){
-                this.value = 99;
-            }
-        });
-        $("#tax").keyup(function(e){
-            if (/\D/g.test(this.value)){
-                // Filter non-digits from input value.
-                this.value = this.value.replace(/\D/g, '');
-            }
-            if(this.value >= 99){
-                this.value = 99;
-            }
-        });
-
-        $(document).on("click","#confirm",function(e){
-        // Validate ifnull
-        no = $("#no").val();
-        code_cust = $("#code_cust").prop('selectedIndex');
-        if (no == ""){
-            swal('WARNING', 'No Tidak boleh kosong!', 'warning');
-            return false;
-        }else if (code_cust == 0){
-            swal('WARNING', 'Please select Code Cust', 'warning');
-            return false;
-        }
-        show_loading()
-        });
-
-        $(document).on('focusout', '.row_qty', function(event) 
-            {
+            $(document).on('focusout', '.row_qty', function(event) {
                 event.preventDefault();
 
                 console.log("focus out");
                 var tbl_row = $(this).closest('tr');
                 var row_id = tbl_row.attr('row_id');
 
-                subtot = $('#subtot_d_'+row_id).val();
-                console.log("subtot : "+subtot);
-                if (/\D/g.test(subtot))
-                {
+                subtot = $('#subtot_d_' + row_id).val();
+                console.log("subtot : " + subtot);
+                if (/\D/g.test(subtot)) {
                     // Filter comma
-                    subtot = subtot.replace(/\,/g,"");
+                    subtot = subtot.replace(/\,/g, "");
                     subtot = Number(Math.trunc(subtot))
                 }
 
                 total = $('#price_total').val();
-                console.log("total : "+total);
-                if (/\D/g.test(total))
-                {
+                console.log("total : " + total);
+                if (/\D/g.test(total)) {
                     // Filter comma
-                    total = total.replace(/\,/g,"");
+                    total = total.replace(/\,/g, "");
                     total = Number(Math.trunc(total))
                 }
 
@@ -608,23 +674,21 @@
 
                 qty = $(this).val();
 
-                hrg = $('#hrgjual_d_'+row_id).val();
-                if (/\D/g.test(hrg))
-                {
+                hrg = $('#hrgjual_d_' + row_id).val();
+                if (/\D/g.test(hrg)) {
                     // Filter comma
-                    hrg = hrg.replace(/\,/g,"");
+                    hrg = hrg.replace(/\,/g, "");
                     hrg = Number(Math.trunc(hrg))
                 }
 
                 sum = hrg * qty;
-                $('#subtot_d_'+row_id).val(thousands_separators(sum.toFixed(2)));
+                $('#subtot_d_' + row_id).val(thousands_separators(sum.toFixed(2)));
 
                 total_new = total_old + sum;
 
                 $('#price_total').val(thousands_separators(total_new.toFixed(2)));
             })
-        
-    })
 
-</script>
+        })
+    </script>
 @endsection
