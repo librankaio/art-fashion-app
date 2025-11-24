@@ -643,7 +643,6 @@
                     return false;
                 }
                 // Disable button agar tidak double click
-                $('#confirm').prop('disabled', true).text('Processing...');
                 show_loading()
             });
 
