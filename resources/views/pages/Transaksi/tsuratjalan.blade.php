@@ -852,7 +852,7 @@
                     return false;
                 }
                 show_loading()
-                $('#confirm').prop('disabled', true).text('Processing...');
+                // $('#confirm').prop('disabled', true).text('Processing...');
 
                 // else if (nosob == 0){
                 //     swal('WARNING', 'Please select Nomer SOB', 'warning');
