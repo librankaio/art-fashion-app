@@ -360,6 +360,13 @@
             // End Validate ifnull
         });
 
+        $('#kode')
+            .on('keydown', function(e) {
+                if (e.key === ' ' || e.keyCode === 32) e.preventDefault();
+            })
+            .on('input', function() {
+                this.value = this.value.replace(/\s/g, '');
+            });
         $("#name_lbl").keyup(function(e) {
             if (this.value.length > 8) {
                 swal('WARNING', 'Nama label Tidak boleh lebih dari 8 karakter!', 'warning');

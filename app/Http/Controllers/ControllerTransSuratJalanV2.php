@@ -171,6 +171,7 @@ class ControllerTransSuratJalanV2 extends Controller
             }
 
             // ❌ Stok tidak cukup → rollback & return
+            dd($is_stocknotvalid);
             if ($is_stocknotvalid > 0){
                 DB::rollBack();
                 Session::flash('items_error', $items);
