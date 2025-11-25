@@ -43,32 +43,150 @@ class ControllerTransSuratJalanV2 extends Controller
         ]);
     }
 
-    public function post(Request $request){
-        $notrans = DB::select("select fgetcode('tsj') as codetrans");
-        foreach($notrans as $notran){
-            $no = $notran->codetrans;
-        }
-        $items = array();
-        $is_stocknotvalid = 0;
-        for ($i=0;$i<sizeof($request->no_d);$i++){
-            $stock_mitem_counter = DB::table('mitems_counters')
-            ->selectRaw('stock')
-            ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-            ->where('name_mcounters', '=', $request->counter_from)
-            ->first();
-            // dd($stock_mitem_counter->stock);
-            $stock_counter_min = $stock_mitem_counter->stock-$request->quantity_d[$i];
-            // dd($stock_mitem_counter);
-            if ($request->quantity_d[$i] > $stock_mitem_counter->stock){
-                array_push($items, strtok($request->kode_d[$i], " "));
+    // public function post(Request $request){
+    //     $notrans = DB::select("select fgetcode('tsj') as codetrans");
+    //     foreach($notrans as $notran){
+    //         $no = $notran->codetrans;
+    //     }
+    //     $items = array();
+    //     $is_stocknotvalid = 0;
+    //     for ($i=0;$i<sizeof($request->no_d);$i++){
+    //         $stock_mitem_counter = DB::table('mitems_counters')
+    //         ->selectRaw('stock')
+    //         ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
+    //         ->where('name_mcounters', '=', $request->counter_from)
+    //         ->first();
+    //         // dd($stock_mitem_counter->stock);
+    //         $stock_counter_min = $stock_mitem_counter->stock-$request->quantity_d[$i];
+    //         // dd($stock_mitem_counter);
+    //         if ($request->quantity_d[$i] > $stock_mitem_counter->stock){
+    //             array_push($items, strtok($request->kode_d[$i], " "));
+    //             Session::flash('items_error', $items);
+    //             Session::flash('counter_selected', $request->counter_from);
+    //             $is_stocknotvalid++;
+    //         }            
+    //     }
+    //     $checkexist = Tsj_h::select('id','no')->where('no','=', $no)->first();
+    //     if($checkexist == null){
+    //         Tsj_h::create([
+    //             'no' => $no,
+    //             'counter' => $request->counter,
+    //             'counter_from' => $request->counter_from,
+    //             'jenis' => $request->jenis,
+    //             'tgl' => $request->dt,
+    //             'note' => $request->note,
+    //             'no_sob' => $request->nosob,
+    //             'grdtotal' => (float) str_replace(',', '', $request->price_total),
+    //         ]);
+    //         $idh_loop = Tsj_h::select('id')->where('no','=',$no)->get();
+    //         for($j=0; $j<sizeof($idh_loop); $j++){
+    //             $idh = $idh_loop[$j]->id;
+    //         }
+    
+    //         $countrows = sizeof($request->no_d);
+    //         $count=0;
+    //         for ($i=0;$i<sizeof($request->no_d);$i++){
+    //             Tsj_d::create([
+    //                 'idh' => $idh,
+    //                 'no_sj' => $no,
+    //                 'code' => $request->kode_d[$i],
+    //                 'name' => $request->namaitem_d[$i],
+    //                 'warna' => $request->warna_d[$i],
+    //                 'qty' => $request->quantity_d[$i],
+    //                 'satuan' => $request->satuan_d[$i],
+    //                 'subtotal' => (float) str_replace(',', '', $request->subtot_d[$i]),
+    //                 'hrgjual' => (float) str_replace(',', '', $request->hrgjual_d[$i]),
+    //             ]);
+    //             $stock_mitem = Mitem::select('stock')->where('code', '=', strtok($request->kode_d[$i], " "))->first();
+    //             // dd($stock_mitem);
+    //             $stock_min = $stock_mitem->stock - $request->quantity_d[$i];
+    //             // dd($stock_min);
+    //             Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
+    //                 'stock' => (int)$stock_min,
+    //             ]);
+    //             $stock_mitem_counter = DB::table('mitems_counters')
+    //             ->selectRaw('stock')
+    //             ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
+    //             ->where('name_mcounters', '=', $request->counter_from)
+    //             ->first();
+    //             $stock_counter_min = $stock_mitem_counter->stock-$request->quantity_d[$i];
+    //             // dd($stock_counter_min);
+    //             DB::table('mitems_counters')
+    //             ->selectRaw('stock')
+    //             ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
+    //             ->where('name_mcounters', '=', $request->counter_from)
+    //             ->update([
+    //                 'stock' => (int)$stock_counter_min,
+    //             ]);
+
+    //             $mcounter = Mcounter::where('name', '=', $request->counter_from)->first();
+    //             MutasiAF::create([  
+    //                 'code_mitem' => strtok($request->kode_d[$i], " "),
+    //                 'code_mcounters' => $mcounter->code,
+    //                 'qty' => $request->quantity_d[$i],
+    //                 'notrans' => $request->no,
+    //                 'doctype' => "SURAT JALAN",
+    //                 'jenis' => "PLUS",
+    //                 'action' => "CREATE",
+    //                 'user' => session('nik'),
+    //             ]);
+    //             // dd($stock_counter_min);
+    //             $count++;
+    //         }
+    //         Tsob_h::where('no', '=', $request->nosob)->update([
+    //             'exist_sj' => "Y",
+    //         ]);
+    //         if($count == $countrows){
+    //             return redirect()->back()->with('success', 'Data berhasil ditambahkan');
+    //         }
+    //     }
+    //     return redirect()->back()->with('error', 'Nomor transaksi sudah ada!');
+    // }
+    public function post(Request $request)
+    {
+        DB::beginTransaction(); // ⬅️ mulai transaksi
+
+        try {
+            $notrans = DB::select("select fgetcode('tsj') as codetrans");
+            foreach($notrans as $notran){
+                $no = $notran->codetrans;
+            }
+
+            $items = [];
+            $is_stocknotvalid = 0;
+
+            // 🚨 Cek stok dahulu sebelum proses insert
+            for ($i=0; $i < sizeof($request->no_d); $i++){
+                $stock_mitem_counter = DB::table('mitems_counters')
+                    ->select('stock')
+                    ->where('code_mitem', strtok($request->kode_d[$i], " "))
+                    ->where('name_mcounters', $request->counter_from)
+                    ->lockForUpdate() // ⬅️ lock agar stok tidak berubah oleh user lain
+                    ->first();
+
+                if ($request->quantity_d[$i] > $stock_mitem_counter->stock){
+                    $items[] = strtok($request->kode_d[$i], " ");
+                    $is_stocknotvalid++;
+                }
+            }
+
+            // ❌ Stok tidak cukup → rollback & return
+            if ($is_stocknotvalid > 0){
+                DB::rollBack();
                 Session::flash('items_error', $items);
                 Session::flash('counter_selected', $request->counter_from);
-                $is_stocknotvalid++;
-            }            
-        }
-        $checkexist = Tsj_h::select('id','no')->where('no','=', $no)->first();
-        if($checkexist == null){
-            Tsj_h::create([
+                return redirect()->back()->with('error', 'Stock tidak mencukupi untuk beberapa item!');
+            }
+
+            // ❌ Cek nomor transaksi duplicate
+            $checkexist = Tsj_h::where('no', $no)->first();
+            if($checkexist){
+                DB::rollBack();
+                return redirect()->back()->with('error', 'Nomor transaksi sudah ada!');
+            }
+
+            // INSERT HEADER
+            $header = Tsj_h::create([
                 'no' => $no,
                 'counter' => $request->counter,
                 'counter_from' => $request->counter_from,
@@ -78,14 +196,10 @@ class ControllerTransSuratJalanV2 extends Controller
                 'no_sob' => $request->nosob,
                 'grdtotal' => (float) str_replace(',', '', $request->price_total),
             ]);
-            $idh_loop = Tsj_h::select('id')->where('no','=',$no)->get();
-            for($j=0; $j<sizeof($idh_loop); $j++){
-                $idh = $idh_loop[$j]->id;
-            }
-    
-            $countrows = sizeof($request->no_d);
-            $count=0;
-            for ($i=0;$i<sizeof($request->no_d);$i++){
+            $idh = $header->id;
+
+            // INSERT DETAIL + UPDATE STOCK
+            for ($i = 0; $i < sizeof($request->no_d); $i++){
                 Tsj_d::create([
                     'idh' => $idh,
                     'no_sj' => $no,
@@ -97,31 +211,22 @@ class ControllerTransSuratJalanV2 extends Controller
                     'subtotal' => (float) str_replace(',', '', $request->subtot_d[$i]),
                     'hrgjual' => (float) str_replace(',', '', $request->hrgjual_d[$i]),
                 ]);
-                $stock_mitem = Mitem::select('stock')->where('code', '=', strtok($request->kode_d[$i], " "))->first();
-                // dd($stock_mitem);
-                $stock_min = $stock_mitem->stock - $request->quantity_d[$i];
-                // dd($stock_min);
-                Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
-                    'stock' => (int)$stock_min,
-                ]);
-                $stock_mitem_counter = DB::table('mitems_counters')
-                ->selectRaw('stock')
-                ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                ->where('name_mcounters', '=', $request->counter_from)
-                ->first();
-                $stock_counter_min = $stock_mitem_counter->stock-$request->quantity_d[$i];
-                // dd($stock_counter_min);
-                DB::table('mitems_counters')
-                ->selectRaw('stock')
-                ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                ->where('name_mcounters', '=', $request->counter_from)
-                ->update([
-                    'stock' => (int)$stock_counter_min,
-                ]);
 
-                $mcounter = Mcounter::where('name', '=', $request->counter_from)->first();
-                MutasiAF::create([  
-                    'code_mitem' => strtok($request->kode_d[$i], " "),
+                // Update stock di tabel Mitem
+                $codeItem = strtok($request->kode_d[$i], " ");
+                Mitem::where('code', $codeItem)
+                    ->decrement('stock', $request->quantity_d[$i]);
+
+                // Update stock di tabel mitems_counters
+                DB::table('mitems_counters')
+                    ->where('code_mitem', $codeItem)
+                    ->where('name_mcounters', $request->counter_from)
+                    ->decrement('stock', $request->quantity_d[$i]);
+
+                // Buat mutasi
+                $mcounter = Mcounter::where('name', $request->counter_from)->first();
+                MutasiAF::create([
+                    'code_mitem' => $codeItem,
                     'code_mcounters' => $mcounter->code,
                     'qty' => $request->quantity_d[$i],
                     'notrans' => $request->no,
@@ -130,17 +235,17 @@ class ControllerTransSuratJalanV2 extends Controller
                     'action' => "CREATE",
                     'user' => session('nik'),
                 ]);
-                // dd($stock_counter_min);
-                $count++;
             }
-            Tsob_h::where('no', '=', $request->nosob)->update([
-                'exist_sj' => "Y",
-            ]);
-            if($count == $countrows){
-                return redirect()->back()->with('success', 'Data berhasil ditambahkan');
-            }
+
+            Tsob_h::where('no', $request->nosob)->update(['exist_sj' => "Y"]);
+
+            DB::commit(); // ⬅️ simpan transaksi
+            return redirect()->back()->with('success', 'Data berhasil ditambahkan');
+
+        } catch (\Throwable $th) {
+            DB::rollBack(); // ⬅️ batalkan transaksi jika error
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
         }
-        return redirect()->back()->with('error', 'Nomor transaksi sudah ada!');
     }
 
     public function getnosob(Request $request){
@@ -460,54 +565,128 @@ class ControllerTransSuratJalanV2 extends Controller
         }
     }
 
-    public function delete(Tsj_h $tsjh){
-        $suratjalan_detail = Tsj_d::where('idh','=',$tsjh->id)->get();
-        foreach($suratjalan_detail as $suratjalan_old_item){
-            // Mins a value from the old stock in mitems table
-            $stock_mitem = Mitem::select('stock')->where('code', '=',strtok($suratjalan_old_item->code, " "))->first();
-            $stock_mitem_sum = $stock_mitem->stock + (int)$suratjalan_old_item->qty;
+    // public function delete(Tsj_h $tsjh){
+    //     $suratjalan_detail = Tsj_d::where('idh','=',$tsjh->id)->get();
+    //     foreach($suratjalan_detail as $suratjalan_old_item){
+    //         // Mins a value from the old stock in mitems table
+    //         $stock_mitem = Mitem::select('stock')->where('code', '=',strtok($suratjalan_old_item->code, " "))->first();
+    //         $stock_mitem_sum = $stock_mitem->stock + (int)$suratjalan_old_item->qty;
             
-            Mitem::where('code', '=', strtok($suratjalan_old_item->code, " "))->update([
-                'stock' => (int)$stock_mitem_sum,
-            ]);
-            // Mins a value from the old stock in mitems_counters table
-            $stock_mitem_counter = DB::table('mitems_counters')
-            ->selectRaw('stock')
-            ->where('code_mitem', '=', strtok($suratjalan_old_item->code, " "))
-            ->where('name_mcounters', '=', $tsjh->counter_from)
-            ->first();
-            $stock_mitem_counter_sum = $stock_mitem_counter->stock + (int)$suratjalan_old_item->qty;
-            DB::table('mitems_counters')
-            ->selectRaw('stock')
-            ->where('code_mitem', '=', strtok($suratjalan_old_item->code, " "))
-            ->where('name_mcounters', '=', $tsjh->counter_from)
-            ->update([
-                'stock' => (int)$stock_mitem_counter_sum,
+    //         Mitem::where('code', '=', strtok($suratjalan_old_item->code, " "))->update([
+    //             'stock' => (int)$stock_mitem_sum,
+    //         ]);
+    //         // Mins a value from the old stock in mitems_counters table
+    //         $stock_mitem_counter = DB::table('mitems_counters')
+    //         ->selectRaw('stock')
+    //         ->where('code_mitem', '=', strtok($suratjalan_old_item->code, " "))
+    //         ->where('name_mcounters', '=', $tsjh->counter_from)
+    //         ->first();
+    //         $stock_mitem_counter_sum = $stock_mitem_counter->stock + (int)$suratjalan_old_item->qty;
+    //         DB::table('mitems_counters')
+    //         ->selectRaw('stock')
+    //         ->where('code_mitem', '=', strtok($suratjalan_old_item->code, " "))
+    //         ->where('name_mcounters', '=', $tsjh->counter_from)
+    //         ->update([
+    //             'stock' => (int)$stock_mitem_counter_sum,
+    //         ]);
+
+    //         $mcounter = Mcounter::where('name', '=', $tsjh->counter_from)->first();
+
+    //         MutasiAF::create([  
+    //             'code_mitem' => strtok($suratjalan_old_item->code, " "),
+    //             'code_mcounters' => $mcounter->code,
+    //             'qty' => (int)$suratjalan_old_item->qty,
+    //             'notrans' => $tsjh->no,
+    //             'doctype' => "SURAT_JALAN",
+    //             'jenis' => "MINUS",
+    //             'action' => "DELETE",
+    //             'user' => session('nik'),
+    //         ]);
+    //     }
+
+    //     $tsj = Tsj_h::where('id','=',$tsjh->id)->first();
+    //     $sobh = Tsob_h::where('no', '=', $tsj->no_sob)->first();
+    //     Tsob_h::where('no', '=', $tsj->no_sob)->update([
+    //         'exist_sj' => NULL,
+    //     ]);
+    //     Tsj_h::where('id','=',$tsjh->id)->delete();
+    //     Tsj_d::where('idh','=',$tsjh->id)->delete();
+
+    //     return redirect()->route('tsuratjalanlist')->with('success', 'Data berhasil dihapus');
+    // }
+    public function delete(Tsj_h $tsjh)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            $suratjalan_detail = Tsj_d::where('idh', '=', $tsjh->id)->get();
+
+            foreach ($suratjalan_detail as $suratjalan_old_item) {
+
+                // Ambil bagian kode sebelum spasi
+                $cleanCode = strtok($suratjalan_old_item->code, " ");
+
+                // + Tambah kembali ke stock MITEMS
+                $stock_mitem = Mitem::select('stock')
+                    ->where('code', $cleanCode)
+                    ->lockForUpdate() // hindari race condition
+                    ->first();
+
+                $stock_mitem_sum = $stock_mitem->stock + (int) $suratjalan_old_item->qty;
+
+                Mitem::where('code', $cleanCode)->update([
+                    'stock' => $stock_mitem_sum,
+                ]);
+
+                // + Tambah kembali ke stock MITEMS_COUNTERS
+                $stock_mitem_counter = DB::table('mitems_counters')
+                    ->select('stock')
+                    ->where('code_mitem', $cleanCode)
+                    ->where('name_mcounters', $tsjh->counter_from)
+                    ->lockForUpdate()
+                    ->first();
+
+                $stock_mitem_counter_sum = $stock_mitem_counter->stock + (int) $suratjalan_old_item->qty;
+
+                DB::table('mitems_counters')
+                    ->where('code_mitem', $cleanCode)
+                    ->where('name_mcounters', $tsjh->counter_from)
+                    ->update([
+                        'stock' => $stock_mitem_counter_sum,
+                    ]);
+
+                // Insert ke Mutasi
+                $mcounter = Mcounter::where('name', $tsjh->counter_from)->first();
+
+                MutasiAF::create([
+                    'code_mitem' => $cleanCode,
+                    'code_mcounters' => $mcounter->code,
+                    'qty' => (int) $suratjalan_old_item->qty,
+                    'notrans' => $tsjh->no,
+                    'doctype' => "SURAT_JALAN",
+                    'jenis' => "MINUS",
+                    'action' => "DELETE",
+                    'user' => session('nik'),
+                ]);
+            }
+
+            // Update SOB & Delete TSJ
+            Tsob_h::where('no', $tsjh->no_sob)->update([
+                'exist_sj' => NULL,
             ]);
 
-            $mcounter = Mcounter::where('name', '=', $tsjh->counter_from)->first();
+            Tsj_h::where('id', $tsjh->id)->delete();
+            Tsj_d::where('idh', $tsjh->id)->delete();
 
-            MutasiAF::create([  
-                'code_mitem' => strtok($suratjalan_old_item->code, " "),
-                'code_mcounters' => $mcounter->code,
-                'qty' => (int)$suratjalan_old_item->qty,
-                'notrans' => $tsjh->no,
-                'doctype' => "SURAT_JALAN",
-                'jenis' => "MINUS",
-                'action' => "DELETE",
-                'user' => session('nik'),
-            ]);
+            DB::commit();
+            return redirect()->route('tsuratjalanlist')->with('success', 'Data berhasil dihapus');
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            return redirect()->route('tsuratjalanlist')->with('error', 'Gagal menghapus data: ' . $e->getMessage());
         }
-
-        $tsj = Tsj_h::where('id','=',$tsjh->id)->first();
-        $sobh = Tsob_h::where('no', '=', $tsj->no_sob)->first();
-        Tsob_h::where('no', '=', $tsj->no_sob)->update([
-            'exist_sj' => NULL,
-        ]);
-        Tsj_h::where('id','=',$tsjh->id)->delete();
-        Tsj_d::where('idh','=',$tsjh->id)->delete();
-
-        return redirect()->route('tsuratjalanlist')->with('success', 'Data berhasil dihapus');
     }
 
     public function print(Tsj_h $tsjh){

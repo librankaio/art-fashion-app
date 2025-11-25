@@ -32,30 +32,133 @@ class ControllerTransAdjustmentStock extends Controller
         ]);
     }
 
-    public function post(Request $request){
-        $notrans = DB::select("select fgetcode('tadj') as codetrans");
+    // public function post(Request $request){
+    //     $notrans = DB::select("select fgetcode('tadj') as codetrans");
 
-        foreach($notrans as $notran){
-            $no = $notran->codetrans;
-        }
+    //     foreach($notrans as $notran){
+    //         $no = $notran->codetrans;
+    //     }
 
-        $checkexist = Tadj_h::select('id','no')->where('no','=', $no)->first();
-        if($checkexist == null){
-            Tadj_h::create([
+    //     $checkexist = Tadj_h::select('id','no')->where('no','=', $no)->first();
+    //     if($checkexist == null){
+    //         Tadj_h::create([
+    //             'no' => $no,
+    //             'tgl' => $request->dt,
+    //             'counter' => $request->counter,
+    //             'jenis' => $request->jenis,
+    //             'note' => $request->note,
+    //         ]);
+    //         $idh_loop = Tadj_h::select('id')->where('no','=',$no)->get();
+    //         for($j=0; $j<sizeof($idh_loop); $j++){
+    //             $idh = $idh_loop[$j]->id;
+    //         }
+    
+    //         $countrows = sizeof($request->no_d);
+    //         $count=0;
+    //         for ($i=0;$i<sizeof($request->no_d);$i++){
+    //             Tadj_d::create([
+    //                 'idh' => $idh,
+    //                 'no_adj' => $no,
+    //                 'code' => $request->kode_d[$i],
+    //                 'name' => $request->nama_item_d[$i],
+    //                 'warna' => $request->warna_d[$i],
+    //                 'qty' => $request->quantity_d[$i],
+    //                 'satuan' => $request->satuan_d[$i],
+    //             ]);
+    //             $mcounter = Mcounter::where('name', '=', $request->counter)->first();
+
+    //             if ($request->jenis == 'Plus'){
+    //                 $stock_mitem_counter = DB::table('mitems_counters')
+    //                 ->selectRaw('stock')
+    //                 ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
+    //                 ->where('name_mcounters', '=', $request->counter)
+    //                 ->first();
+    //                 // dd($stock_mitem_counter);
+    //                 $stock_counter_sum = $stock_mitem_counter->stock+$request->quantity_d[$i];
+    //                 DB::table('mitems_counters')
+    //                 ->selectRaw('stock')
+    //                 ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
+    //                 ->where('name_mcounters', '=', $request->counter)
+    //                 ->update([
+    //                     'stock' => (int)$stock_counter_sum,
+    //                 ]);
+    //                 $mcounter = Mcounter::where('name', '=', $request->counter)->first();
+    //                 MutasiAF::create([  
+    //                     'code_mitem' => strtok($request->kode_d[$i], " "),
+    //                     'code_mcounters' => $mcounter->code,
+    //                     'qty' => $request->quantity_d[$i],
+    //                     'notrans' => $request->no,
+    //                     'doctype' => "ADJUSTMENT",
+    //                     'jenis' => "PLUS",
+    //                     'action' => "CREATE",
+    //                     'user' => session('nik'),
+    //                 ]);
+    //             }else if ($request->jenis == 'Minus'){
+    //                 $stock_mitem_counter = DB::table('mitems_counters')
+    //                 ->selectRaw('stock')
+    //                 ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
+    //                 ->where('name_mcounters', '=', $request->counter)
+    //                 ->first();
+    //                 $stock_counter_min = $stock_mitem_counter->stock-$request->quantity_d[$i];
+    //                 DB::table('mitems_counters')
+    //                 ->selectRaw('stock')
+    //                 ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
+    //                 ->where('name_mcounters', '=', $request->counter)
+    //                 ->update([
+    //                     'stock' => (int)$stock_counter_min,
+    //                 ]);
+    //                 MutasiAF::create([  
+    //                     'code_mitem' => strtok($request->kode_d[$i], " "),
+    //                     'code_mcounters' => $mcounter->code,
+    //                     'qty' => $request->quantity_d[$i],
+    //                     'notrans' => $request->no,
+    //                     'doctype' => "ADJUSTMENT",
+    //                     'jenis' => "MINUS",
+    //                     'action' => "CREATE",
+    //                     'user' => session('nik'),
+    //                 ]);                   
+    //             }
+    //             $count++;
+    //         }
+    //         if($count == $countrows){
+    //             return redirect()->back()->with('success', 'Data berhasil disimpan');
+    //         }
+    //     }
+    //     return redirect()->back()->with('error', 'Nomer Transaksi sudah ada!');
+    // }
+
+    public function post(Request $request)
+    {
+        DB::beginTransaction(); // ⬅️ mulai transaksi
+
+        try {
+
+            $notrans = DB::select("select fgetcode('tadj') as codetrans");
+            foreach ($notrans as $notran) {
+                $no = $notran->codetrans;
+            }
+
+            // ⛔ Mencegah double transaksi jika user klik 2 kali
+            if (Tadj_h::where('no', $no)->exists()) {
+                DB::rollBack();
+                return redirect()->back()->with('error', 'Nomor transaksi sudah ada!');
+            }
+
+            // INSERT HEADER
+            $header = Tadj_h::create([
                 'no' => $no,
                 'tgl' => $request->dt,
                 'counter' => $request->counter,
                 'jenis' => $request->jenis,
                 'note' => $request->note,
             ]);
-            $idh_loop = Tadj_h::select('id')->where('no','=',$no)->get();
-            for($j=0; $j<sizeof($idh_loop); $j++){
-                $idh = $idh_loop[$j]->id;
-            }
-    
-            $countrows = sizeof($request->no_d);
-            $count=0;
-            for ($i=0;$i<sizeof($request->no_d);$i++){
+
+            $idh = $header->id;
+            $mcounter = Mcounter::where('name', $request->counter)->first();
+
+            // INSERT DETAIL & APPLY STOCK
+            for ($i = 0; $i < sizeof($request->no_d); $i++) {
+
                 Tadj_d::create([
                     'idh' => $idh,
                     'no_adj' => $no,
@@ -65,66 +168,62 @@ class ControllerTransAdjustmentStock extends Controller
                     'qty' => $request->quantity_d[$i],
                     'satuan' => $request->satuan_d[$i],
                 ]);
-                $mcounter = Mcounter::where('name', '=', $request->counter)->first();
 
-                if ($request->jenis == 'Plus'){
-                    $stock_mitem_counter = DB::table('mitems_counters')
-                    ->selectRaw('stock')
-                    ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                    ->where('name_mcounters', '=', $request->counter)
+                $code = strtok($request->kode_d[$i], " ");
+
+                $stock_mitem_counter = DB::table('mitems_counters')
+                    ->where('code_mitem', $code)
+                    ->where('name_mcounters', $request->counter)
+                    ->lockForUpdate() // ⬅️ cegah race condition (2 user update stok bersamaan)
                     ->first();
-                    // dd($stock_mitem_counter);
-                    $stock_counter_sum = $stock_mitem_counter->stock+$request->quantity_d[$i];
-                    DB::table('mitems_counters')
-                    ->selectRaw('stock')
-                    ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                    ->where('name_mcounters', '=', $request->counter)
-                    ->update([
-                        'stock' => (int)$stock_counter_sum,
-                    ]);
-                    $mcounter = Mcounter::where('name', '=', $request->counter)->first();
-                    MutasiAF::create([  
-                        'code_mitem' => strtok($request->kode_d[$i], " "),
-                        'code_mcounters' => $mcounter->code,
-                        'qty' => $request->quantity_d[$i],
-                        'notrans' => $request->no,
-                        'doctype' => "ADJUSTMENT",
-                        'jenis' => "PLUS",
-                        'action' => "CREATE",
-                        'user' => session('nik'),
-                    ]);
-                }else if ($request->jenis == 'Minus'){
-                    $stock_mitem_counter = DB::table('mitems_counters')
-                    ->selectRaw('stock')
-                    ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                    ->where('name_mcounters', '=', $request->counter)
-                    ->first();
-                    $stock_counter_min = $stock_mitem_counter->stock-$request->quantity_d[$i];
-                    DB::table('mitems_counters')
-                    ->selectRaw('stock')
-                    ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                    ->where('name_mcounters', '=', $request->counter)
-                    ->update([
-                        'stock' => (int)$stock_counter_min,
-                    ]);
-                    MutasiAF::create([  
-                        'code_mitem' => strtok($request->kode_d[$i], " "),
-                        'code_mcounters' => $mcounter->code,
-                        'qty' => $request->quantity_d[$i],
-                        'notrans' => $request->no,
-                        'doctype' => "ADJUSTMENT",
-                        'jenis' => "MINUS",
-                        'action' => "CREATE",
-                        'user' => session('nik'),
-                    ]);                   
+
+                if (!$stock_mitem_counter) {
+                    throw new \Exception("Stock counter tidak ditemukan");
                 }
-                $count++;
+
+                if ($request->jenis == 'Plus') {
+                    $new_stock = $stock_mitem_counter->stock + $request->quantity_d[$i];
+                    $mutasi_jenis = "PLUS";
+                } else {
+                    $new_stock = $stock_mitem_counter->stock - $request->quantity_d[$i];
+
+                    if ($new_stock < 0) {
+                        throw new \Exception("Stok tidak mencukupi untuk item $code !");
+                    }
+
+                    $mutasi_jenis = "MINUS";
+                }
+
+                DB::table('mitems_counters')
+                    ->where('code_mitem', $code)
+                    ->where('name_mcounters', $request->counter)
+                    ->update(['stock' => (int)$new_stock]);
+
+                // INSERT MUTASI
+                MutasiAF::create([
+                    'code_mitem' => $code,
+                    'code_mcounters' => $mcounter->code,
+                    'qty' => $request->quantity_d[$i],
+                    'notrans' => $no,
+                    'doctype' => "ADJUSTMENT",
+                    'jenis' => $mutasi_jenis,
+                    'action' => "CREATE",
+                    'user' => session('nik'),
+                ]);
             }
-            if($count == $countrows){
-                return redirect()->back()->with('success', 'Data berhasil disimpan');
-            }
+
+            DB::commit(); // ⬅️ semua OK → simpan
+
+            return redirect()->back()->with('success', 'Data berhasil disimpan');
+
+        } catch (\Throwable $err) {
+
+            DB::rollBack(); // ⬅️ terjadi error → batalkan semuanya
+
+            return redirect()->back()->with('error',
+                'Gagal menyimpan data! ' . $err->getMessage()
+            );
         }
-        return redirect()->back()->with('error', 'Nomer Transaksi sudah ada!');
     }
 
     public function list(){
@@ -425,95 +524,172 @@ class ControllerTransAdjustmentStock extends Controller
         }
     }
 
-    public function delete(Tadj_h $tadjh){
-        $tadj_length = Tadj_d::where('idh', '=', $tadjh->id)->get();
-        if ($tadjh->jenis == 'Plus'){
-            for($x=0;$x<sizeof($tadj_length);$x++){
-                // dd($tadj_length[$x]->id);
-                $getstock_old = Tadj_d::where('id', '=', $tadj_length[$x]->id)->first();
-                $old_stock_mitem_counter = DB::table('mitems_counters')
-                ->selectRaw('stock')
-                ->where('code_mitem', '=', strtok($tadj_length[$x]->code, " "))
-                ->where('name_mcounters', '=', $tadjh->counter)
-                ->first();
+    // public function delete(Tadj_h $tadjh){
+    //     $tadj_length = Tadj_d::where('idh', '=', $tadjh->id)->get();
+    //     if ($tadjh->jenis == 'Plus'){
+    //         for($x=0;$x<sizeof($tadj_length);$x++){
+    //             // dd($tadj_length[$x]->id);
+    //             $getstock_old = Tadj_d::where('id', '=', $tadj_length[$x]->id)->first();
+    //             $old_stock_mitem_counter = DB::table('mitems_counters')
+    //             ->selectRaw('stock')
+    //             ->where('code_mitem', '=', strtok($tadj_length[$x]->code, " "))
+    //             ->where('name_mcounters', '=', $tadjh->counter)
+    //             ->first();
 
-                    // Make stock counter value is equal to old stock
-                    // $getstock_old->qty is pembelian_d stock value
+    //                 // Make stock counter value is equal to old stock
+    //                 // $getstock_old->qty is pembelian_d stock value
 
-                $normalize_stock_counter = $old_stock_mitem_counter->stock - (int)$getstock_old->qty;
+    //             $normalize_stock_counter = $old_stock_mitem_counter->stock - (int)$getstock_old->qty;
                 
-                DB::table('mitems_counters')
-                ->selectRaw('stock')
-                ->where('code_mitem', '=', strtok($tadj_length[$x]->code, " "))
-                ->where('name_mcounters', '=', $tadjh->counter)
-                ->update([
-                    'stock' => (int)$normalize_stock_counter,
-                ]);
+    //             DB::table('mitems_counters')
+    //             ->selectRaw('stock')
+    //             ->where('code_mitem', '=', strtok($tadj_length[$x]->code, " "))
+    //             ->where('name_mcounters', '=', $tadjh->counter)
+    //             ->update([
+    //                 'stock' => (int)$normalize_stock_counter,
+    //             ]);
 
-                $mcounter = Mcounter::where('name', '=', $tadjh->counter)->first();
-                MutasiAF::create([  
-                    'code_mitem' => strtok($tadj_length[$x]->code, " "),
-                    'code_mcounters' => $mcounter->code,
-                    'qty' => (int)$getstock_old->qty,
-                    'notrans' => $tadjh->no,
-                    'doctype' => "ADJUSTMENT",
-                    'jenis' => "ADJUSTMENT-MINUS",
-                    'action' => "DELETE",
-                    'user' => session('nik'),
-                ]);
+    //             $mcounter = Mcounter::where('name', '=', $tadjh->counter)->first();
+    //             MutasiAF::create([  
+    //                 'code_mitem' => strtok($tadj_length[$x]->code, " "),
+    //                 'code_mcounters' => $mcounter->code,
+    //                 'qty' => (int)$getstock_old->qty,
+    //                 'notrans' => $tadjh->no,
+    //                 'doctype' => "ADJUSTMENT",
+    //                 'jenis' => "ADJUSTMENT-MINUS",
+    //                 'action' => "DELETE",
+    //                 'user' => session('nik'),
+    //             ]);
     
-                $stock_mitem_old = Mitem::select('stock')->where('code', '=', strtok($getstock_old->code, " "))->first();
-                    // Make stock mitem value is equal to mitem old stock
-                $normalize_stock_mitem = $stock_mitem_old->stock - (int)$getstock_old->qty;
-                Mitem::where('code', '=', strtok($getstock_old->code, " "))->update([
-                    'stock' => (int)$normalize_stock_mitem,
-                ]);
-            }
-        }else if($tadjh->jenis == 'Minus'){
-            for($x=0;$x<sizeof($tadj_length);$x++){
-                $getstock_old = Tadj_d::where('id', '=', $tadj_length[$x]->id)->first();
-                $old_stock_mitem_counter = DB::table('mitems_counters')
-                ->selectRaw('stock')
-                ->where('code_mitem', '=', strtok($tadj_length[$x]->code, " "))
-                ->where('name_mcounters', '=', $tadjh->counter)
-                ->first();
-                // Make stock counter value is equal to old stock
-                // $getstock_old->qty is pembelian_d stock value
-                $normalize_stock_counter = $old_stock_mitem_counter->stock + (int)$getstock_old->qty;
-                DB::table('mitems_counters')
-                ->selectRaw('stock')
-                ->where('code_mitem', '=', strtok($tadj_length[$x]->code, " "))
-                ->where('name_mcounters', '=', $tadjh->counter)
-                ->update([
-                    'stock' => (int)$normalize_stock_counter,
-                ]);
+    //             $stock_mitem_old = Mitem::select('stock')->where('code', '=', strtok($getstock_old->code, " "))->first();
+    //                 // Make stock mitem value is equal to mitem old stock
+    //             $normalize_stock_mitem = $stock_mitem_old->stock - (int)$getstock_old->qty;
+    //             Mitem::where('code', '=', strtok($getstock_old->code, " "))->update([
+    //                 'stock' => (int)$normalize_stock_mitem,
+    //             ]);
+    //         }
+    //     }else if($tadjh->jenis == 'Minus'){
+    //         for($x=0;$x<sizeof($tadj_length);$x++){
+    //             $getstock_old = Tadj_d::where('id', '=', $tadj_length[$x]->id)->first();
+    //             $old_stock_mitem_counter = DB::table('mitems_counters')
+    //             ->selectRaw('stock')
+    //             ->where('code_mitem', '=', strtok($tadj_length[$x]->code, " "))
+    //             ->where('name_mcounters', '=', $tadjh->counter)
+    //             ->first();
+    //             // Make stock counter value is equal to old stock
+    //             // $getstock_old->qty is pembelian_d stock value
+    //             $normalize_stock_counter = $old_stock_mitem_counter->stock + (int)$getstock_old->qty;
+    //             DB::table('mitems_counters')
+    //             ->selectRaw('stock')
+    //             ->where('code_mitem', '=', strtok($tadj_length[$x]->code, " "))
+    //             ->where('name_mcounters', '=', $tadjh->counter)
+    //             ->update([
+    //                 'stock' => (int)$normalize_stock_counter,
+    //             ]);
 
-                $mcounter = Mcounter::where('name', '=', $tadjh->counter)->first();
-                MutasiAF::create([  
-                    'code_mitem' => strtok($tadj_length[$x]->code, " "),
-                    'code_mcounters' => $mcounter->code,
-                    'qty' => (int)$getstock_old->qty,
-                    'notrans' => $tadjh->no,
-                    'doctype' => "ADJUSTMENT",
-                    'jenis' => "ADJUSTMENT-PLUS",
-                    'action' => "DELETE",
-                    'user' => session('nik'),
-                ]);
+    //             $mcounter = Mcounter::where('name', '=', $tadjh->counter)->first();
+    //             MutasiAF::create([  
+    //                 'code_mitem' => strtok($tadj_length[$x]->code, " "),
+    //                 'code_mcounters' => $mcounter->code,
+    //                 'qty' => (int)$getstock_old->qty,
+    //                 'notrans' => $tadjh->no,
+    //                 'doctype' => "ADJUSTMENT",
+    //                 'jenis' => "ADJUSTMENT-PLUS",
+    //                 'action' => "DELETE",
+    //                 'user' => session('nik'),
+    //             ]);
     
-                $stock_mitem_old = Mitem::select('stock')->where('code', '=', strtok($getstock_old->code, " "))->first();
-                // Make stock mitem value is equal to mitem old stock
-                // dd($stock_mitem_old->stock - (int)$getstock_old->qty);
-                $normalize_stock_mitem = $stock_mitem_old->stock + (int)$getstock_old->qty;
-                Mitem::where('code', '=', strtok($getstock_old->code, " "))->update([
-                    'stock' => (int)$normalize_stock_mitem,
-                ]);
-            }
-        }
+    //             $stock_mitem_old = Mitem::select('stock')->where('code', '=', strtok($getstock_old->code, " "))->first();
+    //             // Make stock mitem value is equal to mitem old stock
+    //             // dd($stock_mitem_old->stock - (int)$getstock_old->qty);
+    //             $normalize_stock_mitem = $stock_mitem_old->stock + (int)$getstock_old->qty;
+    //             Mitem::where('code', '=', strtok($getstock_old->code, " "))->update([
+    //                 'stock' => (int)$normalize_stock_mitem,
+    //             ]);
+    //         }
+    //     }
         
-        Tadj_h::find($tadjh->id)->delete();
-        Tadj_d::where('idh','=',$tadjh->id)->delete();
+    //     Tadj_h::find($tadjh->id)->delete();
+    //     Tadj_d::where('idh','=',$tadjh->id)->delete();
 
 
-        return redirect()->route('tadjlist')->with('success', 'Data berhasil di hapus');
+    //     return redirect()->route('tadjlist')->with('success', 'Data berhasil di hapus');
+    // }
+    public function delete(Tadj_h $tadjh)
+    {
+        DB::beginTransaction(); // ⬅️ mulai transaksi
+
+        try {
+
+            $tadj_length = Tadj_d::where('idh', $tadjh->id)
+                ->lockForUpdate() // ⬅️ cegah stok berubah oleh transaksi lain
+                ->get();
+
+            foreach ($tadj_length as $row) {
+
+                $getstock_old = $row;
+                $codeItem = strtok($row->code, " ");
+
+                // ambil stok counter
+                $old_stock_mitem_counter = DB::table('mitems_counters')
+                    ->where('code_mitem', $codeItem)
+                    ->where('name_mcounters', $tadjh->counter)
+                    ->lockForUpdate()
+                    ->first();
+
+                // ambil stok mitem
+                $stock_mitem_old = Mitem::where('code', $codeItem)
+                    ->lockForUpdate()
+                    ->first();
+
+                if ($tadjh->jenis === 'Plus') {
+                    // Adjustment PLUS → delete berarti stok harus dikurangi
+                    $normalize_stock_counter = $old_stock_mitem_counter->stock - $getstock_old->qty;
+                    $normalize_stock_mitem   = $stock_mitem_old->stock - $getstock_old->qty;
+                    $jenis_mutasi = "ADJUSTMENT-MINUS";
+
+                } else { // jenis MINUS
+                    // Adjustment MINUS → delete berarti stok harus dikembalikan (ditambah)
+                    $normalize_stock_counter = $old_stock_mitem_counter->stock + $getstock_old->qty;
+                    $normalize_stock_mitem   = $stock_mitem_old->stock + $getstock_old->qty;
+                    $jenis_mutasi = "ADJUSTMENT-PLUS";
+                }
+
+                // Update stok counter
+                DB::table('mitems_counters')
+                    ->where('code_mitem', $codeItem)
+                    ->where('name_mcounters', $tadjh->counter)
+                    ->update(['stock' => (int) $normalize_stock_counter]);
+
+                // Update stok mitem
+                Mitem::where('code', $codeItem)
+                    ->update(['stock' => (int) $normalize_stock_mitem]);
+
+                // Insert mutasi
+                $mcounter = Mcounter::where('name', $tadjh->counter)->first();
+                MutasiAF::create([
+                    'code_mitem' => $codeItem,
+                    'code_mcounters' => $mcounter->code,
+                    'qty' => $getstock_old->qty,
+                    'notrans' => $tadjh->no,
+                    'doctype' => "ADJUSTMENT",
+                    'jenis' => $jenis_mutasi,
+                    'action' => "DELETE",
+                    'user' => session('nik'),
+                ]);
+            }
+
+            // Delete header & detail
+            Tadj_d::where('idh', $tadjh->id)->delete();
+            Tadj_h::find($tadjh->id)->delete();
+
+            DB::commit(); // ⬅️ success
+            return redirect()->route('tadjlist')->with('success', 'Data berhasil dihapus');
+
+        } catch (\Throwable $th) {
+            DB::rollBack(); // ⬅️ kalau gagal semua dibatalkan
+            return redirect()->route('tadjlist')
+                ->with('error', 'Gagal menghapus data: ' . $th->getMessage());
+        }
     }
 }
