@@ -156,27 +156,27 @@ class ControllerTransSuratJalanV2 extends Controller
             $is_stocknotvalid = 0;
 
             // 🚨 Cek stok dahulu sebelum proses insert
-            for ($i=0; $i < sizeof($request->no_d); $i++){
-                $stock_mitem_counter = DB::table('mitems_counters')
-                    ->select('stock')
-                    ->where('code_mitem', strtok($request->kode_d[$i], " "))
-                    ->where('name_mcounters', $request->counter_from)
-                    ->lockForUpdate() // ⬅️ lock agar stok tidak berubah oleh user lain
-                    ->first();
+            // for ($i=0; $i < sizeof($request->no_d); $i++){
+            //     $stock_mitem_counter = DB::table('mitems_counters')
+            //         ->select('stock')
+            //         ->where('code_mitem', strtok($request->kode_d[$i], " "))
+            //         ->where('name_mcounters', $request->counter_from)
+            //         ->lockForUpdate() // ⬅️ lock agar stok tidak berubah oleh user lain
+            //         ->first();
 
-                if ($request->quantity_d[$i] > $stock_mitem_counter->stock){
-                    $items[] = strtok($request->kode_d[$i], " ");
-                    $is_stocknotvalid++;
-                }
-            }
+            //     if ($request->quantity_d[$i] > $stock_mitem_counter->stock){
+            //         $items[] = strtok($request->kode_d[$i], " ");
+            //         $is_stocknotvalid++;
+            //     }
+            // }
 
             // ❌ Stok tidak cukup → rollback & return
-            if ($is_stocknotvalid > 0){
-                DB::rollBack();
-                Session::flash('items_error', $items);
-                Session::flash('counter_selected', $request->counter_from);
-                return redirect()->back()->with('error', 'Stock tidak mencukupi untuk beberapa item!');
-            }
+            // if ($is_stocknotvalid > 0){
+            //     DB::rollBack();
+            //     Session::flash('items_error', $items);
+            //     Session::flash('counter_selected', $request->counter_from);
+            //     return redirect()->back()->with('error', 'Stock tidak mencukupi untuk beberapa item!');
+            // }
 
             // ❌ Cek nomor transaksi duplicate
             $checkexist = Tsj_h::where('no', $no)->first();
@@ -218,10 +218,10 @@ class ControllerTransSuratJalanV2 extends Controller
                     ->decrement('stock', $request->quantity_d[$i]);
 
                 // Update stock di tabel mitems_counters
-                DB::table('mitems_counters')
-                    ->where('code_mitem', $codeItem)
-                    ->where('name_mcounters', $request->counter_from)
-                    ->decrement('stock', $request->quantity_d[$i]);
+                // DB::table('mitems_counters')
+                //     ->where('code_mitem', $codeItem)
+                //     ->where('name_mcounters', $request->counter_from)
+                //     ->decrement('stock', $request->quantity_d[$i]);
 
                 // Buat mutasi
                 $mcounter = Mcounter::where('name', $request->counter_from)->first();
@@ -445,20 +445,20 @@ class ControllerTransSuratJalanV2 extends Controller
                 if ($getstock_old){
                     $code = strtok($getstock_old->code, " ");
 
-                    $oldCounter = DB::table('mitems_counters')
-                        ->where('code_mitem', $code)
-                        ->where('name_mcounters', request('counter_from'))
-                        ->first();
+                    // $oldCounter = DB::table('mitems_counters')
+                    //     ->where('code_mitem', $code)
+                    //     ->where('name_mcounters', request('counter_from'))
+                    //     ->first();
 
                     // normalize stock counter
-                    if ($oldCounter){
-                        DB::table('mitems_counters')
-                            ->where('code_mitem', $code)
-                            ->where('name_mcounters', request('counter_from'))
-                            ->update([
-                                'stock' => $oldCounter->stock + (int)$getstock_old->qty
-                            ]);
-                    }
+                    // if ($oldCounter){
+                    //     DB::table('mitems_counters')
+                    //         ->where('code_mitem', $code)
+                    //         ->where('name_mcounters', request('counter_from'))
+                    //         ->update([
+                    //             'stock' => $oldCounter->stock + (int)$getstock_old->qty
+                    //         ]);
+                    // }
 
                     // normalize stock mitem
                     $oldMitem = Mitem::where('code', $code)->first();
@@ -514,41 +514,41 @@ class ControllerTransSuratJalanV2 extends Controller
                     ]);
 
                     // update counter stock
-                    $counter = DB::table('mitems_counters')
-                        ->where('code_mitem', $code)
-                        ->where('name_mcounters', request('counter_from'))
-                        ->first();
+                    // $counter = DB::table('mitems_counters')
+                    //     ->where('code_mitem', $code)
+                    //     ->where('name_mcounters', request('counter_from'))
+                    //     ->first();
 
                     $mcounter = Mcounter::where('name', request('counter_from'))->first();
 
-                    if (!$counter) {
-                        MitemCounters::create([
-                            'code_mitem' => $code,
-                            'name_mitem' => request('namaitem_d')[$i],
-                            'code_mcounters' => $mcounter->code,
-                            'name_mcounters' => request('counter_from'),
-                            'stock' => 0 - request('quantity_d')[$i],
-                            'datein' => now(),
-                        ]);
-                    } else {
-                        DB::table('mitems_counters')
-                            ->where('code_mitem', $code)
-                            ->where('name_mcounters', request('counter_from'))
-                            ->update([
-                                'stock' => $counter->stock - request('quantity_d')[$i]
-                            ]);
+                    // if (!$counter) {
+                    //     MitemCounters::create([
+                    //         'code_mitem' => $code,
+                    //         'name_mitem' => request('namaitem_d')[$i],
+                    //         'code_mcounters' => $mcounter->code,
+                    //         'name_mcounters' => request('counter_from'),
+                    //         'stock' => 0 - request('quantity_d')[$i],
+                    //         'datein' => now(),
+                    //     ]);
+                    // } else {
+                    //     DB::table('mitems_counters')
+                    //         ->where('code_mitem', $code)
+                    //         ->where('name_mcounters', request('counter_from'))
+                    //         ->update([
+                    //             'stock' => $counter->stock - request('quantity_d')[$i]
+                    //         ]);
 
-                        MutasiAF::create([
-                            'code_mitem' => $code,
-                            'code_mcounters' => $mcounter->code,
-                            'qty' => request('quantity_d')[$i],
-                            'notrans' => request('no'),
-                            'doctype' => "SURAT JALAN",
-                            'jenis' => "ADJUST",
-                            'action' => "UPDATE",
-                            'user' => session('nik'),
-                        ]);
-                    }
+                    //     MutasiAF::create([
+                    //         'code_mitem' => $code,
+                    //         'code_mcounters' => $mcounter->code,
+                    //         'qty' => request('quantity_d')[$i],
+                    //         'notrans' => request('no'),
+                    //         'doctype' => "SURAT JALAN",
+                    //         'jenis' => "ADJUST",
+                    //         'action' => "UPDATE",
+                    //         'user' => session('nik'),
+                    //     ]);
+                    // }
                 }
             }
 
@@ -640,21 +640,21 @@ class ControllerTransSuratJalanV2 extends Controller
                 ]);
 
                 // + Tambah kembali ke stock MITEMS_COUNTERS
-                $stock_mitem_counter = DB::table('mitems_counters')
-                    ->select('stock')
-                    ->where('code_mitem', $cleanCode)
-                    ->where('name_mcounters', $tsjh->counter_from)
-                    ->lockForUpdate()
-                    ->first();
+                // $stock_mitem_counter = DB::table('mitems_counters')
+                //     ->select('stock')
+                //     ->where('code_mitem', $cleanCode)
+                //     ->where('name_mcounters', $tsjh->counter_from)
+                //     ->lockForUpdate()
+                //     ->first();
 
-                $stock_mitem_counter_sum = $stock_mitem_counter->stock + (int) $suratjalan_old_item->qty;
+                // $stock_mitem_counter_sum = $stock_mitem_counter->stock + (int) $suratjalan_old_item->qty;
 
-                DB::table('mitems_counters')
-                    ->where('code_mitem', $cleanCode)
-                    ->where('name_mcounters', $tsjh->counter_from)
-                    ->update([
-                        'stock' => $stock_mitem_counter_sum,
-                    ]);
+                // DB::table('mitems_counters')
+                //     ->where('code_mitem', $cleanCode)
+                //     ->where('name_mcounters', $tsjh->counter_from)
+                //     ->update([
+                //         'stock' => $stock_mitem_counter_sum,
+                //     ]);
 
                 // Insert ke Mutasi
                 $mcounter = Mcounter::where('name', $tsjh->counter_from)->first();
