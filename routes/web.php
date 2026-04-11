@@ -23,7 +23,7 @@ use App\Http\Controllers\ControllerTransPenerimaanBrg;
 use App\Http\Controllers\ControllerTransReturPenjualan;
 use App\Http\Controllers\ControllerTransSOB;
 use App\Http\Controllers\ControllerTransStockOpname;
-use App\Http\Controllers\ControllerTransSuratJalan;
+// use App\Http\Controllers\ControllerTransSuratJalan;
 use App\Http\Controllers\ControllerTransSuratJalanV2;
 use App\Http\Controllers\ControllerUpload;
 use App\Http\Controllers\ControllerUploadMitemCounter;

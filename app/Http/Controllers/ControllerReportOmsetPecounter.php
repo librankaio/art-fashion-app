@@ -32,7 +32,7 @@ class ControllerReportOmsetPecounter extends Controller
         // $grandtot = DB::select('SELECT sum(subtotal) as grandtotal FROM vomsetpercounter');
         $counters = Mcounter::select('id','code','name')->get();
         // dd($results);
-
+        
         return view('pages.Report.romsetcounter', [
             'results' => $results,
             'counters' => $counters,

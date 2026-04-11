@@ -362,8 +362,7 @@
                             @if (session('privilage') != 'ADM' && session('privilage') != 'SPG DS')
                                 <a class="btn btn-warning mr-1" href="/tbonjuallist">List</a>
                                 <button class="btn btn-primary mr-1" id="confirm" type="submit"
-                                    formaction="{{ route('tbonjualpost') }}" onclick="timeout_init()"
-                                    formtarget="_blank">Save</button>
+                                    formaction="{{ route('tbonjualpost') }}" formtarget="_blank">Save</button>
                             @elseif(session('privilage') == 'SPG DS')
                                 <a class="btn btn-warning mr-1" href="/tbonjuallist">List</a>
                                 <button class="btn btn-primary mr-1" id="confirm" type="submit"
@@ -1208,6 +1207,8 @@
                 no = $("#no").val();
                 code_cust = $("#code_cust").prop('selectedIndex');
                 payment_method = $("#payment_mthd").prop('selectedIndex');
+                totbayar_1 = $("#totbayar").val();
+                totbayar_2 = $("#totbayar_2").val();
                 if (spg_access != 'ADM') {
                     if (no == "") {
                         swal('WARNING', 'No Tidak boleh kosong!', 'warning');
@@ -1218,10 +1219,13 @@
                     } else if (payment_method == 0) {
                         swal('WARNING', 'Please select Jenis Payment', 'warning');
                         return false;
+                    } else if (totbayar_1 == 0 && totbayar_2 == 0) {
+                        swal('WARNING', 'Total Bayar Tidak boleh kosong keduanya', 'warning');
+                        return false;
                     }
                 }
-                show_loading()
-
+                show_loading();
+                timeout_init();
             });
 
             $(document).on('keyup', '.row_qty', function(event) {

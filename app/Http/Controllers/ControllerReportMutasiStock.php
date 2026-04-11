@@ -27,6 +27,7 @@ class ControllerReportMutasiStock extends Controller
         $artikel = $request->input('artikel');
         $counter = $request->input('counter');
 
+        // dd($artikel);
         $results = DB::select('CALL rptstockdetail (?,?,?,?)', [$artikel, $dtfr, $dtto, $counter]);
         // $results = DB::table('vmutasistock')->whereBetween('tgl', [$dtfr, $dtto])->where('code','=',$artikel)->get();
         $totqty = DB::select('SELECT sum(qty) as totalqty FROM vmutasistock where code = ?', [$artikel]);

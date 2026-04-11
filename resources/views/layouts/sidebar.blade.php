@@ -30,27 +30,27 @@
                 $umdataitem_open = session('umdataitem_open');
                 $umitemcounter_open = session('umitemcounter_open');
             @endphp
-            @if($mcounter_open == 'Y' || $role == 'ADM')      
-                <li><a class="nav-link" href="{{ route('mlokasi') }}">Master Counter / Lokasi</a></li>       
+            @if ($mcounter_open == 'Y' || $role == 'ADM')
+                <li><a class="nav-link" href="{{ route('mlokasi') }}">Master Counter / Lokasi</a></li>
             @endif
-            @if($muser_open == 'Y' || $role == 'ADM')      
-                <li><a class="nav-link" href="{{ route('mspg') }}">Master SPG / User</a></li>      
+            @if ($muser_open == 'Y' || $role == 'ADM')
+                <li><a class="nav-link" href="{{ route('mspg') }}">Master SPG / User</a></li>
             @endif
-            @if($mwarna_open == 'Y' || $role == 'ADM')      
-                <li><a class="nav-link" href="{{ route('mwarna') }}">Master Data Warna</a></li>     
+            @if ($mwarna_open == 'Y' || $role == 'ADM')
+                <li><a class="nav-link" href="{{ route('mwarna') }}">Master Data Warna</a></li>
             @endif
-            @if($mitem_open == 'Y' || $role == 'ADM')      
-                <li><a class="nav-link" href="{{ route('mitem') }}">Master Data Item</a></li>      
-            @endif  
-            @if($mhakses_open == 'Y' || $role == 'ADM')          
-                <li><a class="nav-link" href="{{ route('mhakses') }}">Master Hak Akses</a></li>   
-            @endif  
-            @if($mjenisbayar_open == 'Y' || $role == 'ADM')          
-                <li><a class="nav-link" href="{{ route('mjenispayment') }}">Master Jenis Pembayaran</a></li>   
-            @endif  
-            @if($sldawaltoko_open == 'Y' || $role == 'ADM')          
-                <li><a class="nav-link" href="{{ route('msaldoawal') }}">Master Saldo Awal</a></li>   
-            @endif  
+            @if ($mitem_open == 'Y' || $role == 'ADM')
+                <li><a class="nav-link" href="{{ route('mitem') }}">Master Data Item</a></li>
+            @endif
+            @if ($mhakses_open == 'Y' || $role == 'ADM')
+                <li><a class="nav-link" href="{{ route('mhakses') }}">Master Hak Akses</a></li>
+            @endif
+            @if ($mjenisbayar_open == 'Y' || $role == 'ADM')
+                <li><a class="nav-link" href="{{ route('mjenispayment') }}">Master Jenis Pembayaran</a></li>
+            @endif
+            @if ($sldawaltoko_open == 'Y' || $role == 'ADM')
+                <li><a class="nav-link" href="{{ route('msaldoawal') }}">Master Saldo Awal</a></li>
+            @endif
         </ul>
     </li>
     <li class="menu-header">Transaction</li>
@@ -58,35 +58,35 @@
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-exchange-alt"></i>
             <span>Transaction</span></a>
         <ul class="dropdown-menu">
-            @if($tbelibrg_open == 'Y' || $role == 'ADM')
+            @if ($tbelibrg_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('tpembelianbarang') }}">Pembelian Barang</a></li>
                 {{-- <li><a class="nav-link" href="{{ route('tpembelianbaranglist') }}">Pembelian Barang List</a></li> --}}
             @endif
-            @if($tsob_open == 'Y' || $role == 'ADM')
+            @if ($tsob_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('tsob') }}">Surat Order Barang</a></li>
                 {{-- <li><a class="nav-link" href="{{ route('tsoblist') }}">Surat Order Barang List</a></li> --}}
             @endif
-            @if($tsuratjalan_open == 'Y' || $role == 'ADM')
+            @if ($tsuratjalan_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('tsuratjalan') }}">Surat Jalan</a></li>
                 {{-- <li><a class="nav-link" href="{{ route('tsuratjalanlist') }}">Surat Jalan List</a></li> --}}
             @endif
-            @if($tpenerimaan_open == 'Y' || $role == 'ADM')
+            @if ($tpenerimaan_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('tpenerimaanbrg') }}">Penerimaan Barang</a></li>
                 {{-- <li><a class="nav-link" href="{{ route('tpenerimaanbrglist') }}">Penerimaan Barang List</a></li> --}}
             @endif
-            @if($tbonjual_open == 'Y' || $role == 'ADM')
+            @if ($tbonjual_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('tbonjual') }}">Bon Penjualan</a></li>
                 {{-- <li><a class="nav-link" href="{{ route('tbonjuallist') }}">Bon Penjualan List</a></li> --}}
             @endif
-            @if($tretur_open == 'Y' || $role == 'ADM')
+            @if ($tretur_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('treturjual') }}">Retur Penjualan</a></li>
                 {{-- <li><a class="nav-link" href="{{ route('treturjuallist') }}">Retur Penjualan List</a></li> --}}
             @endif
-            @if($tadjstock_open == 'Y' || $role == 'ADM')
+            @if ($tadjstock_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('tadjustmentstock') }}">Adjustment Stock</a></li>
                 {{-- <li><a class="nav-link" href="{{ route('tadjlist') }}">Adjustment Stock List</a></li> --}}
             @endif
-            @if($texpense_open == 'Y' || $role == 'ADM')
+            @if ($texpense_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('texpense') }}">Biaya Operasional</a></li>
                 {{-- <li><a class="nav-link" href="{{ route('tadjlist') }}">Adjustment Stock List</a></li> --}}
             @endif
@@ -99,24 +99,32 @@
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-chart-bar"></i>
             <span>Reports</span></a>
         <ul class="dropdown-menu">
-            @if($romsetperitem_open == 'Y' || $role == 'ADM')
-            <li><a class="nav-link" href="{{ route('romsetitem') }}">Laporan Omset Per Item</a></li>
+            @if ($romsetperitem_open == 'Y' || $role == 'ADM')
+                <li><a class="nav-link" href="{{ route('romsetitem') }}">Laporan Omset Per Item</a></li>
             @endif
-            @if($romsetpercounter_open == 'Y' || $role == 'ADM')
-            <li><a class="nav-link" href="{{ route('romsetcounter') }}">Lap. Omset Per-Counter</a></li>
+            @if ($romsetpercounter_open == 'Y' || $role == 'ADM')
+                <li><a class="nav-link" href="{{ route('romsetcounter') }}">Lap. Omset Per-Counter</a></li>
             @endif
-            @if($rstockpercounter_open == 'Y' || $role == 'ADM')
-            <li><a class="nav-link" href="{{ route('rlapstockpercounter') }}">Laporan Stock Per-Counter</a></li>
+            @if ($rstockpercounter_open == 'Y' || $role == 'ADM')
+                <li><a class="nav-link" href="{{ route('rlapstockpercounter') }}">Laporan Stock Per-Counter</a></li>
             @endif
-            @if($rmutasistock_open == 'Y' || $role == 'ADM')
-            <li><a class="nav-link" href="{{ route('rmutasistock') }}">Laporan Mutasi Stock</a></li>
+            @if ($rmutasistock_open == 'Y' || $role == 'ADM')
+                <li><a class="nav-link" href="{{ route('rmutasistock') }}">Laporan Mutasi Stock</a></li>
             @endif
-            {{-- @if($rstockoverview_open == 'Y' || $role == 'ADM')
+            {{-- @if ($rstockoverview_open == 'Y' || $role == 'ADM')
             <li><a class="nav-link" href="{{ route('rstockoverview') }}">Laporan Stock Overview</a></li>
             @endif --}}
-            @if($rlapoutlet_open == 'Y' || $role == 'ADM')
-            <li><a class="nav-link" href="{{ route('rlaperoutlet') }}">Laporan Per Outlet</a></li>
+            @if ($rlapoutlet_open == 'Y' || $role == 'ADM')
+                <li><a class="nav-link" href="{{ route('rlaperoutlet') }}">Laporan Per Outlet</a></li>
             @endif
+            {{-- FEATURE BARU 2026 --}}
+            @if ($role == 'ADM')
+                <li><a class="nav-link" href="#">Laporan Stock Per-Counter Overview</a></li>
+            @endif
+            @if ($role == 'ADM')
+                <li><a class="nav-link" href="#">Laporan Overview Transaksi</a></li>
+            @endif
+            {{-- FEATURE BARU 2026 --}}
             {{-- <li><a class="nav-link" href="testreport" target="_blank">Laporan Test</a></li> --}}
         </ul>
     </li>
@@ -125,13 +133,13 @@
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-exchange-alt"></i>
             <span>Upload Data</span></a>
         <ul class="dropdown-menu">
-            @if($umdataitem_open == 'Y' || $role == 'ADM')
+            @if ($umdataitem_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('uploadsample') }}">Upload Master Data Item</a></li>
             @endif
-            @if($umitemcounter_open == 'Y' || $role == 'ADM')
+            @if ($umitemcounter_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('uploadmitemcounter') }}">Upload M.Item Counter</a></li>
             @endif
-            @if($umitemcounter_open == 'Y' || $role == 'ADM')
+            @if ($umitemcounter_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('uploadtbhstock') }}">Upload Tambah Stock</a></li>
             @endif
         </ul>
@@ -165,7 +173,7 @@
     {{-- <li><a class="nav-link" href="credits.html"><i class="fas fa-pencil-ruler"></i> <span>Credits</span></a></li>
 </ul> --}}
 
-{{-- <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
+    {{-- <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
     <a href="https://getstisla.com/docs" class="btn btn-primary btn-lg btn-block btn-icon-split">
         <i class="fas fa-rocket"></i> Documentation
     </a>
