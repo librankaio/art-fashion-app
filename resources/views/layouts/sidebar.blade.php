@@ -118,12 +118,12 @@
                 <li><a class="nav-link" href="{{ route('rlaperoutlet') }}">Laporan Per Outlet</a></li>
             @endif
             {{-- FEATURE BARU 2026 --}}
-            @if ($role == 'ADM')
+            {{-- @if ($role == 'ADM')
                 <li><a class="nav-link" href="#">Laporan Stock Per-Counter</a></li>
             @endif
             @if ($role == 'ADM')
-                <li><a class="nav-link" href="#">Laporan Overview Transaksi</a></li>
-            @endif
+                <li><a class="nav-link" href="#">Laporan Transaksi</a></li>
+            @endif --}}
             {{-- FEATURE BARU 2026 --}}
             {{-- <li><a class="nav-link" href="testreport" target="_blank">Laporan Test</a></li> --}}
         </ul>
