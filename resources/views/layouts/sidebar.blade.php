@@ -119,7 +119,7 @@
             @endif
             {{-- FEATURE BARU 2026 --}}
             @if ($role == 'ADM')
-                <li><a class="nav-link" href="#">Laporan Stock Per-Counter Overview</a></li>
+                <li><a class="nav-link" href="#">Laporan Stock Per-Counter</a></li>
             @endif
             @if ($role == 'ADM')
                 <li><a class="nav-link" href="#">Laporan Overview Transaksi</a></li>
