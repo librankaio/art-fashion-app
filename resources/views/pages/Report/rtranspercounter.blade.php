@@ -67,11 +67,11 @@
                             <div class="card-body">
                                 <div class="row pb-3">
                                     <div class="col-6"></div>
-                                    <div class="col-6 d-flex justify-content-end">
+                                    {{-- <div class="col-6 d-flex justify-content-end">
                                         <button type="submit" formaction="rtranspercounterexcl" formtarget="_blank"
                                             class="btn btn-success"><i class="far fa-file-excel"></i><span> Export
                                                 Excel</span></button>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="datatable">
