@@ -13,6 +13,8 @@ use App\Http\Controllers\ControllerReportMutasiStock;
 use App\Http\Controllers\ControllerReportOmsetItem;
 use App\Http\Controllers\ControllerReportOmsetPecounter;
 use App\Http\Controllers\ControllerReportPerOutlet;
+use App\Http\Controllers\ControllerItemInCounter;
+use App\Http\Controllers\ControllerLaporanOverviewTrans;
 use App\Http\Controllers\ControllerReportStockCounter;
 use App\Http\Controllers\ControllerReportStockOverview;
 use App\Http\Controllers\ControllerTransAdjustmentStock;
@@ -213,4 +215,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('rstockoverview', [ControllerReportStockOverview::class, 'index'])->name('rstockoverview');
     Route::get('rstockoverviewsearch', [ControllerReportStockOverview::class, 'post'])->name('rstockoverviewpost');
     Route::get('rstockoverviewexcl', [ControllerReportStockOverview::class, 'exportExcel'])->name('rstockoverviewexcl');
+
+    Route::get('ritemincounter', [ControllerItemInCounter::class, 'index'])->name('ritemincounter');
+    Route::get('ritemincountersearch', [ControllerItemInCounter::class, 'search'])->name('ritemincountersearch');
+    Route::get('ritemincounterexcl', [ControllerItemInCounter::class, 'exportExcel'])->name('ritemincounterexcl');
+
+    Route::get('rtranspercounter', [ControllerLaporanOverviewTrans::class, 'index'])->name('rtranspercounter');
+    Route::get('rtranspercountersearch', [ControllerLaporanOverviewTrans::class, 'search'])->name('rtranspercountersearch');
+    Route::get('rtranspercounterexcl', [ControllerLaporanOverviewTrans::class, 'exportExcel'])->name('rtranspercounterexcl');
 });
