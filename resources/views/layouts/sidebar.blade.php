@@ -108,6 +108,9 @@
             @if ($rstockpercounter_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('rlapstockpercounter') }}">Laporan Stock Per-Counter</a></li>
             @endif
+            @if ($role == 'ADM')
+                <li><a class="nav-link" href="{{ route('rlapstockminus') }}">Laporan Stock Minus</a></li>
+            @endif
             @if ($rmutasistock_open == 'Y' || $role == 'ADM')
                 <li><a class="nav-link" href="{{ route('rmutasistock') }}">Laporan Mutasi Stock</a></li>
             @endif

@@ -33,6 +33,8 @@ class ControllerReportStockCounter extends Controller
             ->where('code_mitem','=',strtok($kode_item, " "))
             ->sum('stock'); // ganti 'stock' sesuai field kamu
         }
+        $results->appends(request()->query());
+
         $counters = Mcounter::select('id','code','name')->get();
 
         return view('pages.Report.rlapstockpercounter', [

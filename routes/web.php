@@ -16,6 +16,7 @@ use App\Http\Controllers\ControllerReportPerOutlet;
 use App\Http\Controllers\ControllerItemInCounter;
 use App\Http\Controllers\ControllerLaporanOverviewTrans;
 use App\Http\Controllers\ControllerReportStockCounter;
+use App\Http\Controllers\ControllerReportStockMinus;
 use App\Http\Controllers\ControllerReportStockOverview;
 use App\Http\Controllers\ControllerTransAdjustmentStock;
 use App\Http\Controllers\ControllerTransBonPenjualan;
@@ -211,6 +212,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('rlapstockpercounter', [ControllerReportStockCounter::class, 'index'])->name('rlapstockpercounter');
     Route::get('rlapstockpercountersearch', [ControllerReportStockCounter::class, 'post'])->name('rlapstockpercounterpost');
     Route::get('rlapstockpercounterexcl', [ControllerReportStockCounter::class, 'exportExcel'])->name('rlapstockpercounterexcl');
+
+    Route::get('rlapstockminus', [ControllerReportStockMinus::class, 'index'])->name('rlapstockminus');
+    Route::get('rlapstockminussearch', [ControllerReportStockMinus::class, 'post'])->name('rlapstockminuspost');
+    Route::get('rlapstockminusexcl', [ControllerReportStockMinus::class, 'exportExcel'])->name('rlapstockminusexcl');
 
     Route::get('rstockoverview', [ControllerReportStockOverview::class, 'index'])->name('rstockoverview');
     Route::get('rstockoverviewsearch', [ControllerReportStockOverview::class, 'post'])->name('rstockoverviewpost');
