@@ -22,15 +22,23 @@ class ControllerReportStockCounter extends Controller
         $kode_item = $request->input('kode');
         // dd(strtok($kode_item, " "));
         if ($kode_item == ''){
-            $results = DB::table('vstockpercounter')->where('name_mcounters','=',$counter)->get();
+            $results = DB::table('vstockpercounter')->where('name_mcounters','=',$counter)->paginate(50);
+            $total_stock = DB::table('vstockpercounter')
+            ->where('name_mcounters','=',$counter)
+            ->sum('stock'); // ganti 'stock' sesuai field kamu
         }else{
-            $results = DB::table('vstockpercounter')->where('name_mcounters','=',$counter)->where('code_mitem','=',strtok($kode_item, " "))->get();
+            $results = DB::table('vstockpercounter')->where('name_mcounters','=',$counter)->where('code_mitem','=',strtok($kode_item, " "))->paginate(50);
+            $total_stock = DB::table('vstockpercounter')
+            ->where('name_mcounters','=',$counter)
+            ->where('code_mitem','=',strtok($kode_item, " "))
+            ->sum('stock'); // ganti 'stock' sesuai field kamu
         }
         $counters = Mcounter::select('id','code','name')->get();
 
         return view('pages.Report.rlapstockpercounter', [
             'results' => $results,
             'counters' => $counters,
+            'total_stock' => $total_stock,
         ]);
     }
 
