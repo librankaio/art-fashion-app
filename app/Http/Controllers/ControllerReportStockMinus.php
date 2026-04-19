@@ -19,18 +19,36 @@ class ControllerReportStockMinus extends Controller
     public function post(Request $request)
     {
         $counter = $request->input('counter');
-        $results = DB::table('mitems_counters')
+        $search = $request->input('search');
+
+        $query = DB::table('mitems_counters')
             ->select('code_mitem', 'name_mitem', 'name_mcounters', 'stock')
             ->where('name_mcounters','=',$counter)
-            ->where('stock','<',0)
-            ->paginate(50);
+            ->where('stock','<',0);
+
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('code_mitem', 'like', '%'.$search.'%')
+                  ->orWhere('name_mitem', 'like', '%'.$search.'%');
+            });
+        }
+
+        $results = $query->paginate(50);
 
         $results->appends(request()->query());
 
-        $total_qty = DB::table('mitems_counters')
+        $total_qty_query = DB::table('mitems_counters')
             ->where('name_mcounters','=',$counter)
-            ->where('stock','<',0)
-            ->sum('stock');
+            ->where('stock','<',0);
+
+        if ($search) {
+            $total_qty_query->where(function($q) use ($search) {
+                $q->where('code_mitem', 'like', '%'.$search.'%')
+                  ->orWhere('name_mitem', 'like', '%'.$search.'%');
+            });
+        }
+
+        $total_qty = $total_qty_query->sum('stock');
 
         $counters = Mcounter::select('id','code','name')->get();
 
@@ -44,12 +62,21 @@ class ControllerReportStockMinus extends Controller
     public function exportExcel(Request $request)
     {
         $counter = $request->input('counter');
+        $search = $request->input('search');
 
-        $results = DB::table('mitems_counters')
+        $query = DB::table('mitems_counters')
             ->select('code_mitem', 'name_mitem', 'name_mcounters', 'stock')
             ->where('name_mcounters','=',$counter)
-            ->where('stock','<',0)
-            ->get();
+            ->where('stock','<',0);
+
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('code_mitem', 'like', '%'.$search.'%')
+                  ->orWhere('name_mitem', 'like', '%'.$search.'%');
+            });
+        }
+
+        $results = $query->get();
 
         return view('pages.Print.Excel.rlapstockminusexcl', compact('results','counter'));
     }

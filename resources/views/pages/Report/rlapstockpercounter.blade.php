@@ -73,6 +73,19 @@
                     </div>
                     <div class="col-12 col-md-12 col-lg-12">
                         <div class="card">
+                            <div class="card-header">
+                                <h4>Data Laporan Stock Percounter</h4>
+                                <div class="card-header-action">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Search" name="search"
+                                            value="@php if(request()->input('search')==NULL){ echo "";} else{ echo $_GET['search']; } @endphp">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-primary" type="submit"><i
+                                                    class="fas fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="card-body">
                                 <div class="row pb-3">
                                     <div class="col-6"></div>

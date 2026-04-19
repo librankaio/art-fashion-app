@@ -20,19 +20,40 @@ class ControllerReportStockCounter extends Controller
     {
         $counter = $request->input('counter');
         $kode_item = $request->input('kode');
-        // dd(strtok($kode_item, " "));
-        if ($kode_item == ''){
-            $results = DB::table('vstockpercounter')->where('name_mcounters','=',$counter)->paginate(50);
-            $total_stock = DB::table('vstockpercounter')
-            ->where('name_mcounters','=',$counter)
-            ->sum('stock'); // ganti 'stock' sesuai field kamu
-        }else{
-            $results = DB::table('vstockpercounter')->where('name_mcounters','=',$counter)->where('code_mitem','=',strtok($kode_item, " "))->paginate(50);
-            $total_stock = DB::table('vstockpercounter')
-            ->where('name_mcounters','=',$counter)
-            ->where('code_mitem','=',strtok($kode_item, " "))
-            ->sum('stock'); // ganti 'stock' sesuai field kamu
+        $search = $request->input('search');
+
+        $query = DB::table('vstockpercounter');
+
+        if ($counter) {
+            $query->where('name_mcounters','=',$counter);
         }
+
+        if ($kode_item != ''){
+            $query->where('code_mitem','=',strtok($kode_item, " "));
+        }
+
+        if ($search) {
+            $query->where('code_mitem', 'like', '%'.$search.'%');
+        }
+
+        $results = $query->paginate(50);
+
+        $total_stock_query = DB::table('vstockpercounter');
+
+        if ($counter) {
+            $total_stock_query->where('name_mcounters','=',$counter);
+        }
+
+        if ($kode_item != ''){
+            $total_stock_query->where('code_mitem','=',strtok($kode_item, " "));
+        }
+
+        if ($search) {
+            $total_stock_query->where('code_mitem', 'like', '%'.$search.'%');
+        }
+
+        $total_stock = $total_stock_query->sum('stock');
+
         $results->appends(request()->query());
 
         $counters = Mcounter::select('id','code','name')->get();
@@ -47,8 +68,24 @@ class ControllerReportStockCounter extends Controller
     public function exportExcel(Request $request)
     {
         $counter = $request->input('counter');
+        $kode_item = $request->input('kode');
+        $search = $request->input('search');
 
-        $results = DB::table('vstockpercounter')->where('name_mcounters','=',$counter)->get();
+        $query = DB::table('vstockpercounter');
+
+        if ($counter) {
+            $query->where('name_mcounters','=',$counter);
+        }
+
+        if ($kode_item != ''){
+            $query->where('code_mitem','=',strtok($kode_item, " "));
+        }
+
+        if ($search) {
+            $query->where('code_mitem', 'like', '%'.$search.'%');
+        }
+
+        $results = $query->get();
 
         // dd($results);
         return view('pages.Print.Excel.rlapstockpercounterexcl', compact('results','counter'));
