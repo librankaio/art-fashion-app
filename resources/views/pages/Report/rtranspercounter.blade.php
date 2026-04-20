@@ -87,12 +87,12 @@
                                                     Counter</th>
                                                 <th scope="col" class="border border-5" style="text-align: center;">
                                                     Tanggal</th>
-                                                <th scope="col" class="border border-5" style="text-align: center;">Kode
+                                                {{-- <th scope="col" class="border border-5" style="text-align: center;">Kode
                                                     Barang</th>
                                                 <th scope="col" class="border border-5" style="text-align: center;">Nama
-                                                    Barang</th>
+                                                    Barang</th> --}}
                                                 <th scope="col" class="border border-5" style="text-align: center;">
-                                                    Quantity</th>
+                                                    Total Quantity</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -112,10 +112,10 @@
                                                         <td class="border border-5" style="text-align: center;">
                                                             {{ isset($item->tgl) ? date('Y-m-d', strtotime($item->tgl)) : '-' }}
                                                         </td>
-                                                        <td class="border border-5" style="text-align: center;">
+                                                        {{-- <td class="border border-5" style="text-align: center;">
                                                             {{ isset($item->code) ? $item->code : '-' }}</td>
                                                         <td class="border border-5" style="text-align: center;">
-                                                            {{ isset($item->name) ? $item->name : '-' }}</td>
+                                                            {{ isset($item->name) ? $item->name : '-' }}</td> --}}
                                                         <td class="border border-5" style="text-align: center;">
                                                             {{ isset($item->qty) ? number_format($item->qty) : '0' }}
                                                         </td>
