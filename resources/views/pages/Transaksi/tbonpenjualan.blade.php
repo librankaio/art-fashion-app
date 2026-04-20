@@ -586,6 +586,66 @@
                     }
                 });
 
+                // Scanner detection for Select2 #kode
+                var scannerLastKeyTime = 0;
+                var scannerThreshold = 50; // ms - jika < 50ms antar key dianggap scanner
+                var isScannerInput = false;
+
+                $(document).on('keydown', '.select2-search__field', function(e) {
+                    var now = Date.now();
+                    var timeDiff = now - scannerLastKeyTime;
+
+                    // Jika bukan karakter Enter, cek kecepatan
+                    if (e.key !== 'Enter') {
+                        if (scannerLastKeyTime !== 0 && timeDiff < scannerThreshold) {
+                            isScannerInput = true;
+                        } else if (timeDiff >= scannerThreshold) {
+                            // Kecepatan normal (manual), reset flag
+                            isScannerInput = false;
+                        }
+                        scannerLastKeyTime = now;
+                    }
+
+                    // Jika Enter dan terdeteksi sebagai scanner
+                    if (e.key === 'Enter' && isScannerInput) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        var searchTerm = $(this).val();
+                        isScannerInput = false;
+                        scannerLastKeyTime = 0;
+
+                        if (searchTerm.length > 0) {
+                            // Kirim AJAX manual untuk cari item, lalu auto-select hasil pertama
+                            $.ajax({
+                                url: "{{ route('getmitemv2') }}",
+                                type: "post",
+                                dataType: "json",
+                                data: {
+                                    _token: CSRF_TOKEN,
+                                    search: searchTerm
+                                },
+                                success: function(response) {
+                                    if (response && response.length > 0) {
+                                        var firstItem = response[0];
+                                        var option = new Option(firstItem.text,
+                                            firstItem.id, true, true);
+                                        $('#kode').append(option).trigger('change');
+                                        $('#kode').trigger({
+                                            type: 'select2:select',
+                                            params: {
+                                                data: firstItem
+                                            }
+                                        });
+                                    } else {
+                                        swal('WARNING', 'Kode tidak ditemukan!',
+                                            'warning');
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+
                 $("#kode").on('select2:select', function(e) {
                     var kode = $(this).val();
                     console.log(kode);
