@@ -20,11 +20,17 @@ class ControllerReportStockMinus extends Controller
     {
         $counter = $request->input('counter');
         $search = $request->input('search');
+        $filter_stock = $request->input('filter_stock');
 
         $query = DB::table('mitems_counters')
             ->select('code_mitem', 'name_mitem', 'name_mcounters', 'stock')
-            ->where('name_mcounters','=',$counter)
-            ->where('stock','<',0);
+            ->where('name_mcounters','=',$counter);
+
+        if ($filter_stock === 'nol') {
+            $query->where('stock', '=', 0);
+        } else {
+            $query->where('stock', '<', 0);
+        }
 
         if ($search) {
             $query->where(function($q) use ($search) {
@@ -38,8 +44,13 @@ class ControllerReportStockMinus extends Controller
         $results->appends(request()->query());
 
         $total_qty_query = DB::table('mitems_counters')
-            ->where('name_mcounters','=',$counter)
-            ->where('stock','<',0);
+            ->where('name_mcounters','=',$counter);
+
+        if ($filter_stock === 'nol') {
+            $total_qty_query->where('stock', '=', 0);
+        } else {
+            $total_qty_query->where('stock', '<', 0);
+        }
 
         if ($search) {
             $total_qty_query->where(function($q) use ($search) {
@@ -63,11 +74,17 @@ class ControllerReportStockMinus extends Controller
     {
         $counter = $request->input('counter');
         $search = $request->input('search');
+        $filter_stock = $request->input('filter_stock');
 
         $query = DB::table('mitems_counters')
             ->select('code_mitem', 'name_mitem', 'name_mcounters', 'stock')
-            ->where('name_mcounters','=',$counter)
-            ->where('stock','<',0);
+            ->where('name_mcounters','=',$counter);
+
+        if ($filter_stock === 'nol') {
+            $query->where('stock', '=', 0);
+        } else {
+            $query->where('stock', '<', 0);
+        }
 
         if ($search) {
             $query->where(function($q) use ($search) {

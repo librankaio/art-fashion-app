@@ -2,10 +2,10 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Laporan Stock Minus</h1>
+            <h1>Laporan Stock Habis</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="#">Report</a></div>
-                <div class="breadcrumb-item"><a class="text-muted">Laporan Stock Minus</a></div>
+                <div class="breadcrumb-item"><a class="text-muted">Laporan Stock Habis</a></div>
             </div>
         </div>
         @php
@@ -37,6 +37,19 @@
                                     </div>
                                 </div>
                                 <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Filter Stock</label>
+                                            <select class="form-control" name="filter_stock" id="filter_stock">
+                                                <option value="minus" @if (request('filter_stock') == 'minus' || request('filter_stock') == null) selected @endif>
+                                                    Minus</option>
+                                                <option value="nol" @if (request('filter_stock') == 'nol') selected @endif>
+                                                    Stock Nol</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-md-12 d-flex justify-content-end">
                                         <div class="form-group">
                                             <button class="btn btn-primary mr-1" id="confirm" type="submit"
@@ -50,7 +63,7 @@
                     <div class="col-12 col-md-12 col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Data Laporan Stock Minus</h4>
+                                <h4>Data Laporan Stock Habis</h4>
                                 <div class="card-header-action">
                                     <div class="input-group">
                                         <input type="text" class="form-control" placeholder="Search" name="search"
@@ -127,8 +140,8 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-7"></div>
-                                    <div class="col-md-3" style="padding-left: 60px;">
+                                    <div class="col-md-5"></div>
+                                    <div class="col-md-6">
                                         @isset($results)
                                             {{-- <div class="card-footer text-right"> --}}
                                             {{ $results->links() }}
