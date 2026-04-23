@@ -192,6 +192,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('texpense/delete/{texpenseh}', [ControllerTransExpense::class, 'delete'])->name('texpensedelete');
     // ---Report---
     Route::get('tstockopname', [ControllerTransStockOpname::class, 'index'])->name('tstockopname');
+    Route::post('/tstockopnamepost', [ControllerTransStockOpname::class, 'post'])->name('tstockopnamepost');
+    Route::post('/getitemsbycounter', [ControllerTransStockOpname::class, 'getItemsByCounter'])->name('getitemsbycounter');
 
     Route::get('rlaperoutlet', [ControllerReportPerOutlet::class, 'index'])->name('rlaperoutlet');
     Route::get('rlaperoutletsearch', [ControllerReportPerOutlet::class, 'post'])->name('rlaperoutletpost');
