@@ -1279,10 +1279,11 @@
                     } else if (payment_method == 0) {
                         swal('WARNING', 'Please select Jenis Payment', 'warning');
                         return false;
-                    } else if (totbayar_1 == 0 && totbayar_2 == 0) {
-                        swal('WARNING', 'Total Bayar Tidak boleh kosong keduanya', 'warning');
-                        return false;
                     }
+                    // else if (totbayar_1 == 0 && totbayar_2 == 0) {
+                    //     swal('WARNING', 'Total Bayar Tidak boleh kosong keduanya', 'warning');
+                    //     return false;
+                    // }
                 }
                 show_loading();
                 timeout_init();
