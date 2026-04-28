@@ -30,7 +30,7 @@
                                         <div class="form-group">
                                             <label>No Trans</label>
                                             <input type="text" class="form-control" name="no" id="no"
-                                                value="{{ $header->notrans }}" readonly>
+                                                value="{{ $header->no }}" readonly>
                                         </div>
                                         <div class="form-group">
                                             <label>Tanggal</label>

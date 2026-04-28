@@ -9,10 +9,10 @@ class Tstockopname_h extends Model
 {
     use HasFactory;
 
-    protected $table = 'tstockopname_h';
+protected $table = 'tstockopname_h';
 
     protected $fillable = [
-        'notrans',
+        'no',
         'tanggal',
         'counter',
         'note',

@@ -45,7 +45,7 @@
                                             <tr>
                                                 <td class="border border-5" style="text-align:center;">{{ $no }}
                                                 </td>
-                                                <td class="border border-5" style="text-align:center;">{{ $item->notrans }}
+                                                <td class="border border-5" style="text-align:center;">{{ $item->no }}
                                                 </td>
                                                 <td class="border border-5" style="text-align:center;">
                                                     {{ date('Y-m-d', strtotime($item->tanggal)) }}</td>

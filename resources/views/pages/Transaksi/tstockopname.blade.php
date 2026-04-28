@@ -216,12 +216,19 @@
                 });
             });
 
+            // Thousands separator helper
+            function formatThousands(value) {
+                var num = parseFloat(String(value).replace(/,/g, ''));
+                if (isNaN(num)) return value;
+                return num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            }
+
             // When kode artikel selected, fill info
             $('#kode_artikel').on('select2:select', function(e) {
                 var data = e.params.data;
                 $('#nama_item').val(data.name_mitem != null ? data.name_mitem : '');
                 $('#stock_item').val(data.stock != null ? data.stock : 0);
-                $('#harga_item').val(data.harga != null ? data.harga : 0);
+                $('#harga_item').val(data.harga != null ? formatThousands(data.harga) : '0.00');
             });
 
             $('#kode_artikel').on('select2:clear', function() {
@@ -260,7 +267,7 @@
                     "<td class='border border-5'><input readonly form='thisform' class='form-control stockclass' name='stock_d[]' type='text' value='" +
                     stock + "' style='width:90px;' id='stock_d_" + rowId + "'></td>" +
                     "<td class='border border-5'><input readonly form='thisform' class='form-control hargaclass' name='harga_d[]' type='text' value='" +
-                    harga + "' style='width:120px;'></td>" +
+                    formatThousands(harga) + "' style='width:120px;'></td>" +
                     "<td class='border border-5'><input form='thisform' class='form-control hasil-opname' name='hasil_opname_d[]' type='number' min='0' value='0' style='width:110px;' id='hasil_d_" +
                     rowId + "' data-rowid='" + rowId + "'></td>" +
                     "<td class='border border-5'><input readonly form='thisform' class='form-control adjustment' name='adjustment_d[]' type='text' value='0' style='width:110px;' id='adj_d_" +
