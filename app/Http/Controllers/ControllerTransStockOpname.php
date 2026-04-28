@@ -68,7 +68,7 @@ class ControllerTransStockOpname extends Controller
             }
 
             $header = Tstockopname_h::create([
-                'notrans' => $no,
+                'no' => $no,
                 'tanggal' => $request->dt,
                 'counter' => $request->counter,
                 'note'    => $request->note,
