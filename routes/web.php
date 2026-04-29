@@ -193,10 +193,12 @@ Route::group(['middleware' => ['auth']], function () {
     // ---Report---
     Route::get('tstockopname', [ControllerTransStockOpname::class, 'index'])->name('tstockopname');
     Route::post('/tstockopnamepost', [ControllerTransStockOpname::class, 'post'])->name('tstockopnamepost');
+    Route::post('/tstockopnamedraftpost', [ControllerTransStockOpname::class, 'postDraft'])->name('tstockopnamedraftpost');
     Route::post('/getitemsbycounter', [ControllerTransStockOpname::class, 'getItemsByCounter'])->name('getitemsbycounter');
     Route::get('tstockopnamelist', [ControllerTransStockOpname::class, 'list'])->name('tstockopnamelist');
     Route::get('/tstockopname/{tstockopname_h}/edit', [ControllerTransStockOpname::class, 'getedit'])->name('tstockopnameedit');
     Route::post('/tstockopname/{tstockopname_h}/update', [ControllerTransStockOpname::class, 'update'])->name('tstockopnameupdate');
+    Route::post('/tstockopname/{tstockopname_h}/updatedraft', [ControllerTransStockOpname::class, 'updateDraft'])->name('tstockopnameupdatedraft');
     Route::post('/tstockopname/delete/{tstockopname_h}', [ControllerTransStockOpname::class, 'delete'])->name('tstockopnamedelete');
 
     Route::get('rlaperoutlet', [ControllerReportPerOutlet::class, 'index'])->name('rlaperoutlet');

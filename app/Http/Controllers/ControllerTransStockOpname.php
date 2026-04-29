@@ -57,6 +57,48 @@ class ControllerTransStockOpname extends Controller
         return response()->json($items);
     }
 
+    public function postDraft(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $notrans = DB::select("select fgetcode('tstockopname') as codetrans");
+            foreach ($notrans as $notran) {
+                $no = $notran->codetrans;
+            }
+
+            $header = Tstockopname_h::create([
+                'no'      => $no,
+                'tanggal' => $request->dt,
+                'counter' => $request->counter,
+                'note'    => $request->note,
+                'status'  => 'DRAFT',
+            ]);
+
+            $idh = $header->id;
+
+            for ($i = 0; $i < count($request->kode_d); $i++) {
+                Tstockopname_d::create([
+                    'idh'          => $idh,
+                    'no_opname'    => $no,
+                    'no'           => $i + 1,
+                    'kode_barang'  => $request->kode_d[$i],
+                    'nama_barang'  => $request->nama_d[$i],
+                    'stock'        => $request->stock_d[$i],
+                    'harga'        => $request->harga_d[$i],
+                    'hasil_opname' => $request->hasil_opname_d[$i],
+                    'adjustment'   => $request->adjustment_d[$i],
+                ]);
+            }
+
+            DB::commit();
+            return redirect()->route('tstockopnamelist')->with('success', 'Data berhasil disimpan sebagai Draft');
+        } catch (\Throwable $err) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Gagal menyimpan draft! ' . $err->getMessage());
+        }
+    }
+
     public function post(Request $request)
     {
         DB::beginTransaction();
@@ -130,24 +172,74 @@ class ControllerTransStockOpname extends Controller
         ]);
     }
 
-    public function update(Request $request, Tstockopname_h $tstockopname_h)
+    public function updateDraft(Request $request, Tstockopname_h $tstockopname_h)
     {
         DB::beginTransaction();
 
         try {
-            // Kurangi stock dengan hasil_opname lama (reverse)
-            $oldDetails = Tstockopname_d::where('idh', $tstockopname_h->id)->get();
-            foreach ($oldDetails as $old) {
-                DB::table('mitems_counters')
-                    ->where('code_mcounters', $tstockopname_h->counter)
-                    ->where('code_mitem', $old->kode_barang)
-                    ->update(['stock' => DB::raw('stock - ' . (int)$old->hasil_opname)]);
+            // If previously POSTED, reverse the stock adjustments first
+            if ($tstockopname_h->status === 'POSTED') {
+                $oldDetails = Tstockopname_d::where('idh', $tstockopname_h->id)->get();
+                foreach ($oldDetails as $old) {
+                    DB::table('mitems_counters')
+                        ->where('code_mcounters', $tstockopname_h->counter)
+                        ->where('code_mitem', $old->kode_barang)
+                        ->update(['stock' => DB::raw('stock - ' . (int)$old->hasil_opname)]);
+                }
             }
 
             $tstockopname_h->update([
                 'tanggal' => $request->dt,
                 'counter' => $request->counter,
                 'note'    => $request->note,
+                'status'  => 'DRAFT',
+            ]);
+
+            Tstockopname_d::where('idh', $tstockopname_h->id)->delete();
+
+            for ($i = 0; $i < count($request->kode_d); $i++) {
+                Tstockopname_d::create([
+                    'idh'          => $tstockopname_h->id,
+                    'no_opname'    => $tstockopname_h->no,
+                    'no'           => $i + 1,
+                    'kode_barang'  => $request->kode_d[$i],
+                    'nama_barang'  => $request->nama_d[$i],
+                    'stock'        => $request->stock_d[$i],
+                    'harga'        => $request->harga_d[$i],
+                    'hasil_opname' => $request->hasil_opname_d[$i],
+                    'adjustment'   => $request->adjustment_d[$i],
+                ]);
+            }
+
+            DB::commit();
+            return redirect()->route('tstockopnamelist')->with('success', 'Data berhasil disimpan sebagai Draft');
+        } catch (\Throwable $err) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Gagal menyimpan draft! ' . $err->getMessage());
+        }
+    }
+
+    public function update(Request $request, Tstockopname_h $tstockopname_h)
+    {
+        DB::beginTransaction();
+
+        try {
+            // If previously POSTED, reverse old stock. If DRAFT, no reversal needed.
+            if ($tstockopname_h->status === 'POSTED') {
+                $oldDetails = Tstockopname_d::where('idh', $tstockopname_h->id)->get();
+                foreach ($oldDetails as $old) {
+                    DB::table('mitems_counters')
+                        ->where('code_mcounters', $tstockopname_h->counter)
+                        ->where('code_mitem', $old->kode_barang)
+                        ->update(['stock' => DB::raw('stock - ' . (int)$old->hasil_opname)]);
+                }
+            }
+
+            $tstockopname_h->update([
+                'tanggal' => $request->dt,
+                'counter' => $request->counter,
+                'note'    => $request->note,
+                'status'  => 'POSTED',
             ]);
 
             // Delete old details
@@ -157,7 +249,7 @@ class ControllerTransStockOpname extends Controller
             for ($i = 0; $i < count($request->kode_d); $i++) {
                 Tstockopname_d::create([
                     'idh'          => $tstockopname_h->id,
-                    'no_opname'    => $tstockopname_h->notrans,
+                    'no_opname'    => $tstockopname_h->no,
                     'no'           => $i + 1,
                     'kode_barang'  => $request->kode_d[$i],
                     'nama_barang'  => $request->nama_d[$i],
@@ -187,13 +279,15 @@ class ControllerTransStockOpname extends Controller
         DB::beginTransaction();
 
         try {
-            // Kurangi stock dengan hasil_opname yang pernah ditambahkan (reverse)
-            $details = Tstockopname_d::where('idh', $tstockopname_h->id)->get();
-            foreach ($details as $d) {
-                DB::table('mitems_counters')
-                    ->where('code_mcounters', $tstockopname_h->counter)
-                    ->where('code_mitem', $d->kode_barang)
-                    ->update(['stock' => DB::raw('stock - ' . (int)$d->hasil_opname)]);
+            // Kurangi stock hanya jika status POSTED
+            if ($tstockopname_h->status === 'POSTED') {
+                $details = Tstockopname_d::where('idh', $tstockopname_h->id)->get();
+                foreach ($details as $d) {
+                    DB::table('mitems_counters')
+                        ->where('code_mcounters', $tstockopname_h->counter)
+                        ->where('code_mitem', $d->kode_barang)
+                        ->update(['stock' => DB::raw('stock - ' . (int)$d->hasil_opname)]);
+                }
             }
 
             Tstockopname_d::where('idh', $tstockopname_h->id)->delete();

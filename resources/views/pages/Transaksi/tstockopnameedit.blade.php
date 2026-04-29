@@ -166,6 +166,8 @@
                             </div>
                             <div class="card-footer text-right">
                                 <a href="{{ route('tstockopnamelist') }}" class="btn btn-secondary mr-1">Kembali</a>
+                                <button class="btn btn-warning mr-1" id="confirm-draft" type="button">Save as
+                                    Draft</button>
                                 <button class="btn btn-primary mr-1" id="confirm" type="submit">Update</button>
                             </div>
                         </div>
@@ -362,6 +364,30 @@
                     var raw = stripNum($(this).val());
                     $(this).val(formatNum(raw)).attr('data-raw', raw);
                 });
+            });
+
+            $(document).on('click', '#confirm-draft', function(e) {
+                var counter = $('#counter').val();
+                if (!counter) {
+                    swal('WARNING', 'Pilih Counter terlebih dahulu!', 'warning');
+                    return false;
+                }
+                if ($('#datatable tbody tr').length === 0) {
+                    swal('WARNING', 'Item pada tabel minimal harus ada 1!', 'warning');
+                    return false;
+                }
+                $('#datatable tbody .stockclass').each(function() {
+                    $(this).val(stripNum($(this).val()));
+                });
+                $('#datatable tbody .hargaclass').each(function() {
+                    $(this).val(stripNum($(this).val()));
+                });
+                $('#datatable tbody .adjustment').each(function() {
+                    $(this).val(stripNum($(this).val()));
+                });
+                $('#editform').attr('action', '{{ route('tstockopnameupdatedraft', $header->id) }}');
+                show_loading();
+                $('#editform').submit();
             });
 
             $(document).on('click', '#confirm', function(e) {

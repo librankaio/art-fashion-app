@@ -120,6 +120,8 @@
                             </div>
                             <div class="card-footer text-right">
                                 <a href="{{ route('tstockopnamelist') }}" class="btn btn-secondary mr-1">List</a>
+                                <button class="btn btn-warning mr-1" id="confirm-draft" type="submit"
+                                    formaction="{{ route('tstockopnamedraftpost') }}">Save as Draft</button>
                                 <button class="btn btn-primary mr-1" id="confirm" type="submit"
                                     formaction="{{ route('tstockopnamepost') }}">Save</button>
                             </div>
@@ -308,6 +310,28 @@
                         table.rows[i].cells[0].innerText = i;
                     }
                 }
+            });
+
+            // Draft validation
+            $(document).on('click', '#confirm-draft', function(e) {
+                var no = $('#no').val();
+                var counter = $('#counter').val();
+                if (!no) {
+                    e.preventDefault();
+                    swal('WARNING', 'No Trans tidak boleh kosong!', 'warning');
+                    return false;
+                }
+                if (!counter) {
+                    e.preventDefault();
+                    swal('WARNING', 'Pilih Counter terlebih dahulu!', 'warning');
+                    return false;
+                }
+                if ($('#datatable tbody tr').length === 0) {
+                    e.preventDefault();
+                    swal('WARNING', 'Item pada tabel minimal harus ada 1!', 'warning');
+                    return false;
+                }
+                show_loading();
             });
 
             // Save validation
