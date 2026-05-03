@@ -98,8 +98,17 @@ class ControllerTransSOB extends Controller
     }
 
     public function list(){
-        $tsobhs = Tsob_h::select('id','no','tgl','counter','note','grdtotal','user','exist_sj')->orderBy('created_at', 'asc')->get();
-        $tsobds = Tsob_d::select('id','idh','no_sob','code','name','qty','satuan','hrgjual','subtotal',)->get();
+         $privilage = session('privilage');
+        if($privilage == 'ADM'){
+            $tsobhs = Tsob_h::select('id','no','tgl','counter','note','grdtotal','user','exist_sj')->orderBy('created_at', 'asc')->get();
+            $tsobds = Tsob_d::select('id','idh','no_sob','code','name','qty','satuan','hrgjual','subtotal',)->get();
+        }else if($privilage == 'GUDANG'){
+            $tsobhs = Tsob_h::select('id','no','tgl','counter','note','grdtotal','user','exist_sj')->where('counter','=',session('counter'))->orderBy('created_at', 'asc')->get();
+                $tsobds = Tsob_d::select('id','idh','no_sob','code','name','qty','satuan','hrgjual','subtotal')->get();
+        }else{
+            $tsobhs = Tsob_h::select('id','no','tgl','counter','note','grdtotal','user','exist_sj')->where('counter','=',session('counter'))->orderBy('created_at', 'asc')->get();
+            $tsobds = Tsob_d::select('id','idh','no_sob','code','name','qty','satuan','hrgjual','subtotal')->get();
+        }
         return view('pages.Transaksi.tsoblist',[
             'tsobhs' => $tsobhs,
             'tsobds' => $tsobds

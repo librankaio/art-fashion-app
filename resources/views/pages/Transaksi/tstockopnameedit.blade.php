@@ -168,7 +168,7 @@
                                 <a href="{{ route('tstockopnamelist') }}" class="btn btn-secondary mr-1">Kembali</a>
                                 <button class="btn btn-warning mr-1" id="confirm-draft" type="button">Save as
                                     Draft</button>
-                                <button class="btn btn-primary mr-1" id="confirm" type="submit">Update</button>
+                                <button class="btn btn-primary mr-1" id="confirm" type="submit">Post</button>
                             </div>
                         </div>
                     </div>
