@@ -15,6 +15,7 @@ use App\Http\Controllers\ControllerReportOmsetPecounter;
 use App\Http\Controllers\ControllerReportPerOutlet;
 use App\Http\Controllers\ControllerItemInCounter;
 use App\Http\Controllers\ControllerLaporanOverviewTrans;
+use App\Http\Controllers\ControllerLaporanExpense;
 use App\Http\Controllers\ControllerReportStockCounter;
 use App\Http\Controllers\ControllerReportStockMinus;
 use App\Http\Controllers\ControllerReportStockOverview;
@@ -236,4 +237,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('rtranspercounter', [ControllerLaporanOverviewTrans::class, 'index'])->name('rtranspercounter');
     Route::get('rtranspercountersearch', [ControllerLaporanOverviewTrans::class, 'search'])->name('rtranspercountersearch');
     Route::get('rtranspercounterexcl', [ControllerLaporanOverviewTrans::class, 'exportExcel'])->name('rtranspercounterexcl');
+
+    Route::get('rlapexpense', [ControllerLaporanExpense::class, 'index'])->name('rlapexpense');
+    Route::get('rlapexpensesearch', [ControllerLaporanExpense::class, 'search'])->name('rlapexpensesearch');
 });

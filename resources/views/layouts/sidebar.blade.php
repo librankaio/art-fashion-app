@@ -129,6 +129,9 @@
             @if ($role == 'ADM')
                 <li><a class="nav-link" href="{{ route('rtranspercounter') }}">Laporan Overview Trans</a></li>
             @endif
+            @if ($role == 'ADM')
+                <li><a class="nav-link" href="{{ route('rlapexpense') }}">Laporan Expense</a></li>
+            @endif
             {{-- FEATURE BARU 2026 --}}
             {{-- @if ($role == 'ADM')
                 <li><a class="nav-link" href="#">Laporan Stock Per-Counter</a></li>
