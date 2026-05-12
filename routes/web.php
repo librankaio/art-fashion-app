@@ -159,6 +159,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('tbonjual', [ControllerTransBonPenjualan::class, 'index'])->name('tbonjual');
     Route::post('/tbonjualpost', [ControllerTransBonPenjualan::class, 'post'])->name('tbonjualpost');
     Route::get('tbonjuallist', [ControllerTransBonPenjualan::class, 'list'])->name('tbonjuallist');
+    Route::post('/tbonjual/getitemstock', [ControllerTransBonPenjualan::class, 'getitemstock'])->name('tbonjualgetitemstock');
     Route::get('/tbonjual/{tpenjualanh}/edit', [ControllerTransBonPenjualan::class, 'getedit'])->name('tbonjualedit');
     Route::post('/tbonjual/{tpenjualanh}', [ControllerTransBonPenjualan::class, 'update'])->name('tbonjualupdate');
     Route::post('/tbonjual/delete/{tpenjualanh}', [ControllerTransBonPenjualan::class, 'delete'])->name('tbonjualdelete');

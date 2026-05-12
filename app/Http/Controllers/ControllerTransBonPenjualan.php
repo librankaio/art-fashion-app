@@ -222,6 +222,18 @@ class ControllerTransBonPenjualan extends Controller
         return json_encode($mitems);
     }
 
+    public function getitemstock(Request $request){
+        $kode    = $request->kode;
+        $counter = $request->counter;
+
+        $stock = DB::table('mitems_counters')
+            ->where('code_mitem', '=', $kode)
+            ->where('name_mcounters', '=', $counter)
+            ->value('stock');
+
+        return response()->json(['stock' => $stock ?? 0]);
+    }
+
     public function list(){
         ini_set('memory_limit', '3000M');
         ini_set('max_execution_time', '0');

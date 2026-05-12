@@ -37,6 +37,7 @@
                                         <option value="{{ $item->code }}">{{ $item->code." - ".$item->name }}</option>
                                         @endforeach --}}
                                             </select>
+                                            <small id="stock_label" class="mt-1 d-block" style="display:none;"></small>
                                         </div>
                                         <div class="form-group">
                                             <label>Quantity</label>
@@ -589,59 +590,142 @@
             var scannerLastKeyTime = 0;
             var scannerThreshold = 50; // ms - jika < 50ms antar key dianggap scanner
             var isScannerInput = false;
+            var scannerBuffer = '';
+            var scannerBufferTimer = null;
 
+            // === GLOBAL SCANNER: tangkap input scanner dari mana saja di halaman ===
+            var globalScannerBuffer = '';
+            var globalScannerLastKeyTime = 0;
+            var globalScannerTimer = null;
+            var globalIsScannerInput = false;
+
+            document.addEventListener('keydown', function(e) {
+                var activeEl = document.activeElement;
+                var isInSelect2Search = activeEl && activeEl.classList.contains('select2-search__field');
+
+                // --- Intercept Enter di dalam Select2 search field ---
+                if (e.key === 'Enter' && isInSelect2Search) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+
+                    if (isScannerInput && scannerBuffer.length > 0) {
+                        var searchTerm = scannerBuffer;
+                        scannerBuffer = '';
+                        isScannerInput = false;
+                        scannerLastKeyTime = 0;
+                        clearTimeout(scannerBufferTimer);
+                        doScannerSearch(searchTerm);
+                    }
+                    // Jika bukan scanner → Enter tidak melakukan apapun, user harus klik dari dropdown
+                    return;
+                }
+
+                // --- Global scanner: tangkap karakter jika fokus BUKAN di input/textarea/select ---
+                var tag = activeEl ? activeEl.tagName : '';
+                var isTypingField = (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT');
+
+                if (!isTypingField) {
+                    var now = Date.now();
+                    var timeDiff = now - globalScannerLastKeyTime;
+
+                    if (e.key === 'Enter') {
+                        if (globalIsScannerInput && globalScannerBuffer.length > 0) {
+                            e.preventDefault();
+                            var searchTerm = globalScannerBuffer;
+                            globalScannerBuffer = '';
+                            globalIsScannerInput = false;
+                            globalScannerLastKeyTime = 0;
+                            clearTimeout(globalScannerTimer);
+                            doScannerSearch(searchTerm);
+                        }
+                        globalScannerBuffer = '';
+                        return;
+                    }
+
+                    // Hanya kumpulkan karakter printable (panjang 1)
+                    if (e.key.length === 1) {
+                        if (globalScannerLastKeyTime !== 0 && timeDiff < scannerThreshold) {
+                            globalIsScannerInput = true;
+                        } else if (timeDiff >= scannerThreshold) {
+                            globalIsScannerInput = false;
+                            globalScannerBuffer = '';
+                        }
+                        globalScannerLastKeyTime = now;
+                        globalScannerBuffer += e.key;
+
+                        clearTimeout(globalScannerTimer);
+                        globalScannerTimer = setTimeout(function() {
+                            globalScannerBuffer = '';
+                            globalIsScannerInput = false;
+                        }, 300);
+                    }
+                }
+            }, true); // capture phase
+
+            // Fungsi terpusat untuk search & auto-select via AJAX
+            function doScannerSearch(searchTerm) {
+                $.ajax({
+                    url: "{{ route('getmitemv2') }}",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        _token: CSRF_TOKEN,
+                        search: searchTerm
+                    },
+                    success: function(response) {
+                        if (response && response.length > 0) {
+                            var firstItem = response[0];
+                            var option = new Option(firstItem.text, firstItem.id, true, true);
+                            $('#kode').append(option).trigger('change');
+                            $('#kode').trigger({
+                                type: 'select2:select',
+                                params: { data: firstItem }
+                            });
+                            // Tutup dropdown Select2 jika masih terbuka
+                            $('#kode').select2('close');
+                        } else {
+                            swal('WARNING', 'Kode tidak ditemukan!', 'warning');
+                        }
+                    }
+                });
+            }
+
+            // Auto-focus search field saat Select2 #kode dibuka
+            $('#kode').on('select2:open', function() {
+                var searchField = document.querySelector('.select2-container--open .select2-search__field');
+                if (searchField) {
+                    searchField.focus();
+                } else {
+                    // fallback jika dropdown belum sepenuhnya render
+                    setTimeout(function() {
+                        var el = document.querySelector('.select2-container--open .select2-search__field');
+                        if (el) el.focus();
+                    }, 100);
+                }
+            });
+
+            // Buffer untuk Select2 search field (saat dropdown sudah terbuka)
             $(document).on('keydown', '.select2-search__field', function(e) {
                 var now = Date.now();
                 var timeDiff = now - scannerLastKeyTime;
 
-                // Jika bukan karakter Enter, cek kecepatan
                 if (e.key !== 'Enter') {
                     if (scannerLastKeyTime !== 0 && timeDiff < scannerThreshold) {
                         isScannerInput = true;
                     } else if (timeDiff >= scannerThreshold) {
-                        // Kecepatan normal (manual), reset flag
                         isScannerInput = false;
+                        scannerBuffer = '';
                     }
                     scannerLastKeyTime = now;
-                }
-
-                // Jika Enter dan terdeteksi sebagai scanner
-                if (e.key === 'Enter' && isScannerInput) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    var searchTerm = $(this).val();
-                    isScannerInput = false;
-                    scannerLastKeyTime = 0;
-
-                    if (searchTerm.length > 0) {
-                        // Kirim AJAX manual untuk cari item, lalu auto-select hasil pertama
-                        $.ajax({
-                            url: "{{ route('getmitemv2') }}",
-                            type: "post",
-                            dataType: "json",
-                            data: {
-                                _token: CSRF_TOKEN,
-                                search: searchTerm
-                            },
-                            success: function(response) {
-                                if (response && response.length > 0) {
-                                    var firstItem = response[0];
-                                    var option = new Option(firstItem.text,
-                                        firstItem.id, true, true);
-                                    $('#kode').append(option).trigger('change');
-                                    $('#kode').trigger({
-                                        type: 'select2:select',
-                                        params: {
-                                            data: firstItem
-                                        }
-                                    });
-                                } else {
-                                    swal('WARNING', 'Kode tidak ditemukan!',
-                                        'warning');
-                                }
-                            }
-                        });
+                    if (e.key.length === 1) {
+                        scannerBuffer += e.key;
                     }
+
+                    clearTimeout(scannerBufferTimer);
+                    scannerBufferTimer = setTimeout(function() {
+                        scannerBuffer = '';
+                        isScannerInput = false;
+                    }, 300);
                 }
             });
 
@@ -679,6 +763,46 @@
                         hide_loading()
                     }
                 });
+
+                // Cek stock item di counter yang dipilih
+                var counter_val = $('#counter').val();
+                if (kode && counter_val) {
+                    $.ajax({
+                        url: '{{ route('tbonjualgetitemstock') }}',
+                        method: 'post',
+                        data: {
+                            'kode': kode,
+                            'counter': counter_val
+                        },
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        dataType: 'json',
+                        success: function(res) {
+                            var stock = parseInt(res.stock) || 0;
+                            var label = $('#stock_label');
+                            label.show();
+                            label.removeClass(
+                                'text-danger text-warning text-muted font-weight-bold');
+                            if (stock < 10) {
+                                label.addClass('text-danger font-weight-bold');
+                                label.html('<i class="fas fa-exclamation-circle"></i> Stock: ' +
+                                    stock + ' (Stok Menipis!)');
+                            } else if (stock <= 20) {
+                                label.addClass('text-warning font-weight-bold');
+                                label.html(
+                                    '<i class="fas fa-exclamation-triangle"></i> Stock: ' +
+                                    stock + ' (Stok Terbatas)');
+                            } else {
+                                label.addClass('text-muted');
+                                label.html('<i class="fas fa-check-circle"></i> Stock: ' +
+                                    stock);
+                            }
+                        }
+                    });
+                } else {
+                    $('#stock_label').hide().text('');
+                }
             });
 
             var counter = $('#number_counter').val();
