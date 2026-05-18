@@ -679,7 +679,9 @@
                             $('#kode').append(option).trigger('change');
                             $('#kode').trigger({
                                 type: 'select2:select',
-                                params: { data: firstItem }
+                                params: {
+                                    data: firstItem
+                                }
                             });
                             // Tutup dropdown Select2 jika masih terbuka
                             $('#kode').select2('close');
@@ -698,7 +700,8 @@
                 } else {
                     // fallback jika dropdown belum sepenuhnya render
                     setTimeout(function() {
-                        var el = document.querySelector('.select2-container--open .select2-search__field');
+                        var el = document.querySelector(
+                            '.select2-container--open .select2-search__field');
                         if (el) el.focus();
                     }, 100);
                 }
