@@ -37,7 +37,7 @@
                                         <option value="{{ $item->code }}">{{ $item->code." - ".$item->name }}</option>
                                         @endforeach --}}
                                             </select>
-                                            <small id="stock_label" class="mt-1 d-block" style="display:none;"></small>
+                                            {{-- <small id="stock_label" class="mt-1 d-block" style="display:none;"></small> --}}
                                         </div>
                                         <div class="form-group">
                                             <label>Quantity</label>
@@ -769,43 +769,43 @@
 
                 // Cek stock item di counter yang dipilih
                 var counter_val = $('#counter').val();
-                if (kode && counter_val) {
-                    $.ajax({
-                        url: '{{ route('tbonjualgetitemstock') }}',
-                        method: 'post',
-                        data: {
-                            'kode': kode,
-                            'counter': counter_val
-                        },
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        dataType: 'json',
-                        success: function(res) {
-                            var stock = parseInt(res.stock) || 0;
-                            var label = $('#stock_label');
-                            label.show();
-                            label.removeClass(
-                                'text-danger text-warning text-muted font-weight-bold');
-                            if (stock < 10) {
-                                label.addClass('text-danger font-weight-bold');
-                                label.html('<i class="fas fa-exclamation-circle"></i> Stock: ' +
-                                    stock + ' (Stok Menipis!)');
-                            } else if (stock <= 20) {
-                                label.addClass('text-warning font-weight-bold');
-                                label.html(
-                                    '<i class="fas fa-exclamation-triangle"></i> Stock: ' +
-                                    stock + ' (Stok Terbatas)');
-                            } else {
-                                label.addClass('text-muted');
-                                label.html('<i class="fas fa-check-circle"></i> Stock: ' +
-                                    stock);
-                            }
-                        }
-                    });
-                } else {
-                    $('#stock_label').hide().text('');
-                }
+                // if (kode && counter_val) {
+                //     $.ajax({
+                //         url: '{{ route('tbonjualgetitemstock') }}',
+                //         method: 'post',
+                //         data: {
+                //             'kode': kode,
+                //             'counter': counter_val
+                //         },
+                //         headers: {
+                //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                //         },
+                //         dataType: 'json',
+                //         success: function(res) {
+                //             var stock = parseInt(res.stock) || 0;
+                //             var label = $('#stock_label');
+                //             label.show();
+                //             label.removeClass(
+                //                 'text-danger text-warning text-muted font-weight-bold');
+                //             if (stock < 10) {
+                //                 label.addClass('text-danger font-weight-bold');
+                //                 label.html('<i class="fas fa-exclamation-circle"></i> Stock: ' +
+                //                     stock + ' (Stok Menipis!)');
+                //             } else if (stock <= 20) {
+                //                 label.addClass('text-warning font-weight-bold');
+                //                 label.html(
+                //                     '<i class="fas fa-exclamation-triangle"></i> Stock: ' +
+                //                     stock + ' (Stok Terbatas)');
+                //             } else {
+                //                 label.addClass('text-muted');
+                //                 label.html('<i class="fas fa-check-circle"></i> Stock: ' +
+                //                     stock);
+                //             }
+                //         }
+                //     });
+                // } else {
+                //     $('#stock_label').hide().text('');
+                // }
             });
 
             var counter = $('#number_counter').val();
