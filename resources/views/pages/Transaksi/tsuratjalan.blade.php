@@ -384,7 +384,7 @@
                                 label.show();
                                 label.removeClass(
                                     'text-danger text-warning text-muted font-weight-bold'
-                                    );
+                                );
                                 if (stock < 10) {
                                     label.addClass('text-danger font-weight-bold');
                                     label.html(
@@ -408,6 +408,227 @@
                     }
                 });
 
+                var nosob = $(this).val();
+                show_loading()
+                console.log(nosob);
+                $.ajax({
+                    url: '{{ route('getnosobd') }}',
+                    method: 'post',
+                    data: {
+                        'nosob': nosob
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if ($('#number_counter').val() == 0) {
+                            console.log('masuk');
+                            console.log(response);
+                            number_counter = Number($('#number_counter').val());
+                            for (i = 0; i < response.length; i++) {
+                                if (response[i].no_sob == nosob) {
+                                    // if(number_counter == 0){
+                                    //     number_counter++;
+                                    // }
+
+                                    subtotparse = thousands_separators(Number(
+                                        response[i].subtotal).toFixed(2));
+
+                                    if ($("#price_total").val() == 0 || $(
+                                            "#price_total").val() == '') {
+                                        $("#price_total").val(subtotparse);
+                                        number_counter++;
+                                        counter++;
+                                        console.log(number_counter);
+                                    } else if ($("#price_total").val() >= 0 || $(
+                                            "#price_total").val() != '') {
+                                        old_grandtot = $('#price_total').val();
+                                        counter++;
+                                        if (/\D/g.test(old_grandtot)) {
+                                            // Filter comma
+                                            old_grandtot = old_grandtot.replace(
+                                                /\,/g, "");
+                                            old_grandtot = Number(Math.trunc(
+                                                old_grandtot))
+                                        }
+
+                                        if (/\D/g.test(subtotparse)) {
+                                            // Filter comma
+                                            subtotparse = subtotparse.replace(/\,/g,
+                                                "");
+                                            subtotparse = Number(Math.trunc(
+                                                subtotparse))
+                                        }
+
+                                        sum = subtotparse + old_grandtot;
+
+                                        new_grandtot = thousands_separators(Number(
+                                            sum).toFixed(2));
+                                        $("#price_total").val(new_grandtot);
+                                        console.log(number_counter);
+                                        // number_counter++;
+                                    }
+                                    // number_new = $('#number_counter').val();
+                                    tablerow = "<tr row_id=" + number_counter +
+                                        "><th style='readonly:true;' class='border border-5'>" +
+                                        number_counter +
+                                        "</th><td class='border border-5' style='display:none;'><input style='width:120px;' readonly form='thisform' class='numberclass form-control' type='text' value='" +
+                                        counter +
+                                        "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" +
+                                        response[i].code +
+                                        "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" +
+                                        response[i].name +
+                                        "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" +
+                                        response[i].warna +
+                                        "'></td><td class='border border-5'><input type='text' style='width:100px;' form='thisform' class='row_qty quantityclass form-control' name='quantity_d[]' value='" +
+                                        parseInt(response[i].qty) + "' id='qty_d_" +
+                                        counter +
+                                        "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='" +
+                                        response[i].satuan +
+                                        "' name='satuan_d[]'></td><td class='border border-5'><input type='text' style='width:100px;' form='thisform' readonly class='row_hrgjual hrgjualclass form-control' name='hrgjual_d[]' value='" +
+                                        thousands_separators(Number(response[i]
+                                            .hrgjual).toFixed(2)) +
+                                        "' id='hrgjual_d_" + number_counter +
+                                        "'></td><td class='border border-5'><input type='text' style='width:100px;' form='thisform' readonly class='subtotclass form-control' name='subtot_d[]' id='subtot_d_" +
+                                        number_counter + "' value='" +
+                                        thousands_separators(Number(response[i]
+                                            .subtotal).toFixed(2)) +
+                                        "'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" +
+                                        no + "'></td></tr>";
+                                    $("#datatable tbody").append(tablerow);
+                                    number_counter++;
+                                    number_new = number_counter;
+                                    $('#number_counter').val(number_new);
+
+                                }
+                            }
+                            // var x = document.getElementById("card_items");
+                            // if (x.style.display === "none") {
+                            //     x.style.display = "block";
+                            // } else {
+                            //     x.style.display = "none";
+                            // }
+                        } else if ($('#number_counter').val() >= 0) {
+                            console.log('masuk222');
+
+                            $('#number_counter').val(0)
+                            $('#price_total').val(0)
+                            $("#datatable tbody").empty();
+
+
+                            number_counter = Number($('#number_counter').val());
+                            for (i = 0; i < response.length; i++) {
+                                if (response[i].no_sob == nosob) {
+                                    // if(number_counter == 0){
+                                    //     number_counter++;
+                                    // }
+
+                                    old_grandtot = $('#price_total').val();
+
+                                    if (/\D/g.test(old_grandtot)) {
+                                        // Filter comma
+                                        old_grandtot = old_grandtot.replace(/\,/g,
+                                            "");
+                                        old_grandtot = Number(Math.trunc(
+                                            old_grandtot))
+                                    }
+
+                                    subtot = thousands_separators(Number(response[i]
+                                        .subtotal).toFixed(2))
+
+                                    console.log(subtot)
+                                    if (/\D/g.test(subtot)) {
+                                        // Filter comma
+                                        subtot = subtot.replace(/\,/g, "");
+                                        subtot = Number(Math.trunc(subtot))
+                                    }
+
+                                    sum = parseFloat(subtot) + parseFloat(
+                                        old_grandtot);
+
+                                    new_grandtot = thousands_separators(Number(sum)
+                                        .toFixed(2));
+
+                                    $("#price_total").val(new_grandtot);
+                                    number_counter++
+
+                                    counter++;
+                                    // number_new = $('#number_counter').val();
+
+                                    tablerow = "<tr row_id=" + number_counter +
+                                        "><th style='readonly:true;' class='border border-5'>" +
+                                        number_counter +
+                                        "</th><td class='border border-5' style='display:none;'><input style='width:120px;' readonly form='thisform' class='numberclass form-control' type='text' value='" +
+                                        counter +
+                                        "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='kodeclass form-control' name='kode_d[]' type='text' value='" +
+                                        response[i].code +
+                                        "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='namaitemclass form-control' name='namaitem_d[]' type='text' value='" +
+                                        response[i].name +
+                                        "'></td><td class='border border-5'><input style='width:120px;' readonly form='thisform' class='warnaclass form-control' name='warna_d[]' type='text' value='" +
+                                        response[i].warna +
+                                        "'></td><td class='border border-5'><input type='text' style='width:100px;' form='thisform' class='row_qty quantityclass form-control' name='quantity_d[]' value='" +
+                                        parseInt(response[i].qty) + "' id='qty_d_" +
+                                        counter +
+                                        "'></td><td class='border border-5'><input type='text' readonly form='thisform' style='width:100px;' class='satuanclass form-control' value='" +
+                                        response[i].satuan +
+                                        "' name='satuan_d[]'></td><td class='border border-5'><input readonly type='text' style='width:100px;' form='thisform' class='row_hrgjual hrgjualclass form-control' name='hrgjual_d[]' value='" +
+                                        thousands_separators(Number(response[i]
+                                            .hrgjual).toFixed(2)) +
+                                        "' id='hrgjual_d_" + number_counter +
+                                        "'></td><td class='border border-5'><input readonly type='text' style='width:100px;' form='thisform' class='subtotclass form-control' name='subtot_d[]' id='subtot_d_" +
+                                        number_counter + "' value='" +
+                                        thousands_separators(Number(response[i]
+                                            .subtotal).toFixed(2)) +
+                                        "'></td><td class='border border-5'><a title='Delete' class='delete'><i style='font-size:15pt;color:#6777ef;' class='fa fa-trash'></i></a></td><td hidden><input style='width:120px;' readonly form='thisform' class='noclass form-control' name='no_d[]' type='text' value='" +
+                                        no + "'></td></tr>";
+                                    $("#datatable tbody").append(tablerow);
+                                    $('#number_counter').val(number_counter);
+                                }
+                            }
+                            number_counter++;
+                            $('#number_counter').val(number_counter);
+
+                            var x = document.getElementById("card_items");
+                            if (x.style.display === "none") {
+                                x.style.display = "block";
+                            }
+                        }
+                        $.ajax({
+                            url: '{{ route('getcounter') }}',
+                            method: 'post',
+                            data: {
+                                'nosob': nosob
+                            },
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]')
+                                    .attr('content')
+                            },
+                            dataType: 'json',
+                            success: function(response) {
+                                console.log(response);
+                                show_loading()
+                                for (i = 0; i < response.length; i++) {
+                                    if (response[i].no == nosob) {
+                                        // $("#counter").val(response[i].counter);
+                                        // select = document.getElementById("counter");
+                                        // select.appendChild(response[i].counter);
+                                        $("#counter").select2();
+                                        $("#counter").val(response[i]
+                                            .counter).trigger(
+                                            "change");
+                                        // $("#counter").val(response[i].counter).attr('selected','selected');
+                                    }
+                                }
+                                hide_loading()
+                            }
+                        });
+                        // hide_loading()
+                    }
+                });
+            });
+
+            $("#nosob").on('select2:select', function(e) {
                 var nosob = $(this).val();
                 show_loading()
                 console.log(nosob);
