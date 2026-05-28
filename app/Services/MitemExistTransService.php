@@ -13,6 +13,7 @@ class MitemExistTransService
      */
     private static array $transactionTables = [
         'tsob_ds'          => 'code',
+        'tpembelian_ds'    => 'code',
         'tsj_ds'           => 'code',
         'tpenerimaan_ds'   => 'code',
         'tpenjualan_ds'    => 'code',
