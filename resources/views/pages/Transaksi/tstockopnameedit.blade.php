@@ -270,6 +270,122 @@
                 });
             }
 
+            // ── SCANNER DETECTION ──────────────────────────────────────────
+            var scannerLastKeyTime = 0;
+            var isScannerInput = false;
+            var scannerBuffer = '';
+            var globalScannerBuffer = '';
+            var globalScannerLastKeyTime = 0;
+            var globalScannerThreshold = 50;
+
+            document.addEventListener('keydown', function(e) {
+                var activeEl = document.activeElement;
+                var inInput = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName ===
+                    'TEXTAREA' || activeEl.tagName === 'SELECT');
+                if (!inInput) {
+                    var now = Date.now();
+                    if (now - globalScannerLastKeyTime > 500) {
+                        globalScannerBuffer = '';
+                    }
+                    globalScannerLastKeyTime = now;
+                    if (e.key === 'Enter') {
+                        if (globalScannerBuffer.length > 0) {
+                            doScannerSearch(globalScannerBuffer);
+                            globalScannerBuffer = '';
+                        }
+                    } else if (e.key.length === 1) {
+                        globalScannerBuffer += e.key;
+                    }
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                var activeEl = document.activeElement;
+                var isSelect2Search = activeEl && activeEl.classList.contains('select2-search__field');
+                if (isSelect2Search) {
+                    var now = Date.now();
+                    if (e.key === 'Enter') {
+                        if (now - scannerLastKeyTime < globalScannerThreshold) {
+                            isScannerInput = true;
+                        }
+                        if (isScannerInput && scannerBuffer.length > 0) {
+                            e.stopImmediatePropagation();
+                            e.preventDefault();
+                            var scanned = scannerBuffer;
+                            scannerBuffer = '';
+                            isScannerInput = false;
+                            doScannerSearch(scanned);
+                        }
+                    } else if (e.key.length === 1) {
+                        var now2 = Date.now();
+                        if (now2 - scannerLastKeyTime < globalScannerThreshold) {
+                            isScannerInput = true;
+                        }
+                        scannerLastKeyTime = now2;
+                        scannerBuffer += e.key;
+                    }
+                }
+            }, true);
+
+            function doScannerSearch(barcode) {
+                var code_counter = $('#counter').val();
+                if (!code_counter) {
+                    swal('WARNING', 'Pilih Counter terlebih dahulu!', 'warning');
+                    return;
+                }
+                $.ajax({
+                    url: "{{ route('getitemsbycounter') }}",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        _token: CSRF_TOKEN,
+                        code_counter: code_counter,
+                        search: barcode
+                    },
+                    success: function(response) {
+                        if (response && response.length > 0) {
+                            var item = response[0];
+                            var option = new Option(item.text, item.id, true, true);
+                            $(option).attr('data-nama', item.name_mitem).attr('data-stock', item.stock)
+                                .attr('data-harga', item.harga);
+                            $('#kode_artikel').append(option).trigger('change');
+                            $('#kode_artikel').trigger({
+                                type: 'select2:select',
+                                params: {
+                                    data: item
+                                }
+                            });
+                        } else {
+                            swal('WARNING', 'Item dengan kode "' + barcode + '" tidak ditemukan!',
+                                'warning');
+                        }
+                    }
+                });
+            }
+
+            $('#kode_artikel').on('select2:open', function() {
+                var sf = document.querySelector('.select2-container--open .select2-search__field');
+                if (sf) {
+                    sf.focus();
+                } else {
+                    setTimeout(function() {
+                        var sf2 = document.querySelector(
+                            '.select2-container--open .select2-search__field');
+                        if (sf2) sf2.focus();
+                    }, 50);
+                }
+            });
+
+            $(document).on('keydown', '.select2-search__field', function(e) {
+                var now = Date.now();
+                if (now - scannerLastKeyTime > 500) {
+                    scannerBuffer = '';
+                    isScannerInput = false;
+                }
+                scannerLastKeyTime = now;
+            });
+            // ── END SCANNER ────────────────────────────────────────────────
+
             $('#kode_artikel').on('select2:select', function(e) {
                 var data = e.params.data;
                 $('#nama_item').val(data.name_mitem != null ? data.name_mitem : '');

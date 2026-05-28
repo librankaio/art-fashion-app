@@ -143,6 +143,156 @@
                 placeholder: '--Select Counter--'
             });
 
+            // ===== SCANNER DETECTION =====
+            var scannerLastKeyTime = 0;
+            var scannerThreshold = 50; // ms
+            var isScannerInput = false;
+            var scannerBuffer = '';
+            var scannerBufferTimer = null;
+
+            // === GLOBAL SCANNER: tangkap input dari mana saja di halaman ===
+            var globalScannerBuffer = '';
+            var globalScannerLastKeyTime = 0;
+            var globalScannerTimer = null;
+            var globalIsScannerInput = false;
+
+            document.addEventListener('keydown', function(e) {
+                var activeEl = document.activeElement;
+                var isInSelect2Search = activeEl && activeEl.classList.contains('select2-search__field');
+
+                // --- Intercept Enter di dalam Select2 search field ---
+                if (e.key === 'Enter' && isInSelect2Search) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    if (isScannerInput && scannerBuffer.length > 0) {
+                        var searchTerm = scannerBuffer;
+                        scannerBuffer = '';
+                        isScannerInput = false;
+                        scannerLastKeyTime = 0;
+                        clearTimeout(scannerBufferTimer);
+                        doScannerSearch(searchTerm);
+                    }
+                    return;
+                }
+
+                // --- Global scanner: tangkap jika fokus BUKAN di input/textarea/select ---
+                var tag = activeEl ? activeEl.tagName : '';
+                var isTypingField = (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT');
+
+                if (!isTypingField) {
+                    var now = Date.now();
+                    var timeDiff = now - globalScannerLastKeyTime;
+
+                    if (e.key === 'Enter') {
+                        if (globalIsScannerInput && globalScannerBuffer.length > 0) {
+                            e.preventDefault();
+                            var searchTerm = globalScannerBuffer;
+                            globalScannerBuffer = '';
+                            globalIsScannerInput = false;
+                            globalScannerLastKeyTime = 0;
+                            clearTimeout(globalScannerTimer);
+                            doScannerSearch(searchTerm);
+                        }
+                        globalScannerBuffer = '';
+                        return;
+                    }
+
+                    if (e.key.length === 1) {
+                        if (globalScannerLastKeyTime !== 0 && timeDiff < scannerThreshold) {
+                            globalIsScannerInput = true;
+                        } else if (timeDiff >= scannerThreshold) {
+                            globalIsScannerInput = false;
+                            globalScannerBuffer = '';
+                        }
+                        globalScannerLastKeyTime = now;
+                        globalScannerBuffer += e.key;
+
+                        clearTimeout(globalScannerTimer);
+                        globalScannerTimer = setTimeout(function() {
+                            globalScannerBuffer = '';
+                            globalIsScannerInput = false;
+                        }, 300);
+                    }
+                }
+            }, true); // capture phase
+
+            // Fungsi terpusat: search item via AJAX lalu auto-select
+            function doScannerSearch(searchTerm) {
+                var code_counter = $('#counter').val();
+                if (!code_counter) {
+                    swal('WARNING', 'Pilih Counter terlebih dahulu!', 'warning');
+                    return;
+                }
+                $.ajax({
+                    url: '{{ route('getitemsbycounter') }}',
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        _token: CSRF_TOKEN,
+                        code_counter: code_counter,
+                        search: searchTerm
+                    },
+                    success: function(response) {
+                        if (response && response.length > 0) {
+                            var firstItem = response[0];
+                            var option = new Option(firstItem.text, firstItem.id, true, true);
+                            $(option).attr('data-nama', firstItem.name_mitem)
+                                .attr('data-stock', firstItem.stock)
+                                .attr('data-harga', firstItem.harga);
+                            $('#kode_artikel').append(option).trigger('change');
+                            $('#kode_artikel').trigger({
+                                type: 'select2:select',
+                                params: {
+                                    data: firstItem
+                                }
+                            });
+                            $('#kode_artikel').select2('close');
+                        } else {
+                            swal('WARNING', 'Kode tidak ditemukan!', 'warning');
+                        }
+                    }
+                });
+            }
+
+            // Auto-focus search field saat Select2 #kode_artikel dibuka
+            $('#kode_artikel').on('select2:open', function() {
+                var searchField = document.querySelector('.select2-container--open .select2-search__field');
+                if (searchField) {
+                    searchField.focus();
+                } else {
+                    setTimeout(function() {
+                        var el = document.querySelector(
+                            '.select2-container--open .select2-search__field');
+                        if (el) el.focus();
+                    }, 50);
+                }
+            });
+
+            // Buffer untuk Select2 search field (saat dropdown sudah terbuka)
+            $(document).on('keydown', '.select2-search__field', function(e) {
+                var now = Date.now();
+                var timeDiff = now - scannerLastKeyTime;
+
+                if (e.key !== 'Enter') {
+                    if (scannerLastKeyTime !== 0 && timeDiff < scannerThreshold) {
+                        isScannerInput = true;
+                    } else if (timeDiff >= scannerThreshold) {
+                        isScannerInput = false;
+                        scannerBuffer = '';
+                    }
+                    scannerLastKeyTime = now;
+                    if (e.key.length === 1) {
+                        scannerBuffer += e.key;
+                    }
+                    clearTimeout(scannerBufferTimer);
+                    scannerBufferTimer = setTimeout(function() {
+                        scannerBuffer = '';
+                        isScannerInput = false;
+                    }, 300);
+                }
+            });
+            // ===== END SCANNER DETECTION =====
+
             // When counter changes, reinit kode_artikel select2 AJAX
             $('#counter').on('change', function() {
                 var code_counter = $(this).val();
