@@ -20,6 +20,14 @@ class ControllerLogin extends Controller
 
     public function postLogin(Request $request){
         // dd(request()->all());
+
+        // Cek apakah user dengan NIK tersebut ada
+        $userExists = User::where('nik', $request->nik)->first();
+        if (!$userExists) {
+            return redirect()->back()->withInput($request->only('nik'))
+                ->with('login_error', 'Username / NIK tidak ditemukan.');
+        }
+
         if(Auth::attempt($request->only('nik', 'password'))){
             $request->session()->regenerate();
             $nik = Auth::User()->nik;
@@ -275,7 +283,8 @@ class ControllerLogin extends Controller
             // dd(session()->all());
             return redirect()->intended('/home');
         }
-        return redirect()->back();
+        return redirect()->back()->withInput($request->only('nik'))
+            ->with('login_error', 'Password/Username yang Anda masukkan salah.');
     }
 
     public function logout(request $request){
