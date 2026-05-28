@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mcounter;
 use App\Models\Tstockopname_d;
 use App\Models\Tstockopname_h;
+use App\Services\MitemExistTransService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -93,6 +94,10 @@ class ControllerTransStockOpname extends Controller
                     'hasil_opname' => $request->hasil_opname_d[$i],
                     'adjustment'   => $request->adjustment_d[$i],
                 ]);
+                // Insert item into existing in transaction
+                \App\Models\Mitem::where('code', '=', $request->kode_d[$i])->update([
+                    'exist_trans' => "Y",
+                ]);
             }
 
             DB::commit();
@@ -141,6 +146,11 @@ class ControllerTransStockOpname extends Controller
                     ->where('code_mcounters', $request->counter)
                     ->where('code_mitem', $request->kode_d[$i])
                     ->update(['stock' => DB::raw('stock + ' . (int)$request->hasil_opname_d[$i])]);
+
+                // Insert item into existing in transaction
+                \App\Models\Mitem::where('code', '=', $request->kode_d[$i])->update([
+                    'exist_trans' => "Y",
+                ]);
             }
 
             DB::commit();
@@ -429,9 +439,12 @@ class ControllerTransStockOpname extends Controller
         DB::beginTransaction();
 
         try {
+            $details = Tstockopname_d::where('idh', $tstockopname_h->id)->get();
+            // Kumpulkan semua kode SEBELUM delete
+            $affected_kodes = $details->pluck('kode_barang')->toArray();
+
             // Kurangi stock hanya jika status POSTED
             if ($tstockopname_h->status === 'POSTED') {
-                $details = Tstockopname_d::where('idh', $tstockopname_h->id)->get();
                 foreach ($details as $d) {
                     DB::table('mitems_counters')
                         ->where('code_mcounters', $tstockopname_h->counter)
@@ -442,6 +455,9 @@ class ControllerTransStockOpname extends Controller
 
             Tstockopname_d::where('idh', $tstockopname_h->id)->delete();
             $tstockopname_h->delete();
+
+            // Recheck exist_trans untuk semua item yang terdampak
+            MitemExistTransService::recheckMany($affected_kodes);
 
             DB::commit();
             return redirect()->route('tstockopnamelist')->with('success', 'Data berhasil dihapus');

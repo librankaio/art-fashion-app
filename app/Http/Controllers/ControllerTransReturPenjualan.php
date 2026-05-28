@@ -8,6 +8,7 @@ use App\Models\MitemCounters;
 use App\Models\MutasiAF;
 use App\Models\Tretur_d;
 use App\Models\Tretur_h;
+use App\Services\MitemExistTransService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -146,6 +147,10 @@ class ControllerTransReturPenjualan extends Controller
                         'action' => "UPDATE",
                         'user' => session('nik'),
                     ]);
+                // Insert item into existing in transaction
+                Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
+                    'exist_trans' => "Y",
+                ]);
                 $count++;
             }
             if($count == $countrows){
@@ -329,6 +334,10 @@ class ControllerTransReturPenjualan extends Controller
                         'user' => session('nik'),
                     ]);
                 }
+                // Insert item into existing in transaction
+                Mitem::where('code', '=', strtok(request('kode_d')[$i], " "))->update([
+                    'exist_trans' => "Y",
+                ]);
                 $count++;
             }
         }
@@ -340,6 +349,8 @@ class ControllerTransReturPenjualan extends Controller
 
     public function delete(Tretur_h $treturh){
         $tretur_detail = Tretur_d::where('idh','=',$treturh->id)->get();
+        // Kumpulkan semua kode SEBELUM delete
+        $affected_kodes = $tretur_detail->map(fn($d) => strtok($d->code, " "))->toArray();
         foreach($tretur_detail as $tretur_old_item){
             // Mins a value from the old stock in mitems table
             // $stock_mitem = Mitem::select('stock')->where('code', '=',strtok($tretur_old_item->code, " "))->first();
@@ -407,6 +418,9 @@ class ControllerTransReturPenjualan extends Controller
         // Tretur_h::find($treturh->id)->delete();
         Tretur_h::where('id','=',$treturh->id)->delete();
         Tretur_d::where('idh','=',$treturh->id)->delete();
+
+        // Recheck exist_trans untuk semua item yang terdampak
+        MitemExistTransService::recheckMany($affected_kodes);
 
         return redirect()->route('treturjuallist')->with('success', 'Data berhasil dihapus');
     }

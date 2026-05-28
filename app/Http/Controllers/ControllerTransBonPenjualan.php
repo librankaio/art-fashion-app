@@ -10,6 +10,7 @@ use App\Models\MsaldoAwal;
 use App\Models\MutasiAF;
 use App\Models\Tpenjualan_d;
 use App\Models\Tpenjualan_h;
+use App\Services\MitemExistTransService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -350,6 +351,8 @@ class ControllerTransBonPenjualan extends Controller
 
                 if(request('deleted_item_d') == request('id_d')[$x]){
                     Tpenjualan_d::where('id','=',request('id_d')[$x])->delete();
+                    // Recheck exist_trans untuk item yang dihapus dari edit
+                    MitemExistTransService::recheck(strtok($getstock_old->code, " "));
                 }
             }
         }
@@ -444,6 +447,10 @@ class ControllerTransBonPenjualan extends Controller
                         'user' => session('nik'),
                     ]);
                 }
+                // Insert item into existing in transaction
+                Mitem::where('code', '=', strtok(request('kode_d')[$i], " "))->update([
+                    'exist_trans' => "Y",
+                ]);
                 // dd($stock_mitem_counter);
                 $count++;
             }
@@ -456,6 +463,8 @@ class ControllerTransBonPenjualan extends Controller
 
     public function delete(Tpenjualan_h $tpenjualanh){
         $penjualan_detail = Tpenjualan_d::where('idh','=',$tpenjualanh->id)->get();
+        // Kumpulkan semua kode SEBELUM delete untuk recheck exist_trans
+        $affected_kodes = $penjualan_detail->map(fn($d) => strtok($d->code, " "))->toArray();
         foreach($penjualan_detail as $penjualan_old_item){
             // Mins a value from the old stock in mitems_counters table
             $stock_mitem_counter = DB::table('mitems_counters')
@@ -487,6 +496,9 @@ class ControllerTransBonPenjualan extends Controller
         }
         Tpenjualan_h::find($tpenjualanh->id)->delete();
         Tpenjualan_d::where('idh','=',$tpenjualanh->id)->delete();
+
+        // Recheck exist_trans untuk semua item yang terdampak
+        MitemExistTransService::recheckMany($affected_kodes);
 
         return redirect()->route('tbonjuallist');
     }

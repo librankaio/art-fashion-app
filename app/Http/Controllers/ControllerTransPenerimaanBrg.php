@@ -10,6 +10,7 @@ use App\Models\Tpenerimaan_d;
 use App\Models\Tpenerimaan_h;
 use App\Models\Tsj_d;
 use App\Models\Tsj_h;
+use App\Services\MitemExistTransService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -123,6 +124,10 @@ class ControllerTransPenerimaanBrg extends Controller
                         'user' => session('nik'),
                     ]);
                 }
+                // Insert item into existing in transaction
+                Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
+                    'exist_trans' => "Y",
+                ]);
                 $count++;
             }
             Tsj_h::where('no', '=', $request->nosj)->update([
@@ -320,6 +325,10 @@ class ControllerTransPenerimaanBrg extends Controller
                         'user' => session('nik'),
                     ]);
                 }
+                // Insert item into existing in transaction
+                Mitem::where('code', '=', strtok(request('kode_d')[$i], " "))->update([
+                    'exist_trans' => "Y",
+                ]);
                 // dd($stock_mitem_counter);
                 $count++;
             }
@@ -332,6 +341,8 @@ class ControllerTransPenerimaanBrg extends Controller
 
     public function delete(Tpenerimaan_h $tpenerimaanh){
         $penerimaan_detail = Tpenerimaan_d::where('idh','=',$tpenerimaanh->id)->get();
+        // Kumpulkan semua kode SEBELUM delete
+        $affected_kodes = $penerimaan_detail->map(fn($d) => strtok($d->code, " "))->toArray();
         foreach($penerimaan_detail as $penerimaan_old_item){
             // Mins a value from the old stock in mitems_counters table
             $stock_mitem_counter = DB::table('mitems_counters')
@@ -371,6 +382,9 @@ class ControllerTransPenerimaanBrg extends Controller
         ]);
         Tpenerimaan_h::where('id','=',$tpenerimaanh->id)->delete();
         Tpenerimaan_d::where('idh','=',$tpenerimaanh->id)->delete();
+
+        // Recheck exist_trans untuk semua item yang terdampak
+        MitemExistTransService::recheckMany($affected_kodes);
 
         return redirect()->route('tpenerimaanbrglist');
     }

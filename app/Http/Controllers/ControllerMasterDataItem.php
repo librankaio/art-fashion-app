@@ -12,6 +12,8 @@ use App\Models\Tpenjualan_d;
 use App\Models\Tretur_d;
 use App\Models\Tsj_d;
 use App\Models\Tsob_d;
+use App\Models\Tstockopname_d;
+use App\Services\MitemExistTransService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -117,10 +119,19 @@ class ControllerMasterDataItem extends Controller
     }
 
     public function update(Mitem $mitem){
+        $newKode  = request('kode');
+        $old_kode = request('old_kode');
+
+        // Jika kode diubah tapi item sudah ada di transaksi → tolak
+        if ($newKode !== $old_kode && $mitem->exist_trans === 'Y') {
+            return redirect()->route('mitem')
+                ->with('error', "Kode item tidak bisa diubah karena item '$old_kode' sudah digunakan di transaksi.");
+        }
+
         Mitem::where('id', '=', $mitem->id)->update([
             'name' => request('nama'),
             'name_lbl' => request('name_lbl'),
-            'code' => request('kode'),
+            'code' => $newKode,
             'warna' => request('warna'),
             'kategori' => request('kategori'),
             'barcode' => request('barcode'),
@@ -132,11 +143,19 @@ class ControllerMasterDataItem extends Controller
             'nett' => (float) str_replace(',', '', request('price_nett')),
             'spcprice' => (float) str_replace(',', '', request('price_special')),
         ]);
-        $kode = request('kode');
-        $nama = request('nama');
-        $old_kode = request('old_kode');
-        DB::update( DB::raw("update mitems_counters set code_mitem = '$kode', name_mitem = '$nama'
-        where code_mitem = '$old_kode'"));
+
+        // Sinkronkan mitems_counters jika kode berubah
+        if ($newKode !== $old_kode) {
+            DB::update(
+                "UPDATE mitems_counters SET code_mitem = ?, name_mitem = ? WHERE code_mitem = ?",
+                [$newKode, request('nama'), $old_kode]
+            );
+            // Recheck exist_trans untuk kode lama dan baru
+            MitemExistTransService::recheckMany([$old_kode, $newKode]);
+        } else {
+            // Recheck exist_trans untuk item ini (preventif)
+            MitemExistTransService::recheck($newKode);
+        }
 
         return redirect()->route('mitem')->with('success', 'Data berhasil di update');
     }
@@ -149,34 +168,28 @@ class ControllerMasterDataItem extends Controller
     // }
 
     public function delete(Mitem $mitem){
-        // Ambil kode yang di-strtok (ambil dari depan sebelum spasi)
         $cleanCode = strtok($mitem->code, " ");
 
-        // Daftar tabel yang harus dicek
-        $checkModels = [
-            Tadj_d::class,
-            Tpembelian_d::class,
-            Tpenjualan_d::class,
-            Tretur_d::class,
-            Tsob_d::class,
-            Tsj_d::class,
-            Tpenerimaan_d::class
-        ];
+        // Cek di semua tabel transaksi (termasuk tstockopname_d yg pakai kolom kode_barang)
+        $existsInTrans =
+            Tadj_d::where('code', 'like', $cleanCode . '%')->exists()           ||
+            Tpembelian_d::where('code', 'like', $cleanCode . '%')->exists()      ||
+            Tpenjualan_d::where('code', 'like', $cleanCode . '%')->exists()      ||
+            Tretur_d::where('code', 'like', $cleanCode . '%')->exists()          ||
+            Tsob_d::where('code', 'like', $cleanCode . '%')->exists()            ||
+            Tsj_d::where('code', 'like', $cleanCode . '%')->exists()             ||
+            Tpenerimaan_d::where('code', 'like', $cleanCode . '%')->exists()     ||
+            Tstockopname_d::where('kode_barang', 'like', $cleanCode . '%')->exists();
 
-        // Loop cek ke setiap tabel
-        foreach ($checkModels as $model) {
-            $exists = $model::where('code', 'like', $cleanCode . '%')->exists();
-
-            if ($exists) {
-                return redirect()->route('mitem')
-                    ->with('error', "Item '$mitem->code' masih digunakan di tabel " . class_basename($model) . " sehingga tidak bisa dihapus.");
-            }
+        if ($existsInTrans) {
+            // Pastikan flag konsisten
+            Mitem::where('code', $cleanCode)->update(['exist_trans' => 'Y']);
+            return redirect()->route('mitem')
+                ->with('error', "Item '$mitem->code' masih digunakan di transaksi sehingga tidak bisa dihapus.");
         }
 
-        // Hapus mitems_counters tanpa pengecekan
-        DB::select(DB::raw("DELETE FROM mitems_counters WHERE code_mitem LIKE '{$cleanCode}%'"));
-
-        // Jika aman → hapus
+        // Aman → hapus counter mapping dan item
+        DB::delete("DELETE FROM mitems_counters WHERE code_mitem LIKE ?", [$cleanCode . '%']);
         $mitem->delete();
 
         return redirect()->route('mitem')

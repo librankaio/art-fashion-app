@@ -8,6 +8,7 @@ use App\Models\MitemCounters;
 use App\Models\MutasiAF;
 use App\Models\Tadj_d;
 use App\Models\Tadj_h;
+use App\Services\MitemExistTransService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -210,6 +211,11 @@ class ControllerTransAdjustmentStock extends Controller
                     'action' => "CREATE",
                     'user' => session('nik'),
                 ]);
+
+                // Insert item into existing in transaction
+                Mitem::where('code', '=', $code)->update([
+                    'exist_trans' => "Y",
+                ]);
             }
 
             DB::commit(); // ⬅️ semua OK → simpan
@@ -227,7 +233,7 @@ class ControllerTransAdjustmentStock extends Controller
     }
 
     public function list(){
-        $tadjhs = Tadj_h::select('id','no','tgl','note','counter')->orderBy('created_at', 'asc')->get();
+        $tadjhs = Tadj_h::select('id','no','tgl','note','counter')->orderBy('created_at', 'desc')->get();
         $tadjds = Tadj_d::select('id','idh','no_adj','code','name','qty','satuan')->get();
         return view('pages.Transaksi.tadjustmentstocklist',[
             'tadjhs' => $tadjhs,
@@ -509,6 +515,11 @@ class ControllerTransAdjustmentStock extends Controller
                     'action' => "UPDATE",
                     'user' => session('nik'),
                 ]);
+
+                // Insert item into existing in transaction
+                Mitem::where('code', '=', $code)->update([
+                    'exist_trans' => "Y",
+                ]);
             }
 
             DB::commit(); // ⬅️ semua sukses
@@ -682,6 +693,9 @@ class ControllerTransAdjustmentStock extends Controller
             // Delete header & detail
             Tadj_d::where('idh', $tadjh->id)->delete();
             Tadj_h::find($tadjh->id)->delete();
+
+            // Recheck exist_trans untuk semua item yang terdampak
+            MitemExistTransService::recheckMany($tadj_length->map(fn($r) => strtok($r->code, " "))->toArray());
 
             DB::commit(); // ⬅️ success
             return redirect()->route('tadjlist')->with('success', 'Data berhasil dihapus');

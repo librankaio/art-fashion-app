@@ -6,6 +6,7 @@ use App\Models\Mcounter;
 use App\Models\Mitem;
 use App\Models\Tsob_d;
 use App\Models\Tsob_h;
+use App\Services\MitemExistTransService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -178,8 +179,16 @@ class ControllerTransSOB extends Controller
     }
 
     public function delete(Tsob_h $tsobh){
+        $sob_detail = Tsob_d::where('idh','=',$tsobh->id)->get();
+        // Kumpulkan semua kode SEBELUM delete
+        $affected_kodes = $sob_detail->map(fn($d) => strtok($d->code, " "))->toArray();
+
         Tsob_h::find($tsobh->id)->delete();
         Tsob_d::where('idh','=',$tsobh->id)->delete();
+
+        // Recheck exist_trans untuk semua item yang terdampak
+        MitemExistTransService::recheckMany($affected_kodes);
+
         return redirect()->route('tsoblist');
     }
 

@@ -10,6 +10,7 @@ use App\Models\Tsj_d;
 use App\Models\Tsj_h;
 use App\Models\Tsob_d;
 use App\Models\Tsob_h;
+use App\Services\MitemExistTransService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -131,6 +132,10 @@ class ControllerTransSuratJalan extends Controller
                     'action' => "CREATE",
                     'user' => session('nik'),
                 ]);
+                // Insert item into existing in transaction
+                Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
+                    'exist_trans' => "Y",
+                ]);
                 // dd($stock_counter_min);
                 $count++;
             }
@@ -243,6 +248,8 @@ class ControllerTransSuratJalan extends Controller
 
                 if(request('deleted_item_d') == request('id_d')[$x]){
                     Tsj_d::where('id','=',request('id_d')[$x])->delete();
+                    // Recheck exist_trans untuk item yang dihapus dari edit
+                    MitemExistTransService::recheck(strtok($getstock_old->code, " "));
                 }
             }
         }
@@ -323,6 +330,10 @@ class ControllerTransSuratJalan extends Controller
                         'user' => session('nik'),
                     ]);
                 }
+                // Insert item into existing in transaction
+                Mitem::where('code', '=', strtok(request('kode_d')[$i], " "))->update([
+                    'exist_trans' => "Y",
+                ]);
                 // dd($stock_mitem_counter);
                 $count++;
             }
@@ -335,6 +346,8 @@ class ControllerTransSuratJalan extends Controller
 
     public function delete(Tsj_h $tsjh){
         $suratjalan_detail = Tsj_d::where('idh','=',$tsjh->id)->get();
+        // Kumpulkan semua kode SEBELUM delete
+        $affected_kodes = $suratjalan_detail->map(fn($d) => strtok($d->code, " "))->toArray();
         foreach($suratjalan_detail as $suratjalan_old_item){
             // Mins a value from the old stock in mitems table
             $stock_mitem = Mitem::select('stock')->where('code', '=',strtok($suratjalan_old_item->code, " "))->first();
@@ -382,6 +395,9 @@ class ControllerTransSuratJalan extends Controller
         // dd($tsjh->no_sob);
         Tsj_h::where('id','=',$tsjh->id)->delete();
         Tsj_d::where('idh','=',$tsjh->id)->delete();
+
+        // Recheck exist_trans untuk semua item yang terdampak
+        MitemExistTransService::recheckMany($affected_kodes);
 
         return redirect()->route('tsuratjalanlist')->with('success', 'Data berhasil dihapus');
     }

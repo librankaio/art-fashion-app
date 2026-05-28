@@ -201,10 +201,15 @@
                                                 <td class="border border-5" style="text-align: center;">
                                                     {{ number_format($item->spcprice, 2, '.', ',') }}</td>
                                                 <td style="text-align: center;" class="d-flex justify-content-center">
-                                                    <a href="/mitem/{{ $item->id }}/edit"
+                                                    {{-- <a href="/mitem/{{ $item->id }}/edit"
                                                         class="btn btn-icon icon-left btn-primary"><i class="far fa-edit">
-                                                            Edit</i></a>
+                                                            Edit</i></a> --}}
                                                     @if ($item->exist_trans == 'Y')
+                                                        <a href="/mitem/{{ $item->id }}/edit"
+                                                            class="btn btn-icon icon-left btn-primary disabled"><i
+                                                                class="far fa-edit"
+                                                                style="opacity: 0.6; pointer-events: none;">
+                                                                Edit</i></a>
                                                         <form action="/mitem/delete/{{ $item->id }}"
                                                             id="del-{{ $item->id }}" method="POST" class="px-2">
                                                             @csrf
@@ -216,6 +221,10 @@
                                                                     Delete</i></button>
                                                         </form>
                                                     @else
+                                                        <a href="/mitem/{{ $item->id }}/edit"
+                                                            class="btn btn-icon icon-left btn-primary"><i
+                                                                class="far fa-edit">
+                                                                Edit</i></a>
                                                         <form action="/mitem/delete/{{ $item->id }}"
                                                             id="del-{{ $item->id }}" method="POST" class="px-2">
                                                             @csrf
