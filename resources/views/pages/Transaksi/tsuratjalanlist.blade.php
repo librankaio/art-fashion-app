@@ -100,56 +100,48 @@
                                                 </td>
                                                 <td class="border border-5" style="text-align: center;">
                                                     {{ number_format($item->grdtotal, 2, '.', ',') }}</td>
-                                                <td style="text-align: center;" class="d-flex justify-content-center">
+                                                <td style="text-align: center; white-space: nowrap;">
                                                     @if ($item->exist_penerimaan == 'Y')
                                                         <a href="/tsuratjalan/{{ $item->id }}/edit"
-                                                            class="btn btn-icon icon-left btn-primary disabled"><i
-                                                                class="far fa-edit">
-                                                                Edit</i></a>
+                                                            class="btn btn-sm btn-primary disabled mr-1" title="Edit"><i
+                                                                class="far fa-edit"></i></a>
                                                         <form action="/tsuratjalan/delete/{{ $item->id }}"
-                                                            id="del-{{ $item->id }}" method="POST" class="px-2">
+                                                            id="del-{{ $item->id }}" method="POST"
+                                                            class="d-inline mr-1">
                                                             @csrf
-                                                            <button class="btn btn-icon icon-left btn-danger" disabled
+                                                            <button class="btn btn-sm btn-danger" disabled
                                                                 id="del-{{ $item->id }}" type="submit"
                                                                 data-confirm="WARNING!|Do you want to delete {{ $item->no }} data?"
-                                                                data-confirm-yes="submitDel({{ $item->id }})"><i
-                                                                    class="fa fa-trash">
-                                                                    Delete</i></button>
+                                                                data-confirm-yes="submitDel({{ $item->id }})"
+                                                                title="Delete"><i class="fa fa-trash"></i></button>
                                                         </form>
                                                     @else
                                                         <a href="/tsuratjalan/{{ $item->id }}/edit"
-                                                            class="btn btn-icon icon-left btn-primary"><i
-                                                                class="far fa-edit">
-                                                                Edit</i></a>
+                                                            class="btn btn-sm btn-primary mr-1" title="Edit"><i
+                                                                class="far fa-edit"></i></a>
                                                         <form action="/tsuratjalan/delete/{{ $item->id }}"
-                                                            id="del-{{ $item->id }}" method="POST" class="px-2">
+                                                            id="del-{{ $item->id }}" method="POST"
+                                                            class="d-inline mr-1">
                                                             @csrf
-                                                            <button class="btn btn-icon icon-left btn-danger"
+                                                            <button class="btn btn-sm btn-danger"
                                                                 id="del-{{ $item->id }}" type="submit"
                                                                 data-confirm="WARNING!|Do you want to delete {{ $item->no }} data?"
-                                                                data-confirm-yes="submitDel({{ $item->id }})"><i
-                                                                    class="fa fa-trash">
-                                                                    Delete</i></button>
+                                                                data-confirm-yes="submitDel({{ $item->id }})"
+                                                                title="Delete"><i class="fa fa-trash"></i></button>
                                                         </form>
                                                     @endif
                                                     <a href="/tsuratjalan/{{ $item->id }}/print"
-                                                        class="btn btn-icon icon-left btn-success" target="_blank"><i
-                                                            class="far fa-print">
-                                                            Print</i></a>
+                                                        class="btn btn-sm btn-success mr-1" target="_blank"
+                                                        title="Print"><i class="fas fa-print"></i></a>
                                                     <a href="/tsuratjalan/{{ $item->id }}/printpdf"
-                                                        class="btn btn-icon icon-left btn-success" target="_blank"><i
-                                                            class="far fa-print">
-                                                            Print PDF</i></a>
-                                                    <div class="divider px-1"></div>
+                                                        class="btn btn-sm btn-success mr-1" target="_blank"
+                                                        title="Print PDF"><i class="fas fa-file-pdf"></i></a>
                                                     <a href="/tsuratjalan/{{ $item->id }}/printitem"
-                                                        class="btn btn-icon icon-left btn-success" target="_blank"><i
-                                                            class="far fa-print">
-                                                            Print Barcode Item</i></a>
-                                                    <div class="divider px-1"></div>
+                                                        class="btn btn-sm btn-info mr-1" target="_blank"
+                                                        title="Print Barcode Item"><i class="fas fa-barcode"></i></a>
                                                     <a href="/tsuratjalan/{{ $item->id }}/printlblbarcode"
-                                                        class="btn btn-icon icon-left btn-success" target="_blank"><i
-                                                            class="far fa-print">
-                                                            Barcode</i></a>
+                                                        class="btn btn-sm btn-info" target="_blank" title="Barcode"><i
+                                                            class="fas fa-qrcode"></i></a>
                                                 </td>
                                             </tr>
                                         @endforeach

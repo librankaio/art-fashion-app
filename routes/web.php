@@ -202,6 +202,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/tstockopname/{tstockopname_h}/update', [ControllerTransStockOpname::class, 'update'])->name('tstockopnameupdate');
     Route::post('/tstockopname/{tstockopname_h}/updatedraft', [ControllerTransStockOpname::class, 'updateDraft'])->name('tstockopnameupdatedraft');
     Route::post('/tstockopname/delete/{tstockopname_h}', [ControllerTransStockOpname::class, 'delete'])->name('tstockopnamedelete');
+    Route::get('/tstockopname/{tstockopname_h}/print', [ControllerTransStockOpname::class, 'printView'])->name('tstockopnameprint');
+    Route::get('/tstockopname/{tstockopname_h}/printpdf', [ControllerTransStockOpname::class, 'printPdf'])->name('tstockopnameprintpdf');
+    Route::get('/tstockopname/{tstockopname_h}/excel', [ControllerTransStockOpname::class, 'exportExcel'])->name('tstockopnameexcel');
+    // Route::get('tstockopnameexcelall', [ControllerTransStockOpname::class, 'exportExcelAll'])->name('tstockopnameexcelall');
 
     Route::get('rlaperoutlet', [ControllerReportPerOutlet::class, 'index'])->name('rlaperoutlet');
     Route::get('rlaperoutletsearch', [ControllerReportPerOutlet::class, 'post'])->name('rlaperoutletpost');

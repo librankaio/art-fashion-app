@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Mcounter;
 use App\Models\Tstockopname_d;
 use App\Models\Tstockopname_h;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ControllerTransStockOpname extends Controller
 {
@@ -152,6 +156,152 @@ class ControllerTransStockOpname extends Controller
         $data = Tstockopname_h::orderBy('created_at', 'desc')->get();
         return view('pages.Transaksi.tstockopnamelist', ['data' => $data]);
     }
+
+    public function printView(Tstockopname_h $tstockopname_h)
+    {
+        $details = Tstockopname_d::where('idh', $tstockopname_h->id)->get();
+        return view('pages.Print.tstockopnameprint', [
+            'header'  => $tstockopname_h,
+            'details' => $details,
+        ]);
+    }
+
+    public function printPdf(Tstockopname_h $tstockopname_h)
+    {
+        $details = Tstockopname_d::where('idh', $tstockopname_h->id)->get();
+        $pdf = Pdf::loadView('pages.Print.tstockopnameprintpdf', [
+            'header'  => $tstockopname_h,
+            'details' => $details,
+        ])->setPaper('a4', 'portrait');
+        return $pdf->stream('stockopname-' . $tstockopname_h->no . '.pdf');
+    }
+
+    public function exportExcel(Tstockopname_h $tstockopname_h)
+    {
+        $details = Tstockopname_d::where('idh', $tstockopname_h->id)->get();
+
+        $counter_name = Mcounter::where('code', $tstockopname_h->counter)->first();
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('Stock Opname');
+
+        // Info header transaksi
+        $sheet->setCellValue('A1', 'No Trans');
+        $sheet->setCellValue('B1', $tstockopname_h->no);
+        $sheet->setCellValue('A2', 'Tanggal');
+        $sheet->setCellValue('B2', $tstockopname_h->tanggal ? date('Y-m-d', strtotime($tstockopname_h->tanggal)) : '');
+        $sheet->setCellValue('A3', 'Counter');
+        $sheet->setCellValue('B3', $counter_name->name);
+        // $sheet->setCellValue('A4', 'Status');
+        // $sheet->setCellValue('B4', $tstockopname_h->status ?? '-');
+        $sheet->setCellValue('A4', 'Catatan');
+        $sheet->setCellValue('B4', $tstockopname_h->note ? $tstockopname_h->note : '-');
+
+        $sheet->getStyle('A1:A5')->applyFromArray(['font' => ['bold' => true]]);
+
+        // Header tabel detail
+        $headerRow = 5;
+        $sheet->setCellValue('A' . $headerRow, 'No');
+        $sheet->setCellValue('B' . $headerRow, 'Kode Barang');
+        $sheet->setCellValue('C' . $headerRow, 'Nama Barang');
+        $sheet->setCellValue('D' . $headerRow, 'Stock Sistem');
+        $sheet->setCellValue('E' . $headerRow, 'Harga');
+        $sheet->setCellValue('F' . $headerRow, 'Hasil Opname');
+        $sheet->setCellValue('G' . $headerRow, 'Adjustment');
+
+        $headerStyle = [
+            'font' => ['bold' => true],
+            'fill' => ['fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, 'startColor' => ['argb' => 'FFD9EAD3']],
+        ];
+        $sheet->getStyle('A' . $headerRow . ':G' . $headerRow)->applyFromArray($headerStyle);
+
+        $no = 1;
+        $row = $headerRow + 1;
+        foreach ($details as $d) {
+            $sheet->setCellValue('A' . $row, $no++);
+            $sheet->setCellValue('B' . $row, $d->kode_barang);
+            $sheet->setCellValue('C' . $row, $d->nama_barang);
+            $sheet->setCellValue('D' . $row, $d->stock);
+            // $sheet->setCellValue('E' . $row, $d->harga);
+            $sheet->setCellValue('E' . $row, number_format($d->harga, 2, '.', ','));
+            $sheet->setCellValue('F' . $row, $d->hasil_opname);
+            $sheet->setCellValue('G' . $row, $d->adjustment);
+            $row++;
+        }
+
+        // Total row
+        $sheet->setCellValue('A' . $row, '');
+        $sheet->setCellValue('B' . $row, '');
+        $sheet->setCellValue('C' . $row, 'TOTAL');
+        $sheet->setCellValue('D' . $row, $details->sum('stock'));
+        $sheet->setCellValue('E' . $row, '');
+        $sheet->setCellValue('F' . $row, $details->sum('hasil_opname'));
+        $sheet->setCellValue('G' . $row, $details->sum('adjustment'));
+        $sheet->getStyle('C' . $row . ':G' . $row)->applyFromArray(['font' => ['bold' => true]]);
+
+        foreach (range('A', 'G') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        $writer = new Xlsx($spreadsheet);
+        $filename = 'stock_opname_' . $tstockopname_h->no . '_' . date('Ymd_His') . '.xlsx';
+
+        return response()->stream(function () use ($writer) {
+            $writer->save('php://output');
+        }, 200, [
+            'Content-Type'        => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+            'Cache-Control'       => 'max-age=0',
+        ]);
+    }
+
+    // public function exportExcelAll()
+    // {
+    //     $data = Tstockopname_h::orderBy('created_at', 'desc')->get();
+
+    //     $spreadsheet = new Spreadsheet();
+    //     $sheet = $spreadsheet->getActiveSheet();
+    //     $sheet->setTitle('Stock Opname');
+
+    //     $sheet->setCellValue('A1', 'No');
+    //     $sheet->setCellValue('B1', 'No Trans');
+    //     $sheet->setCellValue('C1', 'Tanggal');
+    //     $sheet->setCellValue('D1', 'Counter');
+    //     $sheet->setCellValue('E1', 'Catatan');
+    //     $sheet->setCellValue('F1', 'Status');
+
+    //     $sheet->getStyle('A1:F1')->applyFromArray([
+    //         'font' => ['bold' => true],
+    //         'fill' => ['fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, 'startColor' => ['argb' => 'FFD9EAD3']],
+    //     ]);
+
+    //     $no = 1;
+    //     $row = 2;
+    //     foreach ($data as $item) {
+    //         $sheet->setCellValue('A' . $row, $no++);
+    //         $sheet->setCellValue('B' . $row, $item->no);
+    //         $sheet->setCellValue('C' . $row, $item->tanggal ? date('Y-m-d', strtotime($item->tanggal)) : '');
+    //         $sheet->setCellValue('D' . $row, $item->counter);
+    //         $sheet->setCellValue('E' . $row, $item->note);
+    //         $sheet->setCellValue('F' . $row, $item->status ?? '-');
+    //         $row++;
+    //     }
+
+    //     foreach (range('A', 'F') as $col) {
+    //         $sheet->getColumnDimension($col)->setAutoSize(true);
+    //     }
+
+    //     $writer = new Xlsx($spreadsheet);
+    //     $filename = 'stock_opname_all_' . date('Ymd_His') . '.xlsx';
+
+    //     return response()->stream(function () use ($writer) {
+    //         $writer->save('php://output');
+    //     }, 200, [
+    //         'Content-Type'        => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    //         'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+    //         'Cache-Control'       => 'max-age=0',
+    //     ]);
+    // }
 
     public function getedit(Tstockopname_h $tstockopname_h)
     {

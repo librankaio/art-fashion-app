@@ -15,10 +15,13 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col-12">
+                <div class="col-12 d-flex align-items-center" style="gap: 8px;">
                     <a href="{{ route('tstockopname') }}" class="btn btn-primary">
                         <i class="fa fa-plus"></i> Tambah Stock Opname
                     </a>
+                    {{-- <a href="{{ route('tstockopnameexcelall') }}" class="btn btn-success">
+                        <i class="fa fa-file-excel"></i> Export Excel Semua
+                    </a> --}}
                 </div>
             </div>
             <div class="row">
@@ -58,17 +61,27 @@
                                                         {{ $item->status ?? '-' }}
                                                     </span>
                                                 </td>
-                                                <td class="border border-5" style="text-align:center;">
+                                                <td class="border border-5" style="text-align:center; white-space: nowrap;">
                                                     <a href="{{ route('tstockopnameedit', $item->id) }}"
-                                                        class="btn btn-sm btn-primary"><i class="far fa-edit"></i> Edit</a>
+                                                        class="btn btn-sm btn-primary" title="Edit"><i
+                                                            class="far fa-edit"></i></a>
+                                                    <a href="{{ route('tstockopnameprint', $item->id) }}" target="_blank"
+                                                        class="btn btn-sm btn-success" title="Print"><i
+                                                            class="fa fa-print"></i></a>
+                                                    <a href="{{ route('tstockopnameprintpdf', $item->id) }}"
+                                                        target="_blank" class="btn btn-sm btn-success" title="Print PDF"><i
+                                                            class="fa fa-file-pdf"></i></a>
+                                                    <a href="{{ route('tstockopnameexcel', $item->id) }}"
+                                                        class="btn btn-sm btn-info" title="Export Excel"><i
+                                                            class="fa fa-file-excel"></i></a>
                                                     <form action="{{ route('tstockopnamedelete', $item->id) }}"
                                                         id="del-{{ $item->id }}" method="POST"
                                                         style="display:inline;">
                                                         @csrf
-                                                        <button class="btn btn-sm btn-danger" type="submit"
-                                                            data-confirm="WARNING!|Hapus data {{ $item->notrans }}?"
+                                                        <button class="btn btn-sm btn-danger" type="submit" title="Delete"
+                                                            data-confirm="WARNING!|Hapus data {{ $item->no }}?"
                                                             data-confirm-yes="submitDel({{ $item->id }})">
-                                                            <i class="fa fa-trash"></i> Delete
+                                                            <i class="fa fa-trash"></i>
                                                         </button>
                                                     </form>
                                                 </td>

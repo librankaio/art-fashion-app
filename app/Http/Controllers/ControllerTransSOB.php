@@ -97,21 +97,27 @@ class ControllerTransSOB extends Controller
         return json_encode($mitems);
     }
 
-    public function list(){
-         $privilage = session('privilage');
-        if($privilage == 'ADM'){
-            $tsobhs = Tsob_h::select('id','no','tgl','counter','note','grdtotal','user','exist_sj')->orderBy('created_at', 'asc')->get();
-            $tsobds = Tsob_d::select('id','idh','no_sob','code','name','qty','satuan','hrgjual','subtotal',)->get();
-        }else if($privilage == 'GUDANG'){
-            $tsobhs = Tsob_h::select('id','no','tgl','counter','note','grdtotal','user','exist_sj')->where('counter','=',session('counter'))->orderBy('created_at', 'asc')->get();
-                $tsobds = Tsob_d::select('id','idh','no_sob','code','name','qty','satuan','hrgjual','subtotal')->get();
-        }else{
-            $tsobhs = Tsob_h::select('id','no','tgl','counter','note','grdtotal','user','exist_sj')->where('counter','=',session('counter'))->orderBy('created_at', 'asc')->get();
-            $tsobds = Tsob_d::select('id','idh','no_sob','code','name','qty','satuan','hrgjual','subtotal')->get();
+    public function list(Request $request){
+        $privilage = session('privilage');
+        $dtfr = $request->dtfr ?? date('Y-m-d');
+        $dtto = $request->dtto ?? date('Y-m-d');
+
+        $query = Tsob_h::select('id','no','tgl','counter','note','grdtotal','user','exist_sj')
+            ->whereBetween('tgl', [$dtfr, $dtto])
+            ->orderBy('tgl', 'asc');
+
+        if($privilage != 'ADM' && $privilage != 'GUDANG'){
+            $query->where('counter', '=', session('counter'));
         }
+
+        $tsobhs = $query->get();
+        $tsobds = Tsob_d::select('id','idh','no_sob','code','name','qty','satuan','hrgjual','subtotal')->get();
+
         return view('pages.Transaksi.tsoblist',[
             'tsobhs' => $tsobhs,
-            'tsobds' => $tsobds
+            'tsobds' => $tsobds,
+            'dtfr'   => $dtfr,
+            'dtto'   => $dtto,
         ]);
     }
 
