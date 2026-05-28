@@ -9,6 +9,7 @@ use App\Models\MutasiAF;
 use App\Models\Mwarna;
 use App\Models\Tpembelian_d;
 use App\Models\Tpembelian_h;
+use App\Services\MitemExistTransService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -114,13 +115,10 @@ class ControllerTransPembelianBarang extends Controller
                 }
                 $count++;
                 
-                $exist_transcode = Mitem::select('id','code')->where('code','=', $request->kode_d[$i])->first();
-                // dd(strtok($request->kode_d[$i], " "));
-                if($exist_transcode == null || $exist_transcode != "Y"){
-                    Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
-                        'exist_trans' => "Y",
-                    ]);
-                }
+                // Insert item into existing in transaction
+                Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
+                    'exist_trans' => "Y",
+                ]);
             }
             if($count == $countrows){
                 return redirect()->back();
@@ -187,6 +185,8 @@ class ControllerTransPembelianBarang extends Controller
                 
                 if(request('deleted_item_d') == request('id_d')[$x]){
                     Tpembelian_d::where('id','=',request('id_d')[$x])->delete();
+                    // Recheck exist_trans untuk item yang dihapus dari edit
+                    MitemExistTransService::recheck(strtok($getstock_old->code, " "));
                 }
             }
         }
@@ -273,6 +273,10 @@ class ControllerTransPembelianBarang extends Controller
                         'user' => session('nik'),
                     ]);
                 }
+                // Insert item into existing in transaction
+                Mitem::where('code', '=', strtok(request('kode_d')[$i], " "))->update([
+                    'exist_trans' => "Y",
+                ]);
                 // dd($stock_mitem_counter);
                 $count++;
             }
@@ -285,6 +289,8 @@ class ControllerTransPembelianBarang extends Controller
 
     public function delete(Tpembelian_h $tpembelianh){
         $pembelian_detail = Tpembelian_d::where('idh','=',$tpembelianh->id)->get();
+        // Kumpulkan semua kode SEBELUM delete untuk recheck exist_trans
+        $affected_kodes = $pembelian_detail->map(fn($d) => strtok($d->code, " "))->toArray();
         foreach($pembelian_detail as $pembelian_old_item){
             // Mins a value from the old stock in mitems table
             $stock_mitem = Mitem::select('stock')->where('code', '=',strtok($pembelian_old_item->code, " "))->first();
@@ -325,6 +331,10 @@ class ControllerTransPembelianBarang extends Controller
         }
         Tpembelian_h::find($tpembelianh->id)->delete();
         Tpembelian_d::where('idh','=',$tpembelianh->id)->delete();
+
+        // Recheck exist_trans untuk semua item yang terdampak
+        MitemExistTransService::recheckMany($affected_kodes);
+
         return redirect()->route('tpembelianbaranglist');
     }
 }
