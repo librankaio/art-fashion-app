@@ -1,4 +1,34 @@
 @extends('layouts.main')
+
+@section('topscripts')
+    <style>
+        /* Tabel item: center semua konten, padding rapi */
+        #datatable thead th,
+        #datatable tbody td,
+        #datatable tbody th {
+            text-align: center !important;
+            vertical-align: middle !important;
+            padding: 6px 8px !important;
+        }
+
+        #datatable tbody td input.form-control {
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        /* Stock label di kolom qty agar simetris dan tidak mentok ke garis tabel */
+        #datatable tbody td .stock-label-row {
+            display: block;
+            margin-top: 5px;
+            margin-bottom: 2px;
+            font-size: 11px;
+            line-height: 1.4;
+            white-space: nowrap;
+            text-align: center;
+        }
+    </style>
+@endsection
+
 @section('content')
     <section class="section">
         <div class="section-header">
@@ -777,6 +807,66 @@
                 var nosob = $(this).val();
                 show_loading()
                 console.log(nosob);
+
+                // Fungsi untuk load stock label setiap row di tabel berdasarkan counter_from
+                function loadAllStockLabels() {
+                    var counter_from_val = $('#counter_from').val();
+                    if (!counter_from_val) return;
+
+                    $('#datatable tbody tr').each(function() {
+                        var $row = $(this);
+                        var kode = $row.find('.kodeclass').val();
+                        var $qtycell = $row.find('td').eq(
+                        4); // kolom qty (index 4, setelah No, hidden, Kode, Nama, Warna)
+                        var rowId = $row.attr('row_id');
+
+                        if (!kode) return;
+
+                        // Hapus label lama kalau ada
+                        $qtycell.find('.stock-label-row').remove();
+
+                        $.ajax({
+                            url: '{{ route('tbonjualgetitemstock') }}',
+                            method: 'post',
+                            data: {
+                                'kode': kode,
+                                'counter': counter_from_val,
+                                '_token': CSRF_TOKEN
+                            },
+                            dataType: 'json',
+                            success: function(res) {
+                                var stock = parseInt(res.stock) || 0;
+                                var labelClass = 'text-muted';
+                                var icon = 'fa-check-circle';
+                                var text = 'Stok: ' + stock;
+
+                                if (stock < 10) {
+                                    labelClass = 'text-danger font-weight-bold';
+                                    icon = 'fa-exclamation-circle';
+                                    text = 'Stok: ' + stock + ' (Menipis!)';
+                                } else if (stock <= 20) {
+                                    labelClass = 'text-warning font-weight-bold';
+                                    icon = 'fa-exclamation-triangle';
+                                    text = 'Stok: ' + stock + ' (Terbatas)';
+                                }
+
+                                $qtycell.css({
+                                    'padding-bottom': '4px'
+                                });
+                                $qtycell.find('.row_qty').css({
+                                    'margin-bottom': '4px'
+                                });
+                                $qtycell.append(
+                                    '<small class="stock-label-row d-block ' +
+                                    labelClass +
+                                    '" style="margin-top:4px; line-height:1.4; white-space:nowrap;">' +
+                                    '<i class="fas ' + icon + '"></i> ' + text +
+                                    '</small>'
+                                );
+                            }
+                        });
+                    });
+                }
                 $.ajax({
                     url: '{{ route('getnosobd') }}',
                     method: 'post',
@@ -869,6 +959,7 @@
 
                                 }
                             }
+                            loadAllStockLabels();
                             // var x = document.getElementById("card_items");
                             // if (x.style.display === "none") {
                             //     x.style.display = "block";
@@ -955,6 +1046,7 @@
                             number_counter++;
                             $('#number_counter').val(number_counter);
 
+                            loadAllStockLabels();
                             var x = document.getElementById("card_items");
                             if (x.style.display === "none") {
                                 x.style.display = "block";
