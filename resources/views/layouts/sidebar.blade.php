@@ -130,6 +130,9 @@
                 <li><a class="nav-link" href="{{ route('rtranspercounter') }}">Laporan Overview Trans</a></li>
             @endif
             @if ($role == 'ADM')
+                <li><a class="nav-link" href="{{ route('roverviewperitem') }}">Lap Overview PerItem</a></li>
+            @endif
+            @if ($role == 'ADM')
                 <li><a class="nav-link" href="{{ route('rlapexpense') }}">Laporan Expense</a></li>
             @endif
             {{-- FEATURE BARU 2026 --}}
