@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ControllerHome;
+use App\Http\Controllers\ControllerHomeV2;
 use App\Http\Controllers\ControllerLogin;
 use App\Http\Controllers\ControllerMasterDataItem;
 use App\Http\Controllers\ControllerMasterDataLokasi;
@@ -114,6 +115,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     // ---Transaksi---
     Route::get('home', [ControllerHome::class, 'index'])->name('home');
+    Route::get('homev2', [ControllerHomeV2::class, 'index'])->name('homev2');
+    Route::get('homev2/summary', [ControllerHomeV2::class, 'summary'])->name('homev2summary');
     Route::get('uploadsample', [ControllerUpload::class, 'index'])->name('uploadsample');
     Route::post('uploadpost', [ControllerUpload::class, 'uploadpost'])->name('uploadpost');
 

@@ -1,5 +1,9 @@
 <ul class="sidebar-menu">
     <li class="menu-header">MASTER</li>
+    <li class="nav-item">
+        <a href="{{ route('homev2') }}" class="nav-link"><i class="fas fa-tachometer-alt"
+                style="color:#6777ef;"></i><span>Dashboard</span></a>
+    </li>
     <li class="nav-item dropdown">
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-cubes"></i><span>Master Data</span></a>
         <ul class="dropdown-menu">
