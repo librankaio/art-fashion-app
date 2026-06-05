@@ -205,10 +205,14 @@
                                                         class="btn btn-icon icon-left btn-primary"><i class="far fa-edit">
                                                             Edit</i></a> --}}
                                                     @if ($item->exist_trans == 'Y')
-                                                        <a href="/mitem/{{ $item->id }}/edit"
+                                                        {{-- <a href="/mitem/{{ $item->id }}/edit"
                                                             class="btn btn-icon icon-left btn-primary disabled"><i
                                                                 class="far fa-edit"
                                                                 style="opacity: 0.6; pointer-events: none;">
+                                                                Edit</i></a> --}}
+                                                        <a href="/mitem/{{ $item->id }}/edit"
+                                                            class="btn btn-icon icon-left btn-primary"><i
+                                                                class="far fa-edit">
                                                                 Edit</i></a>
                                                         <form action="/mitem/delete/{{ $item->id }}"
                                                             id="del-{{ $item->id }}" method="POST" class="px-2">
