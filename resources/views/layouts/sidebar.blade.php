@@ -1,7 +1,7 @@
 <ul class="sidebar-menu">
     <li class="menu-header">MASTER</li>
     <li class="nav-item">
-        <a href="{{ route('homev2') }}" class="nav-link"><i class="fas fa-tachometer-alt"
+        <a href="{{ route('home') }}" class="nav-link"><i class="fas fa-tachometer-alt"
                 style="color:#6777ef;"></i><span>Dashboard</span></a>
     </li>
     <li class="nav-item dropdown">
