@@ -281,6 +281,9 @@ class ControllerLogin extends Controller
                 $request->session()->put('umitemcounter_print', $auth_umitemcounter->print);
             }            
             // dd(session()->all());
+            if (in_array($privilage, ['GUDANG', 'ADM'])) {
+                return redirect()->intended('/homev2');
+            }
             return redirect()->intended('/home');
         }
         return redirect()->back()->withInput($request->only('nik'))

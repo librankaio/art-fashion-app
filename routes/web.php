@@ -114,8 +114,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/mhakses/delete/{user}', [ControllerMasterHakAkses::class, 'delete'])->name('mhaksesdelete');
 
     // ---Transaksi---
-    // Route::get('home', [ControllerHome::class, 'index'])->name('home');
-    Route::get('home', [ControllerHomeV2::class, 'index'])->name('home');
+    Route::get('home', [ControllerHome::class, 'index'])->name('home');
+    Route::get('homev2', [ControllerHomeV2::class, 'index'])->name('homev2');
     Route::get('homev2/summary', [ControllerHomeV2::class, 'summary'])->name('homev2summary');
     Route::get('uploadsample', [ControllerUpload::class, 'index'])->name('uploadsample');
     Route::post('uploadpost', [ControllerUpload::class, 'uploadpost'])->name('uploadpost');
