@@ -15,11 +15,16 @@ class MitemsImport implements ToCollection,WithHeadingRow
     {
         foreach ($rows as $row) 
         {
-            $availcode = Mitem::where('code', '=', $row['code'])->first();
+            // Bersihkan code: hilangkan semua spasi (termasuk tab / non-breaking space)
+            $code = preg_replace('/\s+/u', '', (string) $row['code']);
+            if($code === ''){
+                continue;
+            }
+            $availcode = Mitem::where('code', '=', $code)->first();
             // dd($row);
             if($availcode == null){
-                $mitem = Mitem::create([  
-                    'code' => $row['code'],
+                $mitem = Mitem::create([
+                    'code' => $code,
                     'name' => $row['name'],
                     'warna' => $row['warna'],
                     'kategori' => $row['kategori'],
@@ -32,7 +37,6 @@ class MitemsImport implements ToCollection,WithHeadingRow
                     'spcprice' => $row['spcprice'],
                     'name_lbl' => $row['name_lbl'],
                 ]);
-                $code = $row['code'];
                 $name = $row['name'];
                 DB::insert( DB::raw("insert into mitems_counters (code_mitem, name_mitem, code_mcounters, name_mcounters, stock)
                 select '$code', '$name', code, name, 0 FROM mcounters"));
