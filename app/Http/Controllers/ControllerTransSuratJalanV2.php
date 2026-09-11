@@ -14,6 +14,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use App\Services\StockCounterService;
 
 class ControllerTransSuratJalanV2 extends Controller
 {
@@ -213,7 +214,7 @@ class ControllerTransSuratJalanV2 extends Controller
                 ]);
 
                 // Update stock di tabel Mitem
-                $codeItem = strtok($request->kode_d[$i], " ");
+                $codeItem = StockCounterService::normalizeCode($request->kode_d[$i]);
                 Mitem::where('code', $codeItem)
                     ->decrement('stock', $request->quantity_d[$i]);
 
@@ -224,7 +225,10 @@ class ControllerTransSuratJalanV2 extends Controller
                 //     ->decrement('stock', $request->quantity_d[$i]);
 
                 // Buat mutasi
-                $mcounter = Mcounter::where('name', $request->counter_from)->first();
+                $mcounter = StockCounterService::resolveCounter($request->counter_from);
+                if (!$mcounter) {
+                    throw new \Exception("Counter asal '{$request->counter_from}' tidak ditemukan di master lokasi.");
+                }
                 MutasiAF::create([
                     'code_mitem' => $codeItem,
                     'code_mcounters' => $mcounter->code,
@@ -443,7 +447,7 @@ class ControllerTransSuratJalanV2 extends Controller
                 $getstock_old = Tsj_d::where('id', request('id_d')[$x])->first();
 
                 if ($getstock_old){
-                    $code = strtok($getstock_old->code, " ");
+                    $code = StockCounterService::normalizeCode($getstock_old->code);
 
                     // $oldCounter = DB::table('mitems_counters')
                     //     ->where('code_mitem', $code)
@@ -505,13 +509,11 @@ class ControllerTransSuratJalanV2 extends Controller
                         'subtotal' => (float) str_replace(',', '', request('subtot_d')[$i]),
                     ]);
 
-                    $code = strtok(request('kode_d')[$i], " ");
+                    $code = StockCounterService::normalizeCode(request('kode_d')[$i]);
 
                     // update mitem stock
-                    $mitem = Mitem::where('code', $code)->first();
-                    $mitem->update([
-                        'stock' => $mitem->stock - request('quantity_d')[$i]
-                    ]);
+                    Mitem::where('code', $code)
+                        ->decrement('stock', (int) request('quantity_d')[$i]);
 
                     // update counter stock
                     // $counter = DB::table('mitems_counters')
@@ -624,20 +626,13 @@ class ControllerTransSuratJalanV2 extends Controller
 
             foreach ($suratjalan_detail as $suratjalan_old_item) {
 
-                // Ambil bagian kode sebelum spasi
-                $cleanCode = strtok($suratjalan_old_item->code, " ");
+                $cleanCode = StockCounterService::normalizeCode($suratjalan_old_item->code);
 
-                // + Tambah kembali ke stock MITEMS
-                $stock_mitem = Mitem::select('stock')
-                    ->where('code', $cleanCode)
-                    ->lockForUpdate() // hindari race condition
-                    ->first();
-
-                $stock_mitem_sum = $stock_mitem->stock + (int) $suratjalan_old_item->qty;
-
-                Mitem::where('code', $cleanCode)->update([
-                    'stock' => $stock_mitem_sum,
-                ]);
+                // + Tambah kembali ke stock MITEMS.
+                // increment() aman kalau kodenya tidak ketemu: nol baris
+                // terpengaruh, bukan fatal seperti versi lama.
+                Mitem::where('code', $cleanCode)
+                    ->increment('stock', (int) $suratjalan_old_item->qty);
 
                 // + Tambah kembali ke stock MITEMS_COUNTERS
                 // $stock_mitem_counter = DB::table('mitems_counters')
@@ -657,7 +652,10 @@ class ControllerTransSuratJalanV2 extends Controller
                 //     ]);
 
                 // Insert ke Mutasi
-                $mcounter = Mcounter::where('name', $tsjh->counter_from)->first();
+                $mcounter = StockCounterService::resolveCounter($tsjh->counter_from);
+                if (!$mcounter) {
+                    throw new \Exception("Counter asal '{$tsjh->counter_from}' tidak ditemukan di master lokasi.");
+                }
 
                 MutasiAF::create([
                     'code_mitem' => $cleanCode,

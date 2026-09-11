@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Contracts\DataTable;
 use Yajra\DataTables\DataTables as DataTables;
+use App\Services\StockCounterService;
 
 class ControllerMasterDataItem extends Controller
 {
@@ -47,7 +48,14 @@ class ControllerMasterDataItem extends Controller
     }
 
     public function post(Request $request){
-        $availcode = Mitem::where('code', '=', $request->kode)->first();
+        // Kode dinormalisasi memakai aturan yang sama dengan seluruh aplikasi,
+        // supaya baris mitems_counters yang dibuat di bawah bisa ditemukan lagi
+        // oleh controller transaksi.
+        $kode = StockCounterService::normalizeCode($request->kode);
+        if ($kode === '') {
+            return redirect()->back()->with('error', 'Kode item tidak boleh kosong');
+        }
+        $availcode = Mitem::where('code', '=', $kode)->first();
         $counter = session('counter');
         $nik = session('nik');
         if($availcode != null){
@@ -56,7 +64,7 @@ class ControllerMasterDataItem extends Controller
             Mitem::create([  
                 'name' => $request->nama,
                 'name_lbl' => $request->name_lbl,
-                'code' => $request->kode,
+                'code' => $kode,
                 'warna' => $request->warna,
                 'kategori' => $request->kategori,
                 'barcode' => $request->barcode,
@@ -71,7 +79,7 @@ class ControllerMasterDataItem extends Controller
             DB::insert(
                 "INSERT INTO mitems_counters (code_mitem, name_mitem, code_mcounters, name_mcounters, stock)
                 SELECT ?, ?, code, name, 0 FROM mcounters",
-                [$request->kode, $request->nama]
+                [$kode, $request->nama]
             );
             return redirect()->back()->with('success', 'Data berhasil ditambahkan');
         }
@@ -98,12 +106,18 @@ class ControllerMasterDataItem extends Controller
     }
 
     public function getstock(Request $request){
-        $kode = $request->kode;
-        $counter_asal = $request->counter_asal;
-        if($kode != '' && $counter_asal != ''){
-            $stock = MitemCounters::select('stock')->where('code_mitem','=',strtok($kode, " "))->where('name_mcounters','=',$counter_asal)->first();
+        // $stock dulu hanya di-assign di dalam if, sehingga request tanpa kode
+        // menghasilkan "Undefined variable $stock".
+        $kode = StockCounterService::normalizeCode($request->kode);
+        $counter = StockCounterService::resolveCounter($request->counter_asal);
+
+        if ($kode === '' || !$counter) {
+            return json_encode(['stock' => 0]);
         }
-        return json_encode($stock);
+
+        return json_encode([
+            'stock' => StockCounterService::currentStock($kode, $counter),
+        ]);
     }
 
     public function getpriceitem(Request $request){
@@ -119,8 +133,8 @@ class ControllerMasterDataItem extends Controller
     }
 
     public function update(Mitem $mitem){
-        $newKode  = request('kode');
-        $old_kode = request('old_kode');
+        $newKode  = StockCounterService::normalizeCode(request('kode'));
+        $old_kode = StockCounterService::normalizeCode(request('old_kode'));
 
         // Jika kode diubah tapi item sudah ada di transaksi → tolak
         if ($newKode !== $old_kode && $mitem->exist_trans === 'Y') {
@@ -168,18 +182,28 @@ class ControllerMasterDataItem extends Controller
     // }
 
     public function delete(Mitem $mitem){
-        $cleanCode = strtok($mitem->code, " ");
+        $cleanCode = StockCounterService::normalizeCode($mitem->code);
 
         // Cek di semua tabel transaksi (termasuk tstockopname_d yg pakai kolom kode_barang)
+        // Cocokkan kode utuh, atau kode yang diikuti spasi karena sebagian data
+        // lama menyimpan "KODE NAMA ITEM" di kolom yang sama. LIKE 'kode%'
+        // polos salah: item AF1 ikut cocok dengan baris milik AF10.
+        $usedIn = function ($model, $column) use ($cleanCode) {
+            return $model::where(function ($q) use ($column, $cleanCode) {
+                $q->where($column, $cleanCode)
+                  ->orWhere($column, 'like', $cleanCode . ' %');
+            })->exists();
+        };
+
         $existsInTrans =
-            Tadj_d::where('code', 'like', $cleanCode . '%')->exists()           ||
-            Tpembelian_d::where('code', 'like', $cleanCode . '%')->exists()      ||
-            Tpenjualan_d::where('code', 'like', $cleanCode . '%')->exists()      ||
-            Tretur_d::where('code', 'like', $cleanCode . '%')->exists()          ||
-            Tsob_d::where('code', 'like', $cleanCode . '%')->exists()            ||
-            Tsj_d::where('code', 'like', $cleanCode . '%')->exists()             ||
-            Tpenerimaan_d::where('code', 'like', $cleanCode . '%')->exists()     ||
-            Tstockopname_d::where('kode_barang', 'like', $cleanCode . '%')->exists();
+            $usedIn(Tadj_d::class, 'code')              ||
+            $usedIn(Tpembelian_d::class, 'code')        ||
+            $usedIn(Tpenjualan_d::class, 'code')        ||
+            $usedIn(Tretur_d::class, 'code')            ||
+            $usedIn(Tsob_d::class, 'code')              ||
+            $usedIn(Tsj_d::class, 'code')               ||
+            $usedIn(Tpenerimaan_d::class, 'code')       ||
+            $usedIn(Tstockopname_d::class, 'kode_barang');
 
         if ($existsInTrans) {
             // Pastikan flag konsisten
@@ -189,7 +213,9 @@ class ControllerMasterDataItem extends Controller
         }
 
         // Aman → hapus counter mapping dan item
-        DB::delete("DELETE FROM mitems_counters WHERE code_mitem LIKE ?", [$cleanCode . '%']);
+        // Dulu memakai LIKE 'kode%', sehingga menghapus item AF1 ikut
+        // menghapus baris counter milik AF10, AF11, AF123, dan seterusnya.
+        DB::delete("DELETE FROM mitems_counters WHERE code_mitem = ?", [$cleanCode]);
         $mitem->delete();
 
         return redirect()->route('mitem')

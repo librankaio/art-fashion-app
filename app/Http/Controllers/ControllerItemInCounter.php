@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Services\StockCounterService;
 
 class ControllerItemInCounter extends Controller
 {
@@ -20,7 +21,7 @@ class ControllerItemInCounter extends Controller
             $results = [];
         } else {
             $results = DB::table('vstockpercounter')
-                ->where('code_mitem', '=', strtok($kode_item, " "))
+                ->where('code_mitem', '=', StockCounterService::normalizeCode($kode_item))
                 ->get();
         }
 
@@ -34,7 +35,7 @@ class ControllerItemInCounter extends Controller
         $kode_item = $request->input('kode');
 
         $results = DB::table('vstockpercounter')
-            ->where('code_mitem', '=', strtok($kode_item, " "))
+            ->where('code_mitem', '=', StockCounterService::normalizeCode($kode_item))
             ->get();
 
         return view('pages.Print.Excel.ritemincounterexcl', compact('results', 'kode_item'));

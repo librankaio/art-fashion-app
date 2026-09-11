@@ -11,6 +11,7 @@ use App\Models\Tadj_h;
 use App\Services\MitemExistTransService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Services\StockCounterService;
 
 class ControllerTransAdjustmentStock extends Controller
 {
@@ -155,7 +156,11 @@ class ControllerTransAdjustmentStock extends Controller
             ]);
 
             $idh = $header->id;
-            $mcounter = Mcounter::where('name', $request->counter)->first();
+            $counter = StockCounterService::resolveCounter($request->counter);
+            if (!$counter) {
+                throw new \Exception("Counter '{$request->counter}' tidak ditemukan di master lokasi.");
+            }
+            $isPlus = ($request->jenis == 'Plus');
 
             // INSERT DETAIL & APPLY STOCK
             for ($i = 0; $i < sizeof($request->no_d); $i++) {
@@ -170,46 +175,19 @@ class ControllerTransAdjustmentStock extends Controller
                     'satuan' => $request->satuan_d[$i],
                 ]);
 
-                $code = strtok($request->kode_d[$i], " ");
+                $code = StockCounterService::normalizeCode($request->kode_d[$i]);
+                $qty  = (int) $request->quantity_d[$i];
 
-                $stock_mitem_counter = DB::table('mitems_counters')
-                    ->where('code_mitem', $code)
-                    ->where('name_mcounters', $request->counter)
-                    ->lockForUpdate() // ⬅️ cegah race condition (2 user update stok bersamaan)
-                    ->first();
-
-                if (!$stock_mitem_counter) {
-                    throw new \Exception("Stock counter tidak ditemukan");
+                if (!$isPlus && StockCounterService::currentStock($code, $counter) < $qty) {
+                    throw new \Exception("Stok tidak mencukupi untuk item $code !");
                 }
 
-                if ($request->jenis == 'Plus') {
-                    $new_stock = $stock_mitem_counter->stock + $request->quantity_d[$i];
-                    $mutasi_jenis = "PLUS";
-                } else {
-                    $new_stock = $stock_mitem_counter->stock - $request->quantity_d[$i];
-
-                    if ($new_stock < 0) {
-                        throw new \Exception("Stok tidak mencukupi untuk item $code !");
-                    }
-
-                    $mutasi_jenis = "MINUS";
-                }
-
-                DB::table('mitems_counters')
-                    ->where('code_mitem', $code)
-                    ->where('name_mcounters', $request->counter)
-                    ->update(['stock' => (int)$new_stock]);
-
-                // INSERT MUTASI
-                MutasiAF::create([
-                    'code_mitem' => $code,
-                    'code_mcounters' => $mcounter->code,
-                    'qty' => $request->quantity_d[$i],
-                    'notrans' => $no,
-                    'doctype' => "ADJUSTMENT",
-                    'jenis' => $mutasi_jenis,
-                    'action' => "CREATE",
-                    'user' => session('nik'),
+                StockCounterService::adjust($code, $counter, $isPlus ? $qty : -$qty, [
+                    'name_mitem' => $request->nama_item_d[$i],
+                    'notrans'    => $no,
+                    'doctype'    => 'ADJUSTMENT',
+                    'jenis'      => $isPlus ? 'PLUS' : 'MINUS',
+                    'action'     => 'CREATE',
                 ]);
 
                 // Insert item into existing in transaction
@@ -417,43 +395,43 @@ class ControllerTransAdjustmentStock extends Controller
     // }
     public function update(Tadj_h $tadjh)
     {
+        // Pembalikan memakai counter DAN jenis yang tersimpan di header.
+        // Versi sebelumnya memakai request('jenis'), sehingga mengubah Plus
+        // menjadi Minus saat edit membalik ke arah yang salah dan stok meleset
+        // dua kali qty.
+        $oldCounter = StockCounterService::resolveCounter($tadjh->counter);
+        $newCounter = StockCounterService::resolveCounter(request('counter'));
+
+        if (!$oldCounter || !$newCounter) {
+            return redirect()->route('tadjlist')
+                ->with('error', 'Counter tidak ditemukan di master lokasi.');
+        }
+
         DB::beginTransaction(); // ⬅️ mulai transaksi
 
         try {
 
             // REVERSE ADJ OLD DETAIL
-            for($x = 0; $x < sizeof(request('existdb_d')); $x++){
-                $getstock_old = Tadj_d::where('id', request('id_d')[$x])->first();
-                if (!$getstock_old) continue;
+            // Adjustment hanya menggerakkan stok counter, tidak pernah menyentuh
+            // mitems.stock, jadi pembalikannya juga tidak boleh menyentuhnya.
+            $oldDetails = Tadj_d::where('idh', $tadjh->id)
+                ->orWhere('no_adj', $tadjh->no)
+                ->get();
 
-                $code = strtok($getstock_old->code, " ");
-                $oldCounter = DB::table('mitems_counters')
-                    ->where('code_mitem', $code)
-                    ->where('name_mcounters', request('counter'))
-                    ->first();
+            $oldIsPlus = ($tadjh->jenis == 'Plus');
 
-                if (!$oldCounter) throw new \Exception("Stock counter tidak ditemukan!");
+            foreach ($oldDetails as $getstock_old) {
+                $code = StockCounterService::normalizeCode($getstock_old->code);
+                $qty  = (int) $getstock_old->qty;
 
-                if (request('jenis') == 'Plus'){
-                    // PLUS berarti sebelumnya stok bertambah → sekarang harus dikurangi
-                    $normalize_counter = $oldCounter->stock - (int)$getstock_old->qty;
-                    $normalize_mitem = Mitem::where('code', $code)->first()->stock - (int)$getstock_old->qty;
-                } else {
-                    // MINUS berarti sebelumnya stok berkurang → sekarang harus ditambah
-                    $normalize_counter = $oldCounter->stock + (int)$getstock_old->qty;
-                    $normalize_mitem = Mitem::where('code', $code)->first()->stock + (int)$getstock_old->qty;
-                }
-
-                DB::table('mitems_counters')
-                    ->where('code_mitem', $code)
-                    ->where('name_mcounters', request('counter'))
-                    ->update(['stock' => (int)$normalize_counter]);
-
-                Mitem::where('code', $code)->update(['stock' => (int)$normalize_mitem]);
-
-                if (request('deleted_item_d') == request('id_d')[$x]){
-                    Tadj_d::where('id', request('id_d')[$x])->delete();
-                }
+                // Plus berarti stok dulu bertambah, jadi sekarang dikurangi.
+                StockCounterService::adjust($code, $oldCounter, $oldIsPlus ? -$qty : $qty, [
+                    'name_mitem' => $getstock_old->name,
+                    'notrans'    => $tadjh->no,
+                    'doctype'    => 'ADJUSTMENT',
+                    'jenis'      => $oldIsPlus ? 'REVERSE-MINUS' : 'REVERSE-PLUS',
+                    'action'     => 'UPDATE',
+                ]);
             }
 
             // UPDATE HEADER
@@ -466,11 +444,15 @@ class ControllerTransAdjustmentStock extends Controller
             ]);
 
             // DELETE ALL OLD DETAIL
-            DB::table('tadj_ds')->where('no_adj', request('no'))->delete();
+            Tadj_d::where('idh', $tadjh->id)
+                ->orWhere('no_adj', $tadjh->no)
+                ->delete();
 
             // INSERT NEW DETAIL + APPLY STOCK
+            $newIsPlus = (request('jenis') == 'Plus');
+
             for ($i = 0; $i < sizeof(request('no_d')); $i++){
-                if(request('deleted_item_d')[$i] == request('id_d')[$i]) continue;
+                if((request('deleted_item_d')[$i] ?? null) == request('id_d')[$i]) continue;
 
                 Tadj_d::create([
                     'idh' => $tadjh->id,
@@ -482,38 +464,19 @@ class ControllerTransAdjustmentStock extends Controller
                     'satuan' => request('satuan_d')[$i],
                 ]);
 
-                $code = strtok(request('kode_d')[$i], " ");
-                $mcounter = Mcounter::where('name', request('counter'))->first();
+                $code = StockCounterService::normalizeCode(request('kode_d')[$i]);
+                $qty  = (int) request('quantity_d')[$i];
 
-                $stockCounter = DB::table('mitems_counters')
-                    ->where('code_mitem', $code)
-                    ->where('name_mcounters', request('counter'))
-                    ->first();
-
-                if (!$stockCounter) throw new \Exception("Stock counter tidak ditemukan!");
-
-                if (request('jenis') == 'Plus'){
-                    $new_counter_stock = $stockCounter->stock + request('quantity_d')[$i];
-                    $mutasi_jenis = "ADJUST-PLUS";
-                } else {
-                    $new_counter_stock = $stockCounter->stock - request('quantity_d')[$i];
-                    $mutasi_jenis = "ADJUST-MINUS";
+                if (!$newIsPlus && StockCounterService::currentStock($code, $newCounter) < $qty) {
+                    throw new \Exception("Stok tidak mencukupi untuk item $code !");
                 }
 
-                DB::table('mitems_counters')
-                    ->where('code_mitem', $code)
-                    ->where('name_mcounters', request('counter'))
-                    ->update(['stock' => (int)$new_counter_stock]);
-
-                MutasiAF::create([
-                    'code_mitem' => $code,
-                    'code_mcounters' => $mcounter->code,
-                    'qty' => request('quantity_d')[$i],
-                    'notrans' => request('no'),
-                    'doctype' => "ADJUSTMENT",
-                    'jenis' => $mutasi_jenis,
-                    'action' => "UPDATE",
-                    'user' => session('nik'),
+                StockCounterService::adjust($code, $newCounter, $newIsPlus ? $qty : -$qty, [
+                    'name_mitem' => request('nama_item_d')[$i],
+                    'notrans'    => request('no'),
+                    'doctype'    => 'ADJUSTMENT',
+                    'jenis'      => $newIsPlus ? 'ADJUST-PLUS' : 'ADJUST-MINUS',
+                    'action'     => 'UPDATE',
                 ]);
 
                 // Insert item into existing in transaction
@@ -531,10 +494,9 @@ class ControllerTransAdjustmentStock extends Controller
             DB::rollBack(); // ⬅️ kalau error → batal semua
 
             return redirect()->route('tadjlist')
-                ->with('error', 'Update gagal / koneksi jelek! Semua perubahan dibatalkan.');
+                ->with('error', 'Update gagal: ' . $err->getMessage());
         }
     }
-
     // public function delete(Tadj_h $tadjh){
     //     $tadj_length = Tadj_d::where('idh', '=', $tadjh->id)->get();
     //     if ($tadjh->jenis == 'Plus'){
@@ -628,76 +590,55 @@ class ControllerTransAdjustmentStock extends Controller
     // }
     public function delete(Tadj_h $tadjh)
     {
+        $counter = StockCounterService::resolveCounter($tadjh->counter);
+        if (!$counter) {
+            return redirect()->route('tadjlist')
+                ->with('error', 'Counter transaksi tidak ditemukan di master lokasi.');
+        }
+
         DB::beginTransaction(); // ⬅️ mulai transaksi
 
         try {
 
             $tadj_length = Tadj_d::where('idh', $tadjh->id)
-                ->lockForUpdate() // ⬅️ cegah stok berubah oleh transaksi lain
+                ->orWhere('no_adj', $tadjh->no)
                 ->get();
+
+            $isPlus = ($tadjh->jenis === 'Plus');
 
             foreach ($tadj_length as $row) {
 
-                $getstock_old = $row;
-                $codeItem = strtok($row->code, " ");
+                $codeItem = StockCounterService::normalizeCode($row->code);
+                $qty      = (int) $row->qty;
 
-                // ambil stok counter
-                $old_stock_mitem_counter = DB::table('mitems_counters')
-                    ->where('code_mitem', $codeItem)
-                    ->where('name_mcounters', $tadjh->counter)
-                    ->lockForUpdate()
-                    ->first();
-
-                // ambil stok mitem
-                $stock_mitem_old = Mitem::where('code', $codeItem)
-                    ->lockForUpdate()
-                    ->first();
-
-                if ($tadjh->jenis === 'Plus') {
-                    // Adjustment PLUS → delete berarti stok harus dikurangi
-                    $normalize_stock_counter = $old_stock_mitem_counter->stock - $getstock_old->qty;
-                    $normalize_stock_mitem   = $stock_mitem_old->stock - $getstock_old->qty;
-                    $jenis_mutasi = "ADJUSTMENT-MINUS";
-
-                } else { // jenis MINUS
-                    // Adjustment MINUS → delete berarti stok harus dikembalikan (ditambah)
-                    $normalize_stock_counter = $old_stock_mitem_counter->stock + $getstock_old->qty;
-                    $normalize_stock_mitem   = $stock_mitem_old->stock + $getstock_old->qty;
-                    $jenis_mutasi = "ADJUSTMENT-PLUS";
-                }
-
-                // Update stok counter
-                DB::table('mitems_counters')
-                    ->where('code_mitem', $codeItem)
-                    ->where('name_mcounters', $tadjh->counter)
-                    ->update(['stock' => (int) $normalize_stock_counter]);
-
-                // Update stok mitem
-                Mitem::where('code', $codeItem)
-                    ->update(['stock' => (int) $normalize_stock_mitem]);
-
-                // Insert mutasi
-                $mcounter = Mcounter::where('name', $tadjh->counter)->first();
-                MutasiAF::create([
-                    'code_mitem' => $codeItem,
-                    'code_mcounters' => $mcounter->code,
-                    'qty' => $getstock_old->qty,
-                    'notrans' => $tadjh->no,
-                    'doctype' => "ADJUSTMENT",
-                    'jenis' => $jenis_mutasi,
-                    'action' => "DELETE",
-                    'user' => session('nik'),
+                // Adjustment PLUS berarti stok dulu bertambah, jadi menghapusnya
+                // harus mengurangi lagi. MINUS berlaku sebaliknya.
+                // Adjustment tidak pernah menyentuh mitems.stock saat dibuat,
+                // jadi penghapusannya juga tidak boleh menyentuhnya.
+                StockCounterService::adjust($codeItem, $counter, $isPlus ? -$qty : $qty, [
+                    'name_mitem' => $row->name,
+                    'notrans'    => $tadjh->no,
+                    'doctype'    => 'ADJUSTMENT',
+                    'jenis'      => $isPlus ? 'ADJUSTMENT-MINUS' : 'ADJUSTMENT-PLUS',
+                    'action'     => 'DELETE',
                 ]);
             }
 
-            // Delete header & detail
-            Tadj_d::where('idh', $tadjh->id)->delete();
-            Tadj_h::find($tadjh->id)->delete();
+            $affected_kodes = $tadj_length
+                ->map(fn($r) => StockCounterService::normalizeCode($r->code))
+                ->toArray();
 
-            // Recheck exist_trans untuk semua item yang terdampak
-            MitemExistTransService::recheckMany($tadj_length->map(fn($r) => strtok($r->code, " "))->toArray());
+            // Delete header & detail
+            Tadj_d::where('idh', $tadjh->id)
+                ->orWhere('no_adj', $tadjh->no)
+                ->delete();
+            Tadj_h::where('id', $tadjh->id)->delete();
 
             DB::commit(); // ⬅️ success
+
+            // Recheck exist_trans untuk semua item yang terdampak
+            MitemExistTransService::recheckMany($affected_kodes);
+
             return redirect()->route('tadjlist')->with('success', 'Data berhasil dihapus');
 
         } catch (\Throwable $th) {

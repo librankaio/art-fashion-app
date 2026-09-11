@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mcounter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Services\StockCounterService;
 
 class ControllerReportStockCounter extends Controller
 {
@@ -29,7 +30,7 @@ class ControllerReportStockCounter extends Controller
         }
 
         if ($kode_item != ''){
-            $query->where('code_mitem','=',strtok($kode_item, " "));
+            $query->where('code_mitem','=',StockCounterService::normalizeCode($kode_item));
         }
 
         if ($search) {
@@ -45,7 +46,7 @@ class ControllerReportStockCounter extends Controller
         }
 
         if ($kode_item != ''){
-            $total_stock_query->where('code_mitem','=',strtok($kode_item, " "));
+            $total_stock_query->where('code_mitem','=',StockCounterService::normalizeCode($kode_item));
         }
 
         if ($search) {
@@ -78,7 +79,7 @@ class ControllerReportStockCounter extends Controller
         }
 
         if ($kode_item != ''){
-            $query->where('code_mitem','=',strtok($kode_item, " "));
+            $query->where('code_mitem','=',StockCounterService::normalizeCode($kode_item));
         }
 
         if ($search) {

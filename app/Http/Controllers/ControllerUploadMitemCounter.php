@@ -13,11 +13,20 @@ class ControllerUploadMitemCounter extends Controller
     }
 
     public function uploadpost(Request $request){
-        // dd($request->all());
-        Excel::import(new MitemCountersImport, $request->file_upload);
+        $import = new MitemCountersImport;
+        Excel::import($import, $request->file_upload);
 
-        // Excel::toCollection(new MitemCountersImport, $request->file_upload);
+        // Jangan lagi selalu bilang sukses: dulu baris yang tidak cocok
+        // diam-diam tidak melakukan apa-apa tapi user tetap melihat
+        // "Imported Successfully".
+        $msg = "Stock counter diupdate: {$import->applied} baris.";
+        if ($import->skipped > 0) {
+            $msg .= " Dilewati: {$import->skipped} baris.";
+            return redirect()->route('uploadmitemcounter')
+                ->with('error', $msg)
+                ->with('import_errors', array_slice($import->errors, 0, 50));
+        }
 
-        return redirect()->route('uploadmitemcounter')->with('success', 'Mitem Counter Imported Successfully');
+        return redirect()->route('uploadmitemcounter')->with('success', $msg);
     }
 }

@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Mcounter;
 use App\Models\Mitem;
-use App\Models\MitemCounters;
-use App\Models\MutasiAF;
 use App\Models\Tpenerimaan_d;
 use App\Models\Tpenerimaan_h;
 use App\Models\Tsj_d;
@@ -13,6 +11,7 @@ use App\Models\Tsj_h;
 use App\Services\MitemExistTransService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Services\StockCounterService;
 
 class ControllerTransPenerimaanBrg extends Controller
 { 
@@ -40,15 +39,28 @@ class ControllerTransPenerimaanBrg extends Controller
     }
 
     public function post(Request $request){
-        // dd($request->all());
-        $notrans = DB::select("select fgetcode('tpenerimaan') as codetrans");
-
-        foreach($notrans as $notran){
-            $no = $notran->codetrans;
+        // Satu counter untuk seluruh transaksi. Versi sebelumnya mencari baris
+        // dengan $request->counter tapi membuatnya dengan session('counter'),
+        // sehingga baris baru tidak pernah ketemu lagi dan duplikat menumpuk.
+        $counter = StockCounterService::resolveCounter($request->counter);
+        if (!$counter) {
+            return redirect()->back()->with('error', 'Counter tidak ditemukan di master lokasi.');
         }
-        $checkexist = Tpenerimaan_h::select('id','no')->where('no','=', $no)->first();
-        if($checkexist == null){
-            Tpenerimaan_h::create([
+
+        DB::beginTransaction();
+
+        try {
+            $notrans = DB::select("select fgetcode('tpenerimaan') as codetrans");
+            foreach($notrans as $notran){
+                $no = $notran->codetrans;
+            }
+
+            if (Tpenerimaan_h::where('no', $no)->exists()) {
+                DB::rollBack();
+                return redirect()->back()->with('error', 'Nomor transaksi sudah ada!');
+            }
+
+            $header = Tpenerimaan_h::create([
                 'no' => $no,
                 'no_sj' => $request->nosj,
                 'counter' => $request->counter,
@@ -57,13 +69,8 @@ class ControllerTransPenerimaanBrg extends Controller
                 'jenis' => $request->jenis,
                 'grdtotal' => (float) str_replace(',', '', $request->price_total),
             ]);
-            $idh_loop = Tpenerimaan_h::select('id')->where('no','=',$no)->get();
-            for($j=0; $j<sizeof($idh_loop); $j++){
-                $idh = $idh_loop[$j]->id;
-            }
-    
-            $countrows = sizeof($request->no_d);
-            $count=0;
+            $idh = $header->id;
+
             for ($i=0;$i<sizeof($request->no_d);$i++){
                 Tpenerimaan_d::create([
                     'idh' => $idh,
@@ -77,67 +84,36 @@ class ControllerTransPenerimaanBrg extends Controller
                     'keterangan' => $request->keterangan_d[$i],
                     'subtotal' => (float)    str_replace(',', '', $request->subtot_d[$i]),
                 ]);
-                $stock_mitem = Mitem::select('stock')->where('code', '=', strtok($request->kode_d[$i], " "))->first();
-                $stock_sum = $stock_mitem->stock+$request->quantity_d[$i];
-                Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
-                    'stock' => (int)$stock_sum,
-                ]);
-                $stock_mitem_counter = DB::table('mitems_counters')
-                ->selectRaw('stock')
-                ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                ->where('name_mcounters', '=', $request->counter)
-                ->first();
-                $mcounter = Mcounter::where('name', '=', session('counter'))->first();
-                if ($stock_mitem_counter == null) {
-                    $stock_mitem_counter = 0;
-                    $stock_counter_sum = $stock_mitem_counter+$request->quantity_d[$i];
-                    date_default_timezone_set('Asia/Jakarta');
-                    $datetime = date('d-m-Y H:i:s');
-                    MitemCounters::create([
-                        'code_mitem' => strtok($request->kode_d[$i], " "),
-                        'name_mitem' => $request->nama_item_d[$i],
-                        'code_mcounters' => $mcounter->code,
-                        'name_mcounters' => session('counter'),
-                        'stock' => $stock_counter_sum,
-                        'datein' => $datetime,
-                    ]);
-                }else{
-                    // dd($stock_mitem_counter);
-                    $stock_counter_sum = $stock_mitem_counter->stock+$request->quantity_d[$i];
-                    DB::table('mitems_counters')
-                    ->selectRaw('stock')
-                    ->where('code_mitem', '=', strtok($request->kode_d[$i], " "))
-                    ->where('name_mcounters', '=', $request->counter)
-                    ->update([
-                        'stock' => (int)$stock_counter_sum,
-                    ]);
 
-                    $mcounter = Mcounter::where('name', '=', $request->counter)->first();
-                    MutasiAF::create([  
-                        'code_mitem' => strtok($request->kode_d[$i], " "),
-                        'code_mcounters' => $mcounter->code,
-                        'qty' => $request->quantity_d[$i],
-                        'notrans' => $request->no,
-                        'doctype' => "PENERIMAAN",
-                        'jenis' => "PLUS",
-                        'action' => "CREATE",
-                        'user' => session('nik'),
-                    ]);
-                }
+                $code = StockCounterService::normalizeCode($request->kode_d[$i]);
+                $qty  = (int) $request->quantity_d[$i];
+
+                Mitem::where('code', $code)->increment('stock', $qty);
+
+                StockCounterService::adjust($code, $counter, $qty, [
+                    'name_mitem' => $request->nama_item_d[$i],
+                    'notrans'    => $request->no,
+                    'doctype'    => 'PENERIMAAN',
+                    'jenis'      => 'PLUS',
+                    'action'     => 'CREATE',
+                ]);
+
                 // Insert item into existing in transaction
-                Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
+                Mitem::where('code', $code)->update([
                     'exist_trans' => "Y",
                 ]);
-                $count++;
             }
+
             Tsj_h::where('no', '=', $request->nosj)->update([
                 'exist_penerimaan' => "Y",
             ]);
-            if($count == $countrows){
-                return redirect()->back();
-            }
+
+            DB::commit();
+            return redirect()->back()->with('success', 'Data berhasil ditambahkan');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Gagal menyimpan penerimaan: ' . $th->getMessage());
         }
-        return redirect()->back();
     }
 
     public function  getmitem(Request $request){
@@ -207,185 +183,152 @@ class ControllerTransPenerimaanBrg extends Controller
     }
 
     public function update(Tpenerimaan_h $tpenerimaanh){
-        // dd(request()->all());
+        // Counter lama dari header, counter baru dari form.
+        $oldCounter = StockCounterService::resolveCounter($tpenerimaanh->counter);
+        $newCounter = StockCounterService::resolveCounter(request('counter'));
 
-        for($x=0;$x<sizeof(request('existdb_d'));$x++){
-            $getstock_old = Tpenerimaan_d::where('id', '=', request('id_d')[$x])->first();
-            if ($getstock_old != null){
-                // dd($getstock_old);
-                // dd((int)$getstock_old->qty);
-                // dd($getstock_old->code);
-                $old_stock_mitem_counter = DB::table('mitems_counters')
-                ->selectRaw('stock')
-                ->where('code_mitem', '=', strtok($getstock_old->code, " "))
-                ->where('name_mcounters', '=', request('counter'))
-                ->first();
-                // dd($old_stock_mitem_counter->stock-(int)$getstock_old->qty);
-                // Make stock counter value is equal to old stock
-                // $getstock_old->qty is pembelian_d stock value
-                $normalize_stock_counter = $old_stock_mitem_counter->stock-(int)$getstock_old->qty;
-                // dd($normalize_stock_counter);
-                DB::table('mitems_counters')
-                ->selectRaw('stock')
-                ->where('code_mitem', '=', strtok($getstock_old->code, " "))
-                ->where('name_mcounters', '=', request('counter'))
-                ->update([
-                    'stock' => (int)$normalize_stock_counter,
+        if (!$oldCounter || !$newCounter) {
+            return redirect()->route('tpenerimaanbrglist')
+                ->with('error', 'Counter tidak ditemukan di master lokasi.');
+        }
+
+        DB::beginTransaction();
+
+        try {
+            // 1. Balikkan efek stok transaksi lama ke counter ASAL.
+            $oldDetails = Tpenerimaan_d::where('idh', $tpenerimaanh->id)
+                ->orWhere('no_penerimaan', $tpenerimaanh->no)
+                ->get();
+
+            $affected_kodes = [];
+            foreach ($oldDetails as $old) {
+                $code = StockCounterService::normalizeCode($old->code);
+                $qty  = (int) $old->qty;
+                $affected_kodes[] = $code;
+
+                Mitem::where('code', $code)->decrement('stock', $qty);
+
+                StockCounterService::adjust($code, $oldCounter, -$qty, [
+                    'name_mitem' => $old->name,
+                    'notrans'    => $tpenerimaanh->no,
+                    'doctype'    => 'PENERIMAAN',
+                    'jenis'      => 'ADJUST-MINUS',
+                    'action'     => 'UPDATE',
                 ]);
-
-                $stock_mitem_old = Mitem::select('stock')->where('code', '=', strtok($getstock_old->code, " "))->first();
-                // Make stock mitem value is equal to mitem old stock
-                // dd($stock_mitem_old->stock - (int)$getstock_old->qty);
-                $normalize_stock_mitem = $stock_mitem_old->stock - (int)$getstock_old->qty;
-                Mitem::where('code', '=', strtok($getstock_old->code, " "))->update([
-                    'stock' => (int)$normalize_stock_mitem,
-                ]);
-
-                if(request('deleted_item_d') == request('id_d')[$x]){
-                    Tpenerimaan_d::where('id','=',request('id_d')[$x])->delete();
-                }
             }
-        }
 
-        for($j=0;$j<sizeof(request('no_d'));$j++){
-            $no_penerimaanh = request('no');
-        }
-        DB::delete('delete from tpenerimaan_ds where no_penerimaan = ?', [$no_penerimaanh] );
-        Tpenerimaan_h::where('id', '=', $tpenerimaanh->id)->update([
-            'no' => request('no'),
-            'no_sj' => request('nosj'),
-            'counter' => request('counter'),
-            'tgl' => request('dt'),
-            'note' => request('note'),
-            'jenis' => request('jenis'),
-            'grdtotal' => (float) str_replace(',', '', request('price_total')) 
-        ]);
+            // 2. Ganti detail lama dan simpan header versi baru.
+            Tpenerimaan_d::where('idh', $tpenerimaanh->id)
+                ->orWhere('no_penerimaan', $tpenerimaanh->no)
+                ->delete();
 
-        $count=0;
-        $countrows = sizeof(request('no_d'));
-        for ($i=0;$i<sizeof(request('no_d'));$i++){
-            if(request('deleted_item_d')[$i] != request('id_d')[$i]){
-                Tpenerimaan_d::create([
-                    'idh' => $tpenerimaanh->id,
-                    'no_penerimaan' => request('no'),
-                    'code' =>  request('kode_d')[$i],
-                    'name' =>  request('nama_item_d')[$i],
-                    'warna' =>  request('warna_d')[$i],
-                    'qty' =>  request('quantity_d')[$i],
-                    'satuan' => request('satuan_d')[$i],
-                    'hrgjual' => (float) str_replace(',', '', request('hrgjual_d')[$i]),
-                    'keterangan' => request('keterangan_d')[$i],
-                    'subtotal' => (float) str_replace(',', '', request('subtot_d')[$i]),
-                ]);
-                $stock_mitem = Mitem::select('stock')->where('code', '=', strtok(request('kode_d')[$i], " "))->first();
-                $stock_sum = $stock_mitem->stock+request('quantity_d')[$i];
-                Mitem::where('code', '=', strtok(request('kode_d')[$i], " "))->update([
-                    'stock' => (int)$stock_sum,
-                ]);
-                $stock_mitem_counter = DB::table('mitems_counters')
-                ->selectRaw('stock')
-                ->where('code_mitem', '=', strtok(request('kode_d')[$i], " "))
-                ->where('name_mcounters', '=', request('counter'))
-                ->first();
+            Tpenerimaan_h::where('id', '=', $tpenerimaanh->id)->update([
+                'no' => request('no'),
+                'no_sj' => request('nosj'),
+                'counter' => request('counter'),
+                'tgl' => request('dt'),
+                'note' => request('note'),
+                'jenis' => request('jenis'),
+                'grdtotal' => (float) str_replace(',', '', request('price_total'))
+            ]);
 
-                $mcounter = Mcounter::where('name', '=', request('counter'))->first();
+            // 3. Terapkan stok versi baru ke counter dari form.
+            for ($i=0;$i<sizeof(request('no_d'));$i++){
+                if((request('deleted_item_d')[$i] ?? null) != request('id_d')[$i]){
+                    Tpenerimaan_d::create([
+                        'idh' => $tpenerimaanh->id,
+                        'no_penerimaan' => request('no'),
+                        'code' =>  request('kode_d')[$i],
+                        'name' =>  request('nama_item_d')[$i],
+                        'warna' =>  request('warna_d')[$i],
+                        'qty' =>  request('quantity_d')[$i],
+                        'satuan' => request('satuan_d')[$i],
+                        'hrgjual' => (float) str_replace(',', '', request('hrgjual_d')[$i]),
+                        'keterangan' => request('keterangan_d')[$i],
+                        'subtotal' => (float) str_replace(',', '', request('subtot_d')[$i]),
+                    ]);
 
-                if ($stock_mitem_counter == null) {
-                    $stock_mitem_counter = 0;
-                    $stock_counter_sum = $stock_mitem_counter + request('quantity_d')[$i];
-                    date_default_timezone_set('Asia/Jakarta');
-                    $datetime = date('d-m-Y H:i:s');
-                    MitemCounters::create([
-                        'code_mitem' => strtok(request('kode_d')[$i], " "),
+                    $code = StockCounterService::normalizeCode(request('kode_d')[$i]);
+                    $qty  = (int) request('quantity_d')[$i];
+                    $affected_kodes[] = $code;
+
+                    Mitem::where('code', $code)->increment('stock', $qty);
+
+                    StockCounterService::adjust($code, $newCounter, $qty, [
                         'name_mitem' => request('nama_item_d')[$i],
-                        'code_mcounters' => $mcounter->code,
-                        'name_mcounters' => request('counter'),
-                        'stock' => $stock_counter_sum,
-                        'datein' => $datetime,
-                    ]);
-                }else{
-                    $stock_counter_sum = $stock_mitem_counter->stock +request('quantity_d')[$i];
-                    DB::table('mitems_counters')
-                    ->selectRaw('stock')
-                    ->where('code_mitem', '=', strtok(request('kode_d')[$i], " "))
-                    ->where('name_mcounters', '=', request('counter'))
-                    ->update([
-                        'stock' => (int)$stock_counter_sum,
+                        'notrans'    => request('no'),
+                        'doctype'    => 'PENERIMAAN',
+                        'jenis'      => 'ADJUST-PLUS',
+                        'action'     => 'UPDATE',
                     ]);
 
-                    $mcounter = Mcounter::where('name', '=', request('counter'))->first();
-                    MutasiAF::create([  
-                        'code_mitem' => strtok(request('kode_d')[$i], " "),
-                        'code_mcounters' => $mcounter->code,
-                        'qty' => request('quantity_d')[$i],
-                        'notrans' => request('no'),
-                        'doctype' => "PENERIMAAN",
-                        'jenis' => "ADJUST",
-                        'action' => "UPDATE",
-                        'user' => session('nik'),
+                    // Insert item into existing in transaction
+                    Mitem::where('code', $code)->update([
+                        'exist_trans' => "Y",
                     ]);
                 }
-                // Insert item into existing in transaction
-                Mitem::where('code', '=', strtok(request('kode_d')[$i], " "))->update([
-                    'exist_trans' => "Y",
-                ]);
-                // dd($stock_mitem_counter);
-                $count++;
             }
+
+            DB::commit();
+
+            MitemExistTransService::recheckMany($affected_kodes);
+
+            return redirect()->route('tpenerimaanbrglist')->with('success', 'Data berhasil diupdate');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->route('tpenerimaanbrglist')
+                ->with('error', 'Gagal mengupdate penerimaan: ' . $th->getMessage());
         }
-        return redirect()->route('tpenerimaanbrglist');
-        // if($count == $countrows){
-        //     return redirect()->route('tpenerimaanbrglist');
-        // }
     }
 
     public function delete(Tpenerimaan_h $tpenerimaanh){
-        $penerimaan_detail = Tpenerimaan_d::where('idh','=',$tpenerimaanh->id)->get();
-        // Kumpulkan semua kode SEBELUM delete
-        $affected_kodes = $penerimaan_detail->map(fn($d) => strtok($d->code, " "))->toArray();
-        foreach($penerimaan_detail as $penerimaan_old_item){
-            // Mins a value from the old stock in mitems_counters table
-            $stock_mitem_counter = DB::table('mitems_counters')
-            ->selectRaw('stock')
-            ->where('code_mitem', '=', strtok($penerimaan_old_item->code, " "))
-            ->where('name_mcounters', '=', $tpenerimaanh->counter)
-            ->first();
-            // dd($stock_mitem_counter);
-            $stock_mitem_counter_min = $stock_mitem_counter->stock - (int)$penerimaan_old_item->qty;
-            // dd($stock_mitem_counter_min);
-            DB::table('mitems_counters')
-            ->selectRaw('stock')
-            ->where('code_mitem', '=', strtok($penerimaan_old_item->code, " "))
-            ->where('name_mcounters', '=', $tpenerimaanh->counter)
-            ->update([
-                'stock' => (int)$stock_mitem_counter_min,
-            ]);
-
-            $mcounter = Mcounter::where('name', '=', $tpenerimaanh->counter)->first();
-
-            MutasiAF::create([  
-                'code_mitem' => strtok($penerimaan_old_item->code, " "),
-                'code_mcounters' => $mcounter->code,
-                'qty' => (int)$penerimaan_old_item->qty,
-                'notrans' => $tpenerimaanh->no,
-                'doctype' => "PENERIMAAN",
-                'jenis' => "MINUS",
-                'action' => "DELETE",
-                'user' => session('nik'),
-            ]);
+        $counter = StockCounterService::resolveCounter($tpenerimaanh->counter);
+        if (!$counter) {
+            return redirect()->route('tpenerimaanbrglist')
+                ->with('error', 'Counter transaksi tidak ditemukan di master lokasi.');
         }
 
-        $tpenerimaan = Tpenerimaan_h::where('id','=',$tpenerimaanh->id)->first();
-        $tsjh = Tsj_h::where('no', '=', $tpenerimaan->no_sj)->first();
-        Tsj_h::where('no', '=', $tpenerimaan->no_sj)->update([
-            'exist_penerimaan' => NULL,
-        ]);
-        Tpenerimaan_h::where('id','=',$tpenerimaanh->id)->delete();
-        Tpenerimaan_d::where('idh','=',$tpenerimaanh->id)->delete();
+        DB::beginTransaction();
 
-        // Recheck exist_trans untuk semua item yang terdampak
-        MitemExistTransService::recheckMany($affected_kodes);
+        try {
+            $penerimaan_detail = Tpenerimaan_d::where('idh','=',$tpenerimaanh->id)->get();
+            // Kumpulkan semua kode SEBELUM delete
+            $affected_kodes = $penerimaan_detail
+                ->map(fn($d) => StockCounterService::normalizeCode($d->code))
+                ->toArray();
 
-        return redirect()->route('tpenerimaanbrglist');
+            foreach($penerimaan_detail as $penerimaan_old_item){
+                $code = StockCounterService::normalizeCode($penerimaan_old_item->code);
+                $qty  = (int) $penerimaan_old_item->qty;
+
+                Mitem::where('code', $code)->decrement('stock', $qty);
+
+                StockCounterService::adjust($code, $counter, -$qty, [
+                    'name_mitem' => $penerimaan_old_item->name,
+                    'notrans'    => $tpenerimaanh->no,
+                    'doctype'    => 'PENERIMAAN',
+                    'jenis'      => 'MINUS',
+                    'action'     => 'DELETE',
+                ]);
+            }
+
+            $tpenerimaan = Tpenerimaan_h::where('id','=',$tpenerimaanh->id)->first();
+            Tsj_h::where('no', '=', $tpenerimaan->no_sj)->update([
+                'exist_penerimaan' => NULL,
+            ]);
+            Tpenerimaan_d::where('idh','=',$tpenerimaanh->id)->delete();
+            Tpenerimaan_h::where('id','=',$tpenerimaanh->id)->delete();
+
+            DB::commit();
+
+            // Recheck exist_trans untuk semua item yang terdampak
+            MitemExistTransService::recheckMany($affected_kodes);
+
+            return redirect()->route('tpenerimaanbrglist')->with('success', 'Data berhasil dihapus');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->route('tpenerimaanbrglist')
+                ->with('error', 'Gagal menghapus penerimaan: ' . $th->getMessage());
+        }
     }
 }

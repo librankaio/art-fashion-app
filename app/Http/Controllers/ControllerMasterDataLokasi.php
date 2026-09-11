@@ -28,8 +28,15 @@ class ControllerMasterDataLokasi extends Controller
                 'alamat' => $request->alamat,
                 'initial' => $request->initial,
             ]);
-            DB::insert( DB::raw("insert into mitems_counters (code_mitem, name_mitem, code_mcounters, name_mcounters, stock)
-            select code, name, '$request->code', '$request->name', 0 FROM mitems"));
+            // Nilai di-bind, tidak lagi ditempel ke string SQL. Nama counter
+            // yang mengandung apostrof (mis. "CITRUS D'MALL DEPOK") dulu
+            // membuat query ini syntax error, sehingga seeding puluhan ribu
+            // baris mitems_counters gagal diam-diam dan counter itu jadi bolong.
+            DB::insert(
+                "INSERT INTO mitems_counters (code_mitem, name_mitem, code_mcounters, name_mcounters, stock)
+                 SELECT code, name, ?, ?, 0 FROM mitems",
+                [$request->code, $request->name]
+            );
             return redirect()->back()->with('success', 'Data berhasil ditambahkan');
         }
     }
@@ -46,19 +53,21 @@ class ControllerMasterDataLokasi extends Controller
             'initial' => request('initial'),
         ]);
         $code = request('code');
-        $name = request('name'); 
-        DB::update( DB::raw("UPDATE mitems_counters set code_mcounters = '$code', name_mcounters = '$name' WHERE code_mcounters = '$mcounter->code'"));
+        $name = request('name');
+        DB::update(
+            "UPDATE mitems_counters SET code_mcounters = ?, name_mcounters = ? WHERE code_mcounters = ?",
+            [$code, $name, $mcounter->code]
+        );
 
         return redirect()->route('mlokasi')->with('success', 'Data berhasil di update');
     }
 
     public function delete(Mcounter $mcounter){
-        dd($mcounter);
         if($mcounter->code == 'HO' || $mcounter->code == 'HO2'){
             return redirect()->back()->with('error', 'HO / HO2 Tidak dapat dihapus!');
         }
-        Mcounter::find($mcounter->id)->delete();
-        DB::delete( DB::raw("DELETE FROM mitems_counters WHERE code_mcounters = '$mcounter->code'"));
+        Mcounter::where('id', $mcounter->id)->delete();
+        DB::delete("DELETE FROM mitems_counters WHERE code_mcounters = ?", [$mcounter->code]);
         return redirect()->route('mlokasi')->with('success', 'Data berhasil di hapus');
     }
 

@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Mitem;
+use App\Services\StockCounterService;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Illuminate\Support\Collection;
@@ -15,8 +16,10 @@ class MitemsImport implements ToCollection,WithHeadingRow
     {
         foreach ($rows as $row) 
         {
-            // Bersihkan code: hilangkan semua spasi (termasuk tab / non-breaking space)
-            $code = preg_replace('/\s+/u', '', (string) $row['code']);
+            // Normalisasi kode memakai aturan yang sama dengan seluruh aplikasi.
+            // Dulu semua spasi dibuang, sementara controller transaksi memotong
+            // di spasi pertama, jadi kedua sisi tidak pernah cocok.
+            $code = StockCounterService::normalizeCode($row['code'] ?? null);
             if($code === ''){
                 continue;
             }
@@ -37,9 +40,13 @@ class MitemsImport implements ToCollection,WithHeadingRow
                     'spcprice' => $row['spcprice'],
                     'name_lbl' => $row['name_lbl'],
                 ]);
-                $name = $row['name'];
-                DB::insert( DB::raw("insert into mitems_counters (code_mitem, name_mitem, code_mcounters, name_mcounters, stock)
-                select '$code', '$name', code, name, 0 FROM mcounters"));
+                // Nilai di-bind. Nama item yang mengandung apostrof dulu membuat
+                // query ini syntax error dan seeding counter gagal diam-diam.
+                DB::insert(
+                    "INSERT INTO mitems_counters (code_mitem, name_mitem, code_mcounters, name_mcounters, stock)
+                     SELECT ?, ?, code, name, 0 FROM mcounters",
+                    [$code, $row['name']]
+                );
             }
         }
         // return $mitem;

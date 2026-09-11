@@ -4,83 +4,90 @@ namespace App\Imports;
 
 use App\Models\Mitem;
 use App\Models\MitemCounterUpload;
-use DateTime;
+use App\Services\StockCounterService;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class MitemAddStockImport implements ToCollection,WithHeadingRow
+/**
+ * Upload tambah stok. Qty di file Excel DITAMBAHKAN ke stok yang ada.
+ *
+ * Dua perubahan penting dari versi sebelumnya:
+ * 1. Kode item dinormalisasi dengan aturan yang sama seperti seluruh aplikasi
+ *    (trim + rapatkan spasi). Dulu memakai preg_replace('/[^A-Za-z0-9]/','')
+ *    yang ikut membuang tanda hubung dan titik, sehingga kode seperti AF-001
+ *    tidak pernah cocok dengan yang tersimpan di database.
+ * 2. Query UPDATE polos diganti pemanggilan service, jadi baris yang belum ada
+ *    dibuat dulu dan kegagalan tidak lagi tertelan diam-diam.
+ */
+class MitemAddStockImport implements ToCollection, WithHeadingRow
 {
+    public int $applied = 0;
+    public int $skipped = 0;
+
+    /** @var string[] alasan per baris yang dilewati, untuk ditampilkan ke user */
+    public array $errors = [];
+
     public function collection(Collection $rows)
     {
-        //
-        // foreach ($rows as $row) 
-        // {
-        //     // $availcode = MitemCounterUpload::where('code', '=', $row['code'])->first();
-        //     // if($availcode == null){
-        //         // $date = \Carbon\Carbon::parse($row['tgl'])->toDateString();
-        //         // $row['tgl'] = Date::excelToDateTimeObject($row['tgl'])->format('Y-m-d');
-        //         $date = intval($row['tgl']);
-        //         $date_format = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($date)->format('Y-m-d');
-        //         // $date = new DateTime($row['tgl']);
-        //         // dd($date_format);
-        //         // dd($date->format('d-m-Y'));
-        //         $existing_code = Mitem::where('code','=','')->first();
-        //         $mitem_counter_upload = MitemCounterUpload::create([  
-        //             'tgl' => $date_format,
-        //             'code_mitem' => $row['code_mitem'],
-        //             'name_mitem' => $row['name_mitem'],
-        //             'code_mcounter' => $row['code_mcounter'],
-        //             'name_mcounter' => $row['name_mcounter'],
-        //             'qty' => $row['qty'],
-        //         ]);
-        //     // }
-        //     $qty = $row['qty'];
-        //     $code_mitem = trim($row['code_mitem']);
-        //     $code_mcounter = trim($row['code_mcounter']);
-        //     // DB::select("select stock from mitems_counter where code_mitem = '$code_mitem' and code_mcounters = '$code_mcounter' liimit 1");
-        //     DB::update( DB::raw("update mitems_counters set stock = stock + $qty where code_mitem = '$code_mitem' and code_mcounters = '$code_mcounter'"));
-        // } 
-        // return $mitem_counter_upload;
-        $mitem_counter_upload = null;
-        foreach ($rows as $row) 
-        {
-            // Bersihkan code_mitem: hilangkan spasi dan special character
-            $code_mitem = preg_replace('/[^A-Za-z0-9]/', '', $row['code_mitem']);
-            $code_mcounter = trim($row['code_mcounter']);
-            $qty = (float)$row['qty'];
+        foreach ($rows as $i => $row) {
+            $lineNo = $i + 2; // +1 header, +1 karena index mulai dari 0
 
-            // Format tanggal dari Excel
-            $date = intval($row['tgl']);
-            $date_format = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($date)->format('Y-m-d');
+            $code    = StockCounterService::normalizeCode($row['code_mitem'] ?? null);
+            $counter = StockCounterService::resolveCounter($row['code_mcounter'] ?? null);
+            $qty     = (int) ($row['qty'] ?? 0);
 
-            // Cek apakah code_mitem sudah ada di tabel mitems
-            $existing_code = Mitem::where('code', $code_mitem)->first();
+            if ($code === '') {
+                $this->skipped++;
+                $this->errors[] = "Baris $lineNo: kode item kosong.";
+                continue;
+            }
 
-            // Jika TIDAK ada di mitems → baru create
-            if (!$existing_code) {
-                $mitem_counter_upload = MitemCounterUpload::create([
-                    'tgl'           => $date_format,
-                    'code_mitem'    => $code_mitem,
-                    'name_mitem'    => $row['name_mitem'],
-                    'code_mcounter' => $code_mcounter,
-                    'name_mcounter' => $row['name_mcounter'],
+            if (!$counter) {
+                $this->skipped++;
+                $this->errors[] = "Baris $lineNo: counter '" . ($row['code_mcounter'] ?? '') . "' tidak ada di master lokasi.";
+                continue;
+            }
+
+            // Catat baris yang kodenya belum terdaftar di master item, supaya
+            // ketahuan dan bisa ditindaklanjuti.
+            if (!Mitem::where('code', $code)->exists()) {
+                MitemCounterUpload::create([
+                    'tgl'           => $this->excelDate($row['tgl'] ?? null),
+                    'code_mitem'    => $code,
+                    'name_mitem'    => $row['name_mitem'] ?? null,
+                    'code_mcounter' => $counter->code,
+                    'name_mcounter' => $counter->name,
                     'qty'           => $qty,
                 ]);
             }
 
-            // Update stock mitems_counters
-            DB::update(DB::raw("
-                UPDATE mitems_counters 
-                SET stock = stock + $qty 
-                WHERE code_mitem = '$code_mitem' 
-                AND code_mcounters = '$code_mcounter'
-            "));
+            StockCounterService::adjust($code, $counter, $qty, [
+                'name_mitem' => $row['name_mitem'] ?? null,
+                'notrans'    => 'UPLOAD-TBH-STOCK',
+                'doctype'    => 'UPLOAD',
+                'jenis'      => $qty >= 0 ? 'PLUS' : 'MINUS',
+                'action'     => 'CREATE',
+            ]);
+
+            $this->applied++;
+        }
+    }
+
+    /**
+     * Tanggal Excel tersimpan sebagai angka serial, bukan string.
+     */
+    private function excelDate($value): ?string
+    {
+        if (empty($value)) {
+            return null;
         }
 
-        // return true;
-        return $mitem_counter_upload;
+        try {
+            return \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject((int) $value)
+                ->format('Y-m-d');
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
 }

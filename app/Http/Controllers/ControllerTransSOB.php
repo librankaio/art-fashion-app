@@ -9,6 +9,7 @@ use App\Models\Tsob_h;
 use App\Services\MitemExistTransService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Services\StockCounterService;
 
 class ControllerTransSOB extends Controller
 {
@@ -73,9 +74,9 @@ class ControllerTransSOB extends Controller
                 ]);
                 $count++;
                 $exist_transcode = Mitem::select('id','code')->where('code','=', $request->kode_d[$i])->first();
-                // dd(strtok($request->kode_d[$i], " "));
+                // dd(StockCounterService::normalizeCode($request->kode_d[$i]));
                 if($exist_transcode == null || $exist_transcode != "Y"){
-                    Mitem::where('code', '=', strtok($request->kode_d[$i], " "))->update([
+                    Mitem::where('code', '=', StockCounterService::normalizeCode($request->kode_d[$i]))->update([
                         'exist_trans' => "Y",
                     ]);
                 }
@@ -181,7 +182,7 @@ class ControllerTransSOB extends Controller
     public function delete(Tsob_h $tsobh){
         $sob_detail = Tsob_d::where('idh','=',$tsobh->id)->get();
         // Kumpulkan semua kode SEBELUM delete
-        $affected_kodes = $sob_detail->map(fn($d) => strtok($d->code, " "))->toArray();
+        $affected_kodes = $sob_detail->map(fn($d) => StockCounterService::normalizeCode($d->code))->toArray();
 
         Tsob_h::find($tsobh->id)->delete();
         Tsob_d::where('idh','=',$tsobh->id)->delete();

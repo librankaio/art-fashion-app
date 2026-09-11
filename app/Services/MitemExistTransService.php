@@ -27,14 +27,22 @@ class MitemExistTransService
      */
     public static function recheck(string $kode): void
     {
-        if (empty(trim($kode))) return;
-
-        // Bersihkan suffix spasi jika kode disimpan dengan trailing text
-        $kode = strtok(trim($kode), " ");
+        $kode = StockCounterService::normalizeCode($kode);
+        if ($kode === '') return;
 
         $existsInAny = false;
         foreach (self::$transactionTables as $table => $column) {
-            if (DB::table($table)->where($column, 'LIKE', $kode . '%')->exists()) {
+            // Cocokkan kode utuh, atau kode yang diikuti spasi karena sebagian
+            // data lama menyimpan "KODE NAMA ITEM" di kolom yang sama.
+            // LIKE 'kode%' polos salah: item AF1 ikut kena baris milik AF10.
+            $exists = DB::table($table)
+                ->where(function ($q) use ($column, $kode) {
+                    $q->where($column, $kode)
+                      ->orWhere($column, 'LIKE', $kode . ' %');
+                })
+                ->exists();
+
+            if ($exists) {
                 $existsInAny = true;
                 break;
             }
