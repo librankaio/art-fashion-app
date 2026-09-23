@@ -5,15 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Mitem;
 use App\Models\MitemCounters;
 use App\Models\Mwarna;
-use App\Models\Tadj_d;
-use App\Models\Tpembelian_d;
-use App\Models\Tpenerimaan_d;
-use App\Models\Tpenjualan_d;
-use App\Models\Tretur_d;
-use App\Models\Tsj_d;
-use App\Models\Tsob_d;
-use App\Models\Tstockopname_d;
 use App\Services\MitemExistTransService;
+use App\Services\MitemRenameService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -133,45 +126,90 @@ class ControllerMasterDataItem extends Controller
     }
 
     public function update(Mitem $mitem){
-        $newKode  = StockCounterService::normalizeCode(request('kode'));
-        $old_kode = StockCounterService::normalizeCode(request('old_kode'));
+        $newKode = StockCounterService::normalizeCode(request('kode'));
+        // Kode lama diambil dari database, bukan dari hidden input old_kode
+        // yang bisa basi atau dimanipulasi.
+        $oldKode = StockCounterService::normalizeCode($mitem->code);
+        $codeChanged = $newKode !== $oldKode;
+        // Collation MySQL case-insensitive: "af1" dan "AF1" dianggap sama.
+        $caseOnly = $codeChanged && strcasecmp($newKode, $oldKode) === 0;
 
-        // Jika kode diubah tapi item sudah ada di transaksi → tolak
-        if ($newKode !== $old_kode && $mitem->exist_trans === 'Y') {
-            return redirect()->route('mitem')
-                ->with('error', "Kode item tidak bisa diubah karena item '$old_kode' sudah digunakan di transaksi.");
+        if ($newKode === '') {
+            return redirect()->back()->with('error', 'Kode item tidak boleh kosong');
+        }
+        if (mb_strlen($newKode) > 64) {
+            return redirect()->back()->with('error', 'Kode item maksimal 64 karakter');
         }
 
-        Mitem::where('id', '=', $mitem->id)->update([
-            'name' => request('nama'),
-            'name_lbl' => request('name_lbl'),
-            'code' => $newKode,
-            'warna' => request('warna'),
-            'kategori' => request('kategori'),
-            'barcode' => request('barcode'),
-            'hrgjual' => (float) str_replace(',', '', request('price')),
-            'size' => request('size'),
-            'satuan' => request('satuan'),
-            'material' => request('material'),
-            'gross' => (float) str_replace(',', '', request('price_gross')),
-            'nett' => (float) str_replace(',', '', request('price_nett')),
-            'spcprice' => (float) str_replace(',', '', request('price_special')),
-        ]);
+        if ($codeChanged) {
+            if (Mitem::where('code', $newKode)->where('id', '!=', $mitem->id)->exists()) {
+                return redirect()->back()->with('error', "Kode '$newKode' sudah dipakai item lain.");
+            }
 
-        // Sinkronkan mitems_counters jika kode berubah
-        if ($newKode !== $old_kode) {
-            DB::update(
-                "UPDATE mitems_counters SET code_mitem = ?, name_mitem = ? WHERE code_mitem = ?",
-                [$newKode, request('nama'), $old_kode]
-            );
-            // Recheck exist_trans untuk kode lama dan baru
-            MitemExistTransService::recheckMany([$old_kode, $newKode]);
-        } else {
-            // Recheck exist_trans untuk item ini (preventif)
-            MitemExistTransService::recheck($newKode);
+            // Kode baru masih punya data sisa (item lama yang terhapus / hasil
+            // import). Kalau dilanjutkan, riwayat & stoknya tergabung ke item ini.
+            if (!$caseOnly) {
+                $orphanStock = DB::table('mitems_counters')
+                    ->where('code_mitem', $newKode)
+                    ->where('stock', '!=', 0)
+                    ->exists();
+                if ($orphanStock || MitemExistTransService::isUsed($newKode)) {
+                    return redirect()->back()->with('error',
+                        "Kode '$newKode' masih memiliki data transaksi/stok lama. Gunakan kode lain.");
+                }
+            }
         }
 
-        return redirect()->route('mitem')->with('success', 'Data berhasil di update');
+        try {
+            $transRows = DB::transaction(function () use ($mitem, $newKode, $oldKode, $codeChanged, $caseOnly) {
+                Mitem::whereKey($mitem->id)->lockForUpdate()->first();
+
+                Mitem::where('id', '=', $mitem->id)->update([
+                    'name' => request('nama'),
+                    'name_lbl' => request('name_lbl'),
+                    'code' => $newKode,
+                    'warna' => request('warna'),
+                    'kategori' => request('kategori'),
+                    'barcode' => request('barcode'),
+                    'hrgjual' => (float) str_replace(',', '', request('price')),
+                    'size' => request('size'),
+                    'satuan' => request('satuan'),
+                    'material' => request('material'),
+                    'gross' => (float) str_replace(',', '', request('price_gross')),
+                    'nett' => (float) str_replace(',', '', request('price_nett')),
+                    'spcprice' => (float) str_replace(',', '', request('price_special')),
+                ]);
+
+                $transRows = 0;
+                if ($codeChanged) {
+                    if (!$caseOnly) {
+                        // Baris counter yatim ber-stok 0 milik kode baru dibuang
+                        // supaya tidak dobel dengan baris hasil rename.
+                        DB::table('mitems_counters')->where('code_mitem', $newKode)->delete();
+                    }
+                    $transRows = MitemRenameService::rename($oldKode, $newKode);
+                }
+
+                // Nama di mitems_counters selalu ikut master, termasuk saat hanya nama yang diubah.
+                DB::table('mitems_counters')
+                    ->where('code_mitem', $newKode)
+                    ->update(['name_mitem' => request('nama')]);
+
+                MitemExistTransService::recheckMany([$oldKode, $newKode]);
+
+                return $transRows;
+            });
+        } catch (\Throwable $e) {
+            report($e);
+            return redirect()->back()->with('error', 'Gagal update item: ' . $e->getMessage());
+        }
+
+        $message = 'Data berhasil di update';
+        if ($codeChanged) {
+            $message .= ". Kode '$oldKode' diganti menjadi '$newKode' di $transRows baris transaksi.";
+        }
+
+        return redirect()->route('mitem')->with('success', $message);
     }
 
     //OLD DELETE
@@ -184,28 +222,8 @@ class ControllerMasterDataItem extends Controller
     public function delete(Mitem $mitem){
         $cleanCode = StockCounterService::normalizeCode($mitem->code);
 
-        // Cek di semua tabel transaksi (termasuk tstockopname_d yg pakai kolom kode_barang)
-        // Cocokkan kode utuh, atau kode yang diikuti spasi karena sebagian data
-        // lama menyimpan "KODE NAMA ITEM" di kolom yang sama. LIKE 'kode%'
-        // polos salah: item AF1 ikut cocok dengan baris milik AF10.
-        $usedIn = function ($model, $column) use ($cleanCode) {
-            return $model::where(function ($q) use ($column, $cleanCode) {
-                $q->where($column, $cleanCode)
-                  ->orWhere($column, 'like', $cleanCode . ' %');
-            })->exists();
-        };
-
-        $existsInTrans =
-            $usedIn(Tadj_d::class, 'code')              ||
-            $usedIn(Tpembelian_d::class, 'code')        ||
-            $usedIn(Tpenjualan_d::class, 'code')        ||
-            $usedIn(Tretur_d::class, 'code')            ||
-            $usedIn(Tsob_d::class, 'code')              ||
-            $usedIn(Tsj_d::class, 'code')               ||
-            $usedIn(Tpenerimaan_d::class, 'code')       ||
-            $usedIn(Tstockopname_d::class, 'kode_barang');
-
-        if ($existsInTrans) {
+        // Cek di semua tabel transaksi (daftar tabelnya di MitemExistTransService)
+        if (MitemExistTransService::isUsed($cleanCode)) {
             // Pastikan flag konsisten
             Mitem::where('code', $cleanCode)->update(['exist_trans' => 'Y']);
             return redirect()->route('mitem')

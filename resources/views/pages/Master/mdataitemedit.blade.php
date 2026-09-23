@@ -68,19 +68,14 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <div class="row">
-                                                @if ($mitem->exist_trans == 'Y')
-                                                    <div class="col-md-6">
-                                                        <label>Kode / Artikel</label>
-                                                        <input type="text" class="form-control" name="kode"
-                                                            id="kode" value="{{ $mitem->code }}" readonly>
-                                                    </div>
-                                                @else
-                                                    <div class="col-md-6">
-                                                        <label>Kode / Artikel</label>
-                                                        <input type="text" class="form-control" name="kode"
-                                                            id="kode" value="{{ $mitem->code }}">
-                                                    </div>
-                                                @endif
+                                                <div class="col-md-6">
+                                                    <label>Kode / Artikel</label>
+                                                    <input type="text" class="form-control" name="kode"
+                                                        id="kode" value="{{ $mitem->code }}" maxlength="64">
+                                                    @if ($mitem->exist_trans == 'Y')
+                                                        <small class="text-warning">Item sudah dipakai di transaksi. Mengubah kode akan mengganti kode di semua transaksi &amp; stok.</small>
+                                                    @endif
+                                                </div>
                                                 <div class="col-md-6" style="display:none;">
                                                     <label>Kode Lama</label>
                                                     <input type="text" class="form-control" name="old_kode"
@@ -155,6 +150,11 @@
             } else if (nama == 0) {
                 swal('WARNING', 'Nama Tidak boleh kosong!', 'warning');
                 return false;
+            } else if (kode != $("#old_kode").val()) {
+                if (!confirm("Kode akan diubah dari '" + $("#old_kode").val() + "' menjadi '" + kode +
+                        "'.\nSemua transaksi dan stok dengan kode lama ikut diganti. Lanjutkan?")) {
+                    return false;
+                }
             }
         });
 
